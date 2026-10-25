@@ -89,6 +89,16 @@
       "name": "블록미디어",
       "url": "https://www.blockmedia.co.kr/feed",
       "lang": "ko"
+    },
+    {
+      "name": "PANews",
+      "url": "https://www.panewslab.com/rss.xml?lang=zh&type=NEWS",
+      "lang": "zh"
+    },
+    {
+      "name": "Forkast",
+      "url": "https://forkast.news/feed/",
+      "lang": "en"
     }
   ],
   "telegram": "btcbullit",

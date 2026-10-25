@@ -1,6 +1,12 @@
 // 체인브리프 클라이언트: 시세·김프·심리, 속보 필터, 상장 소식, 급등 레이더, 커뮤니티 게시판, PWA
 (() => {
   const CB = window.CB || { base: "/", coins: [], sb: {} };
+  const T = Object.assign({
+    locale: "ko-KR", tz: "Asia/Seoul", now: "방금", min: "분 전", hr: "시간 전", day: "일 전", yday: "어제 ",
+    newN: "새 속보 {n}건 보기", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
+    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨",
+    fng: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
+  }, CB.t || {});
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const store = {
@@ -26,7 +32,7 @@
   }
 
   /* 시계 (KST) */
-  const kst = (o = { hour: "2-digit", minute: "2-digit" }) => new Intl.DateTimeFormat("ko-KR", { timeZone: "Asia/Seoul", hour12: false, ...o }).format(new Date());
+  const kst = (o = { hour: "2-digit", minute: "2-digit" }) => new Intl.DateTimeFormat(T.locale, { timeZone: T.tz, hour12: false, ...o }).format(new Date());
   const clock = $("#clock");
   if (clock) setInterval(() => (clock.textContent = kst()), 15000);
 
@@ -35,7 +41,7 @@
   const krw = (p) => p == null || isNaN(p) ? "—" : p >= 100 ? Math.round(p).toLocaleString("ko-KR") : (+p).toLocaleString("ko-KR", { maximumFractionDigits: p >= 1 ? 2 : 4 });
   const pct = (c) => c == null || isNaN(c) ? "" : (c > 0 ? "+" : "") + (+c).toFixed(2) + "%";
   const dir = (c) => (c >= 0 ? "up" : "down");
-  const eok = (n) => n == null ? "—" : n >= 1e12 ? (n / 1e12).toFixed(1) + "조" : n >= 1e8 ? Math.round(n / 1e8).toLocaleString("ko-KR") + "억" : Math.round(n / 1e4).toLocaleString("ko-KR") + "만";
+  const eok = (n) => n == null ? "—" : T.locale !== "ko-KR" ? T.wonPre + new Intl.NumberFormat(T.locale, { notation: "compact", maximumFractionDigits: 1 }).format(n) : n >= 1e12 ? (n / 1e12).toFixed(1) + "조" : n >= 1e8 ? Math.round(n / 1e8).toLocaleString("ko-KR") + "억" : Math.round(n / 1e4).toLocaleString("ko-KR") + "만";
 
   /* ---------- 주요 시세 · 김프 ---------- */
   const ids = CB.coins.map((c) => c.id).join(",");
@@ -66,13 +72,13 @@
     try {
       const g = await getJSON(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd,krw&include_24hr_change=true&include_24hr_vol=true`);
       const up = {};
-      let src = "업비트";
+      let src = T.upbit;
       try { for (const t of await getJSON(`https://api.upbit.com/v1/ticker?markets=${markets}`)) up[t.market.slice(4)] = t.trade_price; } catch {}
       if (!Object.keys(up).length) {
         // 업비트가 응답하지 않으면 빗썸 원화 가격으로 김프 계산
-        try { for (const t of await getJSON(`https://api.bithumb.com/v1/ticker?markets=${CB.coins.filter((c) => c.symbol !== "BNB").map((c) => "KRW-" + c.symbol).join(",")}`)) up[t.market.slice(4)] = t.trade_price; src = "빗썸"; } catch {}
+        try { for (const t of await getJSON(`https://api.bithumb.com/v1/ticker?markets=${CB.coins.filter((c) => c.symbol !== "BNB").map((c) => "KRW-" + c.symbol).join(",")}`)) up[t.market.slice(4)] = t.trade_price; src = T.bithumb; } catch {}
       }
-      $$("[data-kimp-src]").forEach((el) => (el.textContent = `${src} BTC 기준`));
+      $$("[data-kimp-src]").forEach((el) => (el.textContent = T.basis.replace("{src}", src)));
       const data = {};
       for (const c of CB.coins) {
         const d = g[c.id]; if (!d) continue;
@@ -80,27 +86,27 @@
         data[c.id] = { ...d, upbit, kimp: upbit && fx ? (upbit / (d.usd * fx) - 1) * 100 : null };
       }
       paint(data); last = data; store.set("cb-prices", data);
-      if (upd) upd.textContent = kst() + " 기준";
-    } catch { if (upd) upd.textContent = "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요."; }
+      if (upd) upd.textContent = T.asOf.replace("{t}", kst());
+    } catch { if (upd) upd.textContent = T.priceErr; }
   }
   if (Object.keys(last).length) paint(last);
   if (CB.coins.length) every(loadPrices, 60000);
 
   /* 공포·탐욕, 도미넌스 */
-  const FNG = { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" };
+  const FNG = T.fng;
   async function loadSentiment() {
     if (!$("#fngVal") && !$("[data-fng]")) return;
     try {
       const [now, prev] = (await getJSON("https://api.alternative.me/fng/?limit=2")).data;
       const v = +now.value;
       $$("[data-fng]").forEach((el) => (el.textContent = v));
-      $$("[data-fng-lbl]").forEach((el) => (el.textContent = (FNG[now.value_classification] || now.value_classification) + (prev ? ` · 어제 ${prev.value}` : "")));
+      $$("[data-fng-lbl]").forEach((el) => (el.textContent = (FNG[now.value_classification] || now.value_classification) + (prev ? ` · ${T.yday}${prev.value}` : "")));
       if (!$("#fngVal")) return;
       $("#fngVal").textContent = v;
       const lbl = $("#fngLbl"); lbl.textContent = FNG[now.value_classification] || now.value_classification;
       lbl.className = "lbl " + (v < 45 ? "down" : v > 55 ? "up" : "");
       $("#fngBar").style.left = v + "%";
-      if (prev) $("#fngPrev").textContent = "어제 " + prev.value;
+      if (prev) $("#fngPrev").textContent = T.yday + prev.value;
     } catch {}
     try { const g = await cached("cb-global", 300000, () => getJSON("https://api.coingecko.com/api/v3/global")); $("#btcDom").textContent = g.data.market_cap_percentage.btc.toFixed(1) + "%"; } catch {}
   }
@@ -111,7 +117,7 @@
     const now = Date.now();
     $$("[data-rel]").forEach((el) => {
       const m = Math.round((now - new Date(el.dataset.rel)) / 60000);
-      el.textContent = m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전";
+      el.textContent = m < 1 ? T.now : m < 60 ? m + T.min : m < 1440 ? Math.floor(m / 60) + T.hr : Math.floor(m / 1440) + T.day;
     });
   }
   rel(); setInterval(rel, 60000);
@@ -146,7 +152,7 @@
       try {
         const list = await getJSON(CB.base + "flash.json?t=" + Date.now());
         const idx = list.findIndex((f) => f.id === CB.latest), n = idx === -1 ? list.length : idx;
-        if (n > 0) { $("#newBtn").textContent = `새 속보 ${n}건 보기`; $("#newWrap").hidden = false; }
+        if (n > 0) { $("#newBtn").textContent = T.newN.replace("{n}", n); $("#newWrap").hidden = false; }
       } catch {}
     }, 60000);
     $("#newBtn")?.addEventListener("click", () => location.reload());
@@ -172,7 +178,7 @@
           if (!syms.length) continue;
           const t = await getJSON(API[ex] + "/ticker?markets=" + syms.map((s) => "KRW-" + s).join(","));
           const px = Object.fromEntries(t.map((x) => [x.market.slice(4), x]));
-          rows.forEach((r) => { const x = px[r.dataset.sym], box = $("[data-px]", r); if (box && x) box.innerHTML = `${krw(x.trade_price)}원<small class="${dir(x.signed_change_rate)}">${pct(x.signed_change_rate * 100)}</small>`; });
+          rows.forEach((r) => { const x = px[r.dataset.sym], box = $("[data-px]", r); if (box && x) box.innerHTML = `${T.wonPre}${krw(x.trade_price)}${T.won}<small class="${dir(x.signed_change_rate)}">${pct(x.signed_change_rate * 100)}</small>`; });
         } catch {}
       }
     };
@@ -330,7 +336,7 @@
   /* 복사 버튼 */
   $$("[data-copy],[data-copytext]").forEach((b) => b.addEventListener("click", async () => {
     const text = b.dataset.copytext || location.href, label = b.textContent;
-    try { await navigator.clipboard.writeText(text); b.textContent = "복사됨"; } catch { b.textContent = text; }
+    try { await navigator.clipboard.writeText(text); b.textContent = T.copied; } catch { b.textContent = text; }
     setTimeout(() => (b.textContent = label), 2000);
   }));
 

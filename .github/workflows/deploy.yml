@@ -55,7 +55,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/listings.json content/flash
+          git add data/listings.json content/flash content/en/flash content/zh/flash 2>/dev/null || git add data/listings.json content/flash
           if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
           git commit -m "자동: 상장 소식 업데이트"
           for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done

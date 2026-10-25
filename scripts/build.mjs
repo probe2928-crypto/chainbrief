@@ -65,7 +65,7 @@ const articles = readDir("content/articles")
   .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000))
   .sort((a, b) => b.date - a.date);
 const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] });
-const hlItems = (headlines.items || []).map((h) => ({ ...h, date: new Date(h.time) }));
+const hlItems = (headlines.items || []).filter((h) => h.lang !== "zh").map((h) => ({ ...h, date: new Date(h.time) }));
 const listings = readJSON("data/listings.json", { items: [] });
 const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
 const community = readJSON("data/community.json", { groups: [] });
@@ -111,7 +111,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span>${esc(dayLabel(NOW))}</span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>

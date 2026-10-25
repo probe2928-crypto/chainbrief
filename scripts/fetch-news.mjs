@@ -33,7 +33,7 @@ async function translate(items) {
   let cache = {};
   try { cache = JSON.parse(fs.readFileSync(CACHE, "utf8")); } catch {}
   if (key) {
-    const todo = items.filter((i) => i.lang !== "ko" && !cache[i.url]).slice(0, 60);
+    const todo = items.filter((i) => i.lang === "en" && !cache[i.url]).slice(0, 60);
     if (todo.length) {
       try {
         const r = await fetch("https://api.anthropic.com/v1/messages", {

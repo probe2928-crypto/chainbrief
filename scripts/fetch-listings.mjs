@@ -173,6 +173,24 @@ if (hadPrev && !backfill) {
       : i.type === "delisting" ? `${EX[i.exchange]}가 ${coin} ${i.source === "market" ? "마켓 거래를 종료했다" : "거래 지원 종료를 공지했다. 보유자는 종료 일정과 출금 가능 기간을 확인해야 한다"}.`
       : `${EX[i.exchange]}가 ${coin}을(를) 거래 유의 종목으로 지정했다. 유의 종목은 일정 기간 안에 해소되지 않으면 거래지원이 종료될 수 있다.`;
     fs.writeFileSync(f, `---\ntitle: "[${EX[i.exchange]}] ${i.title.replace(/"/g, "'")}"\ntime: ${new Date(i.time).toISOString()}\ncategory: 상장\nimportant: ${i.type !== "caution"}\nauto: true\n---\n${body} [${i.source === "market" ? "거래소에서 보기" : "공지 원문"}](${i.url})\n`);
+    // 영어·중국어 에디션 자동 속보
+    const syms = i.coins.map((c) => c.symbol).join(", ");
+    const exE = i.exchange === "upbit" ? "Upbit" : "Bithumb";
+    const mk = i.markets.length ? ` (${i.markets.join(", ")})` : "";
+    const intl = {
+      en: i.type === "listing" ? [`${exE} lists ${syms}${mk}`, `South Korean exchange ${exE} has added ${syms}${mk}. New Korean listings often draw heavy KRW volume in the first hours of trading.`, "Listings"]
+        : i.type === "delisting" ? [`${exE} to delist ${syms}`, `${exE} ${i.source === "market" ? "has ended trading of" : "announced it will end support for"} ${syms}. Holders should check the withdrawal window.`, "Listings"]
+        : [`${exE} flags ${syms} with investment caution`, `${exE} designated ${syms} as a caution-flagged asset. Unresolved caution flags can lead to delisting in Korea.`, "Listings"],
+      zh: i.type === "listing" ? [`${exE} 上线 ${syms}${mk}`, `韩国交易所 ${exE} 新增 ${syms}${mk} 交易。韩国新币上线初期通常伴随大量韩元成交。`, "上币"]
+        : i.type === "delisting" ? [`${exE} 将下架 ${syms}`, `${exE} ${i.source === "market" ? "已终止" : "宣布将终止"} ${syms} 的交易支持，持有者请留意提币期限。`, "上币"]
+        : [`${exE} 将 ${syms} 列为警示币种`, `${exE} 将 ${syms} 指定为交易警示币种，若未能解除，可能被终止交易。`, "上币"],
+    };
+    for (const [lg, [t, b, cat]] of Object.entries(intl)) {
+      const dir = path.join(ROOT, `content/${lg}/flash`);
+      fs.mkdirSync(dir, { recursive: true });
+      const lf = path.join(dir, `auto-${i.key}.md`);
+      if (!fs.existsSync(lf)) fs.writeFileSync(lf, `---\ntitle: "${t.replace(/"/g, "'")}"\ntime: ${new Date(i.time).toISOString()}\ncategory: ${cat}\nimportant: ${i.type !== "caution"}\nauto: true\n---\n${b} [${lg === "zh" ? "官方公告" : "Exchange notice"}](${i.url})\n`);
+    }
     made++;
   }
   console.log(`자동 속보 ${made}건 작성`);

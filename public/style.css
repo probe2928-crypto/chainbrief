@@ -522,3 +522,18 @@ nav.top a[aria-current="page"]{border-bottom:1px solid var(--hue)}
 /* 한국어 줄바꿈: 단어 단위 */
 body{word-break:keep-all;overflow-wrap:break-word}
 .slide-t,.doc h1,.lead-art h2,.art h3,.item h3,.sec h1,.sec h2,.cf-title{word-break:keep-all}
+
+/* ---------- 언어 선택 · 다국어 ---------- */
+.tl-l{display:flex;align-items:center;gap:18px;min-width:0}
+.tl-date{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.langs{display:inline-flex;align-items:center;gap:0;border:1px solid var(--line);height:22px}
+.langs a{display:inline-flex;align-items:center;height:100%;padding:0 9px;font-size:10px;letter-spacing:.18em;color:var(--mute);transition:color .2s,background .2s}
+.langs a+a{border-left:1px solid var(--line)}
+.langs a:hover{color:var(--ink)}
+.langs a[aria-current]{color:var(--paper);background:var(--ink)}
+@media (max-width:700px){.tl-date{display:none}}
+html[lang="en"]{--f-serif:"Newsreader","Iowan Old Style",Georgia,serif;--f-sans:"Jost","Helvetica Neue",Arial,sans-serif}
+html[lang="en"] body{font-weight:300;letter-spacing:0;word-break:normal}
+html[lang="en"] .prose{font-family:var(--f-serif);font-size:18px;font-weight:400;line-height:1.7}
+html[lang="zh-Hans"]{--f-serif:"Noto Serif SC","Songti SC","STSong",serif;--f-sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+html[lang="zh-Hans"] body{word-break:normal;line-break:strict}
