@@ -12,5 +12,6 @@ export const SCHEMA = [
  "CREATE INDEX IF NOT EXISTS invoices_status ON invoices (status, expires)",
  "CREATE TABLE IF NOT EXISTS payments (tx TEXT PRIMARY KEY, chat_id TEXT, amount_milli INTEGER, plan TEXT, ts INTEGER)",
  "CREATE TABLE IF NOT EXISTS outbox (id INTEGER PRIMARY KEY AUTOINCREMENT, chat TEXT, text TEXT, send_at INTEGER, created INTEGER, sent INTEGER DEFAULT 0)",
- "CREATE INDEX IF NOT EXISTS outbox_due ON outbox (sent, send_at)"
+ "CREATE INDEX IF NOT EXISTS outbox_due ON outbox (sent, send_at)",
+ "CREATE TABLE IF NOT EXISTS views (day TEXT NOT NULL, site TEXT NOT NULL, path TEXT NOT NULL, n INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (day, site, path))"
 ];

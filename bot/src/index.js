@@ -280,7 +280,7 @@ async function digest(env) {
 }
 async function prune(env) {
   const t30 = now() - 30 * 86400e3, t3 = now() - 3 * 86400e3;
-  await env.DB.batch([env.DB.prepare("DELETE FROM series WHERE ts < ?").bind(t30), env.DB.prepare("DELETE FROM liq WHERE ts < ?").bind(t3), env.DB.prepare("DELETE FROM alerts WHERE ts < ?").bind(t30), env.DB.prepare("DELETE FROM outbox WHERE sent = 1 AND created < ?").bind(t3), env.DB.prepare("UPDATE invoices SET status = 'expired' WHERE status = 'pending' AND expires < ?").bind(now() - DAY_MS)]);
+  await env.DB.batch([env.DB.prepare("DELETE FROM series WHERE ts < ?").bind(t30), env.DB.prepare("DELETE FROM liq WHERE ts < ?").bind(t3), env.DB.prepare("DELETE FROM alerts WHERE ts < ?").bind(t30), env.DB.prepare("DELETE FROM outbox WHERE sent = 1 AND created < ?").bind(t3), env.DB.prepare("DELETE FROM views WHERE day < ?").bind(new Date(now() - 400 * 86400e3).toISOString().slice(0, 10)), env.DB.prepare("UPDATE invoices SET status = 'expired' WHERE status = 'pending' AND expires < ?").bind(now() - DAY_MS)]);
 }
 async function liqBuckets(env) {
   // 5분 버킷으로 롱/숏 청산 합계를 시계열에 기록 (차트용)
@@ -358,6 +358,7 @@ async function api(env, url) {
     const sum = (r) => Object.fromEntries((r.results || []).map((x) => [x.side, x.s]));
     return json({ updated: now(), kimp, funding: board, liq: { h1: sum(l1), h24: sum(l24), largest: big.results || [] }, health: errors && now() - errors.ts < 600e3 ? errors.errs : [] });
   }
+  if (p === "/api/stats") return stats(env, url);
   if (p === "/api/alerts") {
     const lim = Math.min(100, +url.searchParams.get("limit") || 40), lang = url.searchParams.get("lang") === "en" ? "en" : "ko";
     const delay = env.PAY_TRON_ADDRESS && !String(env.PAY_TRON_ADDRESS).startsWith("__") ? +(env.FREE_DELAY_MIN || 15) * 60e3 : 0;
@@ -372,6 +373,30 @@ async function api(env, url) {
   }
   return json({ ok: true, name: "chainbrief-signals" });
 }
+/* ---------- 익명 조회수: 페이지 주소만 하루 단위로 센다 (IP·쿠키 저장 안 함) ---------- */
+const SITES = ["chainbrief", "blockkey", "perpline"];
+async function hit(env, req) {
+  const ok = new Response(null, { status: 204, headers: { "access-control-allow-origin": "*" } });
+  if (/bot|crawl|spider|preview|headless/i.test(req.headers.get("user-agent") || "")) return ok;
+  let b = {}; try { b = JSON.parse(await req.text()); } catch {}
+  const site = SITES.includes(b.s) ? b.s : null; if (!site) return ok;
+  const path = String(b.p || "/").split("?")[0].slice(0, 160);
+  const day = new Date(now() + 9 * 3600e3).toISOString().slice(0, 10); // KST 날짜
+  await env.DB.prepare("INSERT INTO views (day, site, path, n) VALUES (?, ?, ?, 1) ON CONFLICT(day, site, path) DO UPDATE SET n = n + 1").bind(day, site, path).run();
+  return ok;
+}
+async function stats(env, url) {
+  const site = SITES.includes(url.searchParams.get("site")) ? url.searchParams.get("site") : "chainbrief";
+  const days = Math.min(90, +url.searchParams.get("days") || 30);
+  const since = new Date(now() + 9 * 3600e3 - days * 86400e3).toISOString().slice(0, 10);
+  const [byDay, top, pro] = await Promise.all([
+    env.DB.prepare("SELECT day, SUM(n) AS views FROM views WHERE site = ? AND day > ? GROUP BY day ORDER BY day").bind(site, since).all(),
+    env.DB.prepare("SELECT path, SUM(n) AS views FROM views WHERE site = ? AND day > ? GROUP BY path ORDER BY views DESC LIMIT 15").bind(site, since).all(),
+    env.DB.prepare("SELECT COUNT(*) AS n FROM users WHERE plan_until > ?").bind(now()).first(),
+  ]);
+  return json({ site, days, byDay: byDay.results || [], top: top.results || [], proSubscribers: pro?.n || 0 });
+}
+
 async function webhook(env, req) {
   const u = await req.json().catch(() => ({}));
   try { await onUpdate(env, u); } catch (e) { await kvSet(env.DB, "errors", { ts: now(), errs: ["webhook: " + (e.message || e)] }); }
@@ -384,8 +409,9 @@ export default {
     const url = new URL(req.url);
     const env = await prepare(rawEnv);
     if (url.pathname === "/" || url.pathname === "/setup") return setupPage(await setup(env, url.origin), url.origin);
-    if (req.method === "OPTIONS") return new Response(null, { headers: { "access-control-allow-origin": "*", "access-control-allow-methods": "GET" } });
+    if (req.method === "OPTIONS") return new Response(null, { headers: { "access-control-allow-origin": "*", "access-control-allow-methods": "GET, POST", "access-control-allow-headers": "content-type" } });
     if (req.method === "POST" && env.TG_WEBHOOK_SECRET && url.pathname === "/tg/" + env.TG_WEBHOOK_SECRET) return webhook(env, req);
+    if (req.method === "POST" && url.pathname === "/hit") return hit(env, req);
     if (url.pathname.startsWith("/api/")) { try { return await api(env, url); } catch (e) { return json({ error: String(e.message || e) }, 500); } }
     return json({ ok: true, name: "chainbrief-signals", endpoints: ["/api/latest", "/api/alerts", "/api/series?k=kimp_btc,liq_long,liq_short&h=48"] });
   },

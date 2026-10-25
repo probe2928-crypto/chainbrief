@@ -53,3 +53,7 @@ const wh = await worker.fetch(new Request("https://w.dev/tg/s3", { method: "POST
 console.log("webhook", wh.status, sent.at(-1).text.slice(0, 60));
 // 단위 체크
 console.log("cross", kimpCross(2.9, 3.1), kimpCross(3.1, 2.9), kimpCross(-0.9, -1.2));
+// 조회수
+for (let i = 0; i < 3; i++) await worker.fetch(new Request("https://w.dev/hit", { method: "POST", headers: { "user-agent": "Mozilla/5.0" }, body: JSON.stringify({ s: "chainbrief", p: "/articles/x/" }) }), env);
+await worker.fetch(new Request("https://w.dev/hit", { method: "POST", headers: { "user-agent": "Googlebot" }, body: JSON.stringify({ s: "chainbrief", p: "/" }) }), env);
+{ const r = await worker.fetch(new Request("https://w.dev/api/stats?site=chainbrief&days=7"), env); console.log("stats", JSON.stringify(await r.json())); }

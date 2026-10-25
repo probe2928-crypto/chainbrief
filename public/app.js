@@ -36,6 +36,11 @@
   const clock = $("#clock");
   if (clock) setInterval(() => (clock.textContent = kst()), 15000);
 
+  /* 익명 조회수 (시그널 서버가 켜져 있을 때만 · 주소만 보내고 쿠키·IP 저장 없음) */
+  if (CB.sigApi && navigator.sendBeacon && !/bot|crawl|spider/i.test(navigator.userAgent)) {
+    try { navigator.sendBeacon(CB.sigApi.replace(/\/$/, "") + "/hit", JSON.stringify({ s: "chainbrief", p: location.pathname })); } catch {}
+  }
+
   /* 스크롤하면 메뉴줄만 남고 작은 워드마크가 나타남 */
   const brand = $(".site-header .brand");
   if (brand && "IntersectionObserver" in window) {
