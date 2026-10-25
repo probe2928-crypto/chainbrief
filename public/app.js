@@ -280,6 +280,53 @@
     });
   }
 
+  /* ---------- 히어로 슬라이더 ---------- */
+  $$("[data-hero]").forEach((h) => {
+    const slides = $$(".slide", h), bars = $$(".hero-bar", h), count = $(".hero-count b", h);
+    if (slides.length < 2) return;
+    const DUR = 7000, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let i = 0, timer = 0, busy = false, paused = false, left = DUR, started = Date.now();
+    h.style.setProperty("--dur", DUR + "ms");
+    const mark = () => {
+      bars.forEach((b, k) => { b.classList.toggle("done", k < i); b.classList.remove("on"); });
+      void h.offsetWidth;
+      if (!reduce) bars[i]?.classList.add("on"); else bars[i]?.classList.add("done");
+      if (count) count.textContent = String(i + 1).padStart(2, "0");
+    };
+    const schedule = (ms) => { clearTimeout(timer); left = ms; started = Date.now(); if (!paused && !reduce) timer = setTimeout(() => go(i + 1, 1), ms); };
+    function go(n, dir = 1) {
+      n = (n + slides.length) % slides.length;
+      if (busy || n === i) return;
+      busy = true;
+      const cur = slides[i], nxt = slides[n], back = dir < 0;
+      cur.classList.remove("is-active"); cur.classList.add("is-leaving"); cur.classList.toggle("back", back);
+      nxt.classList.add("is-entering"); nxt.classList.toggle("back", back); nxt.removeAttribute("aria-hidden");
+      i = n; mark();
+      setTimeout(() => {
+        cur.classList.remove("is-leaving", "back"); cur.setAttribute("aria-hidden", "true");
+        nxt.classList.remove("is-entering", "back"); nxt.classList.add("is-active");
+        busy = false;
+      }, reduce ? 30 : 1150);
+      schedule(DUR);
+    }
+    const pause = () => { if (paused) return; paused = true; h.classList.add("paused"); clearTimeout(timer); left -= Date.now() - started; };
+    const resume = () => { if (!paused) return; paused = false; h.classList.remove("paused"); schedule(Math.max(900, left)); };
+    h.addEventListener("mouseenter", pause); h.addEventListener("mouseleave", resume);
+    h.addEventListener("focusin", pause); h.addEventListener("focusout", resume);
+    document.addEventListener("visibilitychange", () => (document.hidden ? pause() : resume()));
+    $$(".hero-nav", h).forEach((b) => b.addEventListener("click", () => go(i + +b.dataset.dir, +b.dataset.dir)));
+    bars.forEach((b, k) => b.addEventListener("click", () => go(k, k > i ? 1 : -1)));
+    h.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(i + 1, 1); if (e.key === "ArrowLeft") go(i - 1, -1); });
+    let x0 = null, y0 = 0;
+    h.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    h.addEventListener("touchend", (e) => {
+      if (x0 == null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+    mark(); schedule(DUR);
+  });
+
   /* 복사 버튼 */
   $$("[data-copy],[data-copytext]").forEach((b) => b.addEventListener("click", async () => {
     const text = b.dataset.copytext || location.href, label = b.textContent;

@@ -243,9 +243,56 @@ const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${ext
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.cpSync(path.join(ROOT, "public"), OUT, { recursive: true });
 
+// ---------- 히어로 슬라이더 (public/art/*.jpg, 움직이는 커튼 전환 + 켄번스) ----------
+const ART = { 정책: "sage-bands", 시장: "gold-silk", 산업: "light-grid", 거래소: "light-grid", 기술: "contour", 해외: "blue-hour", 가이드: "smoke" };
+const ART_POOL = ["blue-hour", "rose-dusk", "gold-silk", "prism", "contour", "smoke", "sage-bands", "light-grid"];
+function pickArt(used, want) {
+  const order = [want, ...ART_POOL].filter(Boolean);
+  const a = order.find((x) => !used.has(x)) || order[0];
+  used.add(a); return a;
+}
+const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}"><img src="${u(`art/${name}.jpg`)}" alt="" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
+function hero(slides, size = "lg", label = "주요 소식") {
+  if (!slides.length) return "";
+  const used = new Set();
+  return `<section class="hero hero-${size}" data-hero aria-roledescription="carousel" aria-label="${esc(label)}">
+  <div class="hero-track">${slides.map((sl, i) => `
+    <article class="slide${i === 0 ? " is-active" : ""}" aria-roledescription="slide" aria-label="${i + 1} / ${slides.length}"${i ? ' aria-hidden="true"' : ""}>
+      ${artImg(pickArt(used, sl.art), i === 0)}
+      <div class="slide-shade"></div>
+      <div class="wrap slide-body">
+        <span class="slide-eye">${sl.eye}</span>
+        <h2 class="slide-t"><a href="${esc(sl.href)}"${/^https?:/.test(sl.href) ? ' target="_blank" rel="noopener nofollow"' : ""}>${esc(sl.title)}</a></h2>
+        ${sl.dek ? `<p class="slide-d">${esc(sl.dek)}</p>` : ""}
+        <a class="slide-cta" href="${esc(sl.href)}"${/^https?:/.test(sl.href) ? ' target="_blank" rel="noopener nofollow"' : ""} tabindex="-1">${esc(sl.cta || "자세히 보기")} <span aria-hidden="true">→</span></a>
+      </div>
+    </article>`).join("")}
+  </div>
+  ${slides.length > 1 ? `<div class="wrap hero-ui">
+    <div class="hero-bars">${slides.map((_, i) => `<button type="button" class="hero-bar" data-go="${i}" aria-label="${i + 1}번 슬라이드"><i></i></button>`).join("")}</div>
+    <span class="hero-count num"><b>01</b> / ${String(slides.length).padStart(2, "0")}</span>
+    <button type="button" class="hero-nav" data-dir="-1" aria-label="이전">←</button><button type="button" class="hero-nav" data-dir="1" aria-label="다음">→</button>
+  </div>` : ""}
+</section>`;
+}
+const artSlide = (a, eye) => ({ art: ART[a.category], eye, title: a.title, dek: a.summary || plain(a.body).slice(0, 110), href: u(`articles/${a.id}/`), cta: "기사 읽기" });
+const eyeOf = (a) => `${a.format ? esc(a.format) : a.author === cfg.author ? "오늘의 해설" : "기사"} · ${esc(a.author || "편집국")}`;
+
 // 홈 상단 컬러 필드: 시장 숫자 4칸 + 오늘의 기사
 const wk = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
 const topArt = articles.find((a) => a.format) || articles[0];
+const homeSlides = (() => {
+  const out = [], seen = new Set();
+  const add = (a) => { if (a && !seen.has(a.id)) { seen.add(a.id); out.push(artSlide(a, eyeOf(a))); } };
+  add(articles.find((a) => a.format === "심층취재"));
+  add(articles.find((a) => a.author === cfg.author));
+  add(articles.find((a) => a.format === "칼럼"));
+  const wkL = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
+  if (wkL.length) out.push({ art: "light-grid", eye: "Listings · 업비트 · 빗썸", title: `이번 주 신규 상장 ${wkL.length}건`, dek: [...new Set(wkL.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: "상장 소식 보기" });
+  out.push({ art: "prism", eye: "Surge Radar · 실시간", title: "지금 가장 빠르게 움직이는 코인", dek: "5분 급등, 거래 급증, 52주 신고가, 신규 상장 성적표를 한 화면에서.", href: u("surge/"), cta: "급등 레이더 열기" });
+  add(articles.find((a) => a.format && !seen.has(a.id)));
+  return out.slice(0, 6);
+})();
 const colorField = `<section class="cfield" aria-label="오늘의 시장"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
   <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>업비트 BTC 기준</span></a>
@@ -258,7 +305,7 @@ const colorField = `<section class="cfield" aria-label="오늘의 시장"><div c
 const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
-  body: `${colorField}<div class="wrap"><main class="grid">
+  body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid">
   <div class="col"><section>
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
@@ -308,7 +355,7 @@ const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx
 write("listings/index.html", layout({
   title: "업비트·빗썸 상장 소식", active: "listings/", canonical: "listings/",
   description: "업비트·빗썸 신규 상장, 거래 유의, 거래지원 종료 소식을 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
-  body: `<div class="wrap"><main class="grid"><div class="col"><section>
+  body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${TYN[i.type]} · ${fmt(i.date, { month: "long", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${i.coins.map((c) => c.name).join(", ")} — ${i.title}`, href: i.url, cta: "공지 원문" })), "sm", "최근 상장")}<div class="wrap"><main class="grid"><div class="col"><section>
   ${secHead("Listings", "상장 소식", listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인")}
   <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
   <div class="tabs-row" id="lsFilters">
@@ -326,7 +373,11 @@ const board = (id, label, title, note = "") => `<section class="sboard"><div cla
 write("surge/index.html", layout({
   title: "급등 레이더", active: "surge/", canonical: "surge/", extraScript: "surge.js",
   description: "업비트·빗썸 원화마켓 실시간 급등·급락, 5분 단기 급등, 거래 급증, 52주 신고가, 신규 상장 성적표, 거래소 가격차.",
-  body: `<div class="wrap"><main class="single wide-single" id="surgeApp"><section>
+  body: `${hero([
+    { art: "prism", eye: "Right Now · 1분봉", title: "5분 급등", dek: "최근 5분 동안 가장 크게 오른 코인을 1분봉으로 추적해요.", href: "#rkShort", cta: "바로 보기" },
+    { art: "blue-hour", eye: "Volume Spike", title: "거래 급증", dek: "평소 5분 거래대금보다 1.5배 넘게 몰린 코인.", href: "#rkSpike", cta: "바로 보기" },
+    { art: "gold-silk", eye: "Momentum", title: "52주 신고가 · 신규 상장 성적표", dek: "고점 근처의 코인과 최근 30일 상장 코인의 성적.", href: "#rkHigh", cta: "바로 보기" },
+  ], "sm", "급등 레이더 안내")}<div class="wrap"><main class="single wide-single" id="surgeApp"><section>
   ${secHead("Surge Radar", "급등 레이더", '<span class="status" id="surgeStatus">불러오는 중…</span>')}
   <div class="controls">
     <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
@@ -369,12 +420,11 @@ const lead = recentFeature || articles[0];
 const sources = [...new Set(hlItems.map((h) => h.source))];
 write("news/index.html", layout({
   title: "뉴스", active: "news/", canonical: "news/",
-  body: `<div class="wrap"><main class="grid"><div class="col">
+  body: `${hero(articles.slice(0, 4).map((a) => artSlide(a, eyeOf(a))), "sm", "주요 기사")}<div class="wrap"><main class="grid"><div class="col">
   <section>
     ${secHead("Editorial", "체인브리프 기사", `<a class="more" style="margin:0" href="${u("authors/")}">편집국</a>`)}
-    ${lead ? `<a class="lead-art" href="${u(`articles/${lead.id}/`)}"><div class="meta" style="margin:0">${tagRow(lead)}</div><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || plain(lead.body).slice(0, 140))}</p>${byline(lead)}</a>` : '<div class="empty">첫 기사를 준비하고 있어요.</div>'}
     <div class="tabs-row" id="kindTabs">${["전체", "해설", "심층취재", "칼럼"].map((k, i) => `<button class="tab" type="button" data-kind="${k}" aria-pressed="${i === 0}">${k}</button>`).join("")}</div>
-    <div class="arts" id="artList">${articles.filter((a) => a !== lead).slice(0, 30).map(card).join("")}</div>
+    <div class="arts" id="artList">${articles.slice(0, 40).map(card).join("") || '<div class="empty">첫 기사를 준비하고 있어요.</div>'}</div>
   </section>
   <section>
     ${secHead("Global", "해외 헤드라인", headlines.updatedAt ? `${hhmm(new Date(headlines.updatedAt))} 업데이트` : "15분마다 업데이트", "h2")}
@@ -390,7 +440,7 @@ articles.forEach((a, i) => {
   write(`articles/${a.id}/index.html`, layout({
     title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
+    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
     <article class="doc">
       <div class="kicker">${tagRow(a)}</div>
       <h1>${esc(a.title)}</h1>
@@ -433,9 +483,12 @@ for (const r of reps) {
 write("market/index.html", layout({
   title: "실시간 시세 · 김치프리미엄", active: "market/", canonical: "market/",
   description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세와 업비트 김치프리미엄.",
-  body: `<div class="wrap"><main class="grid"><div class="col"><section>
+  body: `${hero([
+    { art: "gold-silk", eye: "Markets · 실시간", title: "달러와 원화, 한 번에", dek: "주요 코인의 글로벌 시세와 업비트 원화 가격을 1분마다 비교해요.", href: "#mkt", cta: "시세 보기" },
+    { art: "rose-dusk", eye: "Kimchi Premium", title: "김치프리미엄", dek: "국내 가격이 해외보다 얼마나 비싼지, 코인별로.", href: "#mkt", cta: "김프 보기" },
+  ], "sm", "시세 안내")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", "실시간 시세", '<span id="mktUpdated">불러오는 중…</span>')}
-    <div class="wide"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>김프</th><th>거래대금</th></tr></thead><tbody>
+    <div class="wide" id="mkt"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>김프</th><th>거래대금</th></tr></thead><tbody>
     ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
     <p class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신.</p>
@@ -454,13 +507,18 @@ const weeklyExt = extGroups.flatMap((g) => g.items.filter((p) => p.views > 0).ma
 write("community/index.html", layout({
   title: "커뮤니티", active: "community/", canonical: "community/",
   description: "이번 주 많이 본 글, 코인 커뮤니티 인기글, 자유게시판.",
-  body: `<div class="wrap"><main class="grid"><div class="col">
+  body: `${hero((() => {
+    const pool = (weeklyExt.length >= 3 ? weeklyExt : [...weeklyExt, ...extGroups.flatMap((g) => g.items.slice(0, 3).map((p) => ({ ...p, source: g.source })))]).slice(0, 3);
+    const sl = pool.map((p, k) => ({ art: ["rose-dusk", "smoke", "sage-bands"][k], eye: `This Week · ${esc(p.source)}${p.views ? ` · 조회 ${p.views.toLocaleString("ko-KR")}` : ""}`, title: p.title, dek: "", href: p.url, cta: "원문 보기" }));
+    if (sl.length < 2) sl.push({ art: "rose-dusk", eye: "Community", title: "이번 주, 코인 커뮤니티가 가장 많이 본 글", dek: "국내외 커뮤니티 인기글을 매일 모아요.", href: "#ext", cta: "인기글 보기" }, { art: "smoke", eye: "Contact · Telegram", title: "제보와 제휴는 텔레그램으로", dek: `@${cfg.telegram} 로 바로 연락 주세요.`, href: TG || "#", cta: "텔레그램 열기" });
+    return sl;
+  })(), "sm", "커뮤니티 인기글")}<div class="wrap"><main class="grid"><div class="col">
   <section>
     ${secHead("This Week", "이번 주 많이 본 글", boardOff ? "" : `<a class="btn" href="${u("community/write/")}">글쓰기</a>`)}
     ${boardOff ? (weeklyExt.length ? `<ol class="posts">${weeklyExt.map((p, i) => `<li style="grid-template-columns:36px minmax(0,1fr)"><span class="rk" style="grid-row:span 2">${i + 1}</span><div style="min-width:0"><a class="tt" href="${esc(p.url)}" target="_blank" rel="noopener nofollow">${esc(p.title)}</a>${p.comments ? `<span class="cc">[${p.comments}]</span>` : ""}<div class="sub" style="margin-top:4px"><span>${esc(p.source)}</span><span>조회 ${p.views.toLocaleString("ko-KR")}</span>${p.votes ? `<span>추천 ${p.votes}</span>` : ""}</div></div></li>`).join("")}</ol><p class="note">코인 커뮤니티 개념글·추천글을 조회수 순으로 모았어요. 자유게시판은 오픈 준비 중이에요.</p>` : `<div class="notice-box" style="margin-top:20px"><strong>자유게시판 오픈 준비 중이에요.</strong><br>곧 글쓰기·댓글·추천이 열려요.</div>`) : `<ol class="posts" id="weekly"><li><span class="sub">불러오는 중…</span></li></ol>`}
   </section>
   <section>
-    ${secHead("Around the Web", "코인 커뮤니티 인기글", community.updatedAt ? `${hhmm(new Date(community.updatedAt))} 업데이트` : "", "h2")}
+    <span id="ext"></span>${secHead("Around the Web", "코인 커뮤니티 인기글", community.updatedAt ? `${hhmm(new Date(community.updatedAt))} 업데이트` : "", "h2")}
     ${extHTML}
   </section>
   ${boardOff ? "" : `<section>
