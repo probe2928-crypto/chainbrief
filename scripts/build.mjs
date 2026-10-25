@@ -83,7 +83,7 @@ const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/"
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
-function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true }) {
+function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "" }) {
   const full = title ? `${title} | ${cfg.name}` : `${cfg.nameEn} ${cfg.name} — ${cfg.tagline}`;
   const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
   return `<!doctype html>
@@ -137,6 +137,7 @@ ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener"
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
 <script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
+${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 </body>
 </html>`;
 }
@@ -296,35 +297,60 @@ write("listings/index.html", layout({
   </section></div>${rail()}</main></div>`,
 }));
 
-// 급등 레이더 (브라우저에서 실시간 계산)
-const board = (id, label, title, note) => `<section><div class="block-head" style="border-top:1px solid var(--ink);padding-top:14px"><h2>${title}</h2><span class="label">${label}</span></div>${note ? `<p class="note" style="padding:0 0 6px">${note}</p>` : ""}<ol class="rank" id="${id}"><li><span class="nm">불러오는 중…</span></li></ol></section>`;
+// 급등 레이더 (브라우저에서 실시간 계산, public/surge.js)
+const board = (id, label, title, note = "") => `<section class="sboard"><div class="block-head"><h2>${title}</h2><span class="label">${label}</span></div>${note ? `<p class="bnote">${note}</p>` : ""}<ol class="rank" id="${id}"><li class="msg-row"><span class="nm">불러오는 중…</span></li></ol></section>`;
 write("surge/index.html", layout({
-  title: "급등 레이더", active: "surge/", canonical: "surge/",
-  description: "업비트·빗썸 원화마켓 실시간 상승률, 하락률, 거래대금 순위와 거래소 간 가격차.",
-  body: `<div class="wrap"><main class="single"><section>
+  title: "급등 레이더", active: "surge/", canonical: "surge/", extraScript: "surge.js",
+  description: "업비트·빗썸 원화마켓 실시간 급등·급락, 5분 단기 급등, 거래 급증, 52주 신고가, 신규 상장 성적표, 거래소 가격차.",
+  body: `<div class="wrap"><main class="single wide-single" id="surgeApp"><section>
   ${secHead("Surge Radar", "급등 레이더", '<span class="status" id="surgeStatus">불러오는 중…</span>')}
-  <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
-  <div class="surge" style="margin-top:28px">
-    ${board("rkUp", "Top Gainers", "상승률 TOP", "")}
-    ${board("rkDown", "Top Losers", "하락률 TOP", "")}
-    ${board("rkVol", "Volume", "거래대금 TOP", "")}
-    ${board("rkGap", "Upbit vs Bithumb", "거래소 가격차 TOP", "같은 코인의 업비트·빗썸 원화 가격 차이")}
+  <div class="controls">
+    <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
+    <div class="tabs-row" id="volFilter"><span class="label" style="align-self:center">거래대금</span>${[["0", "전체"], ["1000000000", "10억+"], ["10000000000", "100억+"]].map(([k, l], i) => `<button class="tab" type="button" data-vol="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
+    <label class="search"><span class="sr">코인 검색</span><input id="surgeQ" type="search" placeholder="코인 검색 (예: BTC, 리플)"></label>
   </div>
-  <p class="note">원화마켓 기준, 30초마다 갱신. 변동률은 전일 종가 대비예요. 투자 판단의 근거가 아닌 참고용이에요.</p>
+  <div class="summary" id="surgeSummary"></div>
+
+  <h3 class="grp"><span class="label">Right Now</span>단기 시그널</h3>
+  <div class="surge">
+    ${board("rkShort", "5 Min", "5분 급등", "최근 5분 가격 변동 · 1분봉 기준")}
+    ${board("rkSpike", "Volume Spike", "거래 급증", "최근 5분 거래대금 ÷ 평소 5분 평균")}
+  </div>
+
+  <h3 class="grp"><span class="label">24 Hours</span>오늘의 등락</h3>
+  <div class="surge">
+    ${board("rkUp", "Top Gainers", "상승률 TOP")}
+    ${board("rkDown", "Top Losers", "하락률 TOP")}
+    ${board("rkVol", "Volume", "거래대금 TOP")}
+    ${board("rkGap", "Upbit vs Bithumb", "거래소 가격차", "같은 코인의 업비트·빗썸 원화 가격 차이")}
+  </div>
+
+  <h3 class="grp"><span class="label">Momentum</span>신고가 · 신규 상장</h3>
+  <div class="surge">
+    ${board("rkHigh", "52-Week High", "52주 신고가 근접", "52주 최고가 대비 현재가")}
+    ${board("rkList", "New Listings", "신규 상장 성적표", "최근 30일 상장 코인 · 상장일 시가 대비")}
+  </div>
+  <p class="note">원화마켓 기준. 24시간 변동률은 전일 종가 대비, 단기 지표는 1분봉 기준이에요. 행을 누르면 거래소 차트로 이동해요. 투자 판단의 근거가 아닌 참고용이에요.</p>
   </section></main></div>`,
 }));
 
 // 뉴스: 스캇 박 기사 + 해외 헤드라인
-const lead = articles[0];
+const REP = Object.fromEntries((cfg.reporters || []).map((r) => [r.name, r]));
+const kindOf = (a) => a.format || (a.author === cfg.author ? "해설" : a.category === "가이드" ? "가이드" : "해설");
+const tagRow = (a) => `<span class="tag kr">${esc(a.category || "기사")}</span>${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}`;
 const byline = (a) => `<span class="byline">${fmt(a.date, { month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} · <b>${esc(a.author || "체인브리프 편집부")}</b></span>`;
+const card = (a) => `<a class="art" data-kind="${esc(kindOf(a))}" href="${u(`articles/${a.id}/`)}"><div class="meta" style="margin:0">${tagRow(a)}</div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 120))}</p><div style="margin-top:10px">${byline(a)}</div></a>`;
+const recentFeature = articles.find((a) => a.format && Date.now() - a.date < 2 * 864e5);
+const lead = recentFeature || articles[0];
 const sources = [...new Set(hlItems.map((h) => h.source))];
 write("news/index.html", layout({
   title: "뉴스", active: "news/", canonical: "news/",
   body: `<div class="wrap"><main class="grid"><div class="col">
   <section>
-    ${secHead("Editorial", "체인브리프 기사", "오전 · 오후 · 저녁 발행")}
-    ${lead ? `<a class="lead-art" href="${u(`articles/${lead.id}/`)}"><span class="tag kr">${esc(lead.category || "기사")}</span><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || plain(lead.body).slice(0, 140))}</p>${byline(lead)}</a>` : '<div class="empty">첫 기사를 준비하고 있어요.</div>'}
-    <div class="arts">${articles.slice(1, 13).map((a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><span class="tag kr">${esc(a.category || "기사")}</span><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 120))}</p><div style="margin-top:10px">${byline(a)}</div></a>`).join("")}</div>
+    ${secHead("Editorial", "체인브리프 기사", `<a class="more" style="margin:0" href="${u("authors/")}">편집국</a>`)}
+    ${lead ? `<a class="lead-art" href="${u(`articles/${lead.id}/`)}"><div class="meta" style="margin:0">${tagRow(lead)}</div><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || plain(lead.body).slice(0, 140))}</p>${byline(lead)}</a>` : '<div class="empty">첫 기사를 준비하고 있어요.</div>'}
+    <div class="tabs-row" id="kindTabs">${["전체", "해설", "심층취재", "칼럼"].map((k, i) => `<button class="tab" type="button" data-kind="${k}" aria-pressed="${i === 0}">${k}</button>`).join("")}</div>
+    <div class="arts" id="artList">${articles.filter((a) => a !== lead).slice(0, 30).map(card).join("")}</div>
   </section>
   <section>
     ${secHead("Global", "해외 헤드라인", headlines.updatedAt ? `${hhmm(new Date(headlines.updatedAt))} 업데이트` : "15분마다 업데이트", "h2")}
@@ -342,17 +368,41 @@ articles.forEach((a, i) => {
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
     body: `<div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
     <article class="doc">
-      <div class="kicker"><span class="tag kr">${esc(a.category || "기사")}</span></div>
+      <div class="kicker">${tagRow(a)}</div>
       <h1>${esc(a.title)}</h1>
       ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
-      <div class="byrow"><span class="byline">글 · <b>${esc(a.author || "체인브리프 편집부")}</b></span><time class="byline">${fullDate(a.date)}</time></div>
+      <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><time class="byline">${fullDate(a.date)}</time></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
     </article>
-    ${more.length ? `<section>${secHead("More", "다른 기사", "", "h2")}<div class="arts">${more.map((x) => `<a class="art" href="${u(`articles/${x.id}/`)}"><span class="tag kr">${esc(x.category || "기사")}</span><h3>${esc(x.title)}</h3><div style="margin-top:10px">${byline(x)}</div></a>`).join("")}</div></section>` : ""}
+    ${more.length ? `<section>${secHead("More", "다른 기사", "", "h2")}<div class="arts">${more.map(card).join("")}</div></section>` : ""}
     </div>${rail()}</main></div>`,
   }));
 });
+
+// 편집국 · 기자별 페이지
+const reps = cfg.reporters || [];
+write("authors/index.html", layout({
+  title: "편집국", active: "news/", canonical: "authors/",
+  description: `${cfg.name} 편집국 기자와 담당 분야`,
+  body: `<div class="wrap"><main class="single">
+  ${secHead("Newsroom", "편집국")}
+  <ul class="staff">${reps.map((r) => { const n = articles.filter((a) => a.author === r.name).length; return `<li><a href="${u(`authors/${r.slug}/`)}"><span class="label">${esc(r.desk)}</span><strong>${esc(r.name)}</strong><span class="beat">${esc(r.beat)}</span><span class="cnt">${(r.formats || []).join(" · ")} · 기사 ${n}편</span></a></li>`; }).join("")}</ul>
+  <p class="note">체인브리프 기사는 편집국이 취재·검증해 발행해요. 기사에 대한 정정·제보는 <a href="${u("contact/")}" style="text-decoration:underline">문의</a>로 보내주세요.</p>
+  </main></div>`,
+}));
+for (const r of reps) {
+  const mine = articles.filter((a) => a.author === r.name);
+  write(`authors/${r.slug}/index.html`, layout({
+    title: `${r.name} 기자`, active: "news/", canonical: `authors/${r.slug}/`,
+    description: `${cfg.name} ${r.desk} ${r.name} 기자의 기사`,
+    body: `<div class="wrap"><p class="crumbs"><a href="${u("authors/")}">Newsroom</a> &nbsp;/&nbsp; ${esc(r.desk)}</p><main class="single" style="margin-top:20px">
+    ${secHead(esc(r.desk), `${esc(r.name)} 기자`, `${mine.length}편`)}
+    <p class="lede" style="margin:18px 0 0;color:var(--mute);font-weight:300">${esc(r.beat)}</p>
+    <div class="arts" style="margin-top:12px">${mine.map(card).join("") || '<div class="empty">곧 첫 기사가 올라와요.</div>'}</div>
+    </main></div>`,
+  }));
+}
 
 // 시세
 write("market/index.html", layout({

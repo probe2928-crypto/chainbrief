@@ -142,32 +142,29 @@
     $("#newBtn")?.addEventListener("click", () => location.reload());
   }
 
+  /* 기사 종류 필터 */
+  tabs("#kindTabs", "kind", (k) => $$("#artList .art").forEach((a) => (a.hidden = k !== "전체" && a.dataset.kind !== k)));
+
   /* 해외 헤드라인 매체 필터 */
   tabs("#srcFilters", "src", (s) => $$("#hlList li").forEach((li) => (li.hidden = s !== "전체" && $(".src b", li).textContent !== s)));
 
-  /* ---------- 거래소 시세 (상장·급등 공용) ---------- */
-  async function upbitAll() {
-    const names = await cached("cb-up-names", 864e5, async () => Object.fromEntries((await getJSON("https://api.upbit.com/v1/market/all")).filter((m) => m.market.startsWith("KRW-")).map((m) => [m.market.slice(4), m.korean_name])));
-    const t = await getJSON("https://api.upbit.com/v1/ticker/all?quote_currencies=KRW");
-    return t.map((x) => ({ sym: x.market.slice(4), name: names[x.market.slice(4)] || x.market.slice(4), price: x.trade_price, chg: x.signed_change_rate * 100, vol: x.acc_trade_price_24h }));
-  }
-  async function bithumbAll() {
-    const names = await cached("cb-bt-names", 864e5, async () => Object.fromEntries((await getJSON("https://api.bithumb.com/v1/market/all")).filter((m) => m.market.startsWith("KRW-")).map((m) => [m.market.slice(4), m.korean_name])));
-    const j = await getJSON("https://api.bithumb.com/public/ticker/ALL_KRW");
-    return Object.entries(j.data).filter(([k, v]) => k !== "date" && v.closing_price).map(([sym, v]) => ({ sym, name: names[sym] || sym, price: +v.closing_price, chg: +v.fluctate_rate_24H, vol: +v.acc_trade_value_24H }));
-  }
-
-  /* ---------- 상장 소식 ---------- */
+  /* ---------- 상장 소식: 상장 코인 현재가 ---------- */
+  const API = { upbit: "https://api.upbit.com/v1", bithumb: "https://api.bithumb.com/v1" };
   const lsRows = $$(".lst[data-type='listing']");
   if (lsRows.length) {
     const fill = async () => {
-      const src = {};
-      try { src.upbit = Object.fromEntries((await upbitAll()).map((x) => [x.sym, x])); } catch {}
-      try { src.bithumb = Object.fromEntries((await bithumbAll()).map((x) => [x.sym, x])); } catch {}
-      lsRows.forEach((r) => {
-        const x = src[r.dataset.ex]?.[r.dataset.sym], box = $("[data-px]", r);
-        if (box) box.innerHTML = x ? `${krw(x.price)}원<small class="${dir(x.chg)}">${pct(x.chg)}</small>` : "";
-      });
+      for (const ex of ["upbit", "bithumb"]) {
+        const rows = lsRows.filter((r) => r.dataset.ex === ex && r.dataset.sym);
+        if (!rows.length) continue;
+        try {
+          const names = await cached("cb-names-" + ex, 864e5, async () => Object.fromEntries((await getJSON(API[ex] + "/market/all")).filter((m) => m.market.startsWith("KRW-")).map((m) => [m.market.slice(4), m.korean_name])));
+          const syms = [...new Set(rows.map((r) => r.dataset.sym))].filter((s) => names[s]);
+          if (!syms.length) continue;
+          const t = await getJSON(API[ex] + "/ticker?markets=" + syms.map((s) => "KRW-" + s).join(","));
+          const px = Object.fromEntries(t.map((x) => [x.market.slice(4), x]));
+          rows.forEach((r) => { const x = px[r.dataset.sym], box = $("[data-px]", r); if (box && x) box.innerHTML = `${krw(x.trade_price)}원<small class="${dir(x.signed_change_rate)}">${pct(x.signed_change_rate * 100)}</small>`; });
+        } catch {}
+      }
     };
     every(fill, 60000);
   }
@@ -177,34 +174,6 @@
     tabs("#daytabs", "day", (d) => $$(".daypanel").forEach((p) => (p.hidden = p.dataset.day !== d)));
     tabs("#lsFilters", "ex", (v) => { ex = v; apply(); });
     tabs("#lsFilters", "type", (v) => { ty = v; apply(); });
-  }
-
-  /* ---------- 급등 레이더 ---------- */
-  if ($("#rkUp")) {
-    let ex = "upbit", data = {};
-    const row = (x, val, sub = "") => `<li><span class="nm">${esc(x.name)}<small>${esc(x.sym)}</small></span><span class="v">${val}${sub ? `<small>${sub}</small>` : ""}</span></li>`;
-    const render = () => {
-      const list = data[ex] || [];
-      if (!list.length) return;
-      const liquid = list.filter((x) => x.vol > 3e8);
-      $("#rkUp").innerHTML = [...liquid].sort((a, b) => b.chg - a.chg).slice(0, 15).map((x) => row(x, `<span class="up">${pct(x.chg)}</span>`, krw(x.price) + "원")).join("");
-      $("#rkDown").innerHTML = [...liquid].sort((a, b) => a.chg - b.chg).slice(0, 15).map((x) => row(x, `<span class="down">${pct(x.chg)}</span>`, krw(x.price) + "원")).join("");
-      $("#rkVol").innerHTML = [...list].sort((a, b) => b.vol - a.vol).slice(0, 15).map((x) => row(x, eok(x.vol) + "원", `<span class="${dir(x.chg)}">${pct(x.chg)}</span>`)).join("");
-      if (data.upbit && data.bithumb) {
-        const bt = Object.fromEntries(data.bithumb.map((x) => [x.sym, x]));
-        const gaps = data.upbit.filter((x) => bt[x.sym] && x.vol > 1e8 && bt[x.sym].vol > 1e8).map((x) => ({ ...x, gap: (x.price / bt[x.sym].price - 1) * 100, bp: bt[x.sym].price }));
-        $("#rkGap").innerHTML = gaps.sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap)).slice(0, 12).map((x) => row(x, `<span class="${dir(x.gap)}">${pct(x.gap)}</span>`, `업 ${krw(x.price)} · 빗 ${krw(x.bp)}`)).join("") || "<li><span class='nm'>차이 나는 코인이 없어요</span></li>";
-      } else $("#rkGap").innerHTML = "<li><span class='nm'>두 거래소 시세가 모두 필요해요</span></li>";
-    };
-    const load = async () => {
-      const [u, b] = await Promise.allSettled([upbitAll(), bithumbAll()]);
-      if (u.status === "fulfilled") data.upbit = u.value;
-      if (b.status === "fulfilled") data.bithumb = b.value;
-      $("#surgeStatus").textContent = (data.upbit || data.bithumb) ? `${kst({ hour: "2-digit", minute: "2-digit", second: "2-digit" })} 갱신 · 30초마다` : "시세를 불러오지 못했어요";
-      render();
-    };
-    tabs("#exSwitch", "ex", (v) => { ex = v; render(); });
-    every(load, 30000);
   }
 
   /* ---------- 커뮤니티 ---------- */
