@@ -248,7 +248,7 @@ const wk = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7
 const topArt = articles.find((a) => a.format) || articles[0];
 const colorField = `<section class="cfield" aria-label="오늘의 시장"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
-  <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s">업비트 BTC 기준</span></a>
+  <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>업비트 BTC 기준</span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">시장 심리</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
   <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">최근 7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">업비트 ${wk.filter((i) => i.exchange === "upbit").length} · 빗썸 ${wk.filter((i) => i.exchange === "bithumb").length}</span></a>
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(topArt.format || "오늘의 기사")} · ${esc(topArt.author || "편집국")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">읽기 →</span></a>` : ""}

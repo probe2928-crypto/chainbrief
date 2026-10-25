@@ -66,7 +66,13 @@
     try {
       const g = await getJSON(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd,krw&include_24hr_change=true&include_24hr_vol=true`);
       const up = {};
+      let src = "업비트";
       try { for (const t of await getJSON(`https://api.upbit.com/v1/ticker?markets=${markets}`)) up[t.market.slice(4)] = t.trade_price; } catch {}
+      if (!Object.keys(up).length) {
+        // 업비트가 응답하지 않으면 빗썸 원화 가격으로 김프 계산
+        try { for (const t of await getJSON(`https://api.bithumb.com/v1/ticker?markets=${CB.coins.filter((c) => c.symbol !== "BNB").map((c) => "KRW-" + c.symbol).join(",")}`)) up[t.market.slice(4)] = t.trade_price; src = "빗썸"; } catch {}
+      }
+      $$("[data-kimp-src]").forEach((el) => (el.textContent = `${src} BTC 기준`));
       const data = {};
       for (const c of CB.coins) {
         const d = g[c.id]; if (!d) continue;
