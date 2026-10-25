@@ -1,7 +1,7 @@
 // 서비스워커: 페이지는 네트워크 우선(오프라인 시 캐시), 정적 파일은 캐시 우선
 const CACHE = "cb-__BUILD__";
 const BASE = "__BASE__";
-const CORE = [BASE, BASE + "style.css", BASE + "app.js", BASE + "manifest.webmanifest", BASE + "icons/icon-192.png"];
+const CORE = [BASE, BASE + "manifest.webmanifest", BASE + "icons/icon-192.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -19,7 +19,9 @@ self.addEventListener("fetch", (e) => {
     }).catch(() => caches.match(e.request).then((r) => r || caches.match(BASE))));
     return;
   }
-  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then((r) => r || fetch(e.request).then((res) => {
-    const copy = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); return res;
+  // ?v=빌드ID 가 붙은 파일은 주소 자체가 바뀌므로 정확히 일치할 때만 캐시를 쓴다
+  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request).then((res) => {
+    if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
+    return res;
   })));
 });
