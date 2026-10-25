@@ -38,7 +38,8 @@
     {
       "id": "binancecoin",
       "symbol": "BNB",
-      "name": "BNB"
+      "name": "BNB",
+      "upbit": false
     },
     {
       "id": "dogecoin",

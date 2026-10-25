@@ -54,7 +54,7 @@ summary: 목록에 보일 한두 줄 요약
 |---|---|
 | `name`, `tagline`, `description` | 사이트 이름·소개 (검색 결과에 노출) |
 | `domain` | 도메인 연결 후 `example.com` 입력 |
-| `coins` | 상단·시세 탭에 보일 코인 (CoinGecko id + 업비트 심볼) |
+| `coins` | 상단·시세 탭에 보일 코인 (CoinGecko id + 심볼). 업비트 원화마켓에 없는 코인은 `"upbit": false` |
 | `newsSources` | 헤드라인을 가져올 RSS 주소 |
 | `partner` | 오른쪽 파트너 거래소 배너 (`url`에 레퍼럴 링크 넣으면 버튼 표시) |
 | `telegram` | 푸터 텔레그램 채널 (예: `@channel`) |
