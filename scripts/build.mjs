@@ -374,13 +374,14 @@ const extHTML = extGroups.length ? `
   ${extGroups.map((g, i) => `<ul class="posts" data-gpanel="${i}"${i ? " hidden" : ""}>${g.items.slice(0, 15).map((p) => `<li><a class="tt" href="${esc(p.url)}" target="_blank" rel="noopener nofollow">${esc(p.title)}</a>${p.comments ? `<span class="cc">[${p.comments}]</span>` : ""}<div class="sub">${p.board ? `<span>${esc(p.board)}</span>` : ""}${p.views ? `<span>조회 ${p.views.toLocaleString("ko-KR")}</span>` : ""}${p.votes ? `<span>추천 ${p.votes}</span>` : ""}<span>${esc(g.source)}</span></div></li>`).join("")}</ul>`).join("")}
   <p class="note">제목과 링크만 모아 보여줘요. 원문은 각 커뮤니티에서 확인하세요.</p>` : '<div class="empty">인기글을 모으는 중이에요.</div>';
 const boardOff = !(cfg.supabase?.url && cfg.supabase?.anonKey);
+const weeklyExt = extGroups.flatMap((g) => g.items.filter((p) => p.views > 0).map((p) => ({ ...p, source: g.source }))).sort((a, b) => b.views - a.views).slice(0, 10);
 write("community/index.html", layout({
   title: "커뮤니티", active: "community/", canonical: "community/",
   description: "이번 주 많이 본 글, 코인 커뮤니티 인기글, 자유게시판.",
   body: `<div class="wrap"><main class="grid"><div class="col">
   <section>
     ${secHead("This Week", "이번 주 많이 본 글", boardOff ? "" : `<a class="btn" href="${u("community/write/")}">글쓰기</a>`)}
-    ${boardOff ? `<div class="notice-box" style="margin-top:20px"><strong>자유게시판 오픈 준비 중이에요.</strong><br>곧 글쓰기·댓글·추천이 열려요. 그 전까지는 아래 코인 커뮤니티 인기글을 확인하세요.</div>` : `<ol class="posts" id="weekly"><li><span class="sub">불러오는 중…</span></li></ol>`}
+    ${boardOff ? (weeklyExt.length ? `<ol class="posts">${weeklyExt.map((p, i) => `<li style="grid-template-columns:36px minmax(0,1fr)"><span class="rk" style="grid-row:span 2">${i + 1}</span><div style="min-width:0"><a class="tt" href="${esc(p.url)}" target="_blank" rel="noopener nofollow">${esc(p.title)}</a>${p.comments ? `<span class="cc">[${p.comments}]</span>` : ""}<div class="sub" style="margin-top:4px"><span>${esc(p.source)}</span><span>조회 ${p.views.toLocaleString("ko-KR")}</span>${p.votes ? `<span>추천 ${p.votes}</span>` : ""}</div></div></li>`).join("")}</ol><p class="note">코인 커뮤니티 개념글·추천글을 조회수 순으로 모았어요. 자유게시판은 오픈 준비 중이에요.</p>` : `<div class="notice-box" style="margin-top:20px"><strong>자유게시판 오픈 준비 중이에요.</strong><br>곧 글쓰기·댓글·추천이 열려요.</div>`) : `<ol class="posts" id="weekly"><li><span class="sub">불러오는 중…</span></li></ol>`}
   </section>
   <section>
     ${secHead("Around the Web", "코인 커뮤니티 인기글", community.updatedAt ? `${hhmm(new Date(community.updatedAt))} 업데이트` : "", "h2")}

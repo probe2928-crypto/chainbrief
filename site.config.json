@@ -112,15 +112,15 @@
   },
   "communitySources": [
     {
-      "name": "코인판",
-      "kind": "coinpan",
-      "url": "https://coinpan.com/best",
+      "name": "디시 비트코인 갤러리",
+      "kind": "dcinside",
+      "url": "https://gall.dcinside.com/board/lists/?id=bitcoins_new1&exception_mode=recommend",
       "lang": "ko"
     },
     {
-      "name": "코인판 HOT",
+      "name": "코인판",
       "kind": "coinpan",
-      "url": "https://coinpan.com/hot",
+      "url": "https://coinpan.com/best",
       "lang": "ko"
     },
     {

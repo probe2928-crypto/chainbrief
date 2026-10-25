@@ -48,6 +48,28 @@ function coinpan(html, src) {
   }
   return out;
 }
+// 디시인사이드 갤러리 목록 (개념글): tr.ub-content, 숫자 글번호만
+function dcinside(html, src) {
+  const rows = html.match(/<tr class="ub-content[^"]*"[^>]*data-no="\d+"[\s\S]*?<\/tr>/g) || [];
+  const out = [];
+  for (const r of rows) {
+    const num = r.match(/<td class="gall_num">\s*(\d+)\s*<\/td>/);
+    if (!num) continue;
+    const a = r.match(/<td class="gall_tit[^"]*">\s*<a href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+    if (!a) continue;
+    const reply = r.match(/class="reply_num">\[(\d+)/);
+    const date = r.match(/<td class="gall_date" title="([^"]+)"/);
+    const views = r.match(/<td class="gall_count">(\d+)/);
+    const votes = r.match(/<td class="gall_recommend">(\d+)/);
+    out.push({
+      title: strip(a[2]), url: new URL(decodeEntities(a[1]).replace(/&(exception_mode|page)=[^&]*/g, ""), "https://gall.dcinside.com").href,
+      source: src.name, lang: src.lang, board: "", comments: reply ? +reply[1] : 0,
+      views: views ? +views[1] : 0, votes: votes ? +votes[1] : 0,
+      date: date ? new Date(date[1].replace(" ", "T") + "+09:00").toISOString() : "",
+    });
+  }
+  return out;
+}
 function rss(xml, src) {
   return parseFeed(xml).filter((i) => i.title && /^https?:/.test(i.link)).map((i) => ({
     title: i.title, url: i.link, source: src.name, lang: src.lang, board: "", comments: 0,
@@ -55,13 +77,21 @@ function rss(xml, src) {
   }));
 }
 
+// 사이트 톤에 맞지 않는 욕설·도배성 제목은 걸러낸다
+const BAD = /시발|씨발|ㅅㅂ|ㅆㅂ|병신|ㅂㅅ|좆|존나|졸라|씹|개새|느금|섹스|야동|리딩방|카톡방|텔레방|무료\s?리딩|fuck|shit/i;
+const PARSE = { coinpan, dcinside, rss };
+const weekAgo = Date.now() - 7 * 864e5;
 const groups = [];
 for (const src of cfg.communitySources || []) {
   try {
+    if (src.kind === "rss" && groups.some((g) => g.kind === "rss")) await new Promise((r) => setTimeout(r, 4000));
     const body = await text(src.url);
-    const items = (src.kind === "coinpan" ? coinpan(body, src) : rss(body, src)).slice(0, 30);
+    let items = (PARSE[src.kind] || rss)(body, src).filter((i) => !BAD.test(i.title));
+    // 이번 주 많이 본 글: 날짜를 알면 7일 이내, 조회수 순
+    if (items.some((i) => i.views)) items = items.filter((i) => !/^\d{4}-/.test(i.date) || new Date(i.date) >= weekAgo).sort((a, b) => b.views - a.views);
+    items = items.slice(0, 30);
     if (!items.length) throw new Error("글을 찾지 못함");
-    groups.push({ source: src.name, url: src.url, lang: src.lang, items });
+    groups.push({ source: src.name, kind: src.kind, url: src.url, lang: src.lang, items });
     console.log(`✓ ${src.name}: ${items.length}`);
   } catch (e) { console.warn(`✗ ${src.name}: ${e.message}`); }
 }
