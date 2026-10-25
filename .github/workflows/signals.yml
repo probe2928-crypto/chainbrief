@@ -53,28 +53,27 @@ jobs:
             ID=$(wrangler d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const x=JSON.parse(s).find(d=>d.name==="chainbrief-signals");console.log(x?x.uuid:"")})')
           fi
           echo "D1: $ID"
-          sed -i "s/__D1_ID__/$ID/" wrangler.toml
+          sed -i "s/^database_name = \"chainbrief-signals\"/database_name = \"chainbrief-signals\"\ndatabase_id = \"$ID\"/" wrangler.toml
           wrangler d1 execute chainbrief-signals --remote --file schema.sql -y
 
       - name: 채널·요금 설정 반영
         if: steps.cfg.outputs.skip != '1'
         env:
-          V_KO: ${{ vars.TG_CHANNEL_KO || secrets.TG_CHANNEL_KO }}
-          V_EN: ${{ vars.TG_CHANNEL_EN || secrets.TG_CHANNEL_EN }}
+          TG_CHANNEL_KO: ${{ vars.TG_CHANNEL_KO || secrets.TG_CHANNEL_KO }}
+          TG_CHANNEL_EN: ${{ vars.TG_CHANNEL_EN || secrets.TG_CHANNEL_EN }}
+          TG_PRO_KO: ${{ vars.TG_PRO_KO || secrets.TG_PRO_KO }}
+          TG_PRO_EN: ${{ vars.TG_PRO_EN || secrets.TG_PRO_EN }}
+          PAY_TRON_ADDRESS: ${{ vars.PAY_TRON_ADDRESS || secrets.PAY_TRON_ADDRESS }}
+          ADMIN_CHAT_ID: ${{ vars.ADMIN_CHAT_ID || secrets.ADMIN_CHAT_ID }}
+          PRICE_MONTH: ${{ vars.PRICE_MONTH }}
+          PRICE_QUARTER: ${{ vars.PRICE_QUARTER }}
+          FREE_DELAY_MIN: ${{ vars.FREE_DELAY_MIN }}
         run: |
-          sed -i "s|__TG_CHANNEL_KO__|${V_KO:-__TG_CHANNEL_KO__}|; s|__TG_CHANNEL_EN__|${V_EN:-__TG_CHANNEL_EN__}|" wrangler.toml
-          cat >> wrangler.toml <<EOF
-          TG_PRO_KO = "${{ vars.TG_PRO_KO || secrets.TG_PRO_KO || '__' }}"
-          TG_PRO_EN = "${{ vars.TG_PRO_EN || secrets.TG_PRO_EN || '__' }}"
-          PAY_TRON_ADDRESS = "${{ vars.PAY_TRON_ADDRESS || secrets.PAY_TRON_ADDRESS || '__' }}"
-          ADMIN_CHAT_ID = "${{ vars.ADMIN_CHAT_ID || secrets.ADMIN_CHAT_ID || '__' }}"
-          PRICE_MONTH = "${{ vars.PRICE_MONTH || '19' }}"
-          PRICE_QUARTER = "${{ vars.PRICE_QUARTER || '49' }}"
-          FREE_DELAY_MIN = "${{ vars.FREE_DELAY_MIN || '15' }}"
-          SUPPORT = "btcbullit"
-          EOF
-          sed -i 's/^          //' wrangler.toml
-          cat wrangler.toml | grep -v PAY_TRON
+          for k in TG_CHANNEL_KO TG_CHANNEL_EN TG_PRO_KO TG_PRO_EN PAY_TRON_ADDRESS PRICE_MONTH PRICE_QUARTER FREE_DELAY_MIN; do
+            v="${!k}"; if [ -n "$v" ]; then sed -i "s|^$k = .*|$k = \"$v\"|" wrangler.toml; fi
+          done
+          if [ -n "$ADMIN_CHAT_ID" ]; then printf 'ADMIN_CHAT_ID = "%s"\n' "$ADMIN_CHAT_ID" >> wrangler.toml; fi
+          grep -v PAY_TRON wrangler.toml
 
       - name: 배포
         if: steps.cfg.outputs.skip != '1'

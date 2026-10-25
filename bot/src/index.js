@@ -2,7 +2,8 @@
 // 1분마다: 대량 청산(OKX)·김프(업비트 vs 글로벌) / 5분마다: 펀딩비(Bitget 전 종목) / 2분마다: 고래(이더리움 스테이블코인, Etherscan 키 있을 때)
 // 기준을 넘으면 텔레그램 채널(한국어·영어)로 알리고, 대시보드용 JSON API를 제공한다.
 
-import { deliver, flushOutbox, broadcastFree, checkPayments, expiries, onUpdate } from "./subs.js";
+import { deliver, flushOutbox, broadcastFree, checkPayments, expiries, onUpdate, tgApi } from "./subs.js";
+import { SCHEMA } from "./schema.js";
 
 export const RULES = {
   fundingAbs: 0.001,        // |펀딩비| ≥ 0.10% (8h 기준)
@@ -289,6 +290,45 @@ async function liqBuckets(env) {
   await addSeries(env.DB, "liq_long", m.long || 0, start); await addSeries(env.DB, "liq_short", m.short || 0, start);
 }
 
+/* ---------- self setup: 테이블 생성 · 웹훅 비밀값 · 봇 아이디/관리자 불러오기 ---------- */
+let schemaReady = false;
+const hex = async (s) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)))].map((b) => b.toString(16).padStart(2, "0")).join("");
+export async function prepare(env) {
+  if (!schemaReady) { await env.DB.batch(SCHEMA.map((q) => env.DB.prepare(q))); schemaReady = true; }
+  const [bot, admin] = await Promise.all([kvGet(env.DB, "bot:username"), kvGet(env.DB, "admin")]);
+  return { ...env, BOT_USERNAME: env.BOT_USERNAME || bot || "", ADMIN_CHAT_ID: env.ADMIN_CHAT_ID || admin || "", TG_WEBHOOK_SECRET: env.TG_WEBHOOK_SECRET || (env.TELEGRAM_BOT_TOKEN ? (await hex(env.TELEGRAM_BOT_TOKEN)).slice(0, 32) : "") };
+}
+async function setup(env, origin) {
+  const checks = [];
+  const ok = (label, pass, hint = "") => checks.push({ label, pass: !!pass, hint });
+  ok("데이터베이스 (D1)", true);
+  if (!env.TELEGRAM_BOT_TOKEN) { ok("텔레그램 봇 토큰", false, "Cloudflare → 이 워커 → Settings → Variables and Secrets 에 TELEGRAM_BOT_TOKEN 추가"); return checks; }
+  const me = await tgApi(env, "getMe", {});
+  ok("텔레그램 봇", me?.username, me?.username ? "@" + me.username : "토큰이 맞는지 확인");
+  if (me?.username) await kvSet(env.DB, "bot:username", me.username);
+  const hook = await tgApi(env, "setWebhook", { url: `${origin}/tg/${env.TG_WEBHOOK_SECRET}`, allowed_updates: ["message", "callback_query"] });
+  ok("봇 대화 연결 (웹훅)", hook);
+  await tgApi(env, "setMyCommands", { commands: [{ command: "pro", description: "프로 구독 · Go Pro" }, { command: "status", description: "이용 상태 · My plan" }, { command: "lang", description: "언어 · Language" }] });
+  for (const [k, label] of [["TG_CHANNEL_KO", "무료 채널 (한국어)"], ["TG_CHANNEL_EN", "무료 채널 (영어)"], ["TG_PRO_KO", "프로 채널 (한국어)"], ["TG_PRO_EN", "프로 채널 (영어)"]]) {
+    const ch = env[k];
+    if (!ch) { ok(label, k.startsWith("TG_PRO") ? "skip" : false, k.startsWith("TG_PRO") ? "없으면 프로 알림은 봇 대화로 보내요" : `변수 ${k} 에 @채널아이디`); continue; }
+    const m = me?.id ? await tgApi(env, "getChatMember", { chat_id: ch, user_id: me.id }) : null;
+    ok(label, m && ["administrator", "creator"].includes(m.status), m ? `${ch} · 봇 권한: ${m.status}` : `${ch} — 봇을 채널 관리자로 추가해 주세요`);
+  }
+  ok("결제 주소 (USDT TRC20)", env.PAY_TRON_ADDRESS, env.PAY_TRON_ADDRESS ? env.PAY_TRON_ADDRESS.slice(0, 6) + "…" + env.PAY_TRON_ADDRESS.slice(-4) : "변수 PAY_TRON_ADDRESS — 비워두면 무료 모드(결제 없이 모든 알림 즉시)");
+  ok("관리자", env.ADMIN_CHAT_ID, env.ADMIN_CHAT_ID ? "등록됨" : "봇에게 /claim <봇 토큰 마지막 6글자> 를 보내면 관리자로 등록돼요");
+  ok("고래 알림 (선택)", env.ETHERSCAN_API_KEY ? true : "skip", env.ETHERSCAN_API_KEY ? "" : "Secrets에 ETHERSCAN_API_KEY 추가하면 켜져요");
+  await kvSet(env.DB, "setup", { ts: now(), origin });
+  return checks;
+}
+function setupPage(checks, origin) {
+  const row = (c) => `<li class="${c.pass === "skip" ? "skip" : c.pass ? "ok" : "no"}"><b>${c.pass === "skip" ? "–" : c.pass ? "✓" : "✕"}</b><span>${esc(c.label)}</span><small>${esc(c.hint || "")}</small></li>`;
+  return new Response(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>체인브리프 시그널 · 설정 확인</title>
+<style>body{margin:0;background:#0b0b0b;color:#edebe6;font:16px/1.6 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}main{max-width:640px;margin:0 auto;padding:48px 20px}h1{font-family:Didot,"Bodoni 72",Georgia,serif;font-weight:400;letter-spacing:.3em;font-size:22px;margin:0 0 6px}p{color:#a3a09a}ul{list-style:none;padding:0;margin:28px 0;border-top:1px solid #262625}li{display:grid;grid-template-columns:28px 1fr;gap:2px 10px;padding:14px 0;border-bottom:1px solid #262625}li b{grid-row:span 2}li.ok b{color:#7ccf9a}li.no b{color:#e46b62}li.skip b{color:#7a7873}small{color:#a3a09a;font-size:13px;word-break:break-all}code{background:#1a1a19;padding:2px 6px}</style></head>
+<body><main><h1>CHAINBRIEF SIGNALS</h1><p>설정 확인 페이지예요. 값을 바꾼 뒤 이 페이지를 새로고침하면 다시 확인해요.</p><ul>${checks.map(row).join("")}</ul>
+<p>대시보드 API 주소 (체인브리프에 연결할 주소):<br><code>${esc(origin)}</code></p></main></body></html>`, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } });
+}
+
 export async function tick(env, when = new Date()) {
   const m = when.getUTCMinutes(), h = when.getUTCHours();
   const jobs = [["liq", runLiq], ["kimp", runKimp], ["outbox", flushOutbox], ["payments", checkPayments]];
@@ -339,9 +379,11 @@ async function webhook(env, req) {
 }
 
 export default {
-  async scheduled(event, env, ctx) { ctx.waitUntil(tick(env, new Date(event.scheduledTime))); },
-  async fetch(req, env) {
+  async scheduled(event, env, ctx) { ctx.waitUntil(prepare(env).then((e) => tick(e, new Date(event.scheduledTime)))); },
+  async fetch(req, rawEnv) {
     const url = new URL(req.url);
+    const env = await prepare(rawEnv);
+    if (url.pathname === "/" || url.pathname === "/setup") return setupPage(await setup(env, url.origin), url.origin);
     if (req.method === "OPTIONS") return new Response(null, { headers: { "access-control-allow-origin": "*", "access-control-allow-methods": "GET" } });
     if (req.method === "POST" && env.TG_WEBHOOK_SECRET && url.pathname === "/tg/" + env.TG_WEBHOOK_SECRET) return webhook(env, req);
     if (url.pathname.startsWith("/api/")) { try { return await api(env, url); } catch (e) { return json({ error: String(e.message || e) }, 500); } }

@@ -1,9 +1,9 @@
 // 로컬 테스트: D1을 node:sqlite로 흉내 내고, 외부 API는 가짜 응답으로 대체
 import { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
-import worker, { tick, fundingScan, liqParse, kimpCalc, kimpCross, whaleParse, whaleText, fundingText, liqText, kimpText } from "../src/index.js";
+import worker, { prepare, tick, fundingScan, liqParse, kimpCalc, kimpCross, whaleParse, whaleText, fundingText, liqText, kimpText } from "../src/index.js";
 const sql = new DatabaseSync(":memory:");
-sql.exec(fs.readFileSync(new URL("../schema.sql", import.meta.url), "utf8"));
+
 const stmt = (q) => { let args = []; const o = { bind(...a) { args = a; return o; }, async run() { sql.prepare(q).run(...args); return { success: true }; }, async all() { return { results: sql.prepare(q).all(...args) }; }, async first() { return sql.prepare(q).get(...args) ?? null; } }; return o; };
 const DB = { prepare: stmt, async batch(list) { for (const s of list) await s.run(); return []; } };
 const sent = [];
@@ -38,17 +38,18 @@ globalThis.fetch = async (url, init) => {
 const env = { DB, TELEGRAM_BOT_TOKEN: "x", TG_CHANNEL_KO: "@ko", TG_CHANNEL_EN: "@en", SITE: "https://example.com/chainbrief/", PERPLINE: "https://example.com/perpline/", ETHERSCAN_API_KEY: "k", TG_WEBHOOK_SECRET: "s3" };
 
 // 1) 첫 실행: 기준값만 저장, 알림 없어야 함 (청산·고래 제외)
-console.log("run1 errors", await tick(env, new Date(Date.UTC(2026, 9, 26, 3, 0))));
+console.log("run1 errors", await tick(await prepare(env), new Date(Date.UTC(2026, 9, 26, 3, 0))));
 console.log("run1 sent", sent.length, sent.map((m) => m.text.split("\n")[0]));
 sent.length = 0; scenario = 1;
-console.log("run2 errors", await tick(env, new Date(Date.UTC(2026, 9, 26, 3, 5))));
+console.log("run2 errors", await tick(await prepare(env), new Date(Date.UTC(2026, 9, 26, 3, 5))));
 for (const m of sent) console.log("---", m.chat_id, "\n" + m.text);
 // API
-for (const p of ["/api/latest", "/api/alerts?lang=en&limit=5", "/api/series?k=kimp_btc,funding_SOL,liq_long&h=48", "/"]) {
+for (const p of ["/api/latest", "/api/alerts?lang=en&limit=5", "/api/series?k=kimp_btc,funding_SOL,liq_long&h=48"]) {
   const r = await worker.fetch(new Request("https://w.dev" + p), env); const j = await r.json();
   console.log(p, r.status, JSON.stringify(j).slice(0, 300));
 }
-const wh = await worker.fetch(new Request("https://w.dev/tg/s3", { method: "POST", body: JSON.stringify({ message: { chat: { id: 5 }, from: { language_code: "ko" } } }) }), env);
+{ const r = await worker.fetch(new Request("https://w.dev/"), env); const h = await r.text(); console.log("setup page", r.status, (h.match(/<li class="(ok|no|skip)">/g) || []).length, "checks"); }
+const wh = await worker.fetch(new Request("https://w.dev/tg/s3", { method: "POST", body: JSON.stringify({ message: { chat: { id: 5, type: "private" }, from: { language_code: "ko" }, text: "/start" } }) }), env);
 console.log("webhook", wh.status, sent.at(-1).text.slice(0, 60));
 // 단위 체크
 console.log("cross", kimpCross(2.9, 3.1), kimpCross(3.1, 2.9), kimpCross(-0.9, -1.2));

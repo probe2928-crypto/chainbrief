@@ -210,5 +210,12 @@ export async function onUpdate(env, upd) {
     return send(env, chatId, `✅ ${args[0]} 프로 ${days}일 → ${dstr(until, "ko")}까지`);
   }
   if (c === "/id") return send(env, chatId, `chat id: <code>${chatId}</code>`);
+  if (c === "/claim") { // 관리자 등록: 봇 토큰 마지막 6글자를 아는 사람만
+    const has = await env.DB.prepare("SELECT v FROM kv WHERE k = 'admin'").first();
+    if (has) return send(env, chatId, String(JSON.parse(has.v)) === String(chatId) ? "이미 관리자로 등록돼 있어요." : "관리자가 이미 등록돼 있어요.");
+    if (!env.TELEGRAM_BOT_TOKEN || args[0] !== env.TELEGRAM_BOT_TOKEN.slice(-6)) return send(env, chatId, "코드가 맞지 않아요.");
+    await env.DB.prepare("INSERT INTO kv (k, v, ts) VALUES ('admin', ?, ?)").bind(JSON.stringify(String(chatId)), now()).run();
+    return send(env, chatId, "✅ 관리자로 등록됐어요. 결제가 들어오면 여기로 알려드려요. /stats 로 현황을 볼 수 있어요.");
+  }
   return send(env, chatId, startText(env, L));
 }

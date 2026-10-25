@@ -9,10 +9,16 @@ crons = ["* * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "chainbrief-signals"
-database_id = "__D1_ID__"
 
 [vars]
+TG_CHANNEL_KO = ""
+TG_CHANNEL_EN = ""
+TG_PRO_KO = ""
+TG_PRO_EN = ""
+PAY_TRON_ADDRESS = ""
+PRICE_MONTH = "19"
+PRICE_QUARTER = "49"
+FREE_DELAY_MIN = "15"
 SITE = "https://probe2928-crypto.github.io/chainbrief/"
 PERPLINE = "https://probe2928-crypto.github.io/perpline/"
-TG_CHANNEL_KO = "__TG_CHANNEL_KO__"
-TG_CHANNEL_EN = "__TG_CHANNEL_EN__"
+SUPPORT = "btcbullit"
