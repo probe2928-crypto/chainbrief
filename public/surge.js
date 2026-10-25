@@ -148,8 +148,11 @@
   const filt = (list) => list.filter((x) => x.vol >= S.minVol && (!S.q || (x.name + x.sym).toLowerCase().includes(S.q)));
 
   function render() {
-    const ex = S.ex, map = S.tick[ex];
-    $("#surgeStatus").textContent = map ? `${EX[ex].name} · ${clock(S.at[ex])} 갱신 · 20초마다` : S.err[ex] ? `${EX[ex].name} 연결 지연 — 자동 재시도 중` : "불러오는 중…";
+    const other = S.ex === "upbit" ? "bithumb" : "upbit";
+    // 고른 거래소가 막혔고 다른 쪽이 살아 있으면 그쪽 기준으로 보여준다
+    const fallback = !S.tick[S.ex] && S.err[S.ex] && S.tick[other];
+    const ex = fallback ? other : S.ex, map = S.tick[ex];
+    $("#surgeStatus").textContent = fallback ? `${EX[S.ex].name} 연결 지연 — ${EX[ex].name} 기준으로 표시 중` : map ? `${EX[ex].name} · ${clock()} 갱신 · 20초마다` : S.err[ex] ? `${EX[ex].name} 연결 지연 — 자동 재시도 중` : "불러오는 중…";
     const fail = S.err[ex] && !map;
     const failMsg = `${EX[ex].name} 시세를 지금 불러오지 못했어요 (요청 제한 또는 일시 장애). 자동으로 다시 시도해요${S.tick[ex === "upbit" ? "bithumb" : "upbit"] ? " — 위에서 다른 거래소로 바꿔 보세요." : "."}`;
     const ids = ["rkUp", "rkDown", "rkVol", "rkShort", "rkSpike", "rkHigh"];
@@ -179,7 +182,9 @@
     renderSummary(); renderGap();
   }
   function renderSummary() {
-    const map = S.tick[S.ex], box = $("#surgeSummary");
+    const other = S.ex === "upbit" ? "bithumb" : "upbit";
+    const exS = !S.tick[S.ex] && S.err[S.ex] && S.tick[other] ? other : S.ex;
+    const map = S.tick[exS], box = $("#surgeSummary");
     if (!map) { box.innerHTML = ["상승 · 하락", "평균 등락률", "24시간 거래대금", "오늘의 최고 상승"].map((l) => `<div><small>${l}</small><strong>—</strong></div>`).join(""); return; }
     const all = Object.values(map), n = all.length;
     const up = all.filter((x) => x.chg > 0).length, dn = all.filter((x) => x.chg < 0).length;
@@ -188,7 +193,7 @@
     box.innerHTML = `
       <div><small>상승 · 하락</small><strong><span class="up">${up}</span> · <span class="down">${dn}</span></strong><span class="breadth"><i style="width:${(up / n * 100).toFixed(1)}%"></i></span></div>
       <div><small>평균 등락률</small><strong class="${dir(avg)}">${pct(avg)}</strong><span class="sub">${n}개 코인</span></div>
-      <div><small>24시간 거래대금</small><strong>${eok(tot)}원</strong><span class="sub">${EX[S.ex].name} 원화마켓</span></div>
+      <div><small>24시간 거래대금</small><strong>${eok(tot)}원</strong><span class="sub">${EX[exS].name} 원화마켓</span></div>
       <div><small>오늘의 최고 상승</small><strong>${top ? `${esc(top.sym)} <span class="up">${pct(top.chg)}</span>` : "—"}</strong><span class="sub">${top ? esc(top.name) : ""}</span></div>`;
   }
   function renderGap() {
@@ -223,13 +228,15 @@
     if (!visible()) return;
     const other = S.ex === "upbit" ? "bithumb" : "upbit";
     await loadTick(S.ex); render();
-    if (!S.tick[other] || Date.now() - (S.at[other] || 0) > 60e3) { await loadTick(other); renderGap(); }
+    if (!S.tick[other] || Date.now() - (S.at[other] || 0) > 60e3) { await loadTick(other); render(); }
   }
   let shortBusy = false;
   async function shortCycle() {
-    if (!visible() || shortBusy || !S.tick[S.ex]) return;
+    const other = S.ex === "upbit" ? "bithumb" : "upbit";
+    const ex = S.tick[S.ex] ? S.ex : S.tick[other] ? other : null;
+    if (!visible() || shortBusy || !ex) return;
     shortBusy = true;
-    try { await shortTerm(S.ex); render(); } finally { shortBusy = false; }
+    try { await shortTerm(ex); render(); } finally { shortBusy = false; }
   }
 
   // 컨트롤

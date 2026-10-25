@@ -91,13 +91,6 @@
       "lang": "ko"
     }
   ],
-  "partner": {
-    "label": "파트너 거래소",
-    "title": "선물 수수료 할인 레퍼럴",
-    "text": "제휴 거래소 가입 시 거래 수수료 할인 혜택을 받을 수 있어요.",
-    "button": "혜택 보기",
-    "url": ""
-  },
   "telegram": "btcbullit",
   "footer": {
     "company": "",
@@ -195,6 +188,28 @@
         "심층취재",
         "칼럼"
       ]
+    }
+  ],
+  "ads": [
+    {
+      "id": "blockkey",
+      "wordmark": "BLOCKKEY",
+      "eyebrow": "Partner",
+      "title": "AI 마케팅 · AI 개발 · 블록체인 연동",
+      "text": "진단부터 구축, 운영까지 한 팀이 맡는 기술 파트너. 블록체인 프로젝트의 마케팅과 개발을 함께 설계해요.",
+      "cta": "BLOCKKEY 알아보기",
+      "url": "https://probe2928-crypto.github.io/blockkey/",
+      "note": ""
+    },
+    {
+      "id": "perpline",
+      "wordmark": "PERPLINE",
+      "eyebrow": "Partner",
+      "title": "Your trading fees, returned.",
+      "text": "해외 선물거래소 11곳의 수수료를 비교하고, 거래 수수료의 30~50%를 매주 USDT로 돌려받는 레퍼럴 서비스.",
+      "cta": "Perpline 보기",
+      "url": "https://probe2928-crypto.github.io/perpline/",
+      "note": "해외 거주자 대상 서비스예요. 한국·미국 거주자는 이용할 수 없어요."
     }
   ]
 }

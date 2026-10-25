@@ -118,6 +118,7 @@ ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </header>
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${body}
+${adBand}
 <footer class="site-footer"><div class="wrap">
   <div class="wm">${esc(cfg.nameEn)}</div>
   <div class="cols">
@@ -206,12 +207,18 @@ const sentiment = `<section class="block">
     <div><small>BTC 도미넌스</small><strong class="num" id="btcDom">—</strong></div>
   </div>
 </section>`;
-const partner = cfg.partner?.url ? `<section class="block slot">
-  <span class="label">${esc(cfg.partner.label)}</span>
-  <strong>${esc(cfg.partner.title)}</strong>
-  <span>${esc(cfg.partner.text)}</span>
-  <a class="btn" href="${esc(cfg.partner.url)}" target="_blank" rel="noopener sponsored">${esc(cfg.partner.button)}</a>
-</section>` : "";
+const ADS = cfg.ads || [];
+const adCard = (ad, cls = "") => `<a class="ad ${cls}" data-ad="${esc(ad.id)}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored">
+  <span class="ad-eye"><span>${esc(ad.eyebrow || "Partner")}</span><span>AD</span></span>
+  <span class="ad-wm">${esc(ad.wordmark)}</span>
+  <span class="ad-t">${esc(ad.title)}</span>
+  <span class="ad-x">${esc(ad.text)}</span>
+  <span class="ad-cta">${esc(ad.cta)} <span aria-hidden="true">→</span></span>
+  ${ad.note ? `<span class="ad-n">${esc(ad.note)}</span>` : ""}
+</a>`;
+const adBand = ADS.length ? `<section class="adband" aria-label="제휴 광고"><div class="wrap"><div class="adband-head"><span class="label">Partners</span><span class="label">체인브리프와 함께하는 곳</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
+const adInline = (i = 0) => ADS.length ? `<aside class="ad-inline"><span class="label">Sponsored</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : "";
+const partner = "";
 const recentListings = lsItems.filter((i) => i.type === "listing").slice(0, 5);
 const listingRail = `<section class="block">
   <div class="block-head"><h2>최근 상장</h2><span class="label">Upbit · Bithumb</span></div>
@@ -374,6 +381,7 @@ articles.forEach((a, i) => {
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><time class="byline">${fullDate(a.date)}</time></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
+      ${adInline(i)}
     </article>
     ${more.length ? `<section>${secHead("More", "다른 기사", "", "h2")}<div class="arts">${more.map(card).join("")}</div></section>` : ""}
     </div>${rail()}</main></div>`,
