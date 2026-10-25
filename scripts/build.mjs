@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown } from "./lib.mjs";
+import { markdown, cjkify } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -43,7 +43,7 @@ const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`
 function write(rel, content) {
   const f = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(f), { recursive: true });
-  fs.writeFileSync(f, content);
+  fs.writeFileSync(f, rel.endsWith(".html") ? cjkify(content) : content);
 }
 function readDir(dir) {
   const d = path.join(ROOT, dir);
@@ -106,7 +106,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 <link rel="apple-touch-icon" href="${u("icons/apple-touch-icon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)}" href="${u("rss.xml")}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="${u("style.css")}?v=${BUILD_ID}">
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
@@ -114,18 +114,18 @@ ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 <div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top" aria-label="주 메뉴">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
+  <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
 </header>
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
 ${body}
 ${adBand}
 <footer class="site-footer"><div class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
-  <div class="wm">${esc(cfg.nameEn)}</div>
-  <div class="cols">
-    ${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}
-    ${TG ? `<a href="${TG}" target="_blank" rel="noopener">텔레그램 @${esc(cfg.telegram)}</a>` : ""}
-    <a href="${u("rss.xml")}">RSS</a>
+  <div class="ft-top">
+    <div class="ft-brand"><a class="wm" href="${u()}">${esc(cfg.nameEn)}</a><p>${esc(cfg.tagline || "")}</p></div>
+    <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
+    <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a></div>
   </div>
   <div class="cols">
     ${cfg.footer.company ? `<span>${esc(cfg.footer.company)}</span>` : ""}
@@ -133,9 +133,10 @@ ${adBand}
     ${cfg.footer.publisher ? `<span>발행·편집인 ${esc(cfg.footer.publisher)}</span>` : ""}
     ${cfg.footer.email ? `<span>${esc(cfg.footer.email)}</span>` : ""}
   </div>
-  <p>${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 CoinGecko·업비트·빗썸, 공포·탐욕 지수 Alternative.me.</p>
+  <p class="ft-legal">${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 CoinGecko·업비트·빗썸, 공포·탐욕 지수 Alternative.me.</p>
+  <div class="ft-base"><span>© ${NOW.getFullYear()} ${esc(cfg.nameEn)}</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
-${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener">${TG_SVG}문의</a>` : ""}
+${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
 <script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>

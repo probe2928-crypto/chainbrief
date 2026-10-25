@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown } from "./lib.mjs";
+import { markdown, cjkify } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -43,7 +43,7 @@ const readJSON = (p, d) => { try { return JSON.parse(fs.readFileSync(path.join(R
 function write(rel, content) {
   const f = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(f), { recursive: true });
-  fs.writeFileSync(f, content);
+  fs.writeFileSync(f, rel.endsWith(".html") ? cjkify(content) : content);
 }
 
 const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] });
@@ -214,18 +214,23 @@ ${SITE_URL ? `<meta property="og:image" content="${SITE_URL}${asset("og.png")}">
 <div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(L.name)} ${esc(L.homeLabel)}">CHAINBRIEF</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top">${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
+  <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
 </header>
 <div class="tape"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
 ${body}
 ${adBand}
 <footer class="site-footer"><div class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
-  <div class="wm">CHAINBRIEF</div>
-  <div class="cols">${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a></div>
-  <p>${esc(L.disclaimer)}</p>
+  <div class="ft-top">
+    <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
+    <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
+    <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a></div>
+  </div>
+  <p class="ft-legal">${esc(L.disclaimer)}</p>
+  <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
-${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener">${TG_SVG}${L.code === "zh" ? "联系" : "Contact"}</a>` : ""}
+${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
 <script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>

@@ -81,3 +81,10 @@ export function parseFeed(xml = "") {
     return { title: decodeEntities(tag(b, ["title"])), link, date: new Date(tag(b, ["pubDate", "published", "updated", "dc:date"])) };
   });
 }
+
+// 한글·한자가 들어간 라벨에는 cjk 클래스를 붙여 자간을 좁힌다 (영문 대문자 라벨용 넓은 자간이 한글을 띄엄띄엄 만들지 않게)
+const CJK = /[ᄀ-ᇿ㄰-㆏가-힯぀-ヿ㐀-鿿]/;
+export function cjkify(html) {
+  return html.replace(/<([a-z][a-z0-9]*)([^>]*?)\sclass="([^"]*)"([^>]*)>([^<]*)/gi, (m, tag, pre, cls, post, text) =>
+    CJK.test(text) && !/\bcjk\b/.test(cls) ? `<${tag}${pre} class="${cls} cjk"${post}>${text}` : m);
+}

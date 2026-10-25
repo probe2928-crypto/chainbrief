@@ -36,6 +36,12 @@
   const clock = $("#clock");
   if (clock) setInterval(() => (clock.textContent = kst()), 15000);
 
+  /* 스크롤하면 메뉴줄만 남고 작은 워드마크가 나타남 */
+  const brand = $(".site-header .brand");
+  if (brand && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => document.body.classList.toggle("stuck", !e.isIntersecting), { threshold: 0, rootMargin: "-4px 0px 0px 0px" }).observe(brand);
+  }
+
   /* 포맷 */
   const usd = (p) => p == null ? "—" : p >= 1000 ? p.toLocaleString("en-US", { maximumFractionDigits: 0 }) : p >= 1 ? p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : p.toPrecision(4);
   const krw = (p) => p == null || isNaN(p) ? "—" : p >= 100 ? Math.round(p).toLocaleString("ko-KR") : (+p).toLocaleString("ko-KR", { maximumFractionDigits: p >= 1 ? 2 : 4 });

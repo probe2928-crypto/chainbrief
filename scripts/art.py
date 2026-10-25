@@ -52,27 +52,40 @@ def save(name, img):
     print("saved", name)
 
 
-# 1. gold silk — 접힌 실크 표면 + 측광
-n1 = noise(220, 1)
-h = np.sin((U * 5.5 + V * 1.6) * np.pi + n1 * 5) + 0.45 * np.sin((U * 11 - V * 3) * np.pi + n1 * 3)
-h = gaussian_filter(h, 10)
+# 1. gold silk — 길게 흐르는 실크 주름 + 스펙큘러 하이라이트
+w1 = (noise(300, 1) - 0.5) * 2
+w2 = (noise(180, 2) - 0.5) * 2
+t = U * 1.0 + V * 0.55 + w1 * 0.10
+h = np.sin(t * 6.0 * np.pi + w2 * 1.4) * 0.6 + np.sin(t * 2.6 * np.pi + w1 * 1.8) * 0.4
+h = gaussian_filter(h, 6)
 gy, gx = np.gradient(h)
-lam = (gx * -0.75 + gy * -0.45) * 160
-shade = 1 / (1 + np.exp(-lam * 3))
-img = grade(shade * 0.9 + noise(260, 3) * 0.1, [(0, (12, 9, 6)), (0.35, (54, 38, 18)), (0.7, (150, 112, 54)), (0.92, (226, 192, 128)), (1, (246, 226, 180))])
-img = img * (0.55 + 0.45 * np.clip(1.2 - U * 0.9, 0, 1))[..., None]
-save("gold-silk", grain(vignette(img, 0.55), 6, 11))
+nx, ny = -gx * 70, -gy * 70
+nz = np.ones_like(nx)
+nl = np.sqrt(nx ** 2 + ny ** 2 + nz ** 2)
+nx, ny, nz = nx / nl, ny / nl, nz / nl
+L = np.array([-0.55, -0.45, 0.70]); L = L / np.linalg.norm(L)
+diff = np.clip(nx * L[0] + ny * L[1] + nz * L[2], 0, 1)
+Hh = L + np.array([0, 0, 1.0]); Hh = Hh / np.linalg.norm(Hh)
+spec = np.clip(nx * Hh[0] + ny * Hh[1] + nz * Hh[2], 0, 1) ** 60
+tone = diff ** 1.6 * 0.82 + spec * 0.55
+tone = tone * (0.45 + 0.55 * np.clip(1.15 - U * 0.8 - V * 0.2, 0, 1))
+img = grade(tone, [(0, (18, 13, 8)), (0.25, (58, 42, 22)), (0.55, (128, 96, 50)), (0.8, (212, 178, 118)), (1, (250, 236, 204))])
+save("gold-silk", grain(vignette(img, 0.5), 5, 11))
 
-# 2. smoke — 어둠 속 흐르는 연기
-base = noise(110, 4)
-ax, ay = (noise(160, 5) - 0.5) * 2, (noise(160, 6) - 0.5) * 2
-f = warp(base, ax, ay, 420)
-f2 = warp(noise(50, 7), ax, ay, 300)
-wisp = np.clip((f * 0.75 + f2 * 0.35) - 0.42, 0, 1) * 2.2
-wisp = gaussian_filter(wisp, 3) * np.clip(U * 1.4, 0, 1)
-img = grade(V * 0.3 + 0.1, [(0, (12, 12, 14)), (1, (20, 20, 24))])
-img += (wisp ** 1.6 * 150)[..., None] * np.array([0.92, 0.9, 0.95])
-save("smoke", grain(vignette(img, 0.5), 7, 12))
+# 2. smoke — 은빛 연기 필라멘트 (ridged noise + domain warp)
+ax, ay = (noise(220, 5) - 0.5) * 2, (noise(220, 6) - 0.5) * 2
+acc = np.zeros((H, W), np.float32)
+for k, (sc, amp, sd) in enumerate([(90, 1.0, 41), (45, 0.55, 42), (22, 0.3, 43)]):
+    n = warp(noise(sc, sd), ax, ay, 520 - k * 120)
+    ridge = 1 - np.abs(n * 2 - 1)
+    acc += ridge ** 7 * amp
+acc = gaussian_filter(acc, 1.2)
+mask = np.clip((U - 0.18) * 1.6, 0, 1) * np.clip(1.25 - np.abs(V - 0.5) * 1.6, 0, 1)
+fil = np.clip(acc * mask, 0, 1.4)
+img = grade(V * 0.4 + noise(300, 44) * 0.2, [(0, (7, 7, 9)), (1, (16, 16, 20))])
+img += (fil ** 1.2 * 175)[..., None] * np.array([0.9, 0.92, 1.0])
+img += gaussian_filter(fil, 18)[..., None] * 40 * np.array([0.7, 0.75, 0.9])
+save("smoke", grain(vignette(img, 0.5), 6, 12))
 
 # 3. blue hour — 깊은 남색 위 사선 빛줄기와 보케
 img = grade(V * 0.7 + noise(300, 8) * 0.3, [(0, (14, 20, 46)), (0.6, (22, 30, 70)), (1, (10, 12, 26))])
@@ -94,14 +107,19 @@ for (y0, y1, col) in [(0.06, 0.52, (150, 72, 64)), (0.58, 0.92, (86, 38, 44))]:
     img = img * (1 - m[..., None]) + np.array(col) * m[..., None]
 save("rose-dusk", grain(vignette(img, 0.35), 8, 14))
 
-# 5. sage bands — 아그네스 마틴풍 가로 띠
-img = grade(noise(400, 10) * 0.4 + 0.3, [(0, (34, 40, 30)), (1, (58, 66, 48))])
-for k in range(14):
-    y = 0.08 + k * 0.064
-    wob = (noise(30, 20 + k) - 0.5) * 0.004
-    line = np.exp(-(((V - y - wob) * H) / 1.1) ** 2)
-    img += (line * 70)[..., None] * np.array([0.93, 0.95, 0.85])
-save("sage-bands", grain(vignette(img, 0.4), 6, 15))
+# 5. sage dunes — 안개 낀 세이지 빛 능선 (먼 능선일수록 밝고 흐리게)
+img = grade(V, [(0, (214, 220, 204)), (0.45, (178, 188, 162)), (1, (150, 160, 134))])
+for k in range(7):
+    y0 = 0.26 + k * 0.11
+    ridge = y0 + (0.05 + k * 0.008) * np.sin(U * (1.6 + k * 0.3) * np.pi + k * 1.9) + (noise(300, 60 + k) - 0.5) * 0.06
+    below = np.clip((V - ridge) * 140, 0, 1)
+    f = k / 6
+    col = np.array([186, 196, 170]) * (1 - f) + np.array([34, 42, 30]) * f
+    haze = np.exp(-np.clip(V - ridge, 0, 1) * 6)
+    layer = col[None, None, :] * (0.86 + 0.14 * haze[..., None]) + haze[..., None] * 18 * (1 - f)
+    img = img * (1 - below[..., None]) + layer * below[..., None]
+img = gaussian_filter(img, (1.0, 1.0, 0))
+save("sage-bands", grain(vignette(img, 0.38), 6, 15))
 
 # 6. prism — 검은 바탕의 가는 분광선
 img = np.zeros((H, W, 3), np.float32) + 6
