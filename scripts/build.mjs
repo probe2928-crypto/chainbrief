@@ -251,7 +251,7 @@ function pickArt(used, want) {
   const a = order.find((x) => !used.has(x)) || order[0];
   used.add(a); return a;
 }
-const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}"><img src="${u(`art/${name}.jpg`)}" alt="" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
+const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}"><img src="${u(`art/${name}.jpg`)}" alt="" ${eager ? 'fetchpriority="high"' : 'fetchpriority="low"'} decoding="async"></picture>`;
 function hero(slides, size = "lg", label = "주요 소식") {
   if (!slides.length) return "";
   const used = new Set();

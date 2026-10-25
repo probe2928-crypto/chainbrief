@@ -518,3 +518,7 @@ nav.top a[aria-current="page"]{border-bottom:1px solid var(--hue)}
 .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,var(--paper) 0%,transparent 60%)}
 @keyframes coverDrift{from{transform:scale(1.15) translate3d(-3%,0,0)}to{transform:scale(1.05) translate3d(3%,-2%,0)}}
 @media (prefers-reduced-motion:reduce){.cover img{animation:none}}
+
+/* 한국어 줄바꿈: 단어 단위 */
+body{word-break:keep-all;overflow-wrap:break-word}
+.slide-t,.doc h1,.lead-art h2,.art h3,.item h3,.sec h1,.sec h2,.cf-title{word-break:keep-all}
