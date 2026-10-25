@@ -331,3 +331,71 @@ main.wide-single{max-width:1080px}
 .ad.wide{padding:26px 28px}
 .ad.wide .ad-wm{font-size:26px;margin:4px 0}
 @media (prefers-reduced-motion:reduce){.ad{transition:none}}
+
+/* ---------- color field — contemporary accents (same in light & dark) ---------- */
+:root{
+  --klein:#1E36D4; --butter:#F2D36A; --coral:#F08B74; --lavender:#B9AAEC; --olive:#56622D;
+  --on-dark:#F6F4EF; --on-light:#0A0A0A;
+}
+body[data-hue="klein"]{--hue:var(--klein)} body[data-hue="butter"]{--hue:var(--butter)} body[data-hue="coral"]{--hue:var(--coral)}
+body[data-hue="lavender"]{--hue:var(--lavender)} body[data-hue="olive"]{--hue:var(--olive)}
+
+/* page hue: section marks, active nav, day tab */
+.sec .label::before,.grp .label::before{content:"";display:inline-block;width:8px;height:8px;background:var(--hue);margin-right:10px;vertical-align:0}
+nav.top a[aria-current="page"]{border-bottom:2px solid var(--hue)}
+.block{border-top-color:var(--ink)}
+.daytab[aria-pressed="true"]{background:var(--hue);color:var(--on-light);border-bottom-color:var(--hue)}
+.daytab[aria-pressed="true"] b{color:var(--on-light)}
+body[data-hue="klein"] .daytab[aria-pressed="true"],body[data-hue="olive"] .daytab[aria-pressed="true"]{color:var(--on-dark)}
+body[data-hue="klein"] .daytab[aria-pressed="true"] b,body[data-hue="olive"] .daytab[aria-pressed="true"] b{color:var(--on-dark)}
+
+/* home color field */
+.cfield{border-bottom:1px solid var(--line)}
+.cf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.6fr);padding-left:0!important;padding-right:0!important;max-width:none}
+.cf{display:grid;align-content:space-between;gap:6px;min-height:168px;padding:22px 24px 20px;min-width:0;transition:filter .3s}
+.cf:hover{filter:brightness(1.06) saturate(1.05)}
+.cf-l{font-family:var(--f-label);font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.8}
+.cf-big{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,3.4vw,44px);line-height:1;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cf-s{font-size:12px;opacity:.85}
+.cf .up,.cf .down{color:inherit}
+.cf-title{font-family:var(--f-serif);font-weight:700;font-size:clamp(18px,1.7vw,22px);line-height:1.4;letter-spacing:-.015em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cf-art .cf-s{font-family:var(--f-label);letter-spacing:.2em;text-transform:uppercase;font-size:10px}
+.cf-klein{background:var(--klein);color:var(--on-dark)}
+.cf-butter{background:var(--butter);color:var(--on-light)}
+.cf-coral{background:var(--coral);color:var(--on-light)}
+.cf-lavender{background:var(--lavender);color:var(--on-light)}
+.cf-olive{background:var(--olive);color:var(--on-dark)}
+@media (max-width:959px){
+  .cf-grid{grid-template-columns:1fr 1fr}
+  .cf{min-height:128px;padding:18px 18px 16px;padding-left:max(18px,env(safe-area-inset-left,0px))}
+  .cf-art{grid-column:1/-1;min-height:0}
+  .cf-big{font-size:32px}
+}
+
+/* news lead in color */
+.lead-art{background:var(--butter);color:var(--on-light);padding:34px 36px;margin-top:24px;border-bottom:0}
+.lead-art p,.lead-art .byline,.lead-art .tag{color:var(--on-light);opacity:.78}
+.lead-art .byline b{color:var(--on-light)}
+.lead-art .tag.fmt{border-color:rgba(10,10,10,.35)}
+@media (max-width:600px){.lead-art{padding:24px 20px}}
+
+/* partner band in Klein blue */
+.adband{background:var(--klein);border-top:0}
+.adband .label{color:var(--on-dark);opacity:.85}
+.adband .ad{background:var(--on-dark);color:var(--on-light);border-color:var(--on-dark)}
+.adband .ad .ad-x,.adband .ad .ad-eye{color:#55534E}
+.adband .ad .ad-n{color:#77756F}
+.adband .ad:hover{background:var(--on-light);color:var(--on-dark);border-color:var(--on-light)}
+.adband .ad:hover .ad-x,.adband .ad:hover .ad-eye,.adband .ad:hover .ad-n{color:var(--on-dark)}
+.ad-inline .ad{border-color:var(--hue);border-width:1px 1px 1px 6px}
+
+/* footer color bar (segmented, Kelly-style) */
+.site-footer{border-top:0}
+.cbar{display:grid;grid-template-columns:3fr 1fr 2fr 1fr 2fr;height:8px}
+.cbar i:nth-child(1){background:var(--klein)} .cbar i:nth-child(2){background:var(--butter)} .cbar i:nth-child(3){background:var(--coral)} .cbar i:nth-child(4){background:var(--lavender)} .cbar i:nth-child(5){background:var(--olive)}
+
+/* surge & contact touches */
+.summary>div:first-child strong{font-size:28px}
+.grp .label{display:inline-flex;align-items:center}
+.contact .handle{background:var(--klein);color:var(--on-dark);padding:26px 28px 22px;display:inline-block}
+.tg-float{background:var(--klein);color:var(--on-dark)}

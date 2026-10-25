@@ -171,8 +171,8 @@
     const shRows = Object.entries(sh).map(([sym, v]) => ({ ...map[sym], ...v })).filter((x) => x.sym && x.vol >= S.minVol && (!S.q || (x.name + x.sym).toLowerCase().includes(S.q)));
     const s5 = [...shRows].sort((a, b) => b.chg5 - a.chg5).filter((x) => x.chg5 > 0).slice(0, 10), mx5 = Math.max(0.5, ...s5.map((x) => x.chg5));
     $("#rkShort").innerHTML = shRows.length ? (s5.map((x) => row(ex, x, `<span class="up">${pct(x.chg5)}</span>`, `24H ${pct(x.chg)}`, (x.chg5 / mx5) * 100)).join("") || empty("최근 5분 동안 오른 코인이 없어요")) : empty("1분봉을 모으는 중…");
-    const sp = [...shRows].filter((x) => x.val5 > 5e7).sort((a, b) => b.mult - a.mult).slice(0, 10), mxM = Math.max(1, ...sp.map((x) => x.mult));
-    $("#rkSpike").innerHTML = shRows.length ? (sp.map((x) => row(ex, x, `${x.mult.toFixed(1)}배`, `5분 ${eok(x.val5)}원 · <span class="${dir(x.chg5)}">${pct(x.chg5)}</span>`, (x.mult / mxM) * 100, x.mult >= 3 ? '<em class="flag">급증</em>' : "")).join("") || empty("평소보다 거래가 몰린 코인이 없어요")) : empty("1분봉을 모으는 중…");
+    const sp = [...shRows].filter((x) => x.val5 > 5e7 && x.mult >= 1.5).sort((a, b) => b.mult - a.mult).slice(0, 10), mxM = Math.max(1, ...sp.map((x) => x.mult));
+    $("#rkSpike").innerHTML = shRows.length ? (sp.map((x) => row(ex, x, `${x.mult.toFixed(1)}배`, `5분 ${eok(x.val5)}원 · <span class="${dir(x.chg5)}">${pct(x.chg5)}</span>`, (x.mult / mxM) * 100, x.mult >= 3 ? '<em class="flag">급증</em>' : "")).join("") || empty("지금은 평소보다 1.5배 넘게 거래가 몰린 코인이 없어요")) : empty("1분봉을 모으는 중…");
 
     // 52주 신고가 근접
     const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" }).format(new Date());

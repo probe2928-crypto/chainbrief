@@ -59,6 +59,7 @@
     }
     const btc = data.bitcoin, kb = $("#kimpBtc");
     if (kb && btc && btc.kimp != null) { kb.textContent = pct(btc.kimp); kb.className = "num " + dir(btc.kimp); }
+    if (btc && btc.kimp != null) $$("[data-kimp]").forEach((el) => (el.textContent = pct(btc.kimp)));
   }
   async function loadPrices() {
     const upd = $("#mktUpdated");
@@ -82,10 +83,13 @@
   /* 공포·탐욕, 도미넌스 */
   const FNG = { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" };
   async function loadSentiment() {
-    if (!$("#fngVal")) return;
+    if (!$("#fngVal") && !$("[data-fng]")) return;
     try {
       const [now, prev] = (await getJSON("https://api.alternative.me/fng/?limit=2")).data;
       const v = +now.value;
+      $$("[data-fng]").forEach((el) => (el.textContent = v));
+      $$("[data-fng-lbl]").forEach((el) => (el.textContent = (FNG[now.value_classification] || now.value_classification) + (prev ? ` · 어제 ${prev.value}` : "")));
+      if (!$("#fngVal")) return;
       $("#fngVal").textContent = v;
       const lbl = $("#fngLbl"); lbl.textContent = FNG[now.value_classification] || now.value_classification;
       lbl.className = "lbl " + (v < 45 ? "down" : v > 55 ? "up" : "");

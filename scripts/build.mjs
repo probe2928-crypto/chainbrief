@@ -110,7 +110,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 <link rel="stylesheet" href="${u("style.css")}?v=${BUILD_ID}">
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
-<body>
+<body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
 <div class="topline"><div class="wrap"><span>${esc(dayLabel(NOW))}</span><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></div></div>
 <header class="site-header">
   <div class="wrap brand"><a href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a><button class="install desk-only" id="installBtn" type="button" hidden>App</button></div>
@@ -119,7 +119,7 @@ ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${body}
 ${adBand}
-<footer class="site-footer"><div class="wrap">
+<footer class="site-footer"><div class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
   <div class="wm">${esc(cfg.nameEn)}</div>
   <div class="cols">
     ${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}
@@ -237,11 +237,22 @@ const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${ext
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.cpSync(path.join(ROOT, "public"), OUT, { recursive: true });
 
+// 홈 상단 컬러 필드: 시장 숫자 4칸 + 오늘의 기사
+const wk = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
+const topArt = articles.find((a) => a.format) || articles[0];
+const colorField = `<section class="cfield" aria-label="오늘의 시장"><div class="wrap cf-grid">
+  <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
+  <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s">업비트 BTC 기준</span></a>
+  <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">시장 심리</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
+  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">최근 7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">업비트 ${wk.filter((i) => i.exchange === "upbit").length} · 빗썸 ${wk.filter((i) => i.exchange === "bithumb").length}</span></a>
+  ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(topArt.format || "오늘의 기사")} · ${esc(topArt.author || "편집국")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">읽기 →</span></a>` : ""}
+</div></section>`;
+
 // 홈: 라이브 속보
 const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
-  body: `<div class="wrap"><main class="grid">
+  body: `${colorField}<div class="wrap"><main class="grid">
   <div class="col"><section>
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
