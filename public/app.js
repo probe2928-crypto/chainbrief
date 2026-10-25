@@ -31,7 +31,20 @@
 
   /* 시세 */
   const ids = CB.coins.map((c) => c.id).join(",");
-  const markets = CB.coins.map((c) => "KRW-" + c.symbol).join(",");
+  // 업비트에 없는 코인이 하나라도 섞이면 요청 전체가 404가 나서, 상장 목록으로 먼저 거른다
+  let markets = null;
+  async function upbitMarkets() {
+    if (markets !== null) return markets;
+    const cached = store.get("cb-upbit-markets");
+    if (cached && Date.now() - cached.t < 864e5) return (markets = cached.m);
+    try {
+      const all = await getJSON("https://api.upbit.com/v1/market/all");
+      const listed = new Set(all.map((m) => m.market));
+      markets = CB.coins.map((c) => "KRW-" + c.symbol).filter((m) => listed.has(m)).join(",");
+      store.set("cb-upbit-markets", { t: Date.now(), m: markets });
+    } catch { markets = ""; }
+    return markets;
+  }
   let last = store.get("cb-prices") || {};
 
   function paint(data) {
@@ -66,7 +79,8 @@
       const g = await getJSON(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd,krw&include_24hr_change=true&include_24hr_vol=true`);
       let up = {};
       try {
-        const u = await getJSON(`https://api.upbit.com/v1/ticker?markets=${markets}`);
+        const mk = await upbitMarkets();
+        const u = mk ? await getJSON(`https://api.upbit.com/v1/ticker?markets=${mk}`) : [];
         for (const t of u) up[t.market.replace("KRW-", "")] = t.trade_price;
       } catch { /* 업비트 실패 시 김프만 비움 */ }
       const data = {};
