@@ -11,10 +11,15 @@
     "@capacitor/core": "^7.0.0",
     "@capacitor/ios": "^7.0.0",
     "@capacitor/splash-screen": "^7.0.0",
-    "@capacitor/status-bar": "^7.0.0"
+    "@capacitor/status-bar": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/browser": "^7.0.0",
+    "@capacitor/haptics": "^7.0.0",
+    "@capacitor/share": "^7.0.0"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.0.0"
-  }
+  },
+  "version": "1.1.0"
 }

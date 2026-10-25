@@ -1,20 +1,21 @@
 # 체인브리프 앱 (iOS · 안드로이드)
 
-Capacitor로 사이트를 감싼 네이티브 앱이에요. 앱은 항상 최신 사이트를 불러와서, 사이트를 고치면 앱도 바로 바뀌어요 (스토어 재심사 불필요).
+Capacitor 네이티브 앱. 화면은 `www/`에 들어 있고(사이트를 감싼 웹뷰가 아님), 내용은 사이트가 빌드할 때 만드는 JSON 피드에서 받아와요.
+- 피드: `api/<ko|en|zh>/feed.json` (속보·기사 목록), `api/<lang>/a/<id>.json` (기사 본문), `api/config.json` (코인·광고·텔레그램), `listings.json`
+- 탭: 속보 · 기사 · 상장 · 시세 · 저장(설정 포함). 기사 리더, 저장(오프라인), 공유, 당겨서 새로고침, KO/EN/中文, 라이트/다크, 안드로이드 뒤로가기
+- 폰트는 `www/fonts`에 포함 (OFL 라이선스)
+- 로컬 미리보기: `npm run build` 후 `cp -r app/www dist/_app` → `http://localhost:4321/_app/?api=http://localhost:4321/`
 
-## 자동 빌드
-`app/` 폴더를 고치거나 GitHub **Actions → 앱 빌드 → Run workflow**를 누르면:
-- **안드로이드**: 테스트용 APK가 만들어져 저장소 **Releases → android-latest** 에 올라가요. 폰에서 받아 바로 설치할 수 있어요.
-- **iOS**: 맥 서버에서 빌드가 되는지 확인까지 해요 (시뮬레이터용).
+## 자동 빌드 (Actions → 앱 빌드)
+- **안드로이드 테스트 APK**: 고정 테스트 키(`debug.keystore`)로 서명 → Releases `android-latest`. 새 버전은 덮어 설치.
+- **출시용 APK + Play 스토어용 AAB**: 저장소 Secrets에 아래 4개가 있으면 같이 만들어져요.
+  `ANDROID_KEYSTORE_B64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`
+- **iOS**: 맥 서버에서 빌드 확인 (서명은 Apple Developer 계정이 생기면 추가)
 
 ## 스토어 출시에 필요한 것 (본인 계정)
 | | 비용 | 하는 일 |
 |---|---|---|
-| Google Play 개발자 계정 | 1회 $25 | 서명 키 생성 → AAB 업로드 |
-| Apple Developer Program | 연 $99 | 앱 서명 인증서 발급 → TestFlight → 심사 |
+| Google Play 개발자 계정 | 1회 $25 | 본인 인증 → AAB 업로드. 신규 개인 계정은 테스터 12명·14일 비공개 테스트 후 정식 출시 |
+| Apple Developer Program | 연 $99 | 인증서·프로비저닝 → TestFlight → 심사 |
 
-계정이 생기면 서명 키를 저장소 Secrets에 넣고, 워크플로에 출시용 빌드 단계를 추가하면 돼요.
-
-## 설정
-- `capacitor.config.json` → `server.url`: 도메인 연결 후 새 주소로 바꾸기
-- `resources/`: 아이콘·스플래시 원본 (1024px)
+개인정보처리방침: 사이트 `/privacy/`

@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify } from "./lib.mjs";
+import { markdown, cjkify, writeAppFeed } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -577,6 +577,30 @@ write("contact/index.html", layout({
   </main></div>`,
 }));
 
+// 개인정보처리방침 (웹사이트·앱 공통, 스토어 등록용)
+write("privacy/index.html", layout({
+  title: "개인정보처리방침 · Privacy Policy", active: "", canonical: "privacy/", float: false,
+  description: "체인브리프 웹사이트와 앱의 개인정보처리방침",
+  body: `<div class="wrap"><main class="single">
+  ${secHead("Privacy", "개인정보처리방침")}
+  <div class="prose" style="margin-top:32px">
+  <p>체인브리프(CHAINBRIEF, 이하 "서비스")는 웹사이트와 iOS·안드로이드 앱에서 이용자의 개인정보를 최소한으로만 다룹니다. 시행일: 2026년 10월 26일.</p>
+  <h2>수집하는 정보</h2>
+  <p>앱과 웹사이트는 회원가입이 없으며, 이름·연락처·위치·광고 식별자 등 개인을 알아볼 수 있는 정보를 수집하지 않습니다. 앱에서 고른 언어·화면 모드와 저장한 기사는 이용자의 기기 안에만 저장되고 서버로 전송되지 않습니다.</p>
+  <h2>외부 서비스</h2>
+  <p>시세와 지표를 보여주기 위해 앱과 웹사이트는 CoinGecko, 업비트, 빗썸, Alternative.me의 공개 API에 직접 접속합니다. 이 과정에서 해당 서비스가 일반적인 접속 기록(IP 주소 등)을 남길 수 있으며, 각 서비스의 정책을 따릅니다. 웹사이트는 GitHub Pages에서 제공되며 글꼴은 Google Fonts에서 불러옵니다.</p>
+  <h2>커뮤니티 게시판 (웹사이트)</h2>
+  <p>웹사이트 게시판에 글이나 댓글을 쓰면 입력한 닉네임과 내용, 삭제용 비밀번호의 암호화 값, 도배 방지를 위한 접속 IP의 해시 값이 저장됩니다. 이 정보는 게시판 운영에만 쓰이며, 작성자는 언제든 비밀번호로 삭제할 수 있습니다.</p>
+  <h2>광고·외부 링크</h2>
+  <p>서비스에는 제휴사(BLOCKKEY, Perpline) 배너와 외부 기사 링크가 있습니다. 링크를 누르면 해당 사이트로 이동하며, 그 사이트의 개인정보 정책이 적용됩니다. 서비스는 광고 추적 도구를 쓰지 않습니다.</p>
+  <h2>문의</h2>
+  <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
+  <h2>Privacy Policy (English)</h2>
+  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  </div>
+  </main></div>`,
+}));
+
 // 404
 write("404.html", layout({ title: "페이지를 찾을 수 없어요", canonical: null, body: `<div class="wrap"><main class="single"><div class="doc"><span class="label">404</span><h1>페이지를 찾을 수 없어요</h1><p class="lede">주소가 바뀌었거나 삭제된 페이지예요.</p><a class="btn" href="${u()}">라이브 속보로</a></div></main></div>` }));
 
@@ -594,6 +618,9 @@ if (SITE_URL) {
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
+const PUBLIC_ORIGIN = SITE_URL || "https://probe2928-crypto.github.io";
+writeAppFeed({ write, lang: "ko", flashes, articles, markdown, now: NOW, link: (p) => PUBLIC_ORIGIN + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
+write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
 write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
 write("manifest.webmanifest", JSON.stringify({
   name: `${cfg.nameEn} ${cfg.name}`, short_name: cfg.nameEn, description: cfg.description, lang: "ko",

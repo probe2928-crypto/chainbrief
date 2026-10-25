@@ -15,6 +15,8 @@ jobs:
     defaults:
       run:
         working-directory: app
+    env:
+      HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_B64 != '' }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -29,25 +31,50 @@ jobs:
       - name: 아이콘·스플래시 생성
         run: npm run assets -- --android
         continue-on-error: true
-      - run: npx cap sync android
-      - name: APK 빌드
+      - name: 버전·이름 설정
         run: |
-          cd android
-          chmod +x gradlew
+          V="$(node -p "require('./package.json').version")"
+          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"$V\"/" android/app/build.gradle
+          grep -E "versionCode|versionName" android/app/build.gradle
+      - run: npx cap sync android
+      - name: 테스트용 고정 서명 키 (업데이트 시 재설치 불필요)
+        run: mkdir -p ~/.android && cp debug.keystore ~/.android/debug.keystore
+      - name: 테스트 APK 빌드
+        run: |
+          cd android && chmod +x gradlew
           ./gradlew assembleDebug --no-daemon -q
           cp app/build/outputs/apk/debug/app-debug.apk ../chainbrief-android.apk
+      - name: 출시용 APK·AAB 빌드 (서명 키가 Secrets에 있을 때)
+        if: env.HAS_KEY == 'true'
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          cd android
+          SIGN="-Pandroid.injected.signing.store.file=$RUNNER_TEMP/upload.jks -Pandroid.injected.signing.store.password=$KS_PASS -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASS"
+          ./gradlew assembleRelease bundleRelease --no-daemon -q $SIGN
+          cp app/build/outputs/apk/release/app-release.apk ../chainbrief-android-release.apk
+          cp app/build/outputs/bundle/release/app-release.aab ../chainbrief-playstore.aab
       - uses: actions/upload-artifact@v4
         with:
           name: chainbrief-android
-          path: app/chainbrief-android.apk
+          path: |
+            app/chainbrief-android*.apk
+            app/chainbrief-playstore.aab
+          if-no-files-found: ignore
       - name: Releases에 올리기
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          FILES="chainbrief-android.apk"
+          [ -f chainbrief-android-release.apk ] && FILES="chainbrief-android-release.apk chainbrief-playstore.aab $FILES"
           gh release delete android-latest -y --cleanup-tag || true
-          gh release create android-latest chainbrief-android.apk \
-            --title "안드로이드 테스트 앱 (최신)" --prerelease \
-            --notes "폰에서 chainbrief-android.apk 를 받아 설치하세요. (설정에서 '출처를 알 수 없는 앱 설치' 허용 필요) · 빌드 $(date -u +%Y-%m-%dT%H:%MZ)"
+          gh release create android-latest $FILES \
+            --title "체인브리프 안드로이드 앱 v$(node -p "require('./package.json').version") (빌드 ${{ github.run_number }})" --prerelease \
+            --notes "폰에서 chainbrief-android.apk 를 받아 설치하세요 (설정에서 '출처를 알 수 없는 앱 설치' 허용). 다음 버전부터는 지우지 않고 덮어 설치하면 돼요. · $(date -u +%Y-%m-%dT%H:%MZ)"
 
   ios:
     runs-on: macos-15
@@ -64,9 +91,17 @@ jobs:
       - name: 아이콘·스플래시 생성
         run: npm run assets -- --ios
         continue-on-error: true
+      - name: 버전 설정
+        run: |
+          V="$(node -p "require('./package.json').version")"
+          cd ios/App
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $V" App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 체인브리프" App/Info.plist || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string 체인브리프" App/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" App/Info.plist || true
       - run: npx cap sync ios
       - name: iOS 빌드 확인 (서명 없이, 시뮬레이터용)
         run: |
-          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Debug \
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release \
             -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO build -quiet

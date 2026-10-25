@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify } from "./lib.mjs";
+import { markdown, cjkify, writeAppFeed } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -395,6 +395,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></main></div>`,
   }));
 
+  writeAppFeed({ write, lang: L.code, flashes, articles, markdown, now: NOW, link: (p) => (SITE_URL || "https://probe2928-crypto.github.io") + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
   // 피드
   write(`${P}flash.json`, JSON.stringify(flashes.slice(0, 50).map((f) => ({ id: f.id, title: f.title, time: f.date.toISOString(), url: u(`flash/${f.id}/`) }))));
   const link = (p) => (SITE_URL ? abs(p) : u(p));

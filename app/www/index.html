@@ -1,4 +1,47 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>CHAINBRIEF</title>
-<style>html,body{height:100%;margin:0;background:#0A0A0A;color:#EDEBE6;font-family:Georgia,serif}main{height:100%;display:grid;place-items:center;text-align:center}h1{font-weight:400;letter-spacing:.34em;margin:0 -.34em 0 0;font-size:26px}p{font-family:system-ui,sans-serif;font-size:13px;color:#9C9A95;margin-top:18px}button{margin-top:22px;background:none;border:1px solid #EDEBE6;color:#EDEBE6;padding:10px 20px;letter-spacing:.2em;font-size:11px}</style></head>
-<body><main><div><h1>CHAINBRIEF</h1><p>인터넷 연결을 확인해 주세요.</p><button onclick="location.reload()">다시 시도</button></div></main></body></html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0A0A0A">
+<title>CHAINBRIEF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+SC:wght@500;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="bar">
+    <button class="icon-btn" id="backBtn" type="button" aria-label="Back" hidden><svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg></button>
+    <div class="wm" id="wm">CHAINBRIEF</div>
+    <div class="bar-r">
+      <button class="icon-btn" id="shareBtn" type="button" aria-label="Share" hidden><svg viewBox="0 0 24 24"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/></svg></button>
+      <button class="icon-btn" id="saveBtn" type="button" aria-label="Save" hidden><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+      <button class="lang" id="langBtn" type="button" aria-label="Language">KO</button>
+    </div>
+  </header>
+  <div class="ticker" id="ticker" aria-label="Prices"></div>
+
+  <main class="views">
+    <section class="view" id="v-live" data-view="live"><div class="ptr"><i></i></div><div class="scroll"><div class="pad" id="liveList"></div></div></section>
+    <section class="view" id="v-news" data-view="news" hidden><div class="ptr"><i></i></div><div class="scroll"><div id="newsList"></div></div></section>
+    <section class="view" id="v-list" data-view="list" hidden><div class="ptr"><i></i></div><div class="scroll"><div class="pad" id="lsList"></div></div></section>
+    <section class="view" id="v-mkt" data-view="mkt" hidden><div class="ptr"><i></i></div><div class="scroll"><div class="pad" id="mktList"></div></div></section>
+    <section class="view" id="v-more" data-view="more" hidden><div class="scroll"><div class="pad" id="moreView"></div></div></section>
+  </main>
+
+  <article class="reader" id="reader" aria-hidden="true"><div class="scroll" id="readerScroll"></div></article>
+
+  <nav class="tabs" id="tabs">
+    <button type="button" data-tab="live" aria-current="page"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg><span data-t="tLive"></span></button>
+    <button type="button" data-tab="news"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><span data-t="tNews"></span></button>
+    <button type="button" data-tab="list"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="1.6"/></svg><span data-t="tList"></span></button>
+    <button type="button" data-tab="mkt"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg><span data-t="tMkt"></span></button>
+    <button type="button" data-tab="more"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span data-t="tMore"></span></button>
+  </nav>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

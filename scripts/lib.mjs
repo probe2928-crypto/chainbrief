@@ -88,3 +88,14 @@ export function cjkify(html) {
   return html.replace(/<([a-z][a-z0-9]*)([^>]*?)\sclass="([^"]*)"([^>]*)>([^<]*)/gi, (m, tag, pre, cls, post, text) =>
     CJK.test(text) && !/\bcjk\b/.test(cls) ? `<${tag}${pre} class="${cls} cjk"${post}>${text}` : m);
 }
+
+// 앱용 데이터 피드: api/<lang>/feed.json + api/<lang>/a/<id>.json
+export function writeAppFeed({ write, lang, flashes, articles, artOf, markdown, link, now }) {
+  const plain = (md = "") => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
+  write(`api/${lang}/feed.json`, JSON.stringify({
+    updated: now.toISOString(),
+    flash: flashes.slice(0, 150).map((f) => ({ id: f.id, title: f.title, time: f.date.toISOString(), important: !!f.important, category: f.category || "", body: markdown(f.body || ""), link: link(`flash/${f.id}/`) })),
+    articles: articles.slice(0, 80).map((a, i) => ({ id: a.id, title: a.title, summary: a.summary || plain(a.body).slice(0, 140), date: a.date.toISOString(), author: a.author || "", category: a.category || "", format: a.format || "", region: a.region || "", art: artOf(a, i), link: link(`articles/${a.id}/`) })),
+  }));
+  for (const a of articles.slice(0, 80)) write(`api/${lang}/a/${a.id}.json`, JSON.stringify({ id: a.id, html: markdown(a.body || "") }));
+}
