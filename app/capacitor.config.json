@@ -1,0 +1,16 @@
+{
+  "appId": "com.chainbrief.app",
+  "appName": "체인브리프",
+  "webDir": "www",
+  "server": {
+    "url": "https://probe2928-crypto.github.io/chainbrief/",
+    "cleartext": false
+  },
+  "backgroundColor": "#0A0A0A",
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 900, "launchAutoHide": true, "backgroundColor": "#0A0A0A", "showSpinner": false },
+    "StatusBar": { "style": "DARK", "backgroundColor": "#0A0A0A", "overlaysWebView": false }
+  },
+  "ios": { "contentInset": "never", "backgroundColor": "#0A0A0A" },
+  "android": { "backgroundColor": "#0A0A0A" }
+}

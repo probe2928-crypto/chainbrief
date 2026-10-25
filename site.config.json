@@ -1,6 +1,6 @@
 {
   "name": "체인브리프",
-  "nameEn": "ChainBrief",
+  "nameEn": "CHAINBRIEF",
   "tagline": "가장 빠른 코인 속보와 시세",
   "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세와 김치프리미엄을 한곳에서.",
   "domain": "",
@@ -8,6 +8,8 @@
   "categories": [
     "비트코인",
     "알트코인",
+    "상장",
+    "해외",
     "규제·정책",
     "거시경제",
     "온체인",
@@ -96,11 +98,52 @@
     "button": "혜택 보기",
     "url": ""
   },
-  "telegram": "",
+  "telegram": "btcbullit",
   "footer": {
     "company": "",
     "registration": "",
     "publisher": "",
     "email": ""
+  },
+  "author": "스캇 박",
+  "supabase": {
+    "url": "",
+    "anonKey": ""
+  },
+  "communitySources": [
+    {
+      "name": "코인판",
+      "kind": "coinpan",
+      "url": "https://coinpan.com/best",
+      "lang": "ko"
+    },
+    {
+      "name": "코인판 HOT",
+      "kind": "coinpan",
+      "url": "https://coinpan.com/hot",
+      "lang": "ko"
+    },
+    {
+      "name": "r/CryptoCurrency",
+      "kind": "rss",
+      "url": "https://www.reddit.com/r/CryptoCurrency/top/.rss?t=week",
+      "lang": "en"
+    },
+    {
+      "name": "r/Bitcoin",
+      "kind": "rss",
+      "url": "https://www.reddit.com/r/Bitcoin/top/.rss?t=week",
+      "lang": "en"
+    }
+  ],
+  "boardCategories": [
+    "자유",
+    "분석",
+    "상장·급등",
+    "질문"
+  ],
+  "app": {
+    "android": "",
+    "ios": ""
   }
 }

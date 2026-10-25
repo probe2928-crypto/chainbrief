@@ -1,0 +1,72 @@
+name: 앱 빌드
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["app/**", ".github/workflows/app.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm install --no-audit --no-fund
+      - run: npx cap add android
+      - name: 아이콘·스플래시 생성
+        run: npm run assets -- --android
+        continue-on-error: true
+      - run: npx cap sync android
+      - name: APK 빌드
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon -q
+          cp app/build/outputs/apk/debug/app-debug.apk ../chainbrief-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chainbrief-android
+          path: app/chainbrief-android.apk
+      - name: Releases에 올리기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete android-latest -y --cleanup-tag || true
+          gh release create android-latest chainbrief-android.apk \
+            --title "안드로이드 테스트 앱 (최신)" --prerelease \
+            --notes "폰에서 chainbrief-android.apk 를 받아 설치하세요. (설정에서 '출처를 알 수 없는 앱 설치' 허용 필요) · 빌드 $(date -u +%Y-%m-%dT%H:%MZ)"
+
+  ios:
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npx cap add ios
+      - name: 아이콘·스플래시 생성
+        run: npm run assets -- --ios
+        continue-on-error: true
+      - run: npx cap sync ios
+      - name: iOS 빌드 확인 (서명 없이, 시뮬레이터용)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build -quiet

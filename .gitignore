@@ -2,4 +2,8 @@ node_modules/
 dist/
 data/headlines.json
 data/translations.json
+data/community.json
+app/node_modules/
+app/android/
+app/ios/
 .DS_Store

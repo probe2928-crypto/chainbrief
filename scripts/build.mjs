@@ -13,6 +13,8 @@ if (!BASE.endsWith("/")) BASE += "/";
 const SITE_URL = (cfg.domain ? `https://${cfg.domain}` : (process.env.SITE_URL || "")).replace(/\/$/, "");
 const abs = (p) => SITE_URL + BASE + p.replace(/^\//, "");
 const u = (p = "") => BASE + p.replace(/^\//, "");
+const BUILD_ID = Date.now().toString(36);
+const NOW = new Date();
 
 /* ---------- helpers ---------- */
 const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -24,7 +26,7 @@ function frontmatter(src) {
     const i = line.indexOf(":");
     if (i < 0) continue;
     const k = line.slice(0, i).trim();
-    let v = line.slice(i + 1).trim().replace(/^["']|["']$/g, "");
+    let v = line.slice(i + 1).trim().replace(/\s+#.*$/, "").replace(/^["']|["']$/g, "");
     if (v === "true") v = true; else if (v === "false") v = false;
     data[k] = v;
   }
@@ -34,9 +36,10 @@ const KST = "Asia/Seoul";
 const fmt = (d, o) => new Intl.DateTimeFormat("ko-KR", { timeZone: KST, ...o }).format(d);
 const hhmm = (d) => fmt(d, { hour: "2-digit", minute: "2-digit", hour12: false });
 const dayLabel = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", weekday: "long" });
-const dayKey = (d) => fmt(d, { year: "numeric", month: "2-digit", day: "2-digit" });
+const dayKey = (d) => fmt(d, { year: "numeric", month: "2-digit", day: "2-digit" }).replace(/\.\s?/g, "-").replace(/-$/, "");
+const kstHour = (d) => +fmt(d, { hour: "2-digit", hour12: false }) % 24;
 const fullDate = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
-const plain = (md) => md.replace(/[#>*_`\[\]()!-]/g, "").replace(/\s+/g, " ").trim();
+const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
 function write(rel, content) {
   const f = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(f), { recursive: true });
@@ -50,6 +53,7 @@ function readDir(dir) {
     return { id: f.replace(/\.md$/, ""), ...data, body };
   }).filter((x) => !x.draft);
 }
+const readJSON = (p, d) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, p), "utf8")); } catch { return d; } };
 
 /* ---------- content ---------- */
 const flashes = readDir("content/flash")
@@ -58,24 +62,30 @@ const flashes = readDir("content/flash")
   .sort((a, b) => b.date - a.date);
 const articles = readDir("content/articles")
   .map((a) => ({ ...a, date: new Date(a.date) }))
-  .filter((a) => !isNaN(a.date))
+  .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000))
   .sort((a, b) => b.date - a.date);
-const terms = JSON.parse(fs.readFileSync(path.join(ROOT, "content/terms.json"), "utf8"));
-let headlines = { updatedAt: null, items: [] };
-try { headlines = JSON.parse(fs.readFileSync(path.join(ROOT, "data/headlines.json"), "utf8")); } catch {}
+const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] });
 const hlItems = (headlines.items || []).map((h) => ({ ...h, date: new Date(h.time) }));
+const listings = readJSON("data/listings.json", { items: [] });
+const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
+const community = readJSON("data/community.json", { groups: [] });
 
 /* ---------- partials ---------- */
-const NAV = [
-  ["", "라이브 속보", "속보", '<path d="M4 12h3l3-7 4 14 3-7h3"/>'],
-  ["news/", "뉴스", "뉴스", '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>'],
-  ["market/", "시세", "시세", '<path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/>'],
-  ["terms/", "용어사전", "용어", '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>'],
-];
+const ICON = {
+  live: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+  list: '<path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="1.6"/>',
+  surge: '<path d="M4 18 10 12l4 4 6-8"/><path d="M15 8h5v5"/>',
+  news: '<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',
+  comm: '<path d="M4 5h16v11H9l-5 4z"/>',
+};
+const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], ["contact/", "문의"]];
+const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/", "급등", "surge"], ["news/", "뉴스", "news"], ["community/", "커뮤니티", "comm"]];
+const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
+const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
-function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "" }) {
-  const full = title ? `${title} | ${cfg.name}` : `${cfg.name} - ${cfg.tagline}`;
-  const tape = cfg.coins.slice(0, 6).map((c) => `<span data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span> <span class="num c"></span></span>`).join("");
+function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true }) {
+  const full = title ? `${title} | ${cfg.name}` : `${cfg.nameEn} ${cfg.name} — ${cfg.tagline}`;
+  const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -83,62 +93,62 @@ function layout({ title, description = cfg.description, active = "", body, canon
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(description)}">
-${canonical && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}
+${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
 <meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `<meta property="og:url" content="${abs(canonical)}"><meta property="og:image" content="${abs("og.png")}">` : ""}
+${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${abs("og.png")}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0B7A6E">
+<meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${u("manifest.webmanifest")}">
-<link rel="icon" href="${u("icons/icon.svg")}" type="image/svg+xml">
+<link rel="icon" href="${u("icons/icon-192.png")}" type="image/png">
 <link rel="apple-touch-icon" href="${u("icons/apple-touch-icon.png")}">
-<link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)} 속보" href="${u("rss.xml")}">
+<link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)}" href="${u("rss.xml")}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="${u("style.css")}?v=${BUILD_ID}">
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
-<body data-base="${BASE}">
+<body>
+<div class="topline"><div class="wrap"><span>${esc(dayLabel(NOW))}</span><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></div></div>
 <header class="site-header">
-  <div class="wrap mast">
-    <a class="logo" href="${u()}"><b>C</b>${esc(cfg.name)}</a>
-    <nav class="top" aria-label="주 메뉴">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
-    <div class="spacer"></div>
-    <button class="install" id="installBtn" type="button" hidden>앱 설치</button>
-    <div class="live"><i></i>LIVE <span class="num" id="clock">${hhmm(new Date())}</span> KST</div>
-  </div>
-  <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
+  <div class="wrap brand"><a href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a><button class="install desk-only" id="installBtn" type="button" hidden>App</button></div>
+  <nav class="top" aria-label="주 메뉴">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
 </header>
+<div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${body}
 <footer class="site-footer"><div class="wrap">
-  <div><strong>${esc(cfg.name)}</strong> · ${esc(cfg.tagline)}</div>
-  <div class="legal">
+  <div class="wm">${esc(cfg.nameEn)}</div>
+  <div class="cols">
+    ${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}
+    ${TG ? `<a href="${TG}" target="_blank" rel="noopener">텔레그램 @${esc(cfg.telegram)}</a>` : ""}
+    <a href="${u("rss.xml")}">RSS</a>
+  </div>
+  <div class="cols">
     ${cfg.footer.company ? `<span>${esc(cfg.footer.company)}</span>` : ""}
     ${cfg.footer.registration ? `<span>등록번호 ${esc(cfg.footer.registration)}</span>` : ""}
     ${cfg.footer.publisher ? `<span>발행·편집인 ${esc(cfg.footer.publisher)}</span>` : ""}
     ${cfg.footer.email ? `<span>${esc(cfg.footer.email)}</span>` : ""}
-    ${cfg.telegram ? `<a href="https://t.me/${esc(cfg.telegram.replace(/^@/, ""))}" target="_blank" rel="noopener">텔레그램 ${esc(cfg.telegram)}</a>` : ""}
-    <a href="${u("rss.xml")}">RSS</a>
   </div>
-  <div>${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며, 투자 판단과 책임은 이용자 본인에게 있습니다. 해외 뉴스 헤드라인의 저작권은 각 매체에 있습니다.</div>
-  <div>시세 데이터: CoinGecko, 업비트 · 공포·탐욕 지수: Alternative.me</div>
+  <p>${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 CoinGecko·업비트·빗썸, 공포·탐욕 지수 Alternative.me.</p>
 </div></footer>
-<nav class="tabs" aria-label="하단 메뉴">${NAV.map(([p, , s, icon]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${icon}</svg>${s}</a>`).join("")}</nav>
-<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "" })}</script>
+${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener">${TG_SVG}문의</a>` : ""}
+<nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
+<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 </body>
 </html>`;
 }
+const secHead = (label, title, aside = "", tag = "h1") => `<div class="sec"><div><span class="label">${label}</span><${tag}>${title}</${tag}></div>${aside ? `<div class="aside">${aside}</div>` : ""}</div>`;
 
 function flashItem(f) {
   return `<article class="item${f.important ? " imp" : ""}" data-cat="${esc(f.category || "")}" data-imp="${f.important ? 1 : 0}">
-  <time class="num" datetime="${f.date.toISOString()}">${hhmm(f.date)}</time>
+  <time datetime="${f.date.toISOString()}">${hhmm(f.date)}</time>
   <div style="min-width:0">
     <h3><a href="${u(`flash/${f.id}/`)}">${esc(f.title)}</a></h3>
     ${f.body ? `<div class="body">${markdown(f.body)}</div>` : ""}
-    <div class="meta">${f.important ? '<span class="badge-imp">중요</span>' : ""}${f.category ? `<span class="cat">${esc(f.category)}</span>` : ""}</div>
+    <div class="meta">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}</div>
   </div>
 </article>`;
 }
@@ -147,115 +157,199 @@ function feedHTML(list) {
   let out = "", last = "";
   for (const f of list) {
     const k = dayKey(f.date);
-    if (k !== last) { out += `<div class="day" data-day>${dayLabel(f.date)}</div>`; last = k; }
+    if (k !== last) { out += `<div class="day">${dayLabel(f.date)}</div>`; last = k; }
     out += flashItem(f);
   }
   return out;
 }
 function headlineList(items) {
-  if (!items.length) return `<div class="empty">해외 헤드라인을 불러오는 중이에요. 다음 업데이트 때 채워져요.</div>`;
+  if (!items.length) return `<div class="empty">헤드라인을 불러오는 중이에요.</div>`;
   return `<ul class="hl">${items.map((h) => `<li>
     <a href="${esc(h.url)}" target="_blank" rel="noopener nofollow">${esc(h.titleKo || h.title)}</a>
     ${h.titleKo ? `<span class="orig">${esc(h.title)}</span>` : ""}
-    <span class="src"><b>${esc(h.source)}</b><time class="num" data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })}</time></span>
+    <span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })}</time></span>
   </li>`).join("")}</ul>`;
 }
-const marketRail = `<section class="panel desk-only">
-  <div class="phead"><h2>주요 시세</h2><span class="aside">USD · 24시간</span></div>
-  <table><thead><tr><th>코인</th><th>가격</th><th>24h</th></tr></thead><tbody>
+const EXN = { upbit: "Upbit", bithumb: "Bithumb" };
+const EXK = { upbit: "업비트", bithumb: "빗썸" };
+const TYN = { listing: "신규 상장", delisting: "거래지원 종료", caution: "유의 지정", "caution-cleared": "유의 해제" };
+function listingItem(i, compact = false) {
+  const c = i.coins[0] || { symbol: "", name: "" };
+  return `<div class="lst" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}">
+    <time>${hhmm(i.date)}</time>
+    <div style="min-width:0">
+      <div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${TYN[i.type] || ""}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div>
+      <div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}<small>${esc(i.coins.map((x) => x.name).join(", "))}</small></div>
+      ${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow">${esc(i.title)}</a></div>`}
+    </div>
+    <div class="px" data-px>${i.type === "listing" ? "—" : ""}</div>
+  </div>`;
+}
+
+const marketRail = `<section class="block desk-only">
+  <div class="block-head"><h2>주요 시세</h2><span class="label">USD · 24H</span></div>
+  <table><tbody>
   ${cfg.coins.slice(0, 6).map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num c"></td></tr>`).join("")}
   </tbody></table>
-  <a class="more" href="${u("market/")}">전체 시세 · 김프 보기</a>
+  <a class="more" href="${u("market/")}">전체 시세 · 김프</a>
 </section>`;
-const sentiment = `<section class="panel">
-  <div class="phead"><h2>공포·탐욕 지수</h2><span class="aside">0 ~ 100</span></div>
+const sentiment = `<section class="block">
+  <div class="block-head"><h2>시장 심리</h2><span class="label">Fear &amp; Greed</span></div>
   <div class="gauge">
-    <div class="row"><span class="big num" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span class="aside" id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--muted)"></span></div>
+    <div class="row"><span class="big" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--mute)"></span></div>
     <div class="bar"><i id="fngBar" style="left:50%"></i></div>
-    <div class="scale"><span>극단적 공포</span><span>중립</span><span>극단적 탐욕</span></div>
+    <div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div>
   </div>
   <div class="kp">
     <div><small>BTC 김치프리미엄</small><strong class="num" id="kimpBtc">—</strong></div>
     <div><small>BTC 도미넌스</small><strong class="num" id="btcDom">—</strong></div>
   </div>
 </section>`;
-const partner = cfg.partner ? `<section class="panel slot">
-  <small>${esc(cfg.partner.label)}</small>
+const partner = cfg.partner?.url ? `<section class="block slot">
+  <span class="label">${esc(cfg.partner.label)}</span>
   <strong>${esc(cfg.partner.title)}</strong>
   <span>${esc(cfg.partner.text)}</span>
-  ${cfg.partner.url ? `<a class="btn" href="${esc(cfg.partner.url)}" target="_blank" rel="noopener sponsored">${esc(cfg.partner.button)}</a>` : ""}
+  <a class="btn" href="${esc(cfg.partner.url)}" target="_blank" rel="noopener sponsored">${esc(cfg.partner.button)}</a>
 </section>` : "";
-const rail = (extra = "") => `<aside>${marketRail}${sentiment}${extra}${partner}</aside>`;
+const recentListings = lsItems.filter((i) => i.type === "listing").slice(0, 5);
+const listingRail = `<section class="block">
+  <div class="block-head"><h2>최근 상장</h2><span class="label">Upbit · Bithumb</span></div>
+  ${recentListings.length ? recentListings.map((i) => listingItem(i, true)).join("") : '<div class="slot-empty">상장 소식을 불러오는 중이에요.</div>'}
+  <a class="more" href="${u("listings/")}">상장 소식 전체</a>
+</section>`;
+const contactRail = TG ? `<section class="block slot">
+  <span class="label">Contact</span>
+  <strong>제보 · 광고 · 제휴 문의</strong>
+  <span>텔레그램 @${esc(cfg.telegram)} 으로 바로 연락 주세요.</span>
+  <a class="btn ghost" href="${TG}" target="_blank" rel="noopener">텔레그램 열기</a>
+</section>` : "";
+const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${partner}${contactRail}</aside>`;
 
 /* ---------- pages ---------- */
-const BUILD_ID = Date.now().toString(36);
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.cpSync(path.join(ROOT, "public"), OUT, { recursive: true });
 
 // 홈: 라이브 속보
 const cats = ["전체", "중요", ...cfg.categories];
-const latestHL = hlItems.slice(0, 8);
 write("index.html", layout({
   active: "", canonical: "",
   body: `<div class="wrap"><main class="grid">
-  <div class="col">
-    <section class="panel">
-      <div class="phead"><h1 class="ph">라이브 속보</h1><label class="search"><span class="sr">속보 검색</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="속보 검색"></label></div>
-      <div class="filters" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="chip${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
-      <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">새 속보 보기</button></div>
-      <div id="feed">${feedHTML(flashes.slice(0, 150))}</div>
-      <div class="empty" id="noMatch" hidden>조건에 맞는 속보가 없어요. 분류나 검색어를 바꿔보세요.</div>
-    </section>
-  </div>
-  ${rail(`<section class="panel"><div class="phead"><h2>해외 주요 헤드라인</h2><span class="aside">자동 수집</span></div>${headlineList(latestHL)}<a class="more" href="${u("news/")}">헤드라인 더 보기</a></section>`)}
+  <div class="col"><section>
+    ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
+    <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
+    <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">새 속보 보기</button></div>
+    <div id="feed">${feedHTML(flashes.slice(0, 150))}</div>
+    <div class="empty" id="noMatch" hidden>조건에 맞는 속보가 없어요.</div>
+  </section></div>
+  ${rail(listingRail + `<section class="block"><div class="block-head"><h2>해외 헤드라인</h2><span class="label">Global</span></div>${headlineList(hlItems.slice(0, 6))}<a class="more" href="${u("news/")}">더 보기</a></section>`)}
 </main></div>`,
 }));
 
 // 속보 상세
 flashes.forEach((f, i) => {
-  const prev = flashes[i + 1], next = flashes[i - 1];
+  const near = [flashes[i - 1], flashes[i + 1]].filter(Boolean);
   write(`flash/${f.id}/index.html`, layout({
-    title: f.title, description: plain(f.body || f.title).slice(0, 150), active: "", canonical: `flash/${f.id}/`, type: "article",
+    title: f.title, description: plain(f.body || f.title).slice(0, 150), canonical: `flash/${f.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: f.title, datePublished: f.date.toISOString(), publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="wrap"><p class="crumbs"><a href="${u()}">라이브 속보</a> › ${esc(f.category || "속보")}</p><main class="grid">
-    <div class="col"><article class="panel doc flash${f.important ? " imp" : ""}">
-      <div class="kicker">${f.important ? '<span class="badge-imp">중요</span>' : ""}${f.category ? `<span class="cat">${esc(f.category)}</span>` : ""}<time class="num" datetime="${f.date.toISOString()}">${fullDate(f.date)}</time></div>
+    body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a> &nbsp;/&nbsp; ${esc(f.category || "속보")}</p><main class="grid">
+    <div class="col"><article class="doc">
+      <div class="kicker">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1>
       <div class="prose">${markdown(f.body || "")}</div>
-      <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn ghost" href="${u()}">속보 목록</a></div>
+      <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn" href="${u()}">속보 목록</a></div>
     </article>
-    <section class="panel"><div class="phead"><h2>이어지는 속보</h2></div>${[next, prev].filter(Boolean).map(flashItem).join("") || '<div class="empty">다른 속보가 아직 없어요.</div>'}</section>
+    ${near.length ? `<section>${secHead("Also", "이어지는 속보", "", "h2")}${near.map(flashItem).join("")}</section>` : ""}
     </div>${rail()}</main></div>`,
   }));
 });
 
-// 뉴스: 자체 기사 + 해외 헤드라인
+// 상장 소식: 최근 7일, 하루를 오전·오후·저녁·새벽으로
+const SLOTS = [["오전", "Morning", 6, 12], ["오후", "Afternoon", 12, 18], ["저녁", "Evening", 18, 24], ["새벽", "Late Night", 0, 6]];
+const days = [];
+for (let d = 0; d < 7; d++) {
+  const date = new Date(NOW.getTime() - d * 864e5);
+  const key = dayKey(date);
+  const items = lsItems.filter((i) => dayKey(i.date) === key);
+  days.push({ key, date, items });
+}
+const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx ? " hidden" : ""}>
+  ${SLOTS.map(([ko, en, a, b]) => {
+    const its = day.items.filter((i) => { const h = kstHour(i.date); return h >= a && h < b; });
+    return `<section class="slotsec"><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
+      ${its.length ? its.map((i) => listingItem(i)).join("") : '<div class="slot-empty">이 시간대 소식이 없어요.</div>'}</section>`;
+  }).join("")}
+</div>`;
+write("listings/index.html", layout({
+  title: "업비트·빗썸 상장 소식", active: "listings/", canonical: "listings/",
+  description: "업비트·빗썸 신규 상장, 거래 유의, 거래지원 종료 소식을 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
+  body: `<div class="wrap"><main class="grid"><div class="col"><section>
+  ${secHead("Listings", "상장 소식", listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인")}
+  <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === 0}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
+  <div class="tabs-row" id="lsFilters">
+    ${[["all", "전체"], ["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
+    <span style="width:1px;background:var(--line)"></span>
+    ${[["all", "모든 유형"], ["listing", "신규 상장"], ["caution", "유의"], ["delisting", "종료"]].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
+  </div>
+  <div id="daypanels">${days.map(dayPanel).join("")}</div>
+  <p class="note">거래소 공지와 마켓 목록을 함께 확인해요. 상장 코인 오른쪽은 현재가와 24시간 변동률이에요.</p>
+  </section></div>${rail()}</main></div>`,
+}));
+
+// 급등 레이더 (브라우저에서 실시간 계산)
+const board = (id, label, title, note) => `<section><div class="block-head" style="border-top:1px solid var(--ink);padding-top:14px"><h2>${title}</h2><span class="label">${label}</span></div>${note ? `<p class="note" style="padding:0 0 6px">${note}</p>` : ""}<ol class="rank" id="${id}"><li><span class="nm">불러오는 중…</span></li></ol></section>`;
+write("surge/index.html", layout({
+  title: "급등 레이더", active: "surge/", canonical: "surge/",
+  description: "업비트·빗썸 원화마켓 실시간 상승률, 하락률, 거래대금 순위와 거래소 간 가격차.",
+  body: `<div class="wrap"><main class="single"><section>
+  ${secHead("Surge Radar", "급등 레이더", '<span class="status" id="surgeStatus">불러오는 중…</span>')}
+  <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
+  <div class="surge" style="margin-top:28px">
+    ${board("rkUp", "Top Gainers", "상승률 TOP", "")}
+    ${board("rkDown", "Top Losers", "하락률 TOP", "")}
+    ${board("rkVol", "Volume", "거래대금 TOP", "")}
+    ${board("rkGap", "Upbit vs Bithumb", "거래소 가격차 TOP", "같은 코인의 업비트·빗썸 원화 가격 차이")}
+  </div>
+  <p class="note">원화마켓 기준, 30초마다 갱신. 변동률은 전일 종가 대비예요. 투자 판단의 근거가 아닌 참고용이에요.</p>
+  </section></main></div>`,
+}));
+
+// 뉴스: 스캇 박 기사 + 해외 헤드라인
+const lead = articles[0];
+const byline = (a) => `<span class="byline">${fmt(a.date, { month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} · <b>${esc(a.author || "체인브리프 편집부")}</b></span>`;
 const sources = [...new Set(hlItems.map((h) => h.source))];
 write("news/index.html", layout({
   title: "뉴스", active: "news/", canonical: "news/",
   body: `<div class="wrap"><main class="grid"><div class="col">
-  ${articles.length ? `<section class="panel"><div class="phead"><h1 class="ph">${esc(cfg.name)} 기사</h1><span class="aside">분석 · 가이드</span></div>
-    ${articles.map((a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><div style="min-width:0"><div class="meta" style="margin:0 0 6px"><span class="cat">${esc(a.category || "기사")}</span><time class="num">${fmt(a.date, { month: "long", day: "numeric" })}</time></div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 120))}</p></div><div class="thumb" aria-hidden="true">${esc((a.category || "NEWS").slice(0, 4))}</div></a>`).join("")}
-  </section>` : ""}
-  <section class="panel">
-    <div class="phead"><h2>해외 주요 헤드라인</h2><span class="aside">${headlines.updatedAt ? `${hhmm(new Date(headlines.updatedAt))} 업데이트` : "15분마다 업데이트"}</span></div>
-    ${sources.length > 1 ? `<div class="filters" id="srcFilters">${["전체", ...sources].map((s, i) => `<button class="chip" type="button" data-src="${esc(s)}" aria-pressed="${i === 0}">${esc(s)}</button>`).join("")}</div>` : ""}
+  <section>
+    ${secHead("Editorial", "체인브리프 기사", "오전 · 오후 · 저녁 발행")}
+    ${lead ? `<a class="lead-art" href="${u(`articles/${lead.id}/`)}"><span class="tag kr">${esc(lead.category || "기사")}</span><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || plain(lead.body).slice(0, 140))}</p>${byline(lead)}</a>` : '<div class="empty">첫 기사를 준비하고 있어요.</div>'}
+    <div class="arts">${articles.slice(1, 13).map((a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><span class="tag kr">${esc(a.category || "기사")}</span><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 120))}</p><div style="margin-top:10px">${byline(a)}</div></a>`).join("")}</div>
+  </section>
+  <section>
+    ${secHead("Global", "해외 헤드라인", headlines.updatedAt ? `${hhmm(new Date(headlines.updatedAt))} 업데이트` : "15분마다 업데이트", "h2")}
+    ${sources.length > 1 ? `<div class="tabs-row" id="srcFilters">${["전체", ...sources].map((s, i) => `<button class="tab" type="button" data-src="${esc(s)}" aria-pressed="${i === 0}">${esc(s)}</button>`).join("")}</div>` : ""}
     <div id="hlList">${headlineList(hlItems.slice(0, 80))}</div>
   </section>
   </div>${rail()}</main></div>`,
 }));
 
 // 기사 상세
-articles.forEach((a) => {
+articles.forEach((a, i) => {
+  const more = articles.filter((x) => x !== a).slice(0, 4);
   write(`articles/${a.id}/index.html`, layout({
     title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article",
-    jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="wrap"><p class="crumbs"><a href="${u("news/")}">뉴스</a> › ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
-    <article class="panel doc"><div class="kicker"><span class="cat">${esc(a.category || "기사")}</span><time class="num" datetime="${a.date.toISOString()}">${fullDate(a.date)}</time></div>
-      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
+    jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
+    body: `<div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
+    <article class="doc">
+      <div class="kicker"><span class="tag kr">${esc(a.category || "기사")}</span></div>
+      <h1>${esc(a.title)}</h1>
+      ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
+      <div class="byrow"><span class="byline">글 · <b>${esc(a.author || "체인브리프 편집부")}</b></span><time class="byline">${fullDate(a.date)}</time></div>
       <div class="prose">${markdown(a.body)}</div>
-      <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button></div>
-    </article></div>${rail()}</main></div>`,
+      <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
+    </article>
+    ${more.length ? `<section>${secHead("More", "다른 기사", "", "h2")}<div class="arts">${more.map((x) => `<a class="art" href="${u(`articles/${x.id}/`)}"><span class="tag kr">${esc(x.category || "기사")}</span><h3>${esc(x.title)}</h3><div style="margin-top:10px">${byline(x)}</div></a>`).join("")}</div></section>` : ""}
+    </div>${rail()}</main></div>`,
   }));
 });
 
@@ -263,62 +357,117 @@ articles.forEach((a) => {
 write("market/index.html", layout({
   title: "실시간 시세 · 김치프리미엄", active: "market/", canonical: "market/",
   description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세와 업비트 김치프리미엄.",
-  body: `<div class="wrap"><main class="grid"><div class="col">
-  <section class="panel">
-    <div class="phead"><h1 class="ph">실시간 시세</h1><span class="aside" id="mktUpdated">불러오는 중…</span></div>
-    <div class="wide"><table class="mkt-full"><thead><tr><th>코인</th><th>가격(USD)</th><th>업비트(KRW)</th><th>24시간</th><th>김프</th><th>거래대금(24h)</th></tr></thead><tbody>
+  body: `<div class="wrap"><main class="grid"><div class="col"><section>
+    ${secHead("Markets", "실시간 시세", '<span id="mktUpdated">불러오는 중…</span>')}
+    <div class="wide"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>김프</th><th>거래대금</th></tr></thead><tbody>
     ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
-    <div class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신돼요.</div>
+    <p class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신.</p>
   </section></div>
-  <aside>${sentiment}${partner}</aside></main></div>`,
+  <aside class="rail">${sentiment}${partner}${contactRail}</aside></main></div>`,
 }));
 
-// 용어사전
-write("terms/index.html", layout({
-  title: "코인 용어사전", active: "terms/", canonical: "terms/",
-  description: "김치프리미엄, 펀딩비, 미결제약정 등 코인 투자 용어를 쉽게 정리했어요.",
-  body: `<div class="wrap"><main class="grid"><div class="col"><section class="panel">
-    <div class="phead"><h1 class="ph">코인 용어사전</h1><label class="search"><span class="sr">용어 검색</span><input id="tq" type="search" placeholder="용어 검색"></label></div>
-    <dl class="terms" id="terms">${terms.map(([k, en, d]) => `<div class="term" id="${encodeURIComponent(k)}"><dt>${esc(k)}<span>${esc(en)}</span></dt><dd>${esc(d)}</dd></div>`).join("")}</dl>
-    <div class="empty" id="noTerm" hidden>찾는 용어가 없어요.</div>
-  </section></div>${rail()}</main></div>`,
+// 커뮤니티
+const extGroups = (community.groups || []).filter((g) => g.items?.length);
+const extHTML = extGroups.length ? `
+  <div class="tabs-row" id="extTabs">${extGroups.map((g, i) => `<button class="tab" type="button" data-g="${i}" aria-pressed="${i === 0}">${esc(g.source)}</button>`).join("")}</div>
+  ${extGroups.map((g, i) => `<ul class="posts" data-gpanel="${i}"${i ? " hidden" : ""}>${g.items.slice(0, 15).map((p) => `<li><a class="tt" href="${esc(p.url)}" target="_blank" rel="noopener nofollow">${esc(p.title)}</a>${p.comments ? `<span class="cc">[${p.comments}]</span>` : ""}<div class="sub">${p.board ? `<span>${esc(p.board)}</span>` : ""}${p.views ? `<span>조회 ${p.views.toLocaleString("ko-KR")}</span>` : ""}${p.votes ? `<span>추천 ${p.votes}</span>` : ""}<span>${esc(g.source)}</span></div></li>`).join("")}</ul>`).join("")}
+  <p class="note">제목과 링크만 모아 보여줘요. 원문은 각 커뮤니티에서 확인하세요.</p>` : '<div class="empty">인기글을 모으는 중이에요.</div>';
+const boardOff = !(cfg.supabase?.url && cfg.supabase?.anonKey);
+write("community/index.html", layout({
+  title: "커뮤니티", active: "community/", canonical: "community/",
+  description: "이번 주 많이 본 글, 코인 커뮤니티 인기글, 자유게시판.",
+  body: `<div class="wrap"><main class="grid"><div class="col">
+  <section>
+    ${secHead("This Week", "이번 주 많이 본 글", boardOff ? "" : `<a class="btn" href="${u("community/write/")}">글쓰기</a>`)}
+    ${boardOff ? `<div class="notice-box" style="margin-top:20px"><strong>자유게시판 오픈 준비 중이에요.</strong><br>곧 글쓰기·댓글·추천이 열려요. 그 전까지는 아래 코인 커뮤니티 인기글을 확인하세요.</div>` : `<ol class="posts" id="weekly"><li><span class="sub">불러오는 중…</span></li></ol>`}
+  </section>
+  <section>
+    ${secHead("Around the Web", "코인 커뮤니티 인기글", community.updatedAt ? `${hhmm(new Date(community.updatedAt))} 업데이트` : "", "h2")}
+    ${extHTML}
+  </section>
+  ${boardOff ? "" : `<section>
+    ${secHead("Board", "자유게시판", `<a class="btn ghost" href="${u("community/write/")}">글쓰기</a>`, "h2")}
+    <div class="tabs-row" id="boardTabs">${["전체", ...(cfg.boardCategories || [])].map((c, i) => `<button class="tab" type="button" data-bc="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
+    <ul class="posts" id="board"><li><span class="sub">불러오는 중…</span></li></ul>
+    <div class="pager"><button class="btn ghost" type="button" id="morePosts" hidden>더 보기</button></div>
+  </section>`}
+  </div>${rail()}</main></div>`,
+}));
+write("community/post/index.html", layout({
+  title: "게시글", active: "community/", canonical: null,
+  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a> &nbsp;/&nbsp; 자유게시판</p><main class="single" style="margin-top:20px"><article class="post-view" id="postView"><div class="empty">불러오는 중…</div></article>
+  <section id="cmtSec" hidden>
+    <div class="block-head" style="border-top:1px solid var(--ink);padding-top:14px;margin-top:20px"><h2>댓글</h2><span class="label" id="cmtCount"></span></div>
+    <ul class="cmts" id="cmts"></ul>
+    <form class="f" id="cmtForm" style="margin-top:24px">
+      <div class="two"><div class="field"><label for="cNick">닉네임</label><input id="cNick" maxlength="20" required></div><div class="field"><label for="cPw">비밀번호 (삭제용)</label><input id="cPw" type="password" minlength="4" maxlength="40" required></div></div>
+      <div class="field"><label for="cBody">댓글</label><textarea id="cBody" maxlength="2000" required style="min-height:110px"></textarea></div>
+      <div class="msg" id="cMsg"></div>
+      <button class="btn" type="submit">댓글 등록</button>
+    </form>
+  </section></main></div>`,
+}));
+write("community/write/index.html", layout({
+  title: "글쓰기", active: "community/", canonical: null,
+  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a> &nbsp;/&nbsp; 글쓰기</p><main class="single" style="margin-top:20px">
+  ${secHead("New Post", "자유게시판 글쓰기")}
+  ${boardOff ? '<div class="notice-box" style="margin-top:20px">게시판 오픈 준비 중이에요.</div>' : `<form class="f" id="postForm" style="margin-top:28px">
+    <div class="two"><div class="field"><label for="pNick">닉네임</label><input id="pNick" maxlength="20" required></div><div class="field"><label for="pPw">비밀번호 (수정·삭제용)</label><input id="pPw" type="password" minlength="4" maxlength="40" required></div></div>
+    <div class="field"><label for="pCat">분류</label><select id="pCat">${(cfg.boardCategories || []).map((c) => `<option>${esc(c)}</option>`).join("")}</select></div>
+    <div class="field"><label for="pTitle">제목</label><input id="pTitle" maxlength="100" required></div>
+    <div class="field"><label for="pBody">내용</label><textarea id="pBody" maxlength="10000" required></textarea></div>
+    <p class="note" style="padding:0">욕설, 홍보·리딩방 유도, 개인정보, 허위 사실은 삭제돼요.</p>
+    <div class="msg" id="pMsg"></div>
+    <button class="btn" type="submit">등록</button>
+  </form>`}
+  </main></div>`,
+}));
+
+// 문의
+write("contact/index.html", layout({
+  title: "문의", active: "contact/", canonical: "contact/", float: false,
+  description: `제보, 광고, 제휴 문의는 텔레그램 @${cfg.telegram}`,
+  body: `<div class="wrap"><main class="single">
+  ${secHead("Contact", "제보 · 광고 · 제휴 문의")}
+  <div class="contact">
+    <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
+    <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
+    <div><span class="label">이런 문의를 받아요</span><ul style="margin-top:10px"><li>속보·기사 제보</li><li>광고 및 배너 제휴</li><li>거래소·프로젝트 협업</li><li>기사 정정 요청</li></ul></div>
+  </div>
+  </main></div>`,
 }));
 
 // 404
-write("404.html", layout({ title: "페이지를 찾을 수 없어요", body: `<div class="wrap"><main class="grid"><div class="col"><section class="panel doc"><h1>페이지를 찾을 수 없어요</h1><p class="lede">주소가 바뀌었거나 삭제된 페이지예요.</p><a class="btn" href="${u()}">라이브 속보로 가기</a></section></div></main></div>` }));
+write("404.html", layout({ title: "페이지를 찾을 수 없어요", canonical: null, body: `<div class="wrap"><main class="single"><div class="doc"><span class="label">404</span><h1>페이지를 찾을 수 없어요</h1><p class="lede">주소가 바뀌었거나 삭제된 페이지예요.</p><a class="btn" href="${u()}">라이브 속보로</a></div></main></div>` }));
 
 /* ---------- feeds & meta ---------- */
 write("flash.json", JSON.stringify(flashes.slice(0, 50).map((f) => ({ id: f.id, title: f.title, time: f.date.toISOString(), important: f.important, category: f.category || "", url: u(`flash/${f.id}/`) }))));
-
 const link = (p) => (SITE_URL ? abs(p) : u(p));
 const rssItems = [...flashes.slice(0, 50).map((f) => ({ t: f.title, l: link(`flash/${f.id}/`), d: f.date, s: plain(f.body || "") })),
-  ...articles.map((a) => ({ t: a.title, l: link(`articles/${a.id}/`), d: a.date, s: a.summary || "" }))].sort((a, b) => b.d - a.d);
+  ...articles.slice(0, 30).map((a) => ({ t: a.title, l: link(`articles/${a.id}/`), d: a.date, s: a.summary || "" }))].sort((a, b) => b.d - a.d);
 write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel><title>${esc(cfg.name)}</title><link>${link("")}</link><description>${esc(cfg.description)}</description><language>ko</language>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
-
 if (SITE_URL) {
-  const urls = ["", "news/", "market/", "terms/", ...flashes.map((f) => `flash/${f.id}/`), ...articles.map((a) => `articles/${a.id}/`)];
+  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
-  write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${abs("sitemap.xml")}\n`);
-} else {
-  write("robots.txt", `User-agent: *\nAllow: /\n`);
-}
-
+  write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
+} else write("robots.txt", "User-agent: *\nAllow: /\n");
+write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
 write("manifest.webmanifest", JSON.stringify({
-  name: cfg.name, short_name: cfg.name, description: cfg.description, lang: "ko",
-  start_url: BASE, scope: BASE, display: "standalone", background_color: "#F2F4F6", theme_color: "#0B7A6E",
+  name: `${cfg.nameEn} ${cfg.name}`, short_name: cfg.nameEn, description: cfg.description, lang: "ko",
+  start_url: BASE, scope: BASE, display: "standalone", background_color: "#0A0A0A", theme_color: "#0A0A0A",
   icons: [
     { src: u("icons/icon-192.png"), sizes: "192x192", type: "image/png" },
     { src: u("icons/icon-512.png"), sizes: "512x512", type: "image/png" },
     { src: u("icons/icon-maskable-512.png"), sizes: "512x512", type: "image/png", purpose: "maskable" },
   ],
 }, null, 2));
-const sw = fs.readFileSync(path.join(ROOT, "public/sw.js"), "utf8").replace("__BUILD__", BUILD_ID).replace("__BASE__", BASE);
-write("sw.js", sw);
+write("sw.js", fs.readFileSync(path.join(ROOT, "public/sw.js"), "utf8").replace("__BUILD__", BUILD_ID).replace("__BASE__", BASE));
 write(".nojekyll", "");
 if (cfg.domain) write("CNAME", cfg.domain + "\n");
 
-console.log(`빌드 완료 → dist/  (속보 ${flashes.length}, 기사 ${articles.length}, 헤드라인 ${hlItems.length}, base ${BASE})`);
+console.log(`빌드 완료 → dist/ (속보 ${flashes.length}, 기사 ${articles.length}, 헤드라인 ${hlItems.length}, 상장 ${lsItems.length}, 커뮤니티 ${extGroups.length}그룹, base ${BASE})`);

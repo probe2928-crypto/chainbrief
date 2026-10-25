@@ -3,12 +3,13 @@ name: 빌드 및 배포
 on:
   push:
     branches: [main]
+    paths-ignore: ["app/**", ".github/workflows/app.yml", "docs/**", "README.md"]
   schedule:
-    - cron: "*/15 * * * *"   # 15분마다 해외 헤드라인 갱신
+    - cron: "*/15 * * * *"   # 15분마다: 헤드라인·상장 소식·커뮤니티 인기글 갱신
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,18 +27,39 @@ jobs:
         with:
           node-version: 22
 
-      - name: 헤드라인 캐시 복원
+      - name: 수집 캐시 복원
         uses: actions/cache@v4
         with:
-          path: data
-          key: news-${{ github.run_id }}
-          restore-keys: news-
+          path: |
+            data/headlines.json
+            data/translations.json
+            data/community.json
+          key: collect-${{ github.run_id }}
+          restore-keys: collect-
 
       - name: 해외 헤드라인 수집
         run: npm run news
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: 업비트·빗썸 상장 소식 수집
+        run: npm run listings
+        continue-on-error: true
+
+      - name: 커뮤니티 인기글 수집
+        run: npm run community
+        continue-on-error: true
+
+      - name: 상장 소식·자동 속보 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/listings.json content/flash
+          if git diff --cached --quiet; then echo "변경 없음"; exit 0; fi
+          git commit -m "자동: 상장 소식 업데이트"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done
+          echo "푸시 실패 — 다음 실행에서 다시 시도"
 
       - id: pages
         uses: actions/configure-pages@v5
