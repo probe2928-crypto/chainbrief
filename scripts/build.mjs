@@ -1,5 +1,6 @@
 // 정적 사이트 빌드: content/ + data/ → dist/
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify } from "./lib.mjs";
@@ -252,7 +253,8 @@ function pickArt(used, want) {
   const a = order.find((x) => !used.has(x)) || order[0];
   used.add(a); return a;
 }
-const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}"><img src="${u(`art/${name}.jpg`)}" alt="" ${eager ? 'fetchpriority="high"' : 'fetchpriority="low"'} decoding="async"></picture>`;
+const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
+const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" ${eager ? 'fetchpriority="high"' : 'fetchpriority="low"'} decoding="async"></picture>`;
 function hero(slides, size = "lg", label = "주요 소식") {
   if (!slides.length) return "";
   const used = new Set();

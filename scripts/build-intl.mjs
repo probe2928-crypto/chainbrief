@@ -2,6 +2,7 @@
 // 콘텐츠: content/en/{articles,flash}, content/zh/{articles,flash}
 // 공용 데이터: data/listings.json, data/headlines.json (언어별로 매체 필터)
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify } from "./lib.mjs";
@@ -161,6 +162,7 @@ const ART = { Policy: "sage-bands", Markets: "gold-silk", Industry: "light-grid"
 const ART_POOL = ["blue-hour", "rose-dusk", "gold-silk", "prism", "contour", "smoke", "sage-bands", "light-grid"];
 const EXN = { upbit: "Upbit", bithumb: "Bithumb" };
 
+const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
 for (const L of [ED.en, ED.zh]) {
   const P = `${L.code}/`;
   const u = (p = "") => BASE + P + p.replace(/^\//, "");
@@ -241,7 +243,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const secHead = (label, title, aside = "", tag = "h1") => `<div class="sec"><div><span class="label">${label}</span><${tag}>${title}</${tag}></div>${aside ? `<div class="aside">${aside}</div>` : ""}</div>`;
 
   // 히어로
-  const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}"><img src="${asset(`art/${name}.jpg`)}" alt="" fetchpriority="${eager ? "high" : "low"}" decoding="async"></picture>`;
+  const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${asset(`art/${name}.jpg`)}?v=${ART_V}" alt="" fetchpriority="${eager ? "high" : "low"}" decoding="async"></picture>`;
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
     const used = new Set();
