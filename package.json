@@ -1,0 +1,14 @@
+{
+  "name": "chainbrief",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "블록체인·코인 속보 미디어 사이트 (정적 사이트 + GitHub Pages)",
+  "scripts": {
+    "news": "node scripts/fetch-news.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "new": "node scripts/new-flash.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "체인브리프",
+  "nameEn": "ChainBrief",
+  "tagline": "가장 빠른 코인 속보와 시세",
+  "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세와 김치프리미엄을 한곳에서.",
+  "domain": "",
+  "lang": "ko",
+  "categories": ["비트코인", "알트코인", "규제·정책", "거시경제", "온체인", "거래소", "공지"],
+  "coins": [
+    { "id": "bitcoin", "symbol": "BTC", "name": "비트코인" },
+    { "id": "ethereum", "symbol": "ETH", "name": "이더리움" },
+    { "id": "ripple", "symbol": "XRP", "name": "리플" },
+    { "id": "solana", "symbol": "SOL", "name": "솔라나" },
+    { "id": "binancecoin", "symbol": "BNB", "name": "BNB" },
+    { "id": "dogecoin", "symbol": "DOGE", "name": "도지코인" },
+    { "id": "cardano", "symbol": "ADA", "name": "에이다" },
+    { "id": "tron", "symbol": "TRX", "name": "트론" }
+  ],
+  "newsSources": [
+    { "name": "CoinDesk", "url": "https://www.coindesk.com/arc/outboundfeeds/rss/", "lang": "en" },
+    { "name": "Cointelegraph", "url": "https://cointelegraph.com/rss", "lang": "en" },
+    { "name": "Decrypt", "url": "https://decrypt.co/feed", "lang": "en" },
+    { "name": "Bitcoin Magazine", "url": "https://bitcoinmagazine.com/.rss/full/", "lang": "en" },
+    { "name": "The Block", "url": "https://www.theblock.co/rss.xml", "lang": "en" },
+    { "name": "블록미디어", "url": "https://www.blockmedia.co.kr/feed", "lang": "ko" }
+  ],
+  "partner": {
+    "label": "파트너 거래소",
+    "title": "선물 수수료 할인 레퍼럴",
+    "text": "제휴 거래소 가입 시 거래 수수료 할인 혜택을 받을 수 있어요.",
+    "button": "혜택 보기",
+    "url": ""
+  },
+  "telegram": "",
+  "footer": {
+    "company": "",
+    "registration": "",
+    "publisher": "",
+    "email": ""
+  }
+}
