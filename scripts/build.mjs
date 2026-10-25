@@ -37,7 +37,7 @@ const fmt = (d, o) => new Intl.DateTimeFormat("ko-KR", { timeZone: KST, ...o }).
 const hhmm = (d) => fmt(d, { hour: "2-digit", minute: "2-digit", hour12: false });
 const dayLabel = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", weekday: "long" });
 const dayKey = (d) => fmt(d, { year: "numeric", month: "2-digit", day: "2-digit" }).replace(/\.\s?/g, "-").replace(/-$/, "");
-const kstHour = (d) => +fmt(d, { hour: "2-digit", hour12: false }) % 24;
+const kstHour = (d) => parseInt(fmt(d, { hour: "2-digit", hourCycle: "h23" }).replace(/\D/g, ""), 10) % 24;
 const fullDate = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
 const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
 function write(rel, content) {
@@ -272,7 +272,8 @@ for (let d = 0; d < 7; d++) {
   const items = lsItems.filter((i) => dayKey(i.date) === key);
   days.push({ key, date, items });
 }
-const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx ? " hidden" : ""}>
+const openIdx = Math.max(0, days.findIndex((d) => d.items.length));
+const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>
   ${SLOTS.map(([ko, en, a, b]) => {
     const its = day.items.filter((i) => { const h = kstHour(i.date); return h >= a && h < b; });
     return `<section class="slotsec"><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
@@ -284,7 +285,7 @@ write("listings/index.html", layout({
   description: "업비트·빗썸 신규 상장, 거래 유의, 거래지원 종료 소식을 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
   body: `<div class="wrap"><main class="grid"><div class="col"><section>
   ${secHead("Listings", "상장 소식", listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인")}
-  <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === 0}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
+  <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
   <div class="tabs-row" id="lsFilters">
     ${[["all", "전체"], ["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
     <span style="width:1px;background:var(--line)"></span>
