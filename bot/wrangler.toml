@@ -1,0 +1,18 @@
+name = "chainbrief-signals"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[triggers]
+crons = ["* * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "chainbrief-signals"
+database_id = "__D1_ID__"
+
+[vars]
+SITE = "https://probe2928-crypto.github.io/chainbrief/"
+PERPLINE = "https://probe2928-crypto.github.io/perpline/"
+TG_CHANNEL_KO = "__TG_CHANNEL_KO__"
+TG_CHANNEL_EN = "__TG_CHANNEL_EN__"
