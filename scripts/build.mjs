@@ -111,12 +111,13 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span>${esc(dayLabel(NOW))}</span><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></div></div>
+<div class="topline"><div class="wrap"><span>${esc(dayLabel(NOW))}</span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
-  <div class="wrap brand"><a href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a><button class="install desk-only" id="installBtn" type="button" hidden>App</button></div>
+  <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
 </header>
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
+${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
 ${body}
 ${adBand}
 <footer class="site-footer"><div class="cbar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
@@ -216,6 +217,11 @@ const adCard = (ad, cls = "") => `<a class="ad ${cls}" data-ad="${esc(ad.id)}" h
   <span class="ad-cta">${esc(ad.cta)} <span aria-hidden="true">→</span></span>
   ${ad.note ? `<span class="ad-n">${esc(ad.note)}</span>` : ""}
 </a>`;
+function topAd(ad, side, mobile = false) {
+  if (!ad) return `<span class="topad-sp"></span>`;
+  return `<a class="topad ${side}${mobile ? " m" : ""}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored" title="${esc(ad.note || ad.title)}">
+    <span class="ta-l">${esc(ad.topEyebrow || "Partner")}</span><span class="ta-wm">${esc(ad.wordmark)}</span><span class="ta-t">${esc(ad.short || ad.title)}</span></a>`;
+}
 const adBand = ADS.length ? `<section class="adband" aria-label="제휴 광고"><div class="wrap"><div class="adband-head"><span class="label">Partners</span><span class="label">체인브리프와 함께하는 곳</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 const adInline = (i = 0) => ADS.length ? `<aside class="ad-inline"><span class="label">Sponsored</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : "";
 const partner = "";
