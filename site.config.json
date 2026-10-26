@@ -225,10 +225,5 @@
       "short": "Trading fees, returned.",
       "topEyebrow": "Partner · Global only"
     }
-  ],
-  "signals": {
-    "api": "",
-    "channelKo": "",
-    "channelEn": ""
-  }
+  ]
 }

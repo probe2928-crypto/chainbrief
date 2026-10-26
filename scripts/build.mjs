@@ -4,7 +4,6 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
-import { signalsBody } from "./signals-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -85,7 +84,7 @@ const ICON = {
   news: '<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',
   comm: '<path d="M4 5h16v11H9l-5 4z"/>',
 };
-const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["signals/", "시그널"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], ["contact/", "문의"]];
+const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], ["contact/", "문의"]];
 const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/", "급등", "surge"], ["news/", "뉴스", "news"], ["community/", "커뮤니티", "comm"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
@@ -118,7 +117,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","signals/","news/","market/","contact/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","signals/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","signals/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
@@ -145,7 +144,7 @@ ${adBand}
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
-<script>window.CB=${JSON.stringify({ sigApi: (cfg.signals || {}).api || "", base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
+<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 </body>
@@ -379,11 +378,6 @@ write("listings/index.html", layout({
 
 // 급등 레이더 (브라우저에서 실시간 계산, public/surge.js)
 const board = (id, label, title, note = "") => `<section class="sboard"><div class="block-head"><h2>${title}</h2><span class="label">${label}</span></div>${note ? `<p class="bnote">${note}</p>` : ""}<ol class="rank" id="${id}"><li class="msg-row"><span class="nm">불러오는 중…</span></li></ol></section>`;
-write("signals/index.html", layout({
-  title: "시그널 — 펀딩비·청산·고래·김프 알림", active: "signals/", canonical: "signals/", extraScript: "signals.js",
-  description: "펀딩비 급변, 대량 청산, 고래 이동, 김프를 실시간 차트로 보고 텔레그램으로 알림 받기.",
-  body: signalsBody({ lang: "ko", hero: (sl, size) => hero(sl, size, "시그널 안내"), secHead, esc, sig: cfg.signals || {}, tz: "Asia/Seoul", locale: "ko-KR" }),
-}));
 write("surge/index.html", layout({
   title: "급등 레이더", active: "surge/", canonical: "surge/", extraScript: "surge.js",
   description: "업비트·빗썸 원화마켓 실시간 급등·급락, 5분 단기 급등, 거래 급증, 52주 신고가, 신규 상장 성적표, 거래소 가격차.",
@@ -603,7 +597,7 @@ write("privacy/index.html", layout({
   <h2>커뮤니티 게시판 (웹사이트)</h2>
   <p>웹사이트 게시판에 글이나 댓글을 쓰면 입력한 닉네임과 내용, 삭제용 비밀번호의 암호화 값, 도배 방지를 위한 접속 IP의 해시 값이 저장됩니다. 이 정보는 게시판 운영에만 쓰이며, 작성자는 언제든 비밀번호로 삭제할 수 있습니다.</p>
   <h2>광고·외부 링크</h2>
-  <p>서비스에는 제휴사(BLOCKKEY, Perpline) 배너와 외부 기사 링크가 있습니다. 링크를 누르면 해당 사이트로 이동하며, 그 사이트의 개인정보 정책이 적용됩니다. 서비스는 광고 추적 도구를 쓰지 않습니다. 방문 수는 어떤 페이지가 몇 번 열렸는지만 하루 단위로 세며, IP 주소나 쿠키는 저장하지 않습니다.</p>
+  <p>서비스에는 제휴사(BLOCKKEY, Perpline) 배너와 외부 기사 링크가 있습니다. 링크를 누르면 해당 사이트로 이동하며, 그 사이트의 개인정보 정책이 적용됩니다. 서비스는 광고 추적 도구를 쓰지 않습니다.</p>
   <h2>문의</h2>
   <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
   <h2>Privacy Policy (English)</h2>

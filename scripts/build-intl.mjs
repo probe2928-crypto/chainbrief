@@ -6,7 +6,6 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
-import { signalsBody } from "./signals-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -63,7 +62,7 @@ const ED = {
     tagline: "Crypto news, Korean listings and live markets",
     description: "Crypto and blockchain news focused on the US, Europe and Singapore, plus Upbit & Bithumb listings, a live surge radar and market data.",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400;6..72,600",
-    nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["signals/", "Signals"], ["news/", "News"], ["market/", "Markets"], ["contact/", "Contact"]],
+    nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], ["contact/", "Contact"]],
     tabs: [["", "Live", "live"], ["listings/", "Listings", "list"], ["surge/", "Surge", "surge"], ["news/", "News", "news"], ["market/", "Markets", "mkt"]],
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
     all: "All", breaking: "Breaking", liveTitle: "Live Wire", search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
@@ -109,7 +108,7 @@ const ED = {
     tagline: "加密快讯、韩国上币与实时行情",
     description: "聚焦香港与新加坡的加密与区块链新闻，并提供韩国 Upbit、Bithumb 上币动态、实时异动雷达与行情数据。",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
-    nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["signals/", "信号"], ["news/", "新闻"], ["market/", "行情"], ["contact/", "联系"]],
+    nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], ["contact/", "联系"]],
     tabs: [["", "快讯", "live"], ["listings/", "上币", "list"], ["surge/", "异动", "surge"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"]],
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯", search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
@@ -152,7 +151,7 @@ const ED = {
   },
 };
 const LANGS = [["ko", "KO", ""], ["en", "EN", "en/"], ["zh", "中文", "zh/"]];
-const SHARED_PAGES = ["", "listings/", "surge/", "signals/", "news/", "market/", "contact/"];
+const SHARED_PAGES = ["", "listings/", "surge/", "news/", "market/", "contact/"];
 
 const ICON = {
   live: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
@@ -240,7 +239,7 @@ ${adBand}
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
-<script>window.CB=${JSON.stringify({ sigApi: (cfg.signals || {}).api || "", base: BASE, coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
+<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 </body>
@@ -353,12 +352,6 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <p class="note">${esc(S.note)}</p></section></main></div>`,
   }));
 
-  // 시그널
-  write(`${P}signals/index.html`, layout({
-    title: L.code === "zh" ? "信号 — 资金费率·爆仓·巨鲸·泡菜溢价" : "Signals — funding, liquidations, whales, Korea premium", active: "signals/", canonical: "signals/", extraScript: "signals.js",
-    description: L.code === "zh" ? "资金费率异动、大额爆仓、巨鲸转账与韩国溢价实时图表和 Telegram 提醒。" : "Live charts and Telegram alerts for funding swings, large liquidations, whale moves and the Korea premium.",
-    body: signalsBody({ lang: L.code, hero, secHead, esc, sig: cfg.signals || {}, tz: L.tz, locale: L.locale }),
-  }));
 
   // 뉴스
   const srcs = [...new Set(hl.map((h) => h.source))];
