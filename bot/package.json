@@ -2,9 +2,11 @@
   "name": "chainbrief-signals",
   "private": true,
   "description": "체인브리프 시그널 — 펀딩비·청산·고래·김프 텔레그램 알림봇 + 유료 구독",
+  "type": "module",
   "scripts": {
     "deploy": "wrangler deploy",
-    "test": "node --no-warnings test/run.mjs && node --no-warnings test/subs.mjs"
+    "test": "node --no-warnings test/run.mjs && node --no-warnings test/subs.mjs",
+    "local": "node local/run.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"

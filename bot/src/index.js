@@ -301,13 +301,13 @@ export async function prepare(env) {
 async function setup(env, origin) {
   const checks = [];
   const ok = (label, pass, hint = "") => checks.push({ label, pass: !!pass, hint });
-  ok("데이터베이스 (D1)", true);
-  if (!env.TELEGRAM_BOT_TOKEN) { ok("텔레그램 봇 토큰", false, "Cloudflare → 이 워커 → Settings → Variables and Secrets 에 TELEGRAM_BOT_TOKEN 추가"); return checks; }
+  ok(env.POLLING ? "데이터베이스 (이 PC · signals.db)" : "데이터베이스 (D1)", true);
+  if (!env.TELEGRAM_BOT_TOKEN) { ok("텔레그램 봇 토큰", false, env.POLLING ? "config.json 의 TELEGRAM_BOT_TOKEN 에 붙여넣기" : "Cloudflare → 이 워커 → Settings → Variables and Secrets 에 TELEGRAM_BOT_TOKEN 추가"); return checks; }
   const me = await tgApi(env, "getMe", {});
   ok("텔레그램 봇", me?.username, me?.username ? "@" + me.username : "토큰이 맞는지 확인");
   if (me?.username) await kvSet(env.DB, "bot:username", me.username);
-  const hook = await tgApi(env, "setWebhook", { url: `${origin}/tg/${env.TG_WEBHOOK_SECRET}`, allowed_updates: ["message", "callback_query"] });
-  ok("봇 대화 연결 (웹훅)", hook);
+  if (env.POLLING) ok("봇 대화 연결 (PC 폴링)", true, "이 PC에서 직접 메시지를 받아요");
+  else { const hook = await tgApi(env, "setWebhook", { url: `${origin}/tg/${env.TG_WEBHOOK_SECRET}`, allowed_updates: ["message", "callback_query"] }); ok("봇 대화 연결 (웹훅)", hook); }
   await tgApi(env, "setMyCommands", { commands: [{ command: "pro", description: "프로 구독 · Go Pro" }, { command: "status", description: "이용 상태 · My plan" }, { command: "lang", description: "언어 · Language" }] });
   for (const [k, label] of [["TG_CHANNEL_KO", "무료 채널 (한국어)"], ["TG_CHANNEL_EN", "무료 채널 (영어)"], ["TG_PRO_KO", "프로 채널 (한국어)"], ["TG_PRO_EN", "프로 채널 (영어)"]]) {
     const ch = env[k];

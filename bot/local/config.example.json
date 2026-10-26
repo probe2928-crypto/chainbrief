@@ -1,0 +1,13 @@
+{
+  "_안내": "TELEGRAM_BOT_TOKEN 에 BotFather 토큰을 붙여넣고 저장하세요. 결제 주소(PAY_TRON_ADDRESS)를 비우면 결제 없이 무료로만 운영돼요.",
+  "TELEGRAM_BOT_TOKEN": "",
+  "TG_CHANNEL_KO": "@chainbrief_signals",
+  "TG_CHANNEL_EN": "@chainbrief_signals_en",
+  "TG_PRO_KO": "-1004196017959",
+  "TG_PRO_EN": "-1004459404307",
+  "PAY_TRON_ADDRESS": "",
+  "PRICE_MONTH": "19",
+  "PRICE_QUARTER": "49",
+  "FREE_DELAY_MIN": "15",
+  "ETHERSCAN_API_KEY": ""
+}
