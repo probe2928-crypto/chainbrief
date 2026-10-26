@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=block" rel="stylesheet">
+<style>
+:root{--paper:#fff;--ink:#0A0A0A;--mute:#62605B;--faint:#85837E;--line:#E6E5E2;--wash:#F6F6F4;--sig:#A8201A}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+body{font-family:'Jost',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;word-break:normal}
+.layer{position:absolute;inset:0;overflow:hidden}
+.bg{position:absolute;inset:-40px;background-size:cover;background-position:50% 50%}
+.wm{font-family:'Bodoni Moda';font-weight:600;font-optical-sizing:none;font-variation-settings:'opsz' 11;letter-spacing:.34em;line-height:1;white-space:nowrap}
+.lab{font-family:'Jost';font-weight:400;font-size:24px;letter-spacing:.24em;text-transform:uppercase}
+.c{position:absolute;left:0;right:0;text-align:center}
+.it{font-family:'Bodoni Moda';font-style:italic;font-weight:500;font-optical-sizing:none;font-variation-settings:'opsz' 11}
+.my{font-family:'Newsreader';font-weight:800;letter-spacing:-.03em}
+/* paper pages */
+.paper{background:var(--paper);will-change:transform}
+.mast{position:absolute;left:80px;right:80px;top:150px;height:120px;border-bottom:1px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.mast .wm{font-size:54px;margin-right:-.34em}
+.topl{position:absolute;left:80px;right:80px;top:96px;display:flex;justify-content:space-between;color:var(--mute)}
+.live i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--sig);margin-right:12px;vertical-align:2px}
+.sec{position:absolute;left:80px;right:80px;top:330px;display:flex;justify-content:space-between;align-items:baseline}
+.sec .lab{color:var(--ink)}
+.wire{position:absolute;left:80px;right:80px;top:400px}
+.row{display:grid;grid-template-columns:190px 1fr;gap:28px;padding:34px 0;border-top:1px solid var(--line)}
+.row .t{font-family:'Jost';font-size:26px;letter-spacing:.14em;padding-top:8px;font-weight:400;color:var(--ink);font-variant-numeric:tabular-nums}
+.row .cat{font-family:'Jost';font-size:22px;color:var(--faint);margin-bottom:10px}
+.row .h{font-family:'Newsreader';font-weight:700;font-size:40px;line-height:1.38;letter-spacing:-.03em}
+.big{position:absolute;left:80px;right:80px;font-family:'Newsreader';font-weight:800;font-size:104px;line-height:1.2;letter-spacing:-.045em}
+.big .l{display:block;overflow:hidden}.big .l span{display:inline-block}
+.sub{position:absolute;left:80px;right:80px;font-family:'Jost';font-weight:300;font-size:38px;line-height:1.6;color:var(--mute)}
+/* listing day */
+.days{position:absolute;left:80px;right:80px;top:450px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.day{border-top:2px solid var(--ink);padding-top:22px}
+.day .n{font-family:'Bodoni Moda';font-style:italic;font-size:30px;color:var(--faint)}
+.day .k{font-family:'Newsreader';font-weight:800;font-size:48px;margin-top:8px;letter-spacing:-.03em}
+.day .ln{height:2px;background:var(--line);margin-top:26px;position:relative;overflow:hidden}
+.day .ln b{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+.tags{position:absolute;left:80px;right:80px;top:720px;display:flex;gap:18px}
+.tag{font-family:'Jost';font-size:28px;padding:14px 28px;border:1px solid var(--ink);border-radius:999px}
+.tag.s{background:var(--ink);color:#fff}
+/* article */
+.art{position:absolute;left:80px;right:80px;top:330px;border:1px solid var(--line);background:#fff}
+.art .img{height:560px;background-size:cover;background-position:50% 50%}
+.art .bd{padding:48px 52px 54px}
+.art .cat{font-family:'Jost';font-size:24px;color:var(--sig);letter-spacing:.02em}
+.art .h{font-family:'Newsreader';font-weight:800;font-size:56px;line-height:1.32;letter-spacing:-.04em;margin-top:18px}
+.art .by{display:flex;align-items:center;gap:18px;margin-top:34px;font-family:'Jost';font-size:26px;color:var(--mute)}
+.art .by .dot{width:6px;height:6px;border-radius:50%;background:var(--faint)}
+.desk{position:absolute;left:80px;right:80px;top:1270px;display:flex;flex-wrap:wrap;gap:14px 16px}
+.desk span{font-family:'Jost';font-size:26px;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:4px;margin-right:20px}
+.langs{display:flex;gap:0}
+.langs span{font-family:'Jost';font-size:24px;letter-spacing:.14em;padding:8px 18px;border:1px solid var(--line);color:var(--mute)}
+.langs span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+/* end */
+.cta{display:inline-block;border:1px solid #fff;padding:30px 64px;font-family:'Jost';font-size:36px;font-weight:500;color:#fff}
+.url{font-family:'Jost';font-size:28px;letter-spacing:.1em;color:rgba(255,255,255,.7)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+</style></head><body>
+
+<!-- A: opener -->
+<div class="layer" id="A" style="background:#000">
+ <div class="bg" id="Abg" style="background-image:url(photos/prism.jpg);-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%)"></div>
+ <div class="c" style="top:820px;height:1px;background:rgba(255,255,255,.5)" id="Arule"></div>
+ <div class="c wm" id="Awm" style="top:870px;font-size:92px;color:#fff">CHAINBRIEF</div>
+ <div class="c it" id="Afr" style="top:1010px;font-size:50px;color:rgba(255,255,255,.88)">La dépêche, à toute heure.</div>
+ <div class="c my" id="Ako" style="top:1110px;font-size:40px;font-weight:400;color:rgba(255,255,255,.7);letter-spacing:.02em">Crypto news from Seoul, around the clock.</div>
+</div>
+
+<!-- B: wire -->
+<div class="layer paper" id="B"><div class="grain"></div>
+ <div class="topl"><span class="lab live"><i></i>Live <span id="clock">24/7</span> UTC</span><span class="lab">EN · 中文 · KO</span></div>
+ <div class="mast"><span class="wm">CHAINBRIEF</span></div>
+ <div class="sec"><span class="lab">Live Wire</span><span class="lab" style="color:var(--faint)">2026.10.26</span></div>
+ <div class="wire" id="wire">
+  <div class="row"><div class="t">HONG KONG</div><div><div class="cat">Regulation · Asia</div><div class="h">Hong Kong opens 24/7 secondary trading in tokenized money market funds</div></div></div>
+  <div class="row"><div class="t">EUROPE</div><div><div class="cat">Policy · Europe</div><div class="h">ECB’s Cipollone: digital euro pilot with real payments on track for 2027</div></div></div>
+  <div class="row"><div class="t">SINGAPORE</div><div><div class="cat">Central banks · Asia</div><div class="h">Malaysia, Thailand central banks join Singapore’s BLOOM project</div></div></div>
+  <div class="row"><div class="t">BITCOIN</div><div><div class="cat">Markets · US</div><div class="h">Strategy skips bitcoin purchases for the week</div></div></div>
+ </div>
+ <div class="big" id="Bbig" style="top:1440px"><span class="l"><span>The crypto wire,</span></span><span class="l"><span>around the clock.</span></span></div>
+</div>
+
+<!-- C: listings -->
+<div class="layer paper" id="C"><div class="grain"></div>
+ <div class="topl"><span class="lab live"><i></i>Live <span>Upbit · Bithumb</span></span><span class="lab">Korea</span></div>
+ <div class="mast"><span class="wm">CHAINBRIEF</span></div>
+ <div class="sec"><span class="lab">Korea Listings</span><span class="lab" style="color:var(--faint)">4× a day</span></div>
+ <div class="days" id="days">
+  <div class="day"><div class="n">i.</div><div class="k">Morning</div><div class="ln"><b></b></div></div>
+  <div class="day"><div class="n">ii.</div><div class="k">Afternoon</div><div class="ln"><b></b></div></div>
+  <div class="day"><div class="n">iii.</div><div class="k">Evening</div><div class="ln"><b></b></div></div>
+  <div class="day"><div class="n">iv.</div><div class="k">Overnight</div><div class="ln"><b></b></div></div>
+ </div>
+ <div class="tags" id="tags"><span class="tag s">New listings</span><span class="tag">Caution flags</span><span class="tag">Delistings</span></div>
+ <div class="big" id="Cbig" style="top:960px"><span class="l"><span>Korea’s exchanges,</span></span><span class="l"><span>in English,</span></span><span class="l"><span>as it happens.</span></span></div>
+ <div class="sub" id="Csub" style="top:1390px">Upbit & Bithumb listings, the Kimchi premium and live markets — on one screen.</div>
+</div>
+
+<!-- D: article -->
+<div class="layer paper" id="D"><div class="grain"></div>
+ <div class="topl"><span class="lab">News · Brief</span><span class="langs"><span class="on">KO</span><span>EN</span><span>中文</span></span></div>
+ <div class="art" id="art">
+  <div class="img" id="artimg" style="background-image:url(photos/gold-silk.jpg)"></div>
+  <div class="bd"><div class="cat">Industry · Europe · Analysis</div>
+   <div class="h">Aviva tokenizes its £22 billion sterling fund as regulators eye the plumbing</div>
+   <div class="by"><span>Scott Park</span><span class="dot"></span><span>Oct 26, 2026</span></div></div>
+ </div>
+ <div class="desk" id="desk"><span>United States</span><span>Europe</span><span>Singapore</span><span>Hong Kong</span></div>
+ <div class="big" id="Dbig" style="top:1420px;font-size:88px"><span class="l"><span>Analysis that makes</span></span><span class="l"><span>sense of the day.</span></span></div>
+</div>
+
+<!-- E: end -->
+<div class="layer" id="E" style="background:#05070d">
+ <div class="bg" id="Ebg" style="background-image:url(photos/blue-hour.jpg);opacity:.75"></div>
+ <div class="c wm" id="Ewm" style="top:600px;font-size:84px;color:#fff">CHAINBRIEF</div>
+ <div class="c" id="Erule" style="top:730px;left:390px;right:390px;height:1px;background:rgba(255,255,255,.6)"></div>
+ <div class="c my" id="Et" style="top:790px;font-size:62px;color:#fff;line-height:1.4">Crypto news, Korean listings<br>and live markets</div>
+ <div class="c" id="Es" style="top:930px;font-family:'Jost';font-weight:300;font-size:34px;color:rgba(255,255,255,.78)">Free · No sign-up · Web & app</div>
+ <div class="c" id="Ecta" style="top:1090px"><span class="cta">Read today’s brief →</span></div>
+ <div class="c url" id="Eurl" style="top:1250px">probe2928-crypto.github.io/chainbrief/en</div>
+ <div class="c it" id="Efr" style="top:1560px;font-size:34px;color:rgba(255,255,255,.55)">Maison de presse · Séoul</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const fadeUp=(el,v,d=30)=>{el.style.opacity=v;el.style.transform=`translateY(${d*(1-v)}px)`};
+const lines=(el,lt,step=.16,dur=.55)=>el.querySelectorAll('.l span').forEach((s,j)=>{const v=eo(seg(lt,j*step,j*step+dur));s.style.transform=`translateY(${(1-v)*105}%)`;s.style.opacity=v});
+const T={B:2.6,C:6.3,D:9.5,E:12.5};
+window.DUR=15;
+window.seek=function(t){
+ // A
+ $('Abg').style.transform=`translate(${-30+60*(t/3)}px,330px) scale(${1.08-.04*cl(t/3)})`;
+ $('Abg').style.opacity=.9*eo(seg(t,0,.8));
+ $('Arule').style.transform=`scaleX(${eio(seg(t,.2,1.1))})`;
+ const w=eo(seg(t,.35,1.5)); $('Awm').style.opacity=w; $('Awm').style.letterSpacing=(.8-.46*w)+'em'; $('Awm').style.marginRight=-(.8-.46*w)+'em';
+ fadeUp($('Afr'),eo(seg(t,1.2,1.9)),20); fadeUp($('Ako'),eo(seg(t,1.5,2.2)),20);
+ // page transitions (paper slides up)
+ const slide=(id,t0)=>{const k=eio(seg(t,t0-.55,t0)); const el=$(id); el.style.transform=`translateY(${(1-k)*1920}px)`; el.style.visibility=t<t0-.55?'hidden':'visible'};
+ slide('B',T.B); slide('C',T.C); slide('D',T.D);
+ // E fades from paper
+ $('E').style.opacity=eo(seg(t,T.E-.45,T.E)); $('E').style.visibility=t<T.E-.45?'hidden':'visible';
+ // B
+ let lt=t-T.B;
+ const mins=[7*60+48,12*60+53,18*60+48]; const ci=Math.min(2,Math.floor(cl(lt/2.4)*3));
+ const m=mins[ci]; if(0)$('clock').textContent=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+ [...$('wire').children].forEach((r,j)=>{const v=eo(seg(lt,.05+j*.32,.6+j*.32)); r.style.opacity=v; r.style.transform=`translateX(${40*(1-v)}px)`});
+ lines($('Bbig'),lt-1.45);
+ // C
+ lt=t-T.C;
+ [...$('days').children].forEach((d,j)=>{const v=eo(seg(lt,.05+j*.18,.55+j*.18)); fadeUp(d,v,24); d.querySelector('b').style.width=(100*eio(seg(lt,.4+j*.35,1.2+j*.35)))+'%'});
+ [...$('tags').children].forEach((g,j)=>fadeUp(g,eo(seg(lt,.7+j*.12,1.2+j*.12)),16));
+ lines($('Cbig'),lt-.9); fadeUp($('Csub'),eo(seg(lt,1.7,2.3)),16);
+ // D
+ lt=t-T.D;
+ $('artimg').style.transform=`scale(${1.1-.06*eo(cl(lt/3))})`; $('artimg').style.transformOrigin='50% 40%';
+ fadeUp($('art'),eo(seg(lt,0,.5)),20);
+ [...$('desk').children].forEach((g,j)=>fadeUp(g,eo(seg(lt,.9+j*.12,1.4+j*.12)),14));
+ lines($('Dbig'),lt-1.3);
+ // E
+ lt=t-T.E;
+ $('Ebg').style.transform=`scale(${1.06-.04*cl(lt/2.5)})`;
+ const ew=eo(seg(lt,.0,.9)); $('Ewm').style.opacity=ew; $('Ewm').style.letterSpacing=(.6-.26*ew)+'em'; $('Ewm').style.marginRight=-(.6-.26*ew)+'em';
+ $('Erule').style.transform=`scaleX(${eio(seg(lt,.3,.9))})`;
+ fadeUp($('Et'),eo(seg(lt,.45,1.0)),20); fadeUp($('Es'),eo(seg(lt,.65,1.2)),18); fadeUp($('Ecta'),eo(seg(lt,.85,1.4)),18); fadeUp($('Eurl'),eo(seg(lt,1.0,1.5)),14); fadeUp($('Efr'),eo(seg(lt,1.2,1.8)),10);
+};
+const imgs=['photos/prism.jpg','photos/gold-silk.jpg','photos/blue-hour.jpg'].map(s=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=s}));
+Promise.all([document.fonts.ready,...imgs]).then(()=>{window.seek(0);window.READY=true});
+</script></body></html>
