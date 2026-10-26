@@ -80,7 +80,7 @@ function scheduleTicks() {
 async function poll() {
   let offset = 0, fails = 0;
   for (;;) {
-    if (!cfg.TELEGRAM_BOT_TOKEN) { await sleep(30e3); cfg = loadConfig(); continue; }
+    if (!cfg.TELEGRAM_BOT_TOKEN) { await sleep(30e3); cfg = loadConfig(); if (cfg.TELEGRAM_BOT_TOKEN) await initBot(); continue; }
     try {
       const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 40e3);
       const r = await fetch(`https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}/getUpdates`, {
@@ -127,12 +127,14 @@ process.on("unhandledRejection", (e) => log("처리 안 된 오류:", e?.message
 process.on("uncaughtException", (e) => log("예외:", e?.message || e));
 serve();
 await envNow();
-if (cfg.TELEGRAM_BOT_TOKEN) {
+async function initBot() {
   await tgApi(cfg, "deleteWebhook", {});
   const me = await tgApi(cfg, "getMe", {});
   if (me?.username) { await DB.prepare("INSERT INTO kv (k, v, ts) VALUES ('bot:username', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, ts = excluded.ts").bind(JSON.stringify(me.username), Date.now()).run(); log(`봇 연결됨: @${me.username}`); }
   else log("봇 토큰을 확인하지 못했어요. config.json 의 TELEGRAM_BOT_TOKEN 을 확인해 주세요.");
   await tgApi(cfg, "setMyCommands", { commands: [{ command: "pro", description: "프로 구독 · Go Pro" }, { command: "status", description: "이용 상태 · My plan" }, { command: "lang", description: "언어 · Language" }] });
-} else log("config.json 에 TELEGRAM_BOT_TOKEN 을 넣어 주세요. 넣으면 30초 안에 자동으로 시작해요.");
+}
+if (cfg.TELEGRAM_BOT_TOKEN) await initBot();
+else log("config.json 에 TELEGRAM_BOT_TOKEN 을 넣어 주세요. 넣으면 30초 안에 자동으로 시작해요.");
 log("체인브리프 시그널 시작 — 1분마다 시장을 확인해요.");
 runTick(); scheduleTicks(); poll();
