@@ -99,7 +99,7 @@ function layout({ title, description = cfg.description, active = "", body, canon
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(description)}">
-${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}
+${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${SITE_URL && canonical === active && ["", "listings/", "surge/", "news/", "market/", "contact/", "search/"].includes(active) ? [["ko", ""], ["en", "en/"], ["zh-Hans", "zh/"], ["x-default", ""]].map(([h, pre]) => `<link rel="alternate" hreflang="${h}" href="${abs(pre + active)}">`).join("") : ""}
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
@@ -259,7 +259,10 @@ function pickArt(used, want) {
   used.add(a); return a;
 }
 const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
-const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" ${eager ? 'fetchpriority="high"' : 'fetchpriority="low"'} decoding="async"></picture>`;
+// 첫 장만 바로 받고, 나머지 슬라이드 그림은 app.js가 차례 직전에 data-src → src 로 채움 (첫 화면 ~1.5MB 절약)
+const artImg = (name, eager) => eager
+  ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" fetchpriority="high" decoding="async"></picture>`
+  : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" decoding="async"></picture>`;
 function hero(slides, size = "lg", label = "주요 소식") {
   if (!slides.length) return "";
   const used = new Set();

@@ -159,7 +159,7 @@ aside.rail{display:flex;flex-direction:column;gap:48px;min-width:0}
 .item .body p{margin:0 0 6px}
 .item .body a{text-decoration:underline;text-underline-offset:3px}
 .meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-top:10px;font-size:var(--fs-meta);color:var(--mute)}
-.tag{font-family:var(--f-label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.tag{font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .tag.kr{font-family:var(--f-sans);letter-spacing:.02em;font-size:var(--fs-meta);text-transform:none}
 .tag.hot{color:var(--signal)}
 .tag.fmt{color:var(--ink);border:1px solid var(--line);padding:1px 7px;font-family:var(--f-sans);letter-spacing:.02em;font-size:12px;text-transform:none}
@@ -173,12 +173,12 @@ aside.rail{display:flex;flex-direction:column;gap:48px;min-width:0}
 .hl a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 .hl .orig{font-size:var(--fs-meta);color:var(--faint);line-height:1.5}
 .hl .src{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-size:var(--fs-meta);color:var(--mute)}
-.hl .src b{font-family:var(--f-label);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.hl .src b{font-family:var(--f-label);font-weight:400;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
 
 /* ---------- market ---------- */
 table{width:100%;border-collapse:collapse;font-size:var(--fs-small)}
 td,th{padding:11px 0;text-align:right;white-space:nowrap}
-th{font-family:var(--f-label);font-size:11px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--line)}
+th{font-family:var(--f-label);font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--line)}
 td:first-child,th:first-child{text-align:left}
 tbody tr+tr td{border-top:1px solid var(--line)}
 td .sym{font-family:var(--f-label);letter-spacing:.1em;font-size:14px}
@@ -193,7 +193,7 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .gauge .lbl{font-size:var(--fs-small)}
 .bar{position:relative;height:1px;background:var(--line);margin:24px 0 10px}
 .bar i{position:absolute;top:-6px;width:1px;height:13px;background:var(--ink);transition:left .6s}
-.scale{display:flex;justify-content:space-between;font-size:11px;color:var(--faint);font-family:var(--f-label);letter-spacing:.12em;text-transform:uppercase}
+.scale{display:flex;justify-content:space-between;font-size:12px;color:var(--faint);font-family:var(--f-label);letter-spacing:.12em;text-transform:uppercase}
 .kp{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
 .kp small{display:block;font-size:12.5px;color:var(--mute)}
 .kp strong{font-family:var(--f-label);font-weight:400;font-size:22px}
@@ -205,7 +205,7 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .btn.ghost{background:transparent;color:var(--ink)}
 .btn.ghost:hover{background:var(--ink);color:var(--paper)}
 .btn:disabled{opacity:.4;cursor:default}
-.install{background:none;border:1px solid var(--line);padding:4px 10px;font-family:var(--f-label);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.install{background:none;border:1px solid var(--line);padding:4px 10px;font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
 
 /* ---------- articles ---------- */
 .byline{font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
@@ -250,7 +250,7 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .daytab{background:none;border:0;border-bottom:1px solid transparent;padding:16px 20px 12px;display:grid;gap:3px;text-align:left;color:var(--mute);min-width:90px}
 .daytab b{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1;color:var(--ink)}
 .daytab small{font-size:13px}
-.daytab .cnt{font-family:var(--f-label);font-size:11px;letter-spacing:.1em}
+.daytab .cnt{font-family:var(--f-label);font-size:12px;letter-spacing:.1em}
 .daytab[aria-pressed="true"]{color:var(--ink);background:linear-gradient(180deg,transparent 0%,color-mix(in srgb,var(--hue) 14%,transparent) 100%);border-bottom-color:var(--hue)}
 .slotsec{padding-top:32px}
 .slotsec h3{display:flex;align-items:baseline;gap:12px;margin:0 0 6px;font-family:var(--f-serif);font-size:21px;font-weight:700}
@@ -263,7 +263,7 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .lst .t a{text-decoration:underline;text-underline-offset:3px}
 .lst .px{text-align:right;font-family:var(--f-label);font-size:14px;white-space:nowrap}
 .lst .px small{display:block;color:var(--mute);font-size:12px}
-.ex{font-family:var(--f-label);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:1px 6px}
+.ex{font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:1px 6px}
 .ty{font-size:13px;letter-spacing:.02em}
 .ty.listing{color:var(--signal)} .ty.delisting{color:var(--down)}
 .slot-empty{padding:16px 0;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
@@ -324,7 +324,7 @@ main.wide-single{max-width:1080px}
 .cmts li p{margin:4px 0 0;white-space:pre-wrap;word-break:break-word}
 form.f{display:grid;gap:22px}
 .field{display:grid;gap:8px}
-.field label{font-family:var(--f-label);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.field label{font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .field input,.field textarea,.field select{border:0;border-bottom:1px solid var(--ink);background:transparent;padding:9px 0;font-size:16px;outline:0;border-radius:0;width:100%}
 .field textarea{min-height:240px;resize:vertical;border:1px solid var(--line);padding:14px}
 .field textarea:focus,.field input:focus{border-color:var(--ink)}
@@ -396,7 +396,7 @@ nav.tabs a[aria-current="page"]{color:var(--ink)}
 .ad{display:grid;align-content:start;gap:12px;padding:34px 34px 30px;border:1px solid var(--line);background:var(--paper);color:var(--ink);transition:background .35s,color .35s,border-color .35s;min-width:0}
 .ad:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .ad:hover .ad-x,.ad:hover .ad-eye,.ad:hover .ad-n{color:inherit;opacity:.75}
-.ad-eye{display:flex;justify-content:space-between;font-family:var(--f-label);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.ad-eye{display:flex;justify-content:space-between;font-family:var(--f-label);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
 .ad-wm{font-family:var(--f-display);font-weight:500;font-size:clamp(28px,3.2vw,38px);letter-spacing:.3em;line-height:1.1;margin:10px 0 6px;overflow-wrap:anywhere}
 .ad-t{font-family:var(--f-serif);font-size:21px;font-weight:700;letter-spacing:-.015em;line-height:1.4}
 .ad-x{font-size:15px;color:var(--mute);line-height:1.75;max-width:50ch}
@@ -657,3 +657,12 @@ html[lang="zh-Hans"] .sr-t{font-family:"Noto Serif SC","Songti SC",serif;letter-
 .sr-meta .tag{border:1px solid var(--line);padding:1px 8px;font-size:12px;color:var(--ink)}
 html:is([lang="ko"],[lang="zh-Hans"]) .sr-meta .tag{font-family:var(--f-sans);font-size:13px;letter-spacing:.02em;text-transform:none}
 .sr-meta .tag.fl{border-color:transparent}
+
+/* ---------- v3.3 · phone polish: scroll-edge fades, partner band rhythm ---------- */
+@media (max-width:959px){
+  .topads-m .topad{align-content:end}
+  .tape{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
+  :is(nav.top,.tape).is-mid{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 40px),transparent)}
+  :is(nav.top,.tape).is-end{-webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);mask-image:linear-gradient(90deg,transparent,#000 32px)}
+  :is(nav.top,.tape).is-fit{-webkit-mask-image:none;mask-image:none}
+}

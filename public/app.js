@@ -320,6 +320,10 @@
     const DUR = 7000, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let i = 0, timer = 0, busy = false, paused = false, left = DUR, started = Date.now();
     h.style.setProperty("--dur", DUR + "ms");
+    // 지연 로딩된 슬라이드 그림 채우기 (source 먼저, img 나중)
+    const fill = (s) => { if (!s) return; $$("[data-srcset]", s).forEach((e) => { e.srcset = e.dataset.srcset; e.removeAttribute("data-srcset"); }); $$("img[data-src]", s).forEach((e) => { e.src = e.dataset.src; e.removeAttribute("data-src"); }); };
+    const warm = () => { fill(slides[1]); fill(slides[slides.length - 1]); };
+    if (document.readyState === "complete") setTimeout(warm, 300); else window.addEventListener("load", () => setTimeout(warm, 300), { once: true });
     const mark = () => {
       bars.forEach((b, k) => { b.classList.toggle("done", k < i); b.classList.remove("on"); });
       void h.offsetWidth;
@@ -331,6 +335,7 @@
       n = (n + slides.length) % slides.length;
       if (busy || n === i) return;
       busy = true;
+      fill(slides[n]); fill(slides[(n + 1) % slides.length]); fill(slides[(n - 1 + slides.length) % slides.length]);
       const cur = slides[i], nxt = slides[n], back = dir < 0;
       cur.classList.remove("is-active"); cur.classList.add("is-leaving"); cur.classList.toggle("back", back);
       nxt.classList.add("is-entering"); nxt.classList.toggle("back", back); nxt.removeAttribute("aria-hidden");
@@ -381,5 +386,19 @@
     e.preventDefault();
     const box = document.getElementById("sq");
     if (box) box.focus(); else if (CB.searchUrl) location.href = CB.searchUrl;
+  });
+  // 가로 스크롤 줄(메뉴·시세 테이프): 양끝 페이드는 스크롤 위치에 맞춰, 현재 메뉴는 화면 안으로
+  document.querySelectorAll("nav.top, .tape").forEach((el) => {
+    const cur = el.querySelector('[aria-current="page"]');
+    if (cur && cur.offsetLeft + cur.offsetWidth > el.clientWidth - 24) el.scrollLeft = cur.offsetLeft - 24;
+    const edge = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      el.classList.toggle("is-fit", max <= 2);
+      el.classList.toggle("is-end", max > 2 && el.scrollLeft >= max - 2);
+      el.classList.toggle("is-mid", el.scrollLeft > 2 && el.scrollLeft < max - 2);
+    };
+    el.addEventListener("scroll", edge, { passive: true });
+    window.addEventListener("resize", edge, { passive: true });
+    edge();
   });
 })();

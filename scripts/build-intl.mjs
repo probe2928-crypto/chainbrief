@@ -203,7 +203,8 @@ for (const L of [ED.en, ED.zh]) {
   function layout({ title, description = L.description, active = "", body, canonical = "", type = "website", extraScript = "", float = true }) {
     const full = title ? `${title} | ${L.name}` : `${L.name} — ${L.tagline}`;
     const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
-    const alt = SHARED_PAGES.includes(active) && SITE_URL ? LANGS.map(([c, , pre]) => `<link rel="alternate" hreflang="${c === "zh" ? "zh-Hans" : c}" href="${SITE_URL}${asset(pre + active)}">`).join("") : "";
+    // hreflang은 세 에디션에 같은 페이지가 있는 섹션 페이지에만 (기사·속보는 에디션마다 다른 글이라 제외) + x-default=KO
+    const alt = SHARED_PAGES.includes(active) && canonical === active && SITE_URL ? LANGS.map(([c, , pre]) => `<link rel="alternate" hreflang="${c === "zh" ? "zh-Hans" : c}" href="${SITE_URL}${asset(pre + active)}">`).join("") + `<link rel="alternate" hreflang="x-default" href="${SITE_URL}${asset(active)}">` : "";
     return `<!doctype html>
 <html lang="${L.html}">
 <head>
@@ -213,7 +214,7 @@ for (const L of [ED.en, ED.zh]) {
 <meta name="description" content="${esc(description)}">
 ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${alt}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="${esc(L.name)}"><meta property="og:title" content="${esc(title || L.name)}"><meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `<meta property="og:image" content="${SITE_URL}${asset("og.png")}">` : ""}
+${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(canonical)}">` : ""}<meta property="og:image" content="${SITE_URL}${asset("og.png")}">` : ""}
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${asset("manifest.webmanifest")}"><link rel="icon" href="${asset("icons/icon-192.png")}" type="image/png"><link rel="apple-touch-icon" href="${asset("icons/apple-touch-icon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(L.name)}" href="${u("rss.xml")}">
@@ -252,7 +253,9 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const secHead = (label, title, aside = "", tag = "h1") => `<div class="sec"><div><span class="label">${label}</span><${tag}>${title}</${tag}></div>${aside ? `<div class="aside">${aside}</div>` : ""}</div>`;
 
   // 히어로
-  const artImg = (name, eager) => `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${asset(`art/${name}.jpg`)}?v=${ART_V}" alt="" fetchpriority="${eager ? "high" : "low"}" decoding="async"></picture>`;
+  const artImg = (name, eager) => eager
+    ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${asset(`art/${name}.jpg`)}?v=${ART_V}" alt="" fetchpriority="high" decoding="async"></picture>`
+    : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${asset(`art/${name}.jpg`)}?v=${ART_V}" alt="" decoding="async"></picture>`;
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
     const used = new Set();
