@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -102,6 +102,8 @@ const ED = {
       perpline: { title: "Your trading fees, returned.", text: "Compare fees across 11 futures exchanges and get 30–50% of your trading fees back in USDT every week.", cta: "Visit Perpline", short: "Trading fees, returned.", note: "Not available to residents of Korea or the United States.", top: "Partner" },
     },
     partnersT: "Partners", partnersX: "Brands we work with", sponsored: "Sponsored", byText: "By", homeLabel: "Home", readT: "{n} min read",
+    S: { title: "Search", desc: "Search CHAINBRIEF analysis and the live wire", aside: "Analysis {a} · Wire {f}", ph: "Coins, people, topics (e.g. bitcoin ETF)", try: "Try", all: "All", arts: "Analysis", flash: "Wire", nojs: "Search needs JavaScript enabled.",
+      js: { locale: "en-US", tz: "UTC", art: "Analysis", fl: "Wire", found: "{n} results for “{q}”", none: "Nothing matches “{q}”. Try another word.", hint: "Searches titles, summaries, story text, categories and authors.", loading: "Loading the index…", fail: "Couldn't load the search index. Please refresh." } },
   },
   zh: {
     code: "zh", html: "zh-Hans", locale: "zh-CN", tz: "Asia/Hong_Kong", tzL: "HKT", name: "CHAINBRIEF 链报",
@@ -148,10 +150,12 @@ const ED = {
       perpline: { title: "交易手续费，返还给你。", text: "比较 11 家合约交易所的手续费，每周以 USDT 返还 30–50% 的交易手续费。", cta: "访问 Perpline", short: "Trading fees, returned.", note: "不面向韩国及美国居民。", top: "Partner" },
     },
     partnersT: "Partners", partnersX: "合作伙伴", sponsored: "Sponsored", byText: "作者", homeLabel: "首页", readT: "阅读约 {n} 分钟",
+    S: { title: "搜索", desc: "搜索链报分析与 7×24 快讯", aside: "分析 {a} 篇 · 快讯 {f} 条", ph: "币种、人物、关键词（如：比特币 ETF）", try: "热门搜索", all: "全部", arts: "分析", flash: "快讯", nojs: "搜索功能需要启用 JavaScript。",
+      js: { locale: "zh-CN", tz: "Asia/Hong_Kong", art: "分析", fl: "快讯", found: "“{q}”共 {n} 条结果", none: "没有与“{q}”相关的内容，换个关键词试试。", hint: "可搜索标题、摘要、正文、分类与作者。", loading: "正在加载索引…", fail: "搜索索引加载失败，请刷新页面。" } },
   },
 };
 const LANGS = [["ko", "KO", ""], ["en", "EN", "en/"], ["zh", "中文", "zh/"]];
-const SHARED_PAGES = ["", "listings/", "surge/", "news/", "market/", "contact/"];
+const SHARED_PAGES = ["", "listings/", "surge/", "news/", "market/", "contact/", "search/"];
 
 const ICON = {
   live: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
@@ -218,10 +222,10 @@ ${SITE_URL ? `<meta property="og:image" content="${SITE_URL}${asset("og.png")}">
 <link rel="stylesheet" href="${asset("style.css")}?v=${BUILD_ID}">
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><a class="tl-search" href="${u("search/")}" aria-label="${esc(L.S.title)}">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(L.name)} ${esc(L.homeLabel)}">CHAINBRIEF</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
+  <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="${esc(L.S.title)}" title="${esc(L.S.title)} ( / )">${SEARCH_SVG}</a></nav>
 </header>
 <div class="tape"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
@@ -239,7 +243,7 @@ ${adBand}
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
-<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
+<script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 </body>
@@ -399,6 +403,11 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>
     <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></main></div>`,
+  }));
+
+  write(`${P}search/index.html`, layout({
+    title: L.S.title, description: L.S.desc, active: "search/", canonical: "search/", extraScript: "search.js",
+    body: writeSearch({ write, prefix: P, articles, flashes, link: u, esc, S: L.S }),
   }));
 
   writeAppFeed({ write, lang: L.code, flashes, articles, markdown, now: NOW, link: (p) => (SITE_URL || "https://probe2928-crypto.github.io") + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });

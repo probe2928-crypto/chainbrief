@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -117,10 +117,10 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}</nav>
+  <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
 </header>
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
@@ -144,7 +144,7 @@ ${adBand}
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
-<script>window.CB=${JSON.stringify({ base: BASE, coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
+<script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 </body>
@@ -313,6 +313,7 @@ const colorField = `<section class="cfield" aria-label="오늘의 시장"><div c
 const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
+  jsonld: SITE_URL ? JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), inLanguage: "ko", potentialAction: { "@type": "SearchAction", target: abs("search/") + "?q={search_term_string}", "query-input": "required name=search_term_string" } }) : "",
   body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid">
   <div class="col"><section>
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
@@ -601,9 +602,19 @@ write("privacy/index.html", layout({
   <h2>문의</h2>
   <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
   <h2>Privacy Policy (English)</h2>
-  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. Visits are counted per page and per day only, without storing IP addresses or cookies. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. Contact: Telegram @${esc(cfg.telegram)}.</p>
   </div>
   </main></div>`,
+}));
+
+// 사이트 검색 (기사·속보, public/search.js)
+write("search/index.html", layout({
+  title: "검색", active: "search/", canonical: "search/", extraScript: "search.js",
+  description: `${cfg.name} 기사와 속보 검색`,
+  body: writeSearch({ write, articles, flashes, link: u, esc, S: {
+    title: "기사·속보 검색", aside: "기사 {a}편 · 속보 {f}건", ph: "코인, 인물, 키워드 (예: 비트코인 ETF)", try: "추천 검색어", all: "전체", arts: "기사", flash: "속보", nojs: "검색은 자바스크립트가 켜져 있어야 동작해요.",
+    js: { locale: "ko-KR", tz: KST, art: "기사", fl: "속보", found: "‘{q}’ 검색 결과 {n}건", none: "‘{q}’에 맞는 기사나 속보가 없어요. 다른 낱말로 찾아보세요.", hint: "제목·요약·본문·분류·기자 이름에서 찾아요.", loading: "색인을 불러오는 중…", fail: "검색 색인을 불러오지 못했어요. 새로고침해 주세요." },
+  } }),
 }));
 
 // 404

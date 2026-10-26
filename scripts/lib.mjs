@@ -104,3 +104,24 @@ export function writeAppFeed({ write, lang, flashes, articles, artOf, markdown, 
   }));
   for (const a of articles.slice(0, 80)) write(`api/${lang}/a/${a.id}.json`, JSON.stringify({ id: a.id, html: markdown(a.body || "") }));
 }
+
+// 사이트 검색: search.json(기사·속보 색인) + /search/ 본문 — KO·EN·ZH 공용
+export const SEARCH_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>';
+export function writeSearch({ write, prefix = "", articles, flashes, link, esc, S }) {
+  const plain = (md = "") => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`|]/g, "").replace(/\s+/g, " ").trim();
+  const idx = [
+    ...articles.slice(0, 400).map((a) => ({ k: "a", t: a.title, s: (a.summary || plain(a.body)).slice(0, 180), x: plain(a.body).slice(0, 800), c: a.category || "", w: a.author || "", d: a.date.toISOString(), u: link(`articles/${a.id}/`) })),
+    ...flashes.slice(0, 600).map((f) => ({ k: "f", t: f.title, s: plain(f.body || "").slice(0, 160), x: "", c: f.category || "", w: "", d: f.date.toISOString(), u: link(`flash/${f.id}/`) })),
+  ];
+  write(`${prefix}search.json`, JSON.stringify(idx));
+  const cats = [...new Set([...articles, ...flashes].map((x) => x.category).filter(Boolean))].slice(0, 8);
+  return `<div class="wrap"><main class="single search-page" data-search data-index="${esc(link("search.json"))}" data-i18n="${esc(JSON.stringify(S.js))}">
+  <div class="sec"><div><span class="label">Search</span><h1>${esc(S.title)}</h1></div><div class="aside">${esc(S.aside.replace("{a}", articles.length).replace("{f}", flashes.length))}</div></div>
+  <form class="sbox" role="search" action="" method="get"><label class="sr" for="sq">${esc(S.title)}</label>${SEARCH_SVG}<input id="sq" name="q" type="search" autocomplete="off" enterkeyhint="search" placeholder="${esc(S.ph)}"><kbd class="sk" aria-hidden="true">/</kbd></form>
+  ${cats.length ? `<div class="schips" aria-label="${esc(S.try)}"><span class="label">${esc(S.try)}</span>${cats.map((c) => `<button class="schip" type="button" data-q="${esc(c)}">${esc(c)}</button>`).join("")}</div>` : ""}
+  <div class="tabs-row" id="sTabs" hidden>${[["", S.all], ["a", S.arts], ["f", S.flash]].map(([k, l], i) => `<button class="tab" type="button" data-k="${k}" aria-pressed="${i === 0}">${esc(l)} <span class="num sc" data-n="${k}"></span></button>`).join("")}</div>
+  <p class="sstat" id="sStat" aria-live="polite"></p>
+  <ol class="sres" id="sRes"></ol>
+  <noscript><p class="empty">${esc(S.nojs)}</p></noscript>
+  </main></div>`;
+}

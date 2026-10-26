@@ -372,4 +372,14 @@
   let deferred;
   window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; const b = $("#installBtn"); if (b) b.hidden = false; });
   $("#installBtn")?.addEventListener("click", async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $("#installBtn").hidden = true; });
+
+  // "/" 키: 어디서든 검색으로 (입력 중일 땐 무시)
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented) return;
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName))) return;
+    e.preventDefault();
+    const box = document.getElementById("sq");
+    if (box) box.focus(); else if (CB.searchUrl) location.href = CB.searchUrl;
+  });
 })();
