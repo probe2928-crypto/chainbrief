@@ -88,6 +88,11 @@ export function cjkify(html) {
   return html.replace(/<([a-z][a-z0-9]*)([^>]*?)\sclass="([^"]*)"([^>]*)>([^<]*)/gi, (m, tag, pre, cls, post, text) =>
     CJK.test(text) && !/\bcjk\b/.test(cls) ? `<${tag}${pre} class="${cls} cjk"${post}>${text}` : m);
 }
+// 클래스 없는 짧은 UI 요소(표 머리, 언어 스위치, 탭, 작은 글씨)에도 .cjk — 자간·최소 크기 규칙이 닿게
+const BARE = /<(a|span|small|th|button|label|b|strong)((?:\s(?![^>]*\bclass=)[^>]*)?)>([^<]*)/gi;
+export function cjkifyBare(html) {
+  return html.replace(BARE, (m, tag, attrs, text) => (CJK.test(text) && !/\bclass=/.test(attrs) ? `<${tag}${attrs} class="cjk">${text}` : m));
+}
 
 // 앱용 데이터 피드: api/<lang>/feed.json + api/<lang>/a/<id>.json
 export function writeAppFeed({ write, lang, flashes, articles, artOf, markdown, link, now }) {

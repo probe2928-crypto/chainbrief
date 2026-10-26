@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, writeAppFeed } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
 import { signalsBody } from "./signals-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,7 +27,10 @@ function frontmatter(src) {
   const data = {};
   for (const line of m[1].split(/\r?\n/)) {
     const i = line.indexOf(":"); if (i < 0) continue;
-    let v = line.slice(i + 1).trim().replace(/\s+#.*$/, "").replace(/^["']|["']$/g, "");
+    let v = line.slice(i + 1).trim();
+    // 따옴표로 감싼 값만 벗긴다 — 제목 끝의 '규정 정치' 같은 인용부호는 지킨다
+    const q = v.match(/^(["'])(.*)\1(?:\s+#\s.*)?$/);
+    v = q ? q[2] : v.replace(/\s+#\s.*$/, "");
     if (v === "true") v = true; else if (v === "false") v = false;
     data[line.slice(0, i).trim()] = v;
   }
@@ -45,7 +48,7 @@ const readJSON = (p, d) => { try { return JSON.parse(fs.readFileSync(path.join(R
 function write(rel, content) {
   const f = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(f), { recursive: true });
-  fs.writeFileSync(f, rel.endsWith(".html") ? cjkify(content) : content);
+  fs.writeFileSync(f, rel.endsWith(".html") ? cjkifyBare(cjkify(content)) : content);
 }
 
 const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] });
@@ -99,7 +102,7 @@ const ED = {
       blockkey: { title: "AI marketing · AI development · Blockchain integration", text: "One team from diagnosis to build and operations — a technology partner for Web3 projects.", cta: "Discover BLOCKKEY", short: "AI marketing · Dev · Blockchain", top: "Partner" },
       perpline: { title: "Your trading fees, returned.", text: "Compare fees across 11 futures exchanges and get 30–50% of your trading fees back in USDT every week.", cta: "Visit Perpline", short: "Trading fees, returned.", note: "Not available to residents of Korea or the United States.", top: "Partner" },
     },
-    partnersT: "Partners", partnersX: "Brands we work with", sponsored: "Sponsored", byText: "By", homeLabel: "Home",
+    partnersT: "Partners", partnersX: "Brands we work with", sponsored: "Sponsored", byText: "By", homeLabel: "Home", readT: "{n} min read",
   },
   zh: {
     code: "zh", html: "zh-Hans", locale: "zh-CN", tz: "Asia/Hong_Kong", tzL: "HKT", name: "CHAINBRIEF 链报",
@@ -145,7 +148,7 @@ const ED = {
       blockkey: { title: "AI 营销 · AI 开发 · 区块链对接", text: "从诊断、搭建到运营，一个团队全程负责的 Web3 技术伙伴。", cta: "了解 BLOCKKEY", short: "AI 营销 · 开发 · 区块链", top: "Partner" },
       perpline: { title: "交易手续费，返还给你。", text: "比较 11 家合约交易所的手续费，每周以 USDT 返还 30–50% 的交易手续费。", cta: "访问 Perpline", short: "Trading fees, returned.", note: "不面向韩国及美国居民。", top: "Partner" },
     },
-    partnersT: "Partners", partnersX: "合作伙伴", sponsored: "Sponsored", byText: "作者", homeLabel: "首页",
+    partnersT: "Partners", partnersX: "合作伙伴", sponsored: "Sponsored", byText: "作者", homeLabel: "首页", readT: "阅读约 {n} 分钟",
   },
 };
 const LANGS = [["ko", "KO", ""], ["en", "EN", "en/"], ["zh", "中文", "zh/"]];
@@ -173,6 +176,8 @@ for (const L of [ED.en, ED.zh]) {
   const dayLabel = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", weekday: "long" });
   const dayKey = (d) => new Intl.DateTimeFormat("sv-SE", { timeZone: L.tz }).format(d);
   const hourOf = (d) => parseInt(fmt(d, { hour: "2-digit", hourCycle: "h23" }).replace(/\D/g, ""), 10) % 24;
+  // 읽는 시간: EN 230단어/분, ZH 450자/분
+  const readMin = (md = "", lg) => String(Math.max(1, Math.round(lg === "en" ? md.split(/\s+/).filter(Boolean).length / 230 : md.replace(/\s+/g, "").length / 450)));
   const fullDate = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }) + " " + L.tzL;
   const fm = (s, o) => Object.entries(o).reduce((a, [k, v]) => a.replaceAll("{" + k + "}", v), s);
 
@@ -188,7 +193,7 @@ for (const L of [ED.en, ED.zh]) {
     const path = SHARED_PAGES.includes(active) ? active : "";
     return `<a href="${asset(pre + path)}" hreflang="${c === "zh" ? "zh-Hans" : c}"${c === L.code ? ' aria-current="true"' : ""}>${lab}</a>`;
   }).join("")}</span>`;
-  const topAd = (ad, side, mobile = false) => !ad ? "<span></span>" : `<a class="topad ${side}${mobile ? " m" : ""}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored" title="${esc(ad.note || ad.title)}"><span class="ta-l">${esc(ad.topEyebrow || "Partner")}${ad.id === "perpline" ? " · Global" : ""}</span><span class="ta-wm">${esc(ad.wordmark)}</span><span class="ta-t">${esc(ad.short || ad.title)}</span></a>`;
+  const topAd = (ad, side, mobile = false) => !ad ? "<span></span>" : `<a class="topad ${side}${mobile ? " m" : ""}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored" title="${esc(ad.note || ad.title)}"><span class="ta-l">${esc(ad.topEyebrow || "Partner")}${ad.id === "perpline" ? '<span class="ta-x"><i> · </i>Global</span>' : ""}</span><span class="ta-wm">${esc(ad.wordmark)}</span><span class="ta-t">${esc(ad.short || ad.title)}</span></a>`;
   const adCard = (ad, cls = "") => `<a class="ad ${cls}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored"><span class="ad-eye"><span>Partner</span><span>AD</span></span><span class="ad-wm">${esc(ad.wordmark)}</span><span class="ad-t">${esc(ad.title)}</span><span class="ad-x">${esc(ad.text)}</span><span class="ad-cta">${esc(ad.cta)} <span aria-hidden="true">→</span></span>${ad.note ? `<span class="ad-n">${esc(ad.note)}</span>` : ""}</a>`;
   const adBand = ADS.length ? `<section class="adband" aria-label="${esc(L.partnersT)}"><div class="wrap"><div class="adband-head"><span class="label">${esc(L.partnersT)}</span><span class="label">${esc(L.partnersX)}</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 
@@ -309,7 +314,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     const near = [flashes[i - 1], flashes[i + 1]].filter(Boolean);
     write(`${P}flash/${f.id}/index.html`, layout({
       title: f.title, description: plain(f.body || f.title).slice(0, 160), canonical: `flash/${f.id}/`, type: "article",
-      body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a> &nbsp;/&nbsp; ${esc(f.category || "")}</p><main class="grid"><div class="col"><article class="doc">
+      body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1><div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div></article>
@@ -372,10 +377,10 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     const more = articles.filter((x) => x !== a).slice(0, 4);
     write(`${P}articles/${a.id}/index.html`, layout({
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
-      body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "")}</p><main class="grid"><div class="col">
+      body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(a.category || "")}</span></p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker"><span class="tag kr">${esc(a.category || "")}</span>${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
-      <div class="byrow"><span class="byline">${esc(L.byText)} <b>${esc(a.author || L.name)}</b></span><time class="byline">${fullDate(a.date)}</time></div>
+      <div class="byrow"><span class="byline">${esc(L.byText)} <b>${esc(a.author || L.name)}</b></span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
       ${ADS.length ? `<aside class="ad-inline"><span class="label">${esc(L.sponsored)}</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : ""}

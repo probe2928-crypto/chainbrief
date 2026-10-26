@@ -609,3 +609,44 @@ html[lang="zh-Hans"] .doc h1,html[lang="zh-Hans"] .slide-t,html[lang="zh-Hans"] 
 .plan strong small{font-family:var(--f-label);font-size:13px;letter-spacing:.1em;margin-left:4px}
 .plans .btn{grid-column:1/-1;justify-self:stretch;margin-top:6px}
 .pay-note{grid-column:1/-1;margin:2px 0 0;font-size:13px;color:var(--wash-sub);line-height:1.7}
+
+/* ---------- v3.1 · reading details ---------- */
+/* breadcrumb: Latin section in tracked caps, a slanted hairline, the current desk in ink */
+.crumbs{display:flex;align-items:baseline;gap:14px}
+.crumbs .sep{display:inline-block;width:1px;height:12px;background:var(--line);transform:skewX(-20deg);font-size:0;align-self:center}
+.crumbs .here{color:var(--ink)}
+.crumbs .here.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none}
+/* byline row: reading time sits beside the timestamp */
+.doc .byend{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap}
+.readt{font-family:var(--f-label);font-size:var(--fs-meta);color:var(--mute);display:inline-flex;align-items:center;gap:14px}
+.readt::after{content:"";width:1px;height:11px;background:var(--line)}
+html[lang="ko"] .readt,html[lang="zh-Hans"] .readt{font-family:var(--f-sans)}
+/* reading progress: a hairline wash under the pinned menu */
+.readbar{position:absolute;left:0;right:0;bottom:-1px;height:2px;transform:scaleX(0);transform-origin:left;pointer-events:none;
+  background:linear-gradient(90deg,var(--a-blue),var(--a-lilac) 55%,var(--a-rose));opacity:0;transition:opacity .4s}
+.readbar.on{opacity:1}
+
+/* ---------- v3.1 · CJK floor (Hangul/Han ≥ 13px, no wide tracking) ---------- */
+.langs a{font-size:12px}
+.langs a.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.tl-date.cjk{font-size:13px;letter-spacing:.01em}
+.ta-t.cjk,.topads-m .ta-t.cjk{font-size:13px;letter-spacing:0}
+.ta-l{font-size:12px;letter-spacing:.16em}
+.cf-s.cjk,.cf-art .cf-s.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:.02em;text-transform:none}
+td .name.cjk,.kp small.cjk,.lst .px small.cjk,.rank .v small.cjk{font-size:13px}
+.ad-n.cjk{font-size:13px;letter-spacing:0}
+.tg-float span.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:.04em;text-transform:none}
+.tag.fmt.cjk{font-size:13px}
+.slotsec h3 .label.cjk{font-size:13px}
+.daytab .cnt{font-size:12px}
+th.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none}
+nav.tabs a{font-size:12px}
+html:is([lang="ko"],[lang="zh-Hans"]) nav.tabs a{font-size:13px;letter-spacing:0}
+@media (max-width:959px){
+  /* partner eyebrow wraps instead of clipping to "GLOBAL O…" on phones */
+  .topads-m .ta-x{display:block}
+  .topads-m .ta-x i{display:none}
+  .topads-m{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .topads-m .topad{justify-self:stretch}
+  .topads-m .ta-t{white-space:normal;line-height:1.45;text-wrap:balance}
+}

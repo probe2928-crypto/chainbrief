@@ -47,6 +47,27 @@
     new IntersectionObserver(([e]) => document.body.classList.toggle("stuck", !e.isIntersecting), { threshold: 0, rootMargin: "-4px 0px 0px 0px" }).observe(brand);
   }
 
+  /* 기사 읽기 진행선: 고정 메뉴줄 아래 머리카락 한 줄 */
+  const prose = $(".doc .prose"), head = $(".site-header");
+  if (prose && head) {
+    const bar = document.createElement("i");
+    bar.className = "readbar";
+    bar.setAttribute("aria-hidden", "true");
+    head.appendChild(bar);
+    let ticking = false;
+    const paint = () => {
+      ticking = false;
+      const r = prose.getBoundingClientRect();
+      const span = r.height - innerHeight * 0.6;
+      const p = span > 0 ? Math.min(1, Math.max(0, (innerHeight * 0.4 - r.top) / span)) : 0;
+      bar.style.transform = `scaleX(${p.toFixed(4)})`;
+      bar.classList.toggle("on", p > 0 && p < 1);
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }, { passive: true });
+    addEventListener("resize", paint);
+    paint();
+  }
+
   /* 포맷 */
   const usd = (p) => p == null ? "—" : p >= 1000 ? p.toLocaleString("en-US", { maximumFractionDigits: 0 }) : p >= 1 ? p.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : p.toPrecision(4);
   const krw = (p) => p == null || isNaN(p) ? "—" : p >= 100 ? Math.round(p).toLocaleString("ko-KR") : (+p).toLocaleString("ko-KR", { maximumFractionDigits: p >= 1 ? 2 : 4 });

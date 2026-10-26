@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, writeAppFeed } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed } from "./lib.mjs";
 import { signalsBody } from "./signals-page.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -28,7 +28,10 @@ function frontmatter(src) {
     const i = line.indexOf(":");
     if (i < 0) continue;
     const k = line.slice(0, i).trim();
-    let v = line.slice(i + 1).trim().replace(/\s+#.*$/, "").replace(/^["']|["']$/g, "");
+    let v = line.slice(i + 1).trim();
+    // 따옴표로 감싼 값만 벗긴다 — 제목 끝의 '규정 정치' 같은 인용부호는 지킨다
+    const q = v.match(/^(["'])(.*)\1(?:\s+#\s.*)?$/);
+    v = q ? q[2] : v.replace(/\s+#\s.*$/, "");
     if (v === "true") v = true; else if (v === "false") v = false;
     data[k] = v;
   }
@@ -40,12 +43,14 @@ const hhmm = (d) => fmt(d, { hour: "2-digit", minute: "2-digit", hour12: false }
 const dayLabel = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", weekday: "long" });
 const dayKey = (d) => fmt(d, { year: "numeric", month: "2-digit", day: "2-digit" }).replace(/\.\s?/g, "-").replace(/-$/, "");
 const kstHour = (d) => parseInt(fmt(d, { hour: "2-digit", hourCycle: "h23" }).replace(/\D/g, ""), 10) % 24;
+// 읽는 시간: 한글 기준 분당 약 500자
+const readMin = (md = "") => Math.max(1, Math.round(md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[\s#>*_`|-]/g, "").length / 500));
 const fullDate = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
 const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
 function write(rel, content) {
   const f = path.join(OUT, rel);
   fs.mkdirSync(path.dirname(f), { recursive: true });
-  fs.writeFileSync(f, rel.endsWith(".html") ? cjkify(content) : content);
+  fs.writeFileSync(f, rel.endsWith(".html") ? cjkifyBare(cjkify(content)) : content);
 }
 function readDir(dir) {
   const d = path.join(ROOT, dir);
@@ -223,7 +228,7 @@ const adCard = (ad, cls = "") => `<a class="ad ${cls}" data-ad="${esc(ad.id)}" h
 function topAd(ad, side, mobile = false) {
   if (!ad) return `<span class="topad-sp"></span>`;
   return `<a class="topad ${side}${mobile ? " m" : ""}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored" title="${esc(ad.note || ad.title)}">
-    <span class="ta-l">${esc(ad.topEyebrow || "Partner")}</span><span class="ta-wm">${esc(ad.wordmark)}</span><span class="ta-t">${esc(ad.short || ad.title)}</span></a>`;
+    <span class="ta-l">${esc(ad.topEyebrow || "Partner").replace(" · ", '<span class="ta-x"><i> · </i>') + ((ad.topEyebrow || "").includes(" · ") ? "</span>" : "")}</span><span class="ta-wm">${esc(ad.wordmark)}</span><span class="ta-t">${esc(ad.short || ad.title)}</span></a>`;
 }
 const adBand = ADS.length ? `<section class="adband" aria-label="제휴 광고"><div class="wrap"><div class="adband-head"><span class="label">Partners</span><span class="label">체인브리프와 함께하는 곳</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 const adInline = (i = 0) => ADS.length ? `<aside class="ad-inline"><span class="label">Sponsored</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : "";
@@ -327,7 +332,7 @@ flashes.forEach((f, i) => {
   write(`flash/${f.id}/index.html`, layout({
     title: f.title, description: plain(f.body || f.title).slice(0, 150), canonical: `flash/${f.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: f.title, datePublished: f.date.toISOString(), publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a> &nbsp;/&nbsp; ${esc(f.category || "속보")}</p><main class="grid">
+    body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "속보")}</span></p><main class="grid">
     <div class="col"><article class="doc">
       <div class="kicker">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1>
@@ -449,12 +454,12 @@ articles.forEach((a, i) => {
   write(`articles/${a.id}/index.html`, layout({
     title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a> &nbsp;/&nbsp; ${esc(a.category || "기사")}</p><main class="grid"><div class="col">
+    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(a.category || "기사")}</span></p><main class="grid"><div class="col">
     <article class="doc">
       <div class="kicker">${tagRow(a)}</div>
       <h1>${esc(a.title)}</h1>
       ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
-      <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><time class="byline">${fullDate(a.date)}</time></div>
+      <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
       ${adInline(i)}
@@ -480,7 +485,7 @@ for (const r of reps) {
   write(`authors/${r.slug}/index.html`, layout({
     title: `${r.name} 기자`, active: "news/", canonical: `authors/${r.slug}/`,
     description: `${cfg.name} ${r.desk} ${r.name} 기자의 기사`,
-    body: `<div class="wrap"><p class="crumbs"><a href="${u("authors/")}">Newsroom</a> &nbsp;/&nbsp; ${esc(r.desk)}</p><main class="single" style="margin-top:20px">
+    body: `<div class="wrap"><p class="crumbs"><a href="${u("authors/")}">Newsroom</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(r.desk)}</span></p><main class="single" style="margin-top:20px">
     ${secHead(esc(r.desk), `${esc(r.name)} 기자`, `${mine.length}편`)}
     <p class="lede" style="margin:18px 0 0;color:var(--mute);font-weight:300">${esc(r.beat)}</p>
     <div class="arts" style="margin-top:12px">${mine.map(card).join("") || '<div class="empty">곧 첫 기사가 올라와요.</div>'}</div>
@@ -540,7 +545,7 @@ write("community/index.html", layout({
 }));
 write("community/post/index.html", layout({
   title: "게시글", active: "community/", canonical: null,
-  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a> &nbsp;/&nbsp; 자유게시판</p><main class="single" style="margin-top:20px"><article class="post-view" id="postView"><div class="empty">불러오는 중…</div></article>
+  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a><i class="sep" aria-hidden="true">/</i><span class="here">자유게시판</span></p><main class="single" style="margin-top:20px"><article class="post-view" id="postView"><div class="empty">불러오는 중…</div></article>
   <section id="cmtSec" hidden>
     <div class="block-head" style="border-top:1px solid var(--ink);padding-top:14px;margin-top:20px"><h2>댓글</h2><span class="label" id="cmtCount"></span></div>
     <ul class="cmts" id="cmts"></ul>
@@ -554,7 +559,7 @@ write("community/post/index.html", layout({
 }));
 write("community/write/index.html", layout({
   title: "글쓰기", active: "community/", canonical: null,
-  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a> &nbsp;/&nbsp; 글쓰기</p><main class="single" style="margin-top:20px">
+  body: `<div class="wrap"><p class="crumbs"><a href="${u("community/")}">Community</a><i class="sep" aria-hidden="true">/</i><span class="here">글쓰기</span></p><main class="single" style="margin-top:20px">
   ${secHead("New Post", "자유게시판 글쓰기")}
   ${boardOff ? '<div class="notice-box" style="margin-top:20px">게시판 오픈 준비 중이에요.</div>' : `<form class="f" id="postForm" style="margin-top:28px">
     <div class="two"><div class="field"><label for="pNick">닉네임</label><input id="pNick" maxlength="20" required></div><div class="field"><label for="pPw">비밀번호 (수정·삭제용)</label><input id="pPw" type="password" minlength="4" maxlength="40" required></div></div>
