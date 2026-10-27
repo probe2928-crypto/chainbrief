@@ -6,9 +6,11 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
+import { loadMacro, macroSection } from "./macro.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
+const MACRO_DATA = loadMacro(ROOT);
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "site.config.json"), "utf8"));
 let BASE = process.env.BASE_PATH || "/";
 if (!BASE.endsWith("/")) BASE += "/";
@@ -451,7 +453,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "rose-dusk"][k], eye: ["Markets", "Kimchi Premium"][k], title: t, dek: d, href: "#mkt", cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", esc(L.marketTitle), '<span id="mktUpdated">…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
-    <p class="note">${esc(L.kimpNote)}</p></section></div><aside class="rail">${sentiment}${contactRail}</aside></main></div>`,
+    <p class="note">${esc(L.kimpNote)}</p></section>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${contactRail}</aside></main></div>`,
   }));
 
   // 문의

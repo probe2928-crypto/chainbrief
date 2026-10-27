@@ -8,6 +8,7 @@
     "news": "node scripts/fetch-news.mjs",
     "listings": "node scripts/fetch-listings.mjs",
     "community": "node scripts/fetch-community.mjs",
+    "macro": "node scripts/fetch-macro.mjs",
     "build": "node scripts/build.mjs && node scripts/build-intl.mjs",
     "dev": "node scripts/build.mjs && node scripts/build-intl.mjs && node scripts/serve.mjs",
     "new": "node scripts/new-flash.mjs"

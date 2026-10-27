@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
+import { loadMacro, macroSection } from "./macro.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -528,19 +529,21 @@ for (const r of reps) {
 }
 
 // 시세
+const MACRO_DATA = loadMacro(ROOT);
 write("market/index.html", layout({
-  title: "실시간 시세 · 김치프리미엄", active: "market/", canonical: "market/",
-  description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세와 업비트 김치프리미엄.",
+  title: "실시간 시세 · 김치프리미엄 · 글로벌 마켓", active: "market/", canonical: "market/",
+  description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세와 업비트 김치프리미엄, 미국·한국 증시 지수와 선물·원자재·크립토 관련 주식·환율.",
   body: `${hero([
     { art: "gold-silk", eye: "Markets · 실시간", title: "달러와 원화, 한 번에", dek: "주요 코인의 글로벌 시세와 업비트 원화 가격을 1분마다 비교해요.", href: "#mkt", cta: "시세 보기" },
     { art: "rose-dusk", eye: "Kimchi Premium", title: "김치프리미엄", dek: "국내 가격이 해외보다 얼마나 비싼지, 코인별로.", href: "#mkt", cta: "김프 보기" },
+    { art: "smoke", eye: "Global Markets", title: "증시와 선물, 같은 화면에서", dek: "나스닥·S&P·코스피, CME 비트코인 선물, 금·원유, 코인베이스·스트래티지까지.", href: "#global", cta: "글로벌 마켓 보기" },
   ], "sm", "시세 안내")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", "실시간 시세", '<span id="mktUpdated">불러오는 중…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>김프</th><th>거래대금</th></tr></thead><tbody>
     ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
     <p class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신.</p>
-  </section></div>
+  </section>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
   <aside class="rail">${sentiment}${partner}${contactRail}</aside></main></div>`,
 }));
 

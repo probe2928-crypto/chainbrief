@@ -34,6 +34,7 @@ jobs:
             data/headlines.json
             data/translations.json
             data/community.json
+            data/macro.json
           key: collect-${{ github.run_id }}
           restore-keys: collect-
 
@@ -49,6 +50,10 @@ jobs:
 
       - name: 커뮤니티 인기글 수집
         run: npm run community
+        continue-on-error: true
+
+      - name: 글로벌 마켓 시세 수집 (지수·선물·주식·환율)
+        run: npm run macro
         continue-on-error: true
 
       - name: 상장 소식·자동 속보 저장
