@@ -155,6 +155,38 @@ const ED = {
   },
 };
 const LANGS = [["ko", "KO", ""], ["en", "EN", "en/"], ["zh", "中文", "zh/"]];
+/* ---------- 편집국·개인정보처리방침 (EN·中文) ---------- */
+const ABOUT = {
+  en: {
+    staff: { "Scott Park": { slug: "scott-park", desk: "Daily News", beat: "Explains the day's blockchain stories for readers in the US, Europe and Singapore.", formats: ["Analysis"] } },
+    newsroom: "Newsroom", newsroomDesc: "The CHAINBRIEF reporters and what they cover", nStories: "{n} stories", soon: "The first story is on its way.",
+    newsroomNote: "CHAINBRIEF stories are reported, checked and published by our newsroom. Send corrections and tips through", contactL: "Contact",
+    privacyT: "Privacy Policy", privacyDesc: "Privacy policy for the CHAINBRIEF website and apps", effective: "Effective October 26, 2026.",
+    privacy: [
+      ["", "CHAINBRIEF (the “service”) handles as little personal information as possible on its website and its iOS and Android apps."],
+      ["What we collect", "There are no accounts. We do not collect names, contact details, location or advertising identifiers. The language, appearance and saved stories you choose in the app stay on your device and are never sent to our servers."],
+      ["Third-party services", "To show prices and indicators, the website and apps connect directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me. Those services may keep standard connection logs, such as IP addresses, under their own policies. The website is served by GitHub Pages and loads fonts from Google Fonts."],
+      ["Partners and outside links", "The service shows partner banners (BLOCKKEY, Perpline) and links to outside stories. Following a link takes you to that site, where its own privacy policy applies. We use no ad tracking."],
+      ["Contact", "Send privacy questions to Telegram @{tg}."],
+    ],
+    about: "About",
+  },
+  zh: {
+    staff: { "Scott Park": { slug: "scott-park", desk: "每日新闻", beat: "为香港、新加坡及全球读者解读当日区块链要闻。", formats: ["分析"] } },
+    newsroom: "编辑部", newsroomDesc: "链报编辑部记者与报道领域", nStories: "{n} 篇", soon: "首篇文章即将发布。",
+    newsroomNote: "链报文章由编辑部采访、核实后发布。更正与爆料请通过", contactL: "联系我们",
+    privacyT: "隐私政策", privacyDesc: "链报网站与应用的隐私政策", effective: "生效日期：2026 年 10 月 26 日。",
+    privacy: [
+      ["", "链报（CHAINBRIEF，以下简称“本服务”）在网站及 iOS、安卓应用中仅处理最少量的个人信息。"],
+      ["我们收集的信息", "本服务无需注册，不收集姓名、联系方式、位置或广告标识符等可识别个人的信息。你在应用中选择的语言、显示模式与收藏的文章只保存在你的设备上，不会传送到我们的服务器。"],
+      ["第三方服务", "为显示行情与指标，网站和应用会直接连接 CoinGecko、Upbit、Bithumb 与 Alternative.me 的公开接口。上述服务可能按其各自政策保留一般访问记录（如 IP 地址）。网站由 GitHub Pages 提供，字体来自 Google Fonts。"],
+      ["合作伙伴与外部链接", "本服务展示合作伙伴（BLOCKKEY、Perpline）横幅及外部文章链接。点击后将前往相应网站，并适用该网站的隐私政策。本服务不使用广告追踪工具。"],
+      ["联系方式", "如有隐私相关问题，请通过 Telegram @{tg} 联系我们。"],
+    ],
+    about: "About",
+  },
+};
+
 const SHARED_PAGES = ["", "listings/", "surge/", "news/", "market/", "contact/", "search/"];
 
 const ICON = {
@@ -180,6 +212,9 @@ for (const L of [ED.en, ED.zh]) {
   const dayKey = (d) => new Intl.DateTimeFormat("sv-SE", { timeZone: L.tz }).format(d);
   const hourOf = (d) => parseInt(fmt(d, { hour: "2-digit", hourCycle: "h23" }).replace(/\D/g, ""), 10) % 24;
   // 읽는 시간: EN 230단어/분, ZH 450자/분
+  const A = ABOUT[L.code];
+  const staffOf = (name) => A.staff[name];
+  const byName = (name) => { const r = staffOf(name); return r ? `<a href="${u(`authors/${r.slug}/`)}"><b>${esc(name)}</b></a>` : `<b>${esc(name || L.name)}</b>`; };
   const readMin = (md = "", lg) => String(Math.max(1, Math.round(lg === "en" ? md.split(/\s+/).filter(Boolean).length / 230 : md.replace(/\s+/g, "").length / 450)));
   const fullDate = (d) => fmt(d, { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }) + " " + L.tzL;
   const fm = (s, o) => Object.entries(o).reduce((a, [k, v]) => a.replaceAll("{" + k + "}", v), s);
@@ -238,7 +273,8 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">First Brick Foundation</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">First Brick Foundation</a>` : ""}</div>
+    <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">${esc(ABOUT[L.code].newsroom)}</a><a href="${u("privacy/")}">${esc(ABOUT[L.code].privacyT)}</a></div>
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
   <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
@@ -387,7 +423,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
-      <div class="byrow"><span class="byline">${esc(L.byText)} <b>${esc(a.author || L.name)}</b></span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
+      <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
       ${ADS.length ? `<aside class="ad-inline"><span class="label">${esc(L.sponsored)}</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : ""}
@@ -428,6 +464,31 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></main></div>`,
   }));
 
+  // 편집국 · 기자별 · 개인정보처리방침
+  const staffList = Object.entries(A.staff);
+  write(`${P}authors/index.html`, layout({
+    title: A.newsroom, description: A.newsroomDesc, active: "news/", canonical: "authors/",
+    body: `<div class="wrap"><main class="single">${secHead("Newsroom", esc(A.newsroom))}
+    <ul class="staff">${staffList.map(([name, r]) => { const n = articles.filter((a) => a.author === name).length; return `<li><a href="${u(`authors/${r.slug}/`)}"><span class="label">${esc(r.desk)}</span><strong>${esc(name)}</strong><span class="beat">${esc(r.beat)}</span><span class="cnt">${esc(r.formats.join(" · "))} · ${esc(A.nStories.replace("{n}", n))}</span></a></li>`; }).join("")}</ul>
+    <p class="note">${esc(A.newsroomNote)} <a href="${u("contact/")}" style="text-decoration:underline">${esc(A.contactL)}</a>${L.code === "zh" ? "。" : "."}</p></main></div>`,
+  }));
+  for (const [name, r] of staffList) {
+    const mine = articles.filter((a) => a.author === name);
+    write(`${P}authors/${r.slug}/index.html`, layout({
+      title: name, description: `${L.name} · ${r.desk} · ${name}`, active: "news/", canonical: `authors/${r.slug}/`,
+      body: `<div class="wrap"><p class="crumbs"><a href="${u("authors/")}">Newsroom</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(r.desk)}</span></p><main class="single" style="margin-top:20px">
+      ${secHead(esc(r.desk), esc(name), esc(A.nStories.replace("{n}", mine.length)))}
+      <p class="lede" style="margin:18px 0 0;color:var(--mute);font-weight:300">${esc(r.beat)}</p>
+      <div class="arts" style="margin-top:12px">${mine.map(card).join("") || `<div class="empty">${esc(A.soon)}</div>`}</div></main></div>`,
+    }));
+  }
+  write(`${P}privacy/index.html`, layout({
+    title: A.privacyT, description: A.privacyDesc, active: "", canonical: "privacy/", float: false,
+    body: `<div class="wrap"><main class="single">${secHead("Privacy", esc(A.privacyT))}<div class="prose" style="margin-top:32px">
+    ${A.privacy.map(([h, t]) => `${h ? `<h2>${esc(h)}</h2>` : ""}<p>${esc(t).replace("@{tg}", `<a href="${TG}">@${esc(cfg.telegram)}</a>`)}${h ? "" : ` ${esc(A.effective)}`}</p>`).join("\n    ")}
+    </div></main></div>`,
+  }));
+
   write(`${P}search/index.html`, layout({
     title: L.S.title, description: L.S.desc, active: "search/", canonical: "search/", extraScript: "search.js",
     body: writeSearch({ write, prefix: P, articles, flashes, link: u, esc, S: L.S }),
@@ -442,7 +503,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   if (SITE_URL) {
     const sm = path.join(OUT, "sitemap.xml");
     if (fs.existsSync(sm)) {
-      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
+      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), "authors/", ...staffList.map(([, r]) => `authors/${r.slug}/`), "privacy/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
       fs.writeFileSync(sm, fs.readFileSync(sm, "utf8").replace("</urlset>", urls + "</urlset>"));
     }
   }
