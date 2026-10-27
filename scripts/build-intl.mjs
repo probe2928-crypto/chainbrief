@@ -273,7 +273,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">First Brick Foundation</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">${esc(cfg.impact[L.code]?.title || cfg.impact.name)}</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">${esc(ABOUT[L.code].newsroom)}</a><a href="${u("privacy/")}">${esc(ABOUT[L.code].privacyT)}</a></div>
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
