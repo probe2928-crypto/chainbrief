@@ -434,6 +434,12 @@ write("surge/index.html", layout({
 const REP = Object.fromEntries((cfg.reporters || []).map((r) => [r.name, r]));
 const kindOf = (a) => a.format || (a.author === cfg.author ? "해설" : a.category === "가이드" ? "가이드" : "해설");
 const tagRow = (a) => `<span class="tag kr">${esc(a.category || "기사")}</span>${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}`;
+const CAT_SLUG = { 정책: "policy", 시장: "markets", 산업: "industry", 거래소: "exchanges", 기술: "tech", 해외: "global", 가이드: "guide" };
+const catSlug = (c) => CAT_SLUG[c] || encodeURIComponent(String(c || "etc").toLowerCase().replace(/\s+/g, "-"));
+const catCount = articles.reduce((m, a) => (a.category && m.set(a.category, (m.get(a.category) || 0) + 1), m), new Map());
+const catList = [...catCount.entries()].sort((a, b) => b[1] - a[1]);
+const catTag = (a) => a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="tag kr">기사</span>`;
+const deskIndex = (cur = "") => catList.length > 1 ? `<nav class="desks" aria-label="분야별 기사"><span class="label">Sections</span><ul>${[["", "전체", articles.length], ...catList.map(([c, n]) => [c, c, n])].map(([c, l, n]) => `<li><a href="${u(c ? `category/${catSlug(c)}/` : "news/")}"${c === cur ? ' aria-current="page"' : ""}>${esc(l)}<sup class="num">${n}</sup></a></li>`).join("")}</ul></nav>` : "";
 const byline = (a) => `<span class="byline">${fmt(a.date, { month: "long", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false })} · <b>${esc(a.author || "체인브리프 편집부")}</b></span>`;
 const card = (a) => `<a class="art" data-kind="${esc(kindOf(a))}" href="${u(`articles/${a.id}/`)}"><div class="meta" style="margin:0">${tagRow(a)}</div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 120))}</p><div style="margin-top:10px">${byline(a)}</div></a>`;
 const recentFeature = articles.find((a) => a.format && Date.now() - a.date < 2 * 864e5);
@@ -444,6 +450,7 @@ write("news/index.html", layout({
   body: `${hero(articles.slice(0, 4).map((a) => artSlide(a, eyeOf(a))), "sm", "주요 기사")}<div class="wrap"><main class="grid"><div class="col">
   <section>
     ${secHead("Editorial", "체인브리프 기사", `<a class="more" style="margin:0" href="${u("authors/")}">편집국</a>`)}
+    ${deskIndex()}
     <div class="tabs-row" id="kindTabs">${["전체", "해설", "심층취재", "칼럼"].map((k, i) => `<button class="tab" type="button" data-kind="${k}" aria-pressed="${i === 0}">${k}</button>`).join("")}</div>
     <div class="arts" id="artList">${articles.slice(0, 40).map(card).join("") || '<div class="empty">첫 기사를 준비하고 있어요.</div>'}</div>
   </section>
@@ -461,9 +468,9 @@ articles.forEach((a, i) => {
   write(`articles/${a.id}/index.html`, layout({
     title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(a.category || "기사")}</span></p><main class="grid"><div class="col">
+    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
     <article class="doc">
-      <div class="kicker">${tagRow(a)}</div>
+      <div class="kicker">${catTag(a)}${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>
       ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
@@ -475,6 +482,25 @@ articles.forEach((a, i) => {
     </div>${rail()}</main></div>`,
   }));
 });
+
+// 분야별 기사 목록 (/category/<slug>/)
+const CAT_DEK = { 정책: "법안·과세·감독 — 규제가 시장 구조를 바꾸는 지점을 따라갑니다.", 시장: "가격과 자금 흐름, 그 뒤의 이유.", 산업: "기업과 프로젝트, 돈이 움직이는 방향.", 거래소: "상장·유의 종목·거래소 경쟁의 현장.", 기술: "프로토콜과 보안, 코드가 바꾸는 것들.", 해외: "세계 주요 시장과 규제 당국의 움직임.", 가이드: "처음 시작하는 투자자를 위한 차분한 안내서." };
+for (const [c, n] of catList) {
+  const mine = articles.filter((a) => a.category === c);
+  const slides = [...mine, ...articles.filter((a) => a.category !== c)].slice(0, Math.max(2, Math.min(4, mine.length))).map((a) => artSlide(a, a.category === c ? eyeOf(a) : `다른 분야 · ${esc(a.category || "기사")}`));
+  write(`category/${catSlug(c)}/index.html`, layout({
+    title: `${c} 기사`, active: "news/", canonical: `category/${catSlug(c)}/`,
+    description: `${cfg.name} ${c} 분야 기사 ${n}편 — ${CAT_DEK[c] || ""}`,
+    body: `${hero(slides, "sm", `${c} 주요 기사`)}<div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(c)}</span></p><main class="grid"><div class="col">
+  <section>
+    ${secHead("Section", `${esc(c)}`, `${n}편`)}
+    ${CAT_DEK[c] ? `<p class="cat-dek">${esc(CAT_DEK[c])}</p>` : ""}
+    ${deskIndex(c)}
+    <div class="arts">${mine.map(card).join("")}</div>
+  </section>
+  </div>${rail()}</main></div>`,
+  }));
+}
 
 // 편집국 · 기자별 페이지
 const reps = cfg.reporters || [];
@@ -642,7 +668,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");

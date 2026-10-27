@@ -583,7 +583,7 @@ html[lang="zh-Hans"] .doc h1,html[lang="zh-Hans"] .slide-t,html[lang="zh-Hans"] 
 .crumbs{display:flex;align-items:baseline;gap:14px}
 .crumbs .sep{display:inline-block;width:1px;height:12px;background:var(--line);transform:skewX(-20deg);font-size:0;align-self:center}
 .crumbs .here{color:var(--ink)}
-.crumbs .here.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none}
+.crumbs .cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none}
 /* byline row: reading time sits beside the timestamp */
 .doc .byend{display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap}
 .readt{font-family:var(--f-label);font-size:var(--fs-meta);color:var(--mute);display:inline-flex;align-items:center;gap:14px}
@@ -681,3 +681,21 @@ html:is([lang="ko"],[lang="zh-Hans"]) .sr-meta .tag{font-family:var(--f-sans);fo
 
 /* 메타 광고 유입(utm_source=meta 등) 세션: 제휴 배너 숨김 — 뉴스만 보이는 버전 */
 html.adclean :is(.topad,.topads-m,.adband,.ad-inline,a.ad,[data-ad]){display:none!important}
+
+/* 분야 색인 — 목차처럼 읽히는 섹션 인덱스 (카드 대신 활자와 헤어라인) */
+.desks{display:flex;align-items:baseline;gap:20px;padding:16px 0 14px;border-bottom:1px solid var(--line)}
+.desks>.label{flex:none;color:var(--faint)}
+.desks ul{display:flex;flex-wrap:nowrap;margin:0;padding:0 0 2px;list-style:none;overflow-x:auto;scrollbar-width:none;min-width:0}
+.desks ul::-webkit-scrollbar{display:none}
+.desks li{flex:none}
+.desks li{display:flex;align-items:baseline}
+.desks li+li::before{content:"";width:1px;height:11px;background:var(--line);margin:0 16px;align-self:center}
+.desks a{font-family:var(--f-serif);font-size:var(--fs-body);color:var(--mute);padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.desks a:hover{color:var(--ink)}
+.desks a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--ink)}
+.desks sup{font-family:var(--f-label);font-size:12px;color:var(--faint);margin-left:4px;vertical-align:4px;line-height:0}
+.desks a[aria-current="page"] sup{color:var(--hue,var(--ink))}
+.cat-dek{margin:18px 0 0;font-family:var(--f-serif);font-size:var(--fs-lead);line-height:1.65;color:var(--mute);max-width:36em}
+.kicker a.tag:hover,.crumbs a:hover{color:var(--ink)}
+.kicker a.tag{border-bottom:1px solid var(--line);padding-bottom:1px}
+@media (max-width:700px){.desks{gap:14px}.desks li+li::before{margin:0 12px}.desks ul{mask-image:linear-gradient(90deg,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);padding-right:24px}}

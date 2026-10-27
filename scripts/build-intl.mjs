@@ -77,7 +77,7 @@ const ED = {
     notice: "Official notice (Korean)", lsNote: "Times in UTC. Sourced from exchange notices and market lists. The right column shows the current KRW price and 24h change.",
     updated: "Updated {t}", every15: "checked every 15 min",
     surgeTitle: "Surge Radar", surgeDesc: "Live top movers on Upbit and Bithumb KRW markets: 5-minute spikes, volume surges, 52-week highs, new-listing performance and cross-exchange gaps.",
-    newsTitle: "News", editorial: "CHAINBRIEF Analysis", region: "US · Europe · Singapore",
+    newsTitle: "News", catAll: "All", catN: "{n} stories", catOther: "Other section", catAria: "Stories by section", catDek: { Policy: "Bills, tax and supervision — where regulation reshapes market structure.", Markets: "Prices, flows and the reasons behind them.", Industry: "Companies, projects and where the money moves.", Exchanges: "Listings, warnings and the race between venues.", Technology: "Protocols, security and what code changes.", Global: "Major markets and the regulators that shape them." }, editorial: "CHAINBRIEF Analysis", region: "US · Europe · Singapore",
     marketTitle: "Live Prices", marketDesc: "Global USD prices, Upbit KRW prices and the Kimchi premium, refreshed every minute.",
     kimpNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute.",
     th: ["Coin", "USD", "Upbit KRW", "24H", "Kimchi", "Volume"],
@@ -125,7 +125,7 @@ const ED = {
     notice: "官方公告（韩文）", lsNote: "时间为香港时间（HKT）。数据来自交易所公告与市场列表，右侧为当前韩元价格与 24 小时涨跌。",
     updated: "{t} 更新", every15: "每 15 分钟检查",
     surgeTitle: "异动雷达", surgeDesc: "Upbit、Bithumb 韩元市场实时异动：5 分钟急涨、成交放量、52 周新高、新币表现与交易所价差。",
-    newsTitle: "新闻", editorial: "链报分析", region: "香港 · 新加坡",
+    newsTitle: "新闻", catAll: "全部", catN: "{n} 篇", catOther: "其他栏目", catAria: "按栏目浏览", catDek: { 政策: "法案、税制与监管——规则改变市场结构的地方。", 市场: "价格与资金流向，以及背后的原因。", 产业: "企业与项目，资金流动的方向。", 交易所: "上币、警示与交易所之间的竞争。", 技术: "协议与安全，代码带来的改变。", 海外: "全球主要市场与监管机构的动向。" }, editorial: "链报分析", region: "香港 · 新加坡",
     marketTitle: "实时行情", marketDesc: "全球美元价格、Upbit 韩元价格与泡菜溢价，每分钟更新。",
     kimpNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。",
     th: ["币种", "美元", "Upbit 韩元", "24H", "溢价", "成交额"],
@@ -292,6 +292,10 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const IM = cfg.impact && cfg.impact[L.code];
   const impactRail = IM ? `<section class="block slot impact"><span class="label">Impact</span><strong>${esc(IM.title)}</strong><span>${esc(IM.text)}</span><a class="btn ghost" href="${cfg.impact.url}${IM.path}" target="_blank" rel="noopener">${esc(IM.cta)}</a></section>` : "";
   const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${impactRail}${contactRail}</aside>`;
+  const CAT_SLUG = { Policy: "policy", Markets: "markets", Industry: "industry", Exchanges: "exchanges", Technology: "tech", Global: "global", 政策: "policy", 市场: "markets", 产业: "industry", 交易所: "exchanges", 技术: "tech", 海外: "global" };
+  const catSlug = (c) => CAT_SLUG[c] || encodeURIComponent(String(c || "etc").toLowerCase().replace(/\s+/g, "-"));
+  const catList = [...articles.reduce((m, a) => (a.category && m.set(a.category, (m.get(a.category) || 0) + 1), m), new Map()).entries()].sort((a, b) => b[1] - a[1]);
+  const deskIndex = (cur = "") => catList.length > 1 ? `<nav class="desks" aria-label="${esc(L.catAria)}"><span class="label">Sections</span><ul>${[["", L.catAll, articles.length], ...catList.map(([c, n]) => [c, c, n])].map(([c, l, n]) => `<li><a href="${u(c ? `category/${catSlug(c)}/` : "news/")}"${c === cur ? ' aria-current="page"' : ""}>${esc(l)}<sup class="num">${n}</sup></a></li>`).join("")}</ul></nav>` : "";
   const card = (a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><div class="meta" style="margin:0"><span class="tag kr">${esc(a.category || "")}</span>${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 140))}</p><div style="margin-top:10px"><span class="byline">${fmt(a.date, { month: "short", day: "numeric" })} · <b>${esc(a.author || L.name)}</b></span></div></a>`;
 
   // 홈
@@ -368,7 +372,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   write(`${P}news/index.html`, layout({
     title: L.newsTitle, active: "news/", canonical: "news/",
     body: `${hero(articles.slice(0, 4).map(artSlide), "sm")}<div class="wrap"><main class="grid"><div class="col">
-    <section>${secHead("Editorial", esc(L.editorial), esc(L.region))}<div class="arts" id="artList">${articles.slice(0, 40).map(card).join("") || `<div class="empty">${esc(L.emptyFeed)}</div>`}</div></section>
+    <section>${secHead("Editorial", esc(L.editorial), esc(L.region))}${deskIndex()}<div class="arts" id="artList">${articles.slice(0, 40).map(card).join("") || `<div class="empty">${esc(L.emptyFeed)}</div>`}</div></section>
     <section>${secHead("Global", esc(L.headlinesT), headlines.updatedAt ? fm(L.updated, { t: hhmm(new Date(headlines.updatedAt)) + " " + L.tzL }) : "", "h2")}
     ${srcs.length > 1 ? `<div class="tabs-row" id="srcFilters">${[["전체", L.all], ...srcs.map((s) => [s, s])].map(([k, l], i) => `<button class="tab" type="button" data-src="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>` : ""}
     <div id="hlList">${headlineList(hl.slice(0, 80))}</div></section>
@@ -380,8 +384,8 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     const more = articles.filter((x) => x !== a).slice(0, 4);
     write(`${P}articles/${a.id}/index.html`, layout({
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
-      body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(a.category || "")}</span></p><main class="grid"><div class="col">
-      <article class="doc"><div class="kicker"><span class="tag kr">${esc(a.category || "")}</span>${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
+      body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
+      <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
       <div class="byrow"><span class="byline">${esc(L.byText)} <b>${esc(a.author || L.name)}</b></span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
@@ -391,6 +395,19 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       </div>${rail()}</main></div>`,
     }));
   });
+
+  // 분야별 기사 목록
+  for (const [c, n] of catList) {
+    const mine = articles.filter((a) => a.category === c);
+    const slides = [...mine, ...articles.filter((a) => a.category !== c)].slice(0, Math.max(2, Math.min(4, mine.length))).map((a) => (a.category === c ? artSlide(a) : { ...artSlide(a), eye: `${esc(L.catOther)} · ${esc(a.category || "")}` }));
+    const dek = (L.catDek || {})[c];
+    write(`${P}category/${catSlug(c)}/index.html`, layout({
+      title: `${c} · ${L.newsTitle}`, active: "news/", canonical: `category/${catSlug(c)}/`, description: `${L.name} — ${c}${dek ? ". " + dek : ""}`,
+      body: `${hero(slides, "sm")}<div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(c)}</span></p><main class="grid"><div class="col">
+      <section>${secHead("Section", esc(c), esc(fm(L.catN, { n })))}${dek ? `<p class="cat-dek">${esc(dek)}</p>` : ""}${deskIndex(c)}<div class="arts">${mine.map(card).join("")}</div></section>
+      </div>${rail()}</main></div>`,
+    }));
+  }
 
   // 시세
   write(`${P}market/index.html`, layout({
@@ -425,7 +442,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   if (SITE_URL) {
     const sm = path.join(OUT, "sitemap.xml");
     if (fs.existsSync(sm)) {
-      const urls = [...SHARED_PAGES, ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
+      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
       fs.writeFileSync(sm, fs.readFileSync(sm, "utf8").replace("</urlset>", urls + "</urlset>"));
     }
   }
