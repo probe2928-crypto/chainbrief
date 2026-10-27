@@ -238,7 +238,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a></div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">First Brick Foundation</a>` : ""}</div>
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
   <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
@@ -289,7 +289,9 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const listingRail = `<section class="block"><div class="block-head"><h2>${esc(L.koreaListings)}</h2><span class="label">Upbit · Bithumb</span></div>${recentL.map((i) => listingItem(i, true)).join("")}<a class="more" href="${u("listings/")}">${esc(L.allListings)}</a></section>`;
   const contactRail = TG ? `<section class="block slot"><span class="label">Contact</span><strong>${esc(L.contactT)}</strong><span>${esc(L.contactX)}</span><a class="btn ghost" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a></section>` : "";
   const hlRail = `<section class="block"><div class="block-head"><h2>${esc(L.headlinesT)}</h2><span class="label">Global</span></div>${headlineList(hl.slice(0, 6))}<a class="more" href="${u("news/")}">${esc(L.more)}</a></section>`;
-  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${contactRail}</aside>`;
+  const IM = cfg.impact && cfg.impact[L.code];
+  const impactRail = IM ? `<section class="block slot impact"><span class="label">Impact</span><strong>${esc(IM.title)}</strong><span>${esc(IM.text)}</span><a class="btn ghost" href="${cfg.impact.url}${IM.path}" target="_blank" rel="noopener">${esc(IM.cta)}</a></section>` : "";
+  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${impactRail}${contactRail}</aside>`;
   const card = (a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><div class="meta" style="margin:0"><span class="tag kr">${esc(a.category || "")}</span>${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 140))}</p><div style="margin-top:10px"><span class="byline">${fmt(a.date, { month: "short", day: "numeric" })} · <b>${esc(a.author || L.name)}</b></span></div></a>`;
 
   // 홈

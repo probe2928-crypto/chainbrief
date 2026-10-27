@@ -132,7 +132,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">${esc(cfg.nameEn)}</a><p>${esc(cfg.tagline || "")}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a></div>
+    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">퍼스트브릭 재단</a>` : ""}</div>
   </div>
   ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
     ${cfg.footer.company ? `<span>${esc(cfg.footer.company)}</span>` : ""}
@@ -234,7 +234,13 @@ function topAd(ad, side, mobile = false) {
 }
 const adBand = ADS.length ? `<section class="adband" aria-label="제휴 광고"><div class="wrap"><div class="adband-head"><span class="label">Partners</span><span class="label">체인브리프와 함께하는 곳</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 const adInline = (i = 0) => ADS.length ? `<aside class="ad-inline"><span class="label">Sponsored</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : "";
-const partner = "";
+const IMP = cfg.impact;
+const partner = IMP ? `<section class="block slot impact">
+  <span class="label">Impact</span>
+  <strong>${esc(IMP.ko.title)}</strong>
+  <span>${esc(IMP.ko.text)}</span>
+  <a class="btn ghost" href="${IMP.url}${IMP.ko.path}" target="_blank" rel="noopener">${esc(IMP.ko.cta)}</a>
+</section>` : "";
 const recentListings = lsItems.filter((i) => i.type === "listing").slice(0, 5);
 const listingRail = `<section class="block">
   <div class="block-head"><h2>최근 상장</h2><span class="label">Upbit · Bithumb</span></div>
