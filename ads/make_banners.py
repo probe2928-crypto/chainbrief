@@ -13,22 +13,23 @@ THEMES = {
 }
 
 COPY = {
- "en": dict(eye="Live wire · Korea listings",
-            h=["Upbit &amp; Bithumb listings,","in <em>English.</em>"], h_short=["Korean coin listings,","in <em>English.</em>"],
-            h_tall=["Upbit &amp; Bithumb","listings,","in <em>English.</em>"], h_tall_s=["Korean coin","listings,","in <em>English.</em>"],
-            num="24/7", numl="Live wire", every="Checked every 15 min",
-            h_line="Upbit &amp; Bithumb listings, in <em>English.</em>", h_line_s="Korean coin listings, in <em>English.</em>",
-            sub="New listings, a 24/7 crypto wire and live markets.", sub_s="Upbit &amp; Bithumb · 24/7 wire", sub_sq="New listings, a 24/7 crypto wire and live markets.",
-            free="Free · no sign-up", cta="Read the wire", cta_s="Read",
-            exch="Upbit · Bithumb", hfont="'Newsreader'", hweight=600, hls="-.015em"),
- "zh": dict(eye="24小时快讯 · 韩国上币",
-            h=["Upbit、Bithumb 上币，","<em>中文速递。</em>"], h_short=["韩国上币，","<em>中文速递。</em>"],
-            h_tall=["韩国上币，","<em>中文速递。</em>"], h_tall_s=["韩国上币，","<em>中文速递。</em>"],
-            num="24<small>小时</small>", numl="加密快讯", every="每 15 分钟检查",
-            h_line="Upbit、Bithumb 上币，<em>中文速递。</em>", h_line_s="韩国上币，<em>中文速递。</em>",
-            sub="Upbit、Bithumb 上币动态，24小时加密快讯与实时行情。", sub_s="Upbit · Bithumb · 24小时快讯", sub_sq="Upbit、Bithumb 上币动态，<br>24小时加密快讯与实时行情。",
-            free="免费 · 无需注册", cta="查看快讯", cta_s="查看",
-            exch="Upbit · Bithumb", hfont="'Noto Serif CJK SC'", hweight=700, hls="0"),
+ "en": dict(eye="Blockchain news · 24/7",
+            h=["Blockchain news,","<em>briefed.</em>"], h_short=["Blockchain news,","<em>briefed.</em>"],
+            h_tall=["Blockchain","news,","<em>briefed.</em>"], h_tall_s=["Blockchain","news,","<em>briefed.</em>"],
+            num="24/7", numl="Live wire", r1="News", r2="Analysis", r3="Markets", every="Read in minutes",
+            h_line="Blockchain news, <em>briefed.</em>", h_line_s="Blockchain news, <em>briefed.</em>",
+            sub="Breaking news, analysis and live markets, 24/7.", sub_s="Breaking news · analysis · markets",
+            sub_sq="Breaking news, analysis and live markets, 24/7.",
+            free="Free · no sign-up", cta="Read the brief", cta_s="Read",
+            hfont="'Newsreader'", hweight=600, hls="-.015em"),
+ "zh": dict(eye="24小时快讯 · 区块链新闻",
+            h=["区块链新闻，","<em>一报读懂。</em>"], h_short=["区块链新闻，","<em>一报读懂。</em>"],
+            h_tall=["区块链新闻，","<em>一报读懂。</em>"], h_tall_s=["区块链新闻，","<em>一报读懂。</em>"],
+            num="24<small>小时</small>", numl="加密快讯", r1="快讯", r2="分析", r3="行情", every="每天几分钟，读懂加密市场",
+            h_line="区块链新闻，<em>一报读懂。</em>", h_line_s="区块链新闻，<em>一报读懂。</em>",
+            sub="24小时加密快讯、深度分析与实时行情。", sub_s="快讯 · 分析 · 实时行情", sub_sq="24小时加密快讯、<br>深度分析与实时行情。",
+            free="免费 · 无需注册", cta="阅读链报", cta_s="阅读",
+            hfont="'Noto Serif CJK SC'", hweight=700, hls="0"),
 }
 
 def L(lines): return ''.join(f'<span class="ln">{x}</span>' for x in lines)
@@ -106,7 +107,7 @@ def html(w, h, theme, lang):
         body = f"""<div class="in" style="display:flex;flex-direction:column;padding:{pad+4}px {pad}px {pad}px">
           <div class="wm" style="font-size:{17 if wide else 11}px;text-align:center;letter-spacing:{'.3em' if wide else '.22em'}">CHAINBRIEF</div>
           <div class="rule" style="margin:{16 if wide else 12}px 0 {16 if wide else 12}px"></div>
-          <div class="eye" style="font-size:{13 if zh else (10.5 if wide else 9)}px;justify-content:center"><span class="dot"></span>{t['eye'] if wide else ('韩国上币' if zh else 'Korea listings')}</div>
+          <div class="eye" style="font-size:{13 if zh else (10.5 if wide else 9)}px;justify-content:center"><span class="dot"></span>{t['eye'] if wide else ('区块链新闻' if zh else 'Blockchain news')}</div>
           <div class="h fitw" style="font-size:{(44 if zh else 46) if wide else (30 if zh else 31)}px;margin-top:{30 if wide else 24}px">{L(t['h_tall'] if wide else t['h_tall_s'])}</div>
           <div class="sub" style="font-size:{(16 if zh else 15.5) if wide else (13 if zh else 12.5)}px;margin-top:{16 if wide else 12}px">{t['sub_sq'] if (zh and wide) else t['sub']}</div>
           <div class="sq" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:{8 if wide else 6}px;min-height:0;overflow:hidden;padding-top:{24 if wide else 16}px">
@@ -116,8 +117,9 @@ def html(w, h, theme, lang):
           <div style="display:flex;flex-direction:column;gap:{8 if wide else 6}px">
             <div class="rule"></div>
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:6px">
-              <span class="wm" style="font-size:{12 if wide else 9}px;letter-spacing:.12em;font-weight:500">Upbit</span>
-              <span class="wm" style="font-size:{12 if wide else 9}px;letter-spacing:.12em;font-weight:500">Bithumb</span>
+              <span class="wm" style="font-size:{12 if wide else 9}px;letter-spacing:.12em;font-weight:500">{t['r1']}</span>
+              <span class="wm" style="font-size:{12 if wide else 9}px;letter-spacing:.12em;font-weight:500">{t['r2']}</span>
+              <span class="wm" style="font-size:{12 if wide else 9}px;letter-spacing:.12em;font-weight:500">{t['r3']}</span>
             </div>
             <div class="rule"></div>
             <div class="free" style="font-size:{(12 if zh else 10) if wide else (10.5 if zh else 8.5)}px;text-align:center;margin-top:2px">{t['every']}</div>
