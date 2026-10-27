@@ -143,7 +143,7 @@
   var css = [
     ':host{all:initial;display:block}',
     '*{box-sizing:border-box;margin:0}',
-    '.band{--ink:#141210;--paper:#F6F1EA;--line:rgba(20,18,16,.14);background:var(--paper);color:var(--ink);font:15px/1.55 "Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;border-top:1px solid var(--line);padding:56px 0 48px;overflow:hidden}',
+    '.band{--ink:#141210;--paper:#F6F1EA;--line:rgba(20,18,16,.14);background:var(--paper);color:var(--ink);font:15px/1.55 "Helvetica Neue",Helvetica,Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all;border-top:1px solid var(--line);padding:56px 0 48px;overflow:hidden}',
     '.w{max-width:1200px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}',
     '.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}',
     '.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:22px}',
