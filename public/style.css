@@ -149,12 +149,21 @@ aside.rail{display:flex;flex-direction:column;gap:48px;min-width:0}
 
 /* ---------- live wire ---------- */
 .newpill{display:block;margin:18px auto 0;background:var(--ink);color:var(--paper);border:0;padding:10px 22px;font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:var(--tr-caps);text-transform:uppercase}
-.day{padding:26px 0 8px;font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:var(--tr-caps);text-transform:uppercase;color:var(--mute)}
+/* day stamp: a Bodoni numeral, month + weekday in quiet text, the year pushed to the right edge, ink rule beneath */
+.day{display:flex;align-items:baseline;gap:14px;padding:48px 0 12px;border-bottom:1px solid var(--ink);color:var(--ink)}
+.feed>.day:first-child,#feed>.day:first-child{padding-top:24px}
+.day-n{font-family:var(--f-display);font-size:42px;font-weight:400;line-height:.9;letter-spacing:-.02em;font-variant-numeric:lining-nums}
+.day-l{font-family:var(--f-sans);font-size:var(--fs-meta);color:var(--mute);letter-spacing:0}
+.day-y{margin-left:auto;font-size:var(--fs-label);letter-spacing:.18em;color:var(--faint)}
+.day+.item{border-top:0}
 .item{display:grid;grid-template-columns:64px minmax(0,1fr);gap:20px;padding:22px 0;border-bottom:1px solid var(--line)}
 .item time{font-family:var(--f-label);font-size:14px;color:var(--mute);padding-top:3px;font-variant-numeric:tabular-nums}
-.item h3{margin:0 0 8px;font-size:18px;line-height:1.5;font-weight:500;letter-spacing:-.015em;text-wrap:balance}
+.item h3{margin:0 0 10px;font-family:var(--f-serif);font-size:19px;line-height:1.5;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.item h3 a{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .45s cubic-bezier(.2,.7,.2,1)}
+.item h3 a:hover{background-size:100% 1px;text-decoration:none!important}
 .item h3 a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
-.item.imp h3,.item.imp time{color:var(--signal)}
+.item.imp time{color:var(--signal)}
+.item.imp time::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:7px;vertical-align:2px}
 .item .body{color:var(--mute);font-size:15px;line-height:1.75}
 .item .body p{margin:0 0 6px}
 .item .body a{text-decoration:underline;text-underline-offset:3px}
@@ -371,13 +380,14 @@ form.f{display:grid;gap:22px}
 .ft-col a:hover{color:var(--ink)}
 .site-footer .cols{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:var(--fs-meta);color:var(--mute)}
 .site-footer .cols:empty{display:none}
+.nw{white-space:nowrap}
 .ft-legal{margin:0;font-size:var(--fs-meta);line-height:1.75;color:var(--faint);max-width:78ch}
 .ft-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-top:22px;border-top:1px solid var(--line);font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
 
 /* ---------- bottom tabs (phone) ---------- */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:color-mix(in srgb,var(--paper) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);
   padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-nav.tabs a{height:58px;display:grid;place-items:center;align-content:center;gap:4px;font-size:11.5px;letter-spacing:.02em;color:var(--faint)}
+nav.tabs a{height:58px;display:grid;place-items:center;align-content:center;gap:3px;font-size:13px;letter-spacing:0;color:var(--faint)}
 nav.tabs svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.3}
 nav.tabs a[aria-current="page"]{color:var(--ink)}
 @media (min-width:960px){nav.tabs{display:none}}
@@ -563,6 +573,8 @@ html[lang="en"] .item h3,html[lang="en"] .hl a{font-weight:500;letter-spacing:0}
 html[lang="zh-Hans"]{--f-serif:"Noto Serif SC","Songti SC","STSong",serif;--f-sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;--f-read:"Noto Serif SC","Songti SC",serif}
 html[lang="zh-Hans"] body{word-break:normal;line-break:strict;letter-spacing:.01em}
 html[lang="zh-Hans"] :is(.slide-t,.doc h1,.lead-art h2,.art h3,.item h3,.sec h1,.sec h2,.cf-title){word-break:normal;overflow-wrap:normal}
+/* Han headlines break between any two characters; balancing then leaves half-empty lines, so fill lines instead */
+html[lang="zh-Hans"] :is(.item h3,.art h3,.hl a){text-wrap:pretty}
 html[lang="zh-Hans"] .prose{font-size:18px;line-height:2;letter-spacing:.02em}
 html[lang="zh-Hans"] .doc h1,html[lang="zh-Hans"] .slide-t,html[lang="zh-Hans"] .prose h2{font-weight:700;letter-spacing:0}
 

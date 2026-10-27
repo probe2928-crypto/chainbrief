@@ -275,7 +275,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   function feedHTML(list) {
     if (!list.length) return `<div class="empty">${esc(L.emptyFeed)}</div>`;
     let out = "", last = "";
-    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day">${dayLabel(f.date)}</div>`; last = k; } out += flashItem(f); }
+    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day"><span class="day-n">${+k.slice(-2)}</span><span class="day-l">${fmt(f.date, { month: "long" })}${L.locale.startsWith("zh") ? " " : " · "}${fmt(f.date, { weekday: "long" })}</span><span class="day-y num">${k.slice(0, 4)}</span></div>`; last = k; } out += flashItem(f); }
     return out;
   }
   const headlineList = (items) => items.length ? `<ul class="hl">${items.map((h) => `<li><a href="${esc(h.url)}" target="_blank" rel="noopener nofollow">${esc(h.title)}</a><span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })}</time></span></li>`).join("")}</ul>` : `<div class="empty">—</div>`;

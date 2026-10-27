@@ -134,13 +134,13 @@ ${adBand}
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
     <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a></div>
   </div>
-  <div class="cols">
+  ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
     ${cfg.footer.company ? `<span>${esc(cfg.footer.company)}</span>` : ""}
     ${cfg.footer.registration ? `<span>등록번호 ${esc(cfg.footer.registration)}</span>` : ""}
     ${cfg.footer.publisher ? `<span>발행·편집인 ${esc(cfg.footer.publisher)}</span>` : ""}
     ${cfg.footer.email ? `<span>${esc(cfg.footer.email)}</span>` : ""}
-  </div>
-  <p class="ft-legal">${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 CoinGecko·업비트·빗썸, 공포·탐욕 지수 Alternative.me.</p>
+  </div>` : ""}
+  <p class="ft-legal">${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 <span class="nw">CoinGecko·업비트·빗썸</span>, <span class="nw">공포·탐욕 지수</span> Alternative.me.</p>
   <div class="ft-base"><span>© ${NOW.getFullYear()} ${esc(cfg.nameEn)}</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
@@ -163,12 +163,14 @@ function flashItem(f) {
   </div>
 </article>`;
 }
+// 날짜 구분: 보도니 숫자 + 월·요일 + 연도 — 지면 날짜 도장처럼
+const dayStamp = (d) => `<div class="day"><span class="day-n">${+dayKey(d).slice(-2)}</span><span class="day-l">${fmt(d, { month: "long" })} ${fmt(d, { weekday: "long" })}</span><span class="day-y num">${fmt(d, { year: "numeric" }).replace(/\D/g, "")}</span></div>`;
 function feedHTML(list) {
   if (!list.length) return `<div class="empty">첫 속보를 준비하고 있어요.</div>`;
   let out = "", last = "";
   for (const f of list) {
     const k = dayKey(f.date);
-    if (k !== last) { out += `<div class="day">${dayLabel(f.date)}</div>`; last = k; }
+    if (k !== last) { out += dayStamp(f.date); last = k; }
     out += flashItem(f);
   }
   return out;
