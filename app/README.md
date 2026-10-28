@@ -8,9 +8,10 @@ Capacitor 네이티브 앱. 화면은 `www/`에 들어 있고(사이트를 감�
 
 ## 자동 빌드 (Actions → 앱 빌드)
 - **안드로이드 테스트 APK**: 고정 테스트 키(`debug.keystore`)로 서명 → Releases `android-latest`. 새 버전은 덮어 설치.
-- **출시용 APK + Play 스토어용 AAB**: 저장소 Secrets에 아래 4개가 있으면 같이 만들어져요.
-  `ANDROID_KEYSTORE_B64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`
-- **iOS**: 맥 서버에서 빌드 확인 (서명은 Apple Developer 계정이 생기면 추가)
+- **출시용 APK + Play 스토어용 AAB**: Secrets `ANDROID_KEYSTORE_B64` + `ANDROID_KEYSTORE_PASSWORD` 2개면 돼요 (별칭 `upload`, 키 비밀번호 = 키스토어 비밀번호. `ANDROID_KEY_ALIAS`/`ANDROID_KEY_PASSWORD`로 덮어쓸 수 있음)
+- **iOS**: Secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID`가 있으면 서명 빌드 → App Store Connect(TestFlight) 자동 업로드. 없으면 시뮬레이터용 빌드 확인만. iPhone 전용(TARGETED_DEVICE_FAMILY=1)
+- v1.2: Capacitor 8 (Android 타깃 SDK 36, Xcode 26), 앱 이름 CHAINBRIEF, 기본 언어 영어, 앱에는 거래소 레퍼럴 광고 없음
+- 스토어 이미지: `store/` (iPhone 1320×2868 ×6, Play 1080×1920 ×6, 피처 그래픽 1024×500, 아이콘)
 
 ## 스토어 출시에 필요한 것 (본인 계정)
 | | 비용 | 하는 일 |
