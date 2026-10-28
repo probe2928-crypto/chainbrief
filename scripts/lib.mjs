@@ -133,7 +133,7 @@ export function smartQuotes(s) {
     const p = i ? s[i - 1] : "";
     const open = !p || /[\s([{“‘—–…·/:]/.test(p);
     return q === "'" ? (open ? "‘" : "’") : (open ? "“" : "”");
-  });
+  }).replace(/([’”])(?=[가-힣\u4e00-\u9fff])/g, "$1\u2060"); // 닫는 따옴표 뒤 조사(‘출구’는)가 다음 줄로 떨어지지 않게 (단어 결합자)
 }
 
 // 해외 거래소 상장 원장 (data/global-listings.json) — KO·EN·中文 상장 페이지 공용

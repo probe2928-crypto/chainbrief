@@ -4,7 +4,7 @@
   const T = Object.assign({
     locale: "ko-KR", tz: "Asia/Seoul", now: "방금", min: "분 전", hr: "시간 전", day: "일 전", yday: "어제 ",
     newN: "새 속보 {n}건 보기", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
-    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨",
+    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", expand: "펼쳐 읽기", collapse: "접기",
     fng: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
   }, CB.t || {});
   const $ = (s, el = document) => el.querySelector(s);
@@ -173,8 +173,24 @@
       $$(".day", feed).forEach((d) => { let n = d.nextElementSibling, any = false; while (n && !n.classList.contains("day")) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
       const nm = $("#noMatch"); if (nm) nm.hidden = shown > 0 || !$(".item", feed);
     };
-    tabs("#filters", "c", (v) => { cat = v; apply(); });
-    $("#q")?.addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase(); apply(); });
+    // 모바일: 속보 본문은 3줄로 접고 '펼쳐 읽기' — 넘치는 항목에만 버튼을 붙인다
+    const narrow = matchMedia("(max-width:640px)");
+    const clamp = () => {
+      if (!narrow.matches) return;
+      $$(".item:not([hidden]) .body", feed).forEach((b) => {
+        if (b.dataset.cl) return;
+        if (b.scrollHeight <= b.clientHeight + 2) return;
+        b.dataset.cl = "1";
+        const it = b.closest(".item"), btn = document.createElement("button");
+        btn.type = "button"; btn.className = "more-b"; btn.setAttribute("aria-expanded", "false"); btn.textContent = T.expand;
+        btn.addEventListener("click", () => { const o = it.classList.toggle("open"); btn.setAttribute("aria-expanded", o); btn.textContent = o ? T.collapse : T.expand; });
+        const m = $(".meta", it); m ? m.append(btn) : b.after(btn);
+      });
+    };
+    (document.fonts?.ready || Promise.resolve()).then(clamp);
+    narrow.addEventListener?.("change", clamp);
+    tabs("#filters", "c", (v) => { cat = v; apply(); clamp(); });
+    $("#q")?.addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase(); apply(); clamp(); });
     setInterval(async () => {
       if (!visible()) return;
       try {

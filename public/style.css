@@ -846,3 +846,20 @@ html.adclean :is(.topad,.topads-m,.adband,.ad-inline,a.ad,[data-ad]){display:non
 .cbx-go{background:var(--ink);color:var(--paper)}
 .cbx-go[aria-disabled="true"]{background:var(--wash);color:var(--faint);border-color:var(--line);cursor:default}
 @media (prefers-reduced-motion:reduce){.cbx-sheet,.cbx-bg{transition:none}}
+
+/* 텔레그램 라벨·버튼의 한글·한자: 13px, 자간 없음 */
+.tl-tg span.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.tgcard-cta.cjk{font-family:var(--f-sans);font-size:13px;font-weight:500;letter-spacing:.02em;text-transform:none}
+/* 모바일 라이브 속보: 본문 3줄 + 펼쳐 읽기 */
+.more-b{display:none}
+@media (max-width:640px){
+  #feed .item .body{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
+  #feed .item.open .body{display:block;-webkit-line-clamp:unset;line-clamp:none;overflow:visible}
+  #feed .more-b{display:inline-flex;align-items:center;gap:8px;margin:0 0 0 auto;padding:6px 0 4px;background:none;border:0;border-bottom:1px solid var(--line);color:var(--ink);font-family:var(--f-sans);font-size:13px;letter-spacing:.01em;cursor:pointer}
+  #feed .more-b::after{content:"";width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .3s}
+  #feed .more-b[aria-expanded="true"]::after{transform:translateY(1px) rotate(-135deg)}
+  #feed .more-b:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  #feed .item .meta{margin-top:8px;min-height:30px}
+  #feed .body+.more-b{margin:8px 0 0}
+}
+@media (prefers-reduced-motion:reduce){#feed .more-b::after{transition:none}}
