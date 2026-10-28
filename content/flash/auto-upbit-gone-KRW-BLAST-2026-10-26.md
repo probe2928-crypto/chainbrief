@@ -1,5 +1,5 @@
 ---
-title: "[업비트] 블라스트(BLAST) KRW 마켓 거래 종료"
+title: "[업비트] 블라스트(BLAST) KRW·BTC·USDT 마켓 거래 종료"
 time: 2026-10-26T03:26:06.420Z
 category: 상장
 important: true

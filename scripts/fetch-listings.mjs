@@ -163,10 +163,19 @@ console.log(`상장 소식 ${items.length}건 저장`);
 // 새 소식 → 자동 속보 (첫 실행·백필은 건너뜀: 지난 공지가 한꺼번에 올라가지 않도록)
 if (hadPrev && !backfill) {
   let made = 0;
-  for (const i of items) {
-    if (prevKeys.has(i.key) || Date.now() - new Date(i.time) > 12 * 3600e3 || i.type === "caution-cleared") continue;
+  // 같은 거래소·같은 코인·같은 종류(상장/종료)가 마켓(KRW·BTC·USDT)별로 따로 잡히면 속보 1건으로 합친다
+  const day = (t) => new Date(t).toISOString().slice(0, 10);
+  const gkey = (i) => i.source === "market" ? `${i.exchange}|${i.type}|${i.coins.map((c) => c.symbol).join(",")}|${day(i.time)}` : i.key;
+  const cand = items.filter((i) => !(prevKeys.has(i.key) || Date.now() - new Date(i.time) > 12 * 3600e3 || i.type === "caution-cleared"));
+  const groups = new Map();
+  for (const i of cand) { const g = groups.get(gkey(i)); if (g) g.markets = [...new Set([...g.markets, ...(i.markets || [])])]; else groups.set(gkey(i), { ...i, markets: [...(i.markets || [])] }); }
+  const flashFiles = fs.existsSync(FLASH) ? fs.readdirSync(FLASH) : [];
+  const QUOTE = /-(KRW|BTC|USDT)-/;
+  const already = (i) => i.source === "market" && flashFiles.some((n) => n.startsWith(`auto-${i.exchange}-${i.type === "listing" ? "mkt" : "gone"}-`) && n.replace(QUOTE, "-Q-") === `auto-${i.key.replace(QUOTE, "-Q-")}.md`);
+  for (const i of groups.values()) {
     const f = path.join(FLASH, `auto-${i.key}.md`);
-    if (fs.existsSync(f)) continue;
+    if (fs.existsSync(f) || already(i)) continue;
+    if (i.source === "market" && i.markets.length > 1) i.title = i.title.replace(/ (KRW|BTC|USDT) 마켓/, ` ${i.markets.join("·")} 마켓`);
     const coin = i.coins.map((c) => `${c.name}(${c.symbol})`).join(", ");
     const body = i.type === "listing"
       ? `${EX[i.exchange]}가 ${coin}${i.markets.length ? ` ${i.markets.join("·")} 마켓` : ""} 거래 지원을 ${i.source === "market" ? "시작했다. 거래소 마켓 목록에서 새로 확인됐다" : "공지했다"}.`
