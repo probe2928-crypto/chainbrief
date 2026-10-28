@@ -292,6 +292,7 @@ ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener"
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
+<script src="${asset("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 <script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>
 </body>
