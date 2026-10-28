@@ -5,6 +5,7 @@
   "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세와 김치프리미엄을 한곳에서.",
   "domain": "",
   "lang": "ko",
+  "tgChannels": { "ko": "@chainbrief_kr", "en": "@chainbrief_global", "zh": "@chainbrief_cn" },
   "categories": [
     "비트코인",
     "알트코인",
