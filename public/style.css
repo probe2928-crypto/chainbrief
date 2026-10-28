@@ -292,6 +292,27 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .lst.c .px{padding-top:6px}
 .slot-empty{padding:16px 0;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
 
+/* 해외 거래소 상장 원장 (.gl): 출처 원장 + 날짜 도장 + 보도니 심볼 + 세리프 공지 제목 */
+.gl{margin-top:72px;scroll-margin-top:84px}
+.gl .sec{align-items:flex-end}
+.gl-srcs{display:flex;flex-wrap:wrap;gap:6px 18px}
+.gl-src{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.gl-src i{width:6px;height:6px;border-radius:50%;border:1px solid currentColor}
+.gl-src.ok{color:var(--ink)}
+.gl-src.ok i{background:var(--signal);border-color:var(--signal)}
+.gl-list{list-style:none;margin:0;padding:0}
+.gl-row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;padding:20px 0 19px;border-bottom:1px solid var(--line)}
+.gl-row time{display:flex;flex-direction:column;gap:3px;padding-top:5px;line-height:1.2}
+.gl-row .lc-d{white-space:nowrap;font-family:var(--f-label);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.gl-row .lc-d.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.gl-row .lc-h{font-size:15px;color:var(--ink)}
+.gl-sym{font-family:var(--f-display);font-weight:500;font-size:23px;letter-spacing:.03em;line-height:1.15;overflow-wrap:anywhere}
+.gl-row .lc-m .ty.delisting{color:var(--down)}
+.gl-t{display:block;margin-top:9px;font-family:var(--f-display);font-size:16px;line-height:1.5;letter-spacing:.005em;color:var(--mute);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .35s ease,color .2s ease;width:fit-content;max-width:100%}
+.gl-t:hover,.gl-t:focus-visible{color:var(--ink);background-size:100% 1px}
+@media (prefers-reduced-motion:reduce){.gl-t{transition:none}}
+@media (max-width:640px){.gl{margin-top:56px}.gl-row{grid-template-columns:54px minmax(0,1fr);gap:14px}.gl-srcs{gap:6px 14px}}
+
 /* ---------- surge ---------- */
 main.wide-single{max-width:1080px}
 .surge{display:grid;gap:52px}

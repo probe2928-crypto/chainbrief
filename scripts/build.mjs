@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, globalLedger } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -75,6 +75,7 @@ const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] }
 const hlItems = (headlines.items || []).filter((h) => h.lang !== "zh").map((h) => ({ ...h, date: new Date(h.time) }));
 const listings = readJSON("data/listings.json", { items: [] });
 const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
+const globalLs = listings.global || null;
 const community = readJSON("data/community.json", { groups: [] });
 
 /* ---------- partials ---------- */
@@ -400,7 +401,7 @@ write("listings/index.html", layout({
   </div>
   <div id="daypanels">${days.map(dayPanel).join("")}</div>
   <p class="note">거래소 공지와 마켓 목록을 함께 확인해요. 상장 코인 오른쪽은 현재가와 24시간 변동률이에요.</p>
-  </section></div>${rail()}</main></div>`,
+  </section>${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: { label: "Global Exchanges", title: "해외 거래소 상장", aside: "바이낸스 · OKX · 바이비트 공지와 코인베이스 마켓 목록을 15분마다 확인해요. 공지 제목과 링크만 옮겨요.", listing: "신규 상장", delisting: "상장 폐지", notice: "공지 원문", empty: "최근 30일 해외 거래소 상장 소식이 아직 없어요.", checked: "{t} 확인", stale: "지금 연결 안 됨" } })}</div>${rail()}</main></div>`,
 }));
 
 // 급등 레이더 (브라우저에서 실시간 계산, public/surge.js)

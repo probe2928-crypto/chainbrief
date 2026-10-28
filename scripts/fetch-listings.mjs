@@ -157,7 +157,7 @@ const cutoff = Date.now() - KEEP_DAYS * 864e5;
 const items = [...byKey.values()].filter((i) => new Date(i.time) >= cutoff).sort((a, b) => new Date(b.time) - new Date(a.time));
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, JSON.stringify({ updatedAt: backfill ? prev.updatedAt || now : now, items, known, warn, names: prev.names || {} }));
+fs.writeFileSync(OUT, JSON.stringify({ updatedAt: backfill ? prev.updatedAt || now : now, items, known, warn, names: prev.names || {}, ...(prev.global ? { global: prev.global } : {}) }));
 console.log(`상장 소식 ${items.length}건 저장`);
 
 // 새 소식 → 자동 속보 (첫 실행·백필은 건너뜀: 지난 공지가 한꺼번에 올라가지 않도록)

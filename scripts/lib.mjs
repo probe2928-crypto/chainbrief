@@ -135,3 +135,31 @@ export function smartQuotes(s) {
     return q === "'" ? (open ? "‘" : "’") : (open ? "“" : "”");
   });
 }
+
+// 해외 거래소 상장 원장 (data/global-listings.json) — KO·EN·中文 상장 페이지 공용
+// S = { label, title, aside, listing, delisting, notice, empty, checked, stale }, rel(d) = 날짜 도장, hhmm(d)
+export const GL_EX = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
+export function globalLedger({ data, S, esc, rel, hhmm, limit = 12 }) {
+  if (!data || !data.status) return "";
+  const items = (data.items || []).slice(0, limit);
+  const src = Object.keys(GL_EX).map((k) => {
+    const st = data.status[k] || {};
+    const at = st.ok ? st.at : st.lastOk;
+    const fresh = at && Date.now() - new Date(at) < 6 * 3600e3;
+    return `<span class="gl-src${fresh ? " ok" : ""}" title="${esc(at ? S.checked.replace("{t}", hhmm(new Date(at))) : S.stale)}"><i aria-hidden="true"></i>${GL_EX[k]}</span>`;
+  }).join("");
+  const rows = items.map((i) => {
+    const d = new Date(i.time);
+    return `<li class="gl-row" data-ex="${esc(i.exchange)}" data-type="${esc(i.type)}">
+      <time datetime="${d.toISOString()}"><span class="lc-d">${esc(rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time>
+      <div class="gl-b"><div class="gl-sym">${esc(i.symbols.join(" · "))}</div>
+      <div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(i.type === "listing" ? S.listing : S.delisting)}</span></div>
+      <a class="gl-t" href="${esc(i.url)}" target="_blank" rel="noopener nofollow" lang="en">${esc(i.title)}<span class="sr"> — ${esc(S.notice)}</span></a></div>
+    </li>`;
+  }).join("");
+  return `<section class="gl" id="global" aria-labelledby="glT">
+  <div class="sec"><div><span class="label">${esc(S.label)}</span><h2 id="glT">${esc(S.title)}</h2></div><div class="aside gl-srcs" aria-label="${esc(S.aside)}">${src}</div></div>
+  ${rows ? `<ol class="gl-list">${rows}</ol>` : `<div class="slot-empty">${esc(S.empty)}</div>`}
+  <p class="note">${esc(S.aside)}</p>
+</section>`;
+}
