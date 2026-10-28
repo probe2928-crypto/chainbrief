@@ -7,6 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes , globalLedger } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
+import { tgChan } from "./tgchan.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -210,6 +211,8 @@ const EXN = { upbit: "Upbit", bithumb: "Bithumb" };
 const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
 for (const L of [ED.en, ED.zh]) {
   const P = `${L.code}/`;
+  const CH = tgChan(cfg, L.code);
+  const chRail = CH ? CH.rail : "";
   const u = (p = "") => BASE + P + p.replace(/^\//, "");
   const abs = (p) => SITE_URL + u(p);
   const fmt = (d, o) => new Intl.DateTimeFormat(L.locale, { timeZone: L.tz, ...o }).format(d);
@@ -265,7 +268,7 @@ ${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(can
 <link rel="stylesheet" href="${asset("style.css")}?v=${BUILD_ID}">
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><a class="tl-search" href="${u("search/")}" aria-label="${esc(L.S.title)}">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="${esc(L.S.title)}">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(L.name)} ${esc(L.homeLabel)}">CHAINBRIEF</a>${topAd(ADS[1], "r")}</div>
   <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="${esc(L.S.title)}" title="${esc(L.S.title)} ( / )">${SEARCH_SVG}</a></nav>
@@ -279,7 +282,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">${esc(cfg.impact[L.code]?.title || cfg.impact.name)}</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">${L.code === "zh" ? "联系" : "Contact"} @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">${esc(cfg.impact[L.code]?.title || cfg.impact.name)}</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">${esc(ABOUT[L.code].newsroom)}</a><a href="${u("privacy/")}">${esc(ABOUT[L.code].privacyT)}</a></div>
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
@@ -315,10 +318,10 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
 
   // 파츠
   const flashItem = (f) => `<article class="item${f.important ? " imp" : ""}" data-cat="${esc(f.category || "")}" data-imp="${f.important ? 1 : 0}"><time datetime="${f.date.toISOString()}">${hhmm(f.date)}</time><div style="min-width:0"><h3><a href="${u(`flash/${f.id}/`)}">${esc(f.title)}</a></h3>${f.body ? `<div class="body">${markdown(f.body)}</div>` : ""}<div class="meta">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}</div></div></article>`;
-  function feedHTML(list) {
+  function feedHTML(list, inline = "", at = 6) {
     if (!list.length) return `<div class="empty">${esc(L.emptyFeed)}</div>`;
-    let out = "", last = "";
-    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day"><span class="day-n">${+k.slice(-2)}</span><span class="day-l">${fmt(f.date, { month: "long" })}${L.locale.startsWith("zh") ? " " : " · "}${fmt(f.date, { weekday: "long" })}</span><span class="day-y num">${k.slice(0, 4)}</span></div>`; last = k; } out += flashItem(f); }
+    let out = "", last = "", n = 0;
+    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day"><span class="day-n">${+k.slice(-2)}</span><span class="day-l">${fmt(f.date, { month: "long" })}${L.locale.startsWith("zh") ? " " : " · "}${fmt(f.date, { weekday: "long" })}</span><span class="day-y num">${k.slice(0, 4)}</span></div>`; last = k; } out += flashItem(f); if (inline && ++n === at) out += inline; }
     return out;
   }
   const headlineList = (items) => items.length ? `<ul class="hl">${items.map((h) => `<li><a href="${esc(h.url)}" target="_blank" rel="noopener nofollow">${esc(h.title)}</a><span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })}</time></span></li>`).join("")}</ul>` : `<div class="empty">—</div>`;
@@ -336,7 +339,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const hlRail = `<section class="block"><div class="block-head"><h2>${esc(L.headlinesT)}</h2><span class="label">Global</span></div>${headlineList(hl.slice(0, 6))}<a class="more" href="${u("news/")}">${esc(L.more)}</a></section>`;
   const IM = cfg.impact && cfg.impact[L.code];
   const impactRail = IM ? `<section class="block slot impact"><span class="label">Impact</span><strong>${esc(IM.title)}</strong><span>${esc(IM.text)}</span><a class="btn ghost" href="${cfg.impact.url}${IM.path}" target="_blank" rel="noopener">${esc(IM.cta)}</a></section>` : "";
-  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${impactRail}${contactRail}</aside>`;
+  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${chRail}${extra}${impactRail}${contactRail}</aside>`;
   const CAT_SLUG = { Policy: "policy", Markets: "markets", Industry: "industry", Exchanges: "exchanges", Technology: "tech", Global: "global", 政策: "policy", 市场: "markets", 产业: "industry", 交易所: "exchanges", 技术: "tech", 海外: "global" };
   const catSlug = (c) => CAT_SLUG[c] || encodeURIComponent(String(c || "etc").toLowerCase().replace(/\s+/g, "-"));
   const catList = [...articles.reduce((m, a) => (a.category && m.set(a.category, (m.get(a.category) || 0) + 1), m), new Map()).entries()].sort((a, b) => b[1] - a[1]);
@@ -348,6 +351,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const homeSlides = [...articles.slice(0, 3).map(artSlide)];
   if (wk.length) homeSlides.push({ art: "light-grid", eye: "Upbit · Bithumb", title: fm(L.slideListings, { n: wk.length }), dek: [...new Set(wk.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: L.slideListingsCta });
   homeSlides.push({ art: "prism", eye: "Surge Radar", title: L.slideSurge, dek: L.slideSurgeX, href: u("surge/"), cta: L.slideSurgeCta });
+  if (CH) homeSlides.splice(Math.min(2, homeSlides.length), 0, CH.slide);
   const topArt = articles[0];
   const colorField = `<section class="cfield"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">${esc(L.cf[0])}</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
@@ -363,7 +367,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     ${secHead("Live Wire", esc(L.liveTitle), `<label class="search"><span class="sr">${esc(L.search)}</span><input id="q" type="search" placeholder="${esc(L.search)}"></label>`)}
     <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
-    <div id="feed">${feedHTML(flashes.slice(0, 150))}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
+    <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
   </section></div>${rail(listingRail + hlRail)}</main></div>`,
   }));
 
@@ -375,7 +379,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1><div class="prose">${markdown(f.body || "")}</div>
-      <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div></article>
+      <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${CH ? CH.card : ""}</article>
       ${near.length ? `<section>${secHead("Also", esc(L.alsoT), "", "h2")}${near.map(flashItem).join("")}</section>` : ""}</div>${rail()}</main></div>`,
     }));
   });
@@ -435,6 +439,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
+      ${CH ? CH.card : ""}
       ${ADS.length ? `<aside class="ad-inline"><span class="label">${esc(L.sponsored)}</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : ""}
       </article>${more.length ? `<section>${secHead("More", esc(L.editorial), "", "h2")}<div class="arts">${more.map(card).join("")}</div></section>` : ""}
       </div>${rail()}</main></div>`,
@@ -460,7 +465,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "rose-dusk"][k], eye: ["Markets", "Kimchi Premium"][k], title: t, dek: d, href: "#mkt", cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", esc(L.marketTitle), '<span id="mktUpdated">…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
-    <p class="note">${esc(L.kimpNote)}</p></section>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${contactRail}</aside></main></div>`,
+    <p class="note">${esc(L.kimpNote)}</p></section>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
   }));
 
   // 문의
@@ -470,7 +475,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>
-    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div></main></div>`,
+    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>${CH ? CH.contact : ""}</div></main></div>`,
   }));
 
   // 편집국 · 기자별 · 개인정보처리방침

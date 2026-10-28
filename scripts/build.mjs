@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, globalLedger } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
+import { tgChan } from "./tgchan.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -89,6 +90,7 @@ const ICON = {
 const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], ["contact/", "문의"]];
 const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/", "급등", "surge"], ["news/", "뉴스", "news"], ["community/", "커뮤니티", "comm"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
+const CH = tgChan(cfg, "ko");
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
 function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "" }) {
@@ -120,7 +122,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r"><a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
@@ -134,7 +136,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">${esc(cfg.nameEn)}</a><p>${esc(cfg.tagline || "")}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${TG ? `<a href="${TG}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">편집국</a><a href="${u("privacy/")}">개인정보처리방침</a></div>
   </div>
   ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
@@ -169,13 +171,14 @@ function flashItem(f) {
 }
 // 날짜 구분: 보도니 숫자 + 월·요일 + 연도 — 지면 날짜 도장처럼
 const dayStamp = (d) => `<div class="day"><span class="day-n">${+dayKey(d).slice(-2)}</span><span class="day-l">${fmt(d, { month: "long" })} ${fmt(d, { weekday: "long" })}</span><span class="day-y num">${fmt(d, { year: "numeric" }).replace(/\D/g, "")}</span></div>`;
-function feedHTML(list) {
+function feedHTML(list, inline = "", at = 6) {
   if (!list.length) return `<div class="empty">첫 속보를 준비하고 있어요.</div>`;
-  let out = "", last = "";
+  let out = "", last = "", n = 0;
   for (const f of list) {
     const k = dayKey(f.date);
     if (k !== last) { out += dayStamp(f.date); last = k; }
     out += flashItem(f);
+    if (inline && ++n === at) out += inline;
   }
   return out;
 }
@@ -268,7 +271,8 @@ const contactRail = TG ? `<section class="block slot">
   <span>텔레그램 @${esc(cfg.telegram)} 으로 바로 연락 주세요.</span>
   <a class="btn ghost" href="${TG}" target="_blank" rel="noopener">텔레그램 열기</a>
 </section>` : "";
-const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${extra}${partner}${contactRail}</aside>`;
+const chRail = CH ? CH.rail : "";
+const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${chRail}${extra}${partner}${contactRail}</aside>`;
 
 /* ---------- pages ---------- */
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -325,8 +329,9 @@ const homeSlides = (() => {
   const wkL = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
   if (wkL.length) out.push({ art: "light-grid", eye: "Listings · 업비트 · 빗썸", title: `이번 주 신규 상장 ${wkL.length}건`, dek: [...new Set(wkL.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: "상장 소식 보기" });
   out.push({ art: "prism", eye: "Surge Radar · 실시간", title: "지금 가장 빠르게 움직이는 코인", dek: "5분 급등, 거래 급증, 52주 신고가, 신규 상장 성적표를 한 화면에서.", href: u("surge/"), cta: "급등 레이더 열기" });
+  if (CH) out.splice(Math.min(2, out.length), 0, CH.slide);
   add(articles.find((a) => a.format && !seen.has(a.id)));
-  return out.slice(0, 6);
+  return out.slice(0, 7);
 })();
 const colorField = `<section class="cfield" aria-label="오늘의 시장"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
@@ -340,13 +345,13 @@ const colorField = `<section class="cfield" aria-label="오늘의 시장"><div c
 const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
-  jsonld: SITE_URL ? JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), inLanguage: "ko", potentialAction: { "@type": "SearchAction", target: abs("search/") + "?q={search_term_string}", "query-input": "required name=search_term_string" } }) : "",
+  jsonld: SITE_URL ? JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), inLanguage: "ko", publisher: { "@type": "NewsMediaOrganization", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), sameAs: CH ? CH.sameAs : [] }, potentialAction: { "@type": "SearchAction", target: abs("search/") + "?q={search_term_string}", "query-input": "required name=search_term_string" } }) : "",
   body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid">
   <div class="col"><section>
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">새 속보 보기</button></div>
-    <div id="feed">${feedHTML(flashes.slice(0, 150))}</div>
+    <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div>
     <div class="empty" id="noMatch" hidden>조건에 맞는 속보가 없어요.</div>
   </section></div>
   ${rail(listingRail + `<section class="block"><div class="block-head"><h2>해외 헤드라인</h2><span class="label">Global</span></div>${headlineList(hlItems.slice(0, 6))}<a class="more" href="${u("news/")}">더 보기</a></section>`)}
@@ -365,6 +370,7 @@ flashes.forEach((f, i) => {
       <h1>${esc(f.title)}</h1>
       <div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn" href="${u()}">속보 목록</a></div>
+      ${CH ? CH.card : ""}
     </article>
     ${near.length ? `<section>${secHead("Also", "이어지는 속보", "", "h2")}${near.map(flashItem).join("")}</section>` : ""}
     </div>${rail()}</main></div>`,
@@ -491,6 +497,7 @@ articles.forEach((a, i) => {
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
+      ${CH ? CH.card : ""}
       ${adInline(i)}
     </article>
     ${more.length ? `<section>${secHead("More", "다른 기사", "", "h2")}<div class="arts">${more.map(card).join("")}</div></section>` : ""}
@@ -557,7 +564,7 @@ write("market/index.html", layout({
     </tbody></table></div>
     <p class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신.</p>
   </section>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
-  <aside class="rail">${sentiment}${partner}${contactRail}</aside></main></div>`,
+  <aside class="rail">${sentiment}${chRail}${partner}${contactRail}</aside></main></div>`,
 }));
 
 // 커뮤니티
@@ -634,6 +641,7 @@ write("contact/index.html", layout({
     <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
     <div><span class="label">이런 문의를 받아요</span><ul style="margin-top:10px"><li>속보·기사 제보</li><li>광고 및 배너 제휴</li><li>거래소·프로젝트 협업</li><li>기사 정정 요청</li></ul></div>
+    ${CH ? CH.contact : ""}
   </div>
   </main></div>`,
 }));

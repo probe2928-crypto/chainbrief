@@ -762,3 +762,55 @@ html.adclean :is(.topad,.topads-m,.adband,.ad-inline,a.ad,[data-ad]){display:non
 .mkt-full.gm{table-layout:fixed;width:100%}
 .mkt-full.gm th:nth-child(1){width:34%} .mkt-full.gm th:nth-child(2){width:20%} .mkt-full.gm th:nth-child(3){width:16%} .mkt-full.gm th:nth-child(4){width:14%} .mkt-full.gm th:nth-child(5){width:16%}
 @media (max-width:640px){.mkt-full.gm th:nth-child(1){width:42%}.mkt-full.gm th:nth-child(2){width:24%}.mkt-full.gm th:nth-child(3){width:17%}.mkt-full.gm th:nth-child(4){width:17%}}
+
+/* ---------- Telegram 뉴스 채널 (scripts/tgchan.mjs) ---------- */
+.tgc-ic{flex:none;display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--paper)}
+.tgc-ic svg{width:17px;height:17px;fill:currentColor;margin-left:-2px}
+.tl-tg{display:inline-flex;align-items:center;gap:7px;color:var(--ink);white-space:nowrap}
+.tl-tg svg{width:13px;height:13px;fill:currentColor}
+.tl-tg:hover span{border-bottom:1px solid currentColor}
+.tl-tg span{letter-spacing:.06em}
+@media (max-width:520px){.tl-tg span{display:none}}
+/* rail */
+.tgc .block-head h2{font-size:17px}
+.tgc-main{display:flex;gap:14px;align-items:flex-start;margin-top:14px;padding:16px;background:var(--w-blue);color:var(--wash-ink);border-top:2px solid var(--a-blue)}
+.tgc-main .tgc-ic{background:var(--a-blue);color:#fff}
+.tgc-h{display:grid;gap:4px;min-width:0}
+.tgc-h b{font-family:var(--f-label);font-weight:500;font-size:16px;letter-spacing:.04em}
+.tgc-h small{font-size:13.5px;line-height:1.6;color:var(--wash-sub)}
+.tgc-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:14px}
+.tgc-o{display:inline-flex;gap:12px;font-size:13px;color:var(--mute)}
+.tgc-o a{border-bottom:1px solid var(--line)}
+.tgc-o a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+/* 기사·속보 끝 카드 */
+.tgcard{margin-top:44px}
+.tgcard-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 24px;background:var(--w-blue);color:var(--wash-ink);border-top:2px solid var(--a-blue);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.tgcard-in:hover{transform:translateY(-2px)}
+.tgcard .tgc-ic{width:46px;height:46px;background:var(--a-blue);color:#fff}
+.tgcard .tgc-ic svg{width:20px;height:20px}
+.tgcard-t{display:grid;gap:4px}
+.tgcard-t .label{color:var(--wash-sub)}
+.tgcard-t strong{font-family:var(--f-serif);font-size:20px;line-height:1.4;letter-spacing:-.01em}
+.tgcard-t small{font-size:14px;color:var(--wash-sub);line-height:1.6}
+.tgcard-cta{font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:var(--tr-caps);text-transform:uppercase;white-space:nowrap;border-bottom:1px solid currentColor;padding-bottom:3px}
+@media (max-width:640px){.tgcard-in{grid-template-columns:auto minmax(0,1fr);padding:20px}.tgcard-cta{grid-column:1/-1;justify-self:start}}
+/* 홈 속보 목록 사이 한 줄 */
+.tg-inline{display:flex;align-items:center;gap:14px;padding:14px 16px;margin:6px 0;background:var(--w-blue);color:var(--wash-ink);border-left:3px solid var(--a-blue)}
+.tg-inline[hidden]{display:none}
+.tg-inline .tgc-ic{width:32px;height:32px;background:var(--a-blue);color:#fff}
+.tg-inline .tgc-ic svg{width:15px;height:15px}
+.tgi-t{flex:1;min-width:0;font-family:var(--f-serif);font-weight:700;font-size:16px;line-height:1.45}
+.tgi-h{font-family:var(--f-label);font-size:13px;letter-spacing:.06em;white-space:nowrap;color:var(--wash-sub)}
+.tg-inline:hover .tgi-h{color:var(--wash-ink)}
+@media (max-width:520px){.tgi-h{display:none}}
+.tg-inline+.item{border-top:0}
+/* 문의 페이지 */
+.tgc-contact{border-top:1px solid var(--line);padding-top:26px}
+.tgc-contact p{margin:0 0 16px;color:var(--mute);font-weight:300;max-width:56ch}
+.tgc-contact ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.tgc-contact li{margin:0}
+.tgc-contact li a{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);transition:border-color .2s}
+.tgc-contact li a:hover{border-color:var(--ink)}
+.tgc-contact li b{font-family:var(--f-label);font-weight:500;letter-spacing:.04em;font-size:15px}
+.tgc-contact li span:last-child{margin-left:auto;font-size:13px;color:var(--mute)}
+.tgc-hd{text-transform:none;letter-spacing:.04em}

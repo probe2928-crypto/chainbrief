@@ -169,6 +169,7 @@
         const ok = (cat === "전체" || (cat === "중요" ? it.dataset.imp === "1" : it.dataset.cat === cat)) && (!q || it.textContent.toLowerCase().includes(q));
         it.hidden = !ok; if (ok) shown++;
       });
+      $$(".tg-inline", feed).forEach((x) => (x.hidden = cat !== "전체" || !!q));
       $$(".day", feed).forEach((d) => { let n = d.nextElementSibling, any = false; while (n && !n.classList.contains("day")) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
       const nm = $("#noMatch"); if (nm) nm.hidden = shown > 0 || !$(".item", feed);
     };

@@ -23,7 +23,7 @@
   var SITES = {
     chainbrief: { g: 'web3', bg: '#121212', fg: '#F3EEE6', mark: 'CHAINBRIEF', font: 'serif', url: 'chainbrief/', urlEn: 'chainbrief/en/', urlZh: 'chainbrief/zh/',
       cat: { ko: '코인 뉴스', en: 'Crypto news', zh: '加密快讯' },
-      line: { ko: '가장 빠른 코인 속보와 상장 소식', en: 'Fast crypto news and Korean listings', zh: '最快的加密快讯与韩国上币' } },
+      line: { ko: '가장 빠른 코인 속보, 텔레그램 채널로도', en: 'Fast crypto news, now on Telegram too', zh: '最快的加密快讯，Telegram 频道同步' } },
     blockkey: { g: 'web3', bg: '#1F2A44', fg: '#F2F0EA', mark: 'BLOCKKEY', font: 'sans', url: 'blockkey/', urlEn: 'blockkey/en/',
       cat: { ko: 'AI · 블록체인 개발', en: 'AI · Blockchain build', zh: 'AI · 区块链开发' },
       line: { ko: 'AI 마케팅, AI 개발, 블록체인 연동', en: 'AI marketing, AI development, chain integration', zh: 'AI 营销、AI 开发、区块链对接' } },
@@ -44,7 +44,7 @@
       line: { ko: '가볍게 떠나는 물건 10가지', en: 'Ten things for lighter travel', zh: '让旅行更轻的十件物品' } },
     oriel: { g: 'give', bg: '#E9CFBB', fg: '#161514', mark: 'oriel', font: 'grot', url: 'oriel/',
       cat: { ko: '재단', en: 'Foundation', zh: '基金会' },
-      line: { ko: '동남아 아이들의 배움과 생활을 돕는 재단', en: 'Learning and daily support for children in Southeast Asia', zh: '支持东南亚儿童的学习与生活' } }
+      line: { ko: '도움이 필요한 가정과 사랑스러운 아이들을 돕는 재단', en: 'Learning and daily support for families and children in need', zh: '支持有需要的家庭与孩子的学习和生活' } }
   };
 
   /* Context: when site A shows site B, a line written for that pair beats the generic one. */
