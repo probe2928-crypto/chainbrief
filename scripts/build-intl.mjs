@@ -259,7 +259,7 @@ for (const L of [ED.en, ED.zh]) {
 <meta name="description" content="${esc(description)}">
 ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${alt}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="${esc(L.name)}"><meta property="og:title" content="${esc(title || L.name)}"><meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(canonical)}">` : ""}<meta property="og:image" content="${SITE_URL}${asset("og.png")}">` : ""}
+${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(canonical)}">` : ""}<meta property="og:image" content="${SITE_URL}${asset("og.png")}?v=2">` : ""}
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${asset("manifest.webmanifest")}"><link rel="icon" href="${asset("icons/icon-192.png")}" type="image/png"><link rel="apple-touch-icon" href="${asset("icons/apple-touch-icon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(L.name)}" href="${u("rss.xml")}">

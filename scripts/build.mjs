@@ -109,7 +109,7 @@ ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
 <meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${abs("og.png")}">` : ""}
+${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${abs("og.png") + "?v=2"}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${u("manifest.webmanifest")}">
