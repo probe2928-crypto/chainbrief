@@ -36,6 +36,7 @@ export function symbols(title) {
 }
 const DERIV = /futures|perpetual|margin|options|pre-market|premarket|alpha|earn|convert|launchpool|hodler|megadrop|copy trading|trading bots|loan|monitoring tag|seed tag applied.*futures/i;
 export function kind(title, hint) {
+  if (/bStocks|xStocks|tokenized stock|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
   if (/delist|cease trading|remove .* spot|end of support|will (remove|delist)/i.test(title)) return "delisting";
   if (hint === "delisting") return /spot|delist/i.test(title) ? "delisting" : null;
   if (DERIV.test(title) && !/spot/i.test(title)) return null;
@@ -87,7 +88,7 @@ for (const [ex, fn] of Object.entries(SRC)) {
   try {
     const got = (await fn()).filter(Boolean);
     fresh.push(...got);
-    status[ex] = { ok: true, at: now, n: got.length };
+    status[ex] = { ok: true, at: now, n: got.length, sample: got.slice(0, 3).map((i) => [i.time, i.title.slice(0, 90)]) };
     console.log(`✓ ${ex}: ${got.length}`);
   } catch (e) {
     status[ex] = { ok: false, at: now, err: e.message, lastOk: prev.status?.[ex]?.ok ? prev.status[ex].at : prev.status?.[ex]?.lastOk || null };
@@ -111,7 +112,7 @@ try {
 const byKey = new Map(prev.items.map((i) => [i.key, i]));
 for (const i of fresh) byKey.set(i.key, { ...byKey.get(i.key), ...i, time: byKey.get(i.key)?.time || i.time });
 const cutoff = Date.now() - KEEP_DAYS * 864e5;
-const items = [...byKey.values()].filter((i) => new Date(i.time) >= cutoff && new Date(i.time) <= Date.now() + 864e5).sort((a, b) => new Date(b.time) - new Date(a.time));
+const items = [...byKey.values()].filter((i) => (i.exchange === "coinbase" || kind(i.title, i.type)) && new Date(i.time) >= cutoff && new Date(i.time) <= Date.now() + 864e5).sort((a, b) => new Date(b.time) - new Date(a.time));
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify({ ...whole, global: { updatedAt: now, items, known, status } }));
 console.log(`해외 상장 소식 ${items.length}건 저장`);

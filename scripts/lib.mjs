@@ -141,7 +141,7 @@ export function smartQuotes(s) {
 export const GL_EX = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
 export function globalLedger({ data, S, esc, rel, hhmm, limit = 12 }) {
   if (!data || !data.status) return "";
-  const items = (data.items || []).slice(0, limit);
+  const items = (data.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, limit);
   const src = Object.keys(GL_EX).map((k) => {
     const st = data.status[k] || {};
     const at = st.ok ? st.at : st.lastOk;
@@ -154,7 +154,7 @@ export function globalLedger({ data, S, esc, rel, hhmm, limit = 12 }) {
       <time datetime="${d.toISOString()}"><span class="lc-d">${esc(rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time>
       <div class="gl-b"><div class="gl-sym">${esc(i.symbols.join(" · "))}</div>
       <div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(i.type === "listing" ? S.listing : S.delisting)}</span></div>
-      <a class="gl-t" href="${esc(i.url)}" target="_blank" rel="noopener nofollow" lang="en">${esc(i.title)}<span class="sr"> — ${esc(S.notice)}</span></a></div>
+      <a class="gl-t" href="${esc(i.url)}" target="_blank" rel="noopener nofollow" lang="en" title="${esc(i.title)}">${esc(i.title)}<span class="sr"> — ${esc(S.notice)}</span></a></div>
     </li>`;
   }).join("");
   return `<section class="gl" id="global" aria-labelledby="glT">

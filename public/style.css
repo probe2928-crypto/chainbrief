@@ -308,7 +308,7 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .gl-row .lc-h{font-size:15px;color:var(--ink)}
 .gl-sym{font-family:var(--f-display);font-weight:500;font-size:23px;letter-spacing:.03em;line-height:1.15;overflow-wrap:anywhere}
 .gl-row .lc-m .ty.delisting{color:var(--down)}
-.gl-t{display:block;margin-top:9px;font-family:var(--f-display);font-size:16px;line-height:1.5;letter-spacing:.005em;color:var(--mute);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .35s ease,color .2s ease;width:fit-content;max-width:100%}
+.gl-t{display:block;margin-top:9px;font-family:var(--f-display);font-size:16px;line-height:1.5;letter-spacing:.005em;color:var(--mute);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .35s ease,color .2s ease;width:fit-content;max-width:100%;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .gl-t:hover,.gl-t:focus-visible{color:var(--ink);background-size:100% 1px}
 @media (prefers-reduced-motion:reduce){.gl-t{transition:none}}
 @media (max-width:640px){.gl{margin-top:56px}.gl-row{grid-template-columns:54px minmax(0,1fr);gap:14px}.gl-srcs{gap:6px 14px}}
