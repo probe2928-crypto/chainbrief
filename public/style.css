@@ -275,6 +275,21 @@ td .name{display:block;font-size:12px;color:var(--mute);letter-spacing:0}
 .ex{font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:1px 6px}
 .ty{font-size:13px;letter-spacing:.02em}
 .ty.listing{color:var(--signal)} .ty.delisting{color:var(--down)}
+/* 사이드바 상장(.lst.c): 날짜 도장 + 보도니 심볼 + 한 줄 메타 — 박스 칩 없이 */
+.lst.c{grid-template-columns:54px minmax(0,1fr) auto;gap:14px;padding:17px 0 16px}
+.lst.c time{display:flex;flex-direction:column;gap:3px;padding-top:5px;line-height:1.2}
+.lst.c .lc-d{white-space:nowrap;font-family:var(--f-label);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.lst.c .lc-d.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.lst.c .lc-h{font-size:15px;color:var(--ink)}
+.lst.c .coin{font-family:var(--f-display);font-weight:500;font-size:23px;letter-spacing:.03em;line-height:1.15}
+.lst.c .coin small{font-size:13px;margin-left:9px}
+.lc-m{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0;margin-top:7px;font-size:13px;color:var(--mute);line-height:1.5}
+.lc-m>*:not(:last-child)::after{content:"";display:inline-block;width:1px;height:9px;background:var(--line);margin:0 9px;vertical-align:0}
+.lc-ex{font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.lc-mk{font-family:var(--f-label);font-size:12px;letter-spacing:.08em}
+.lc-m .ty{color:var(--mute)}
+.lc-m .ty.listing::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--signal);margin-right:6px;vertical-align:2px}
+.lst.c .px{padding-top:6px}
 .slot-empty{padding:16px 0;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
 
 /* ---------- surge ---------- */

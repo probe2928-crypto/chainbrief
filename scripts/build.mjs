@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,7 +33,7 @@ function frontmatter(src) {
     const q = v.match(/^(["'])(.*)\1(?:\s+#\s.*)?$/);
     v = q ? q[2] : v.replace(/\s+#\s.*$/, "");
     if (v === "true") v = true; else if (v === "false") v = false;
-    data[k] = v;
+    data[k] = /^(title|summary|dek|subtitle)$/.test(k) ? smartQuotes(v) : v;
   }
   return { data, body: m[2].trim() };
 }
@@ -245,9 +245,20 @@ const partner = IMP ? `<section class="block slot impact">
   <a class="btn ghost" href="${IMP.url}${IMP.ko.path}" target="_blank" rel="noopener">${esc(IMP.ko.cta)}</a>
 </section>` : "";
 const recentListings = lsItems.filter((i) => i.type === "listing").slice(0, 5);
+// 사이드바 상장: 시각 위에 날짜(오늘·어제·10.26)를 얹어 어제·오늘이 섞여 보이지 않게
+const relDay = (d) => { const k = dayKey(d), t = dayKey(NOW), y = dayKey(new Date(NOW.getTime() - 864e5)); return k === t ? "오늘" : k === y ? "어제" : fmt(d, { month: "2-digit", day: "2-digit" }).replace(/\.\s?/g, ".").replace(/\.$/, ""); };
+function listingRailItem(i) {
+  const c = i.coins[0] || { symbol: "", name: "" };
+  return `<div class="lst c" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}">
+    <time datetime="${i.date.toISOString()}"><span class="lc-d">${relDay(i.date)}</span><span class="lc-h num">${hhmm(i.date)}</span></time>
+    <div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}<small>${esc(i.coins.map((x) => x.name).join(", "))}</small></div>
+    <div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${TYN[i.type] || ""}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div>
+    <div class="px" data-px>${i.type === "listing" ? "—" : ""}</div>
+  </div>`;
+}
 const listingRail = `<section class="block">
   <div class="block-head"><h2>최근 상장</h2><span class="label">Upbit · Bithumb</span></div>
-  ${recentListings.length ? recentListings.map((i) => listingItem(i, true)).join("") : '<div class="slot-empty">상장 소식을 불러오는 중이에요.</div>'}
+  ${recentListings.length ? recentListings.map(listingRailItem).join("") : '<div class="slot-empty">상장 소식을 불러오는 중이에요.</div>'}
   <a class="more" href="${u("listings/")}">상장 소식 전체</a>
 </section>`;
 const contactRail = TG ? `<section class="block slot">

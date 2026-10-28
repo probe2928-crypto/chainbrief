@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -33,7 +33,8 @@ function frontmatter(src) {
     const q = v.match(/^(["'])(.*)\1(?:\s+#\s.*)?$/);
     v = q ? q[2] : v.replace(/\s+#\s.*$/, "");
     if (v === "true") v = true; else if (v === "false") v = false;
-    data[line.slice(0, i).trim()] = v;
+    const k = line.slice(0, i).trim();
+    data[k] = /^(title|summary|dek|subtitle)$/.test(k) ? smartQuotes(v) : v;
   }
   return { data, body: m[2].trim() };
 }
@@ -325,7 +326,9 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const marketRail = `<section class="block desk-only"><div class="block-head"><h2>${esc(L.marketsT)}</h2><span class="label">USD · 24H</span></div><table><tbody>${cfg.coins.slice(0, 6).map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num c"></td></tr>`).join("")}</tbody></table><a class="more" href="${u("market/")}">${esc(L.allMarkets)}</a></section>`;
   const sentiment = `<section class="block"><div class="block-head"><h2>${esc(L.moodT)}</h2><span class="label">Fear &amp; Greed</span></div><div class="gauge"><div class="row"><span class="big" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--mute)"></span></div><div class="bar"><i id="fngBar" style="left:50%"></i></div><div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div></div><div class="kp"><div><small>${esc(L.kimp)}</small><strong class="num" id="kimpBtc">—</strong></div><div><small>${esc(L.dom)}</small><strong class="num" id="btcDom">—</strong></div></div></section>`;
   const recentL = lsItems.filter((i) => i.type === "listing").slice(0, 5);
-  const listingRail = `<section class="block"><div class="block-head"><h2>${esc(L.koreaListings)}</h2><span class="label">Upbit · Bithumb</span></div>${recentL.map((i) => listingItem(i, true)).join("")}<a class="more" href="${u("listings/")}">${esc(L.allListings)}</a></section>`;
+  const relDay = (d) => { const k = dayKey(d); return k === dayKey(NOW) ? L.today : L.code === "zh" && k === dayKey(new Date(NOW.getTime() - 864e5)) ? L.yday : L.code === "zh" ? fmt(d, { month: "numeric", day: "numeric" }) : fmt(d, { month: "short", day: "numeric" }); };
+  const listingRailItem = (i) => { const c = i.coins[0] || { symbol: "" }; return `<div class="lst c" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time datetime="${i.date.toISOString()}"><span class="lc-d">${esc(relDay(i.date))}</span><span class="lc-h num">${hhmm(i.date)}</span></time><div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div><div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div><div class="px" data-px>${i.type === "listing" ? "—" : ""}</div></div>`; };
+  const listingRail = `<section class="block"><div class="block-head"><h2>${esc(L.koreaListings)}</h2><span class="label">Upbit · Bithumb</span></div>${recentL.map(listingRailItem).join("")}<a class="more" href="${u("listings/")}">${esc(L.allListings)}</a></section>`;
   const contactRail = TG ? `<section class="block slot"><span class="label">Contact</span><strong>${esc(L.contactT)}</strong><span>${esc(L.contactX)}</span><a class="btn ghost" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a></section>` : "";
   const hlRail = `<section class="block"><div class="block-head"><h2>${esc(L.headlinesT)}</h2><span class="label">Global</span></div>${headlineList(hl.slice(0, 6))}<a class="more" href="${u("news/")}">${esc(L.more)}</a></section>`;
   const IM = cfg.impact && cfg.impact[L.code];

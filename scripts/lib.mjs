@@ -125,3 +125,13 @@ export function writeSearch({ write, prefix = "", articles, flashes, link, esc, 
   <noscript><p class="empty">${esc(S.nojs)}</p></noscript>
   </main></div>`;
 }
+
+/** 제목·요약의 곧은 따옴표(' ")를 인쇄용 둥근 따옴표(‘’ “”)로 — 앞이 공백·여는 괄호·줄임표면 여는 따옴표 */
+export function smartQuotes(s) {
+  if (typeof s !== "string" || !/['"]/.test(s)) return s;
+  return s.replace(/['"]/g, (q, i) => {
+    const p = i ? s[i - 1] : "";
+    const open = !p || /[\s([{“‘—–…·/:]/.test(p);
+    return q === "'" ? (open ? "‘" : "’") : (open ? "“" : "”");
+  });
+}
