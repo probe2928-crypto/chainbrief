@@ -29,7 +29,7 @@
       line: { ko: 'AI 마케팅, AI 개발, 블록체인 연동', en: 'AI marketing, AI development, chain integration', zh: 'AI 营销、AI 开发、区块链对接' } },
     perpline: { g: 'web3', bg: '#E8E2D6', fg: '#111111', mark: 'Perpline', font: 'sans', url: 'perpline/', noKR: true,
       cat: { ko: '선물 수수료 페이백', en: 'Futures fee rebate', zh: '合约返佣' },
-      line: { ko: '거래소 수수료 최대 50% 페이백 · 한국 거주자 제외', en: 'Up to 50% back on futures fees', zh: '合约手续费最高返还 50%' } },
+      line: { ko: '거래소 수수료 최대 60% 페이백 · 한국 거주자 제외', en: 'Up to 60% back on futures fees', zh: '合约手续费最高返还 60%' } },
     lifejunjun: { g: 'life', bg: '#2E3B2F', fg: '#EFE8DA', mark: '인생준준', font: 'serifko', url: 'lifejunjun/',
       cat: { ko: '역사 동행 여행', en: 'History travel', zh: '历史同行旅行' },
       line: { ko: '역사를 함께 배우며 떠나는 3~10명 여행', en: 'Small-group trips through history', zh: '与 3–10 人一同走进历史' } },
@@ -53,7 +53,7 @@
     yeobaek: { lifejunjun: '한 도시를 더 깊이, 역사와 함께 걷는 인생준준', luft: '캐리어를 가볍게, 공항부터 숙소까지', qurator: '사진 다음은 그림, 매일 세 점의 작품' },
     luft: { lifejunjun: '챙긴 짐으로 떠날 곳, 역사 동행 여행', yeobaek: '어디로 갈지 모르겠다면, 사진으로 먼저', qurator: '하루 한 번, 손 안의 미술관' },
     qurator: { oriel: 'QURATOR 수익 일부는 오리엘 재단에 기부돼요', lifejunjun: '그림 속 그곳으로, 함께 떠나는 역사 여행', yeobaek: '작품 같은 풍경을 찾아 떠나는 여행' },
-    chainbrief: { perpline: { en: 'Read the move, then trade it with fees back', ko: '해외 거주자라면 거래 수수료 최대 50% 페이백' }, blockkey: 'AI·블록체인 프로젝트 개발과 마케팅' },
+    chainbrief: { perpline: { en: 'Read the move, then trade it with fees back', ko: '해외 거주자라면 거래 수수료 최대 60% 페이백' }, blockkey: 'AI·블록체인 프로젝트 개발과 마케팅' },
     blockkey: { chainbrief: '매일 업데이트되는 코인 속보와 상장 레이더', perpline: { en: 'Fee rebates for active futures traders', ko: '해외 거주자 대상 선물 수수료 페이백' } },
     perpline: { chainbrief: { en: 'Korean listings, the minute they drop' }, blockkey: { en: 'Build your token, app or AI campaign' } }
   };

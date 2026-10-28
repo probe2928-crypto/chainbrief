@@ -102,7 +102,7 @@ const ED = {
         lsLoading: "Loading listing history…", lsFail: "Couldn't load prices for recent listings.", lsSub: "Listed {d} · {ex} · peak {m}" } },
     ads: {
       blockkey: { title: "AI marketing · AI development · Blockchain integration", text: "One team from diagnosis to build and operations — a technology partner for Web3 projects.", cta: "Discover BLOCKKEY", short: "AI marketing · Dev · Blockchain", top: "Partner" },
-      perpline: { title: "Your trading fees, returned.", text: "Compare fees across 11 futures exchanges and get 30–50% of your trading fees back in USDT every week.", cta: "Visit Perpline", short: "Trading fees, returned.", note: "Not available to residents of Korea or the United States.", top: "Partner" },
+      perpline: { title: "Your trading fees, returned.", text: "Compare fees across 11 futures exchanges and get 40–60% of your trading fees back in USDT every week.", cta: "Visit Perpline", short: "Trading fees, returned.", note: "Not available to residents of Korea or the United States.", top: "Partner" },
     },
     partnersT: "Partners", partnersX: "Brands we work with", sponsored: "Sponsored", byText: "By", homeLabel: "Home", readT: "{n} min read",
     S: { title: "Search", desc: "Search CHAINBRIEF analysis and the live wire", aside: "Analysis {a} · Wire {f}", ph: "Coins, people, topics (e.g. bitcoin ETF)", try: "Try", all: "All", arts: "Analysis", flash: "Wire", nojs: "Search needs JavaScript enabled.",
@@ -150,7 +150,7 @@ const ED = {
         lsLoading: "正在加载上币记录…", lsFail: "无法加载近期新币行情。", lsSub: "{d} 上线 · {ex} · 最高 {m}" } },
     ads: {
       blockkey: { title: "AI 营销 · AI 开发 · 区块链对接", text: "从诊断、搭建到运营，一个团队全程负责的 Web3 技术伙伴。", cta: "了解 BLOCKKEY", short: "AI 营销 · 开发 · 区块链", top: "Partner" },
-      perpline: { title: "交易手续费，返还给你。", text: "比较 11 家合约交易所的手续费，每周以 USDT 返还 30–50% 的交易手续费。", cta: "访问 Perpline", short: "Trading fees, returned.", note: "不面向韩国及美国居民。", top: "Partner" },
+      perpline: { title: "交易手续费，返还给你。", text: "比较 11 家合约交易所的手续费，每周以 USDT 返还 40–60% 的交易手续费。", cta: "访问 Perpline", short: "Trading fees, returned.", note: "不面向韩国及美国居民。", top: "Partner" },
     },
     partnersT: "Partners", partnersX: "合作伙伴", sponsored: "Sponsored", byText: "作者", homeLabel: "首页", readT: "阅读约 {n} 分钟",
     S: { title: "搜索", desc: "搜索链报分析与 7×24 快讯", aside: "分析 {a} 篇 · 快讯 {f} 条", ph: "币种、人物、关键词（如：比特币 ETF）", try: "热门搜索", all: "全部", arts: "分析", flash: "快讯", nojs: "搜索功能需要启用 JavaScript。",
