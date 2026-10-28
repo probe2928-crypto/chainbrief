@@ -64,8 +64,8 @@ const globalLs = listings.global || null;
 const ED = {
   en: {
     code: "en", html: "en", locale: "en-US", tz: "UTC", tzL: "UTC", name: "CHAINBRIEF",
-    tagline: "Crypto news, Korean listings and live markets",
-    description: "Crypto and blockchain news focused on the US, Europe and Singapore, plus Upbit & Bithumb listings, a live surge radar and market data.",
+    tagline: "Blockchain news, analysis and live markets",
+    description: "Independent blockchain and crypto news: a 24/7 live wire, daily analysis from our desk and live market data. Free to read, no sign-up.",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400;6..72,600",
     nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], ["contact/", "Contact"]],
     tabs: [["", "Live", "live"], ["listings/", "Listings", "list"], ["surge/", "Surge", "surge"], ["news/", "News", "news"], ["market/", "Markets", "mkt"]],
@@ -113,8 +113,8 @@ const ED = {
   },
   zh: {
     code: "zh", html: "zh-Hans", locale: "zh-CN", tz: "Asia/Hong_Kong", tzL: "HKT", name: "CHAINBRIEF 链报",
-    tagline: "加密快讯、韩国上币与实时行情",
-    description: "聚焦香港与新加坡的加密与区块链新闻，并提供韩国 Upbit、Bithumb 上币动态、实时异动雷达与行情数据。",
+    tagline: "区块链新闻、深度分析与实时行情",
+    description: "独立的区块链与加密新闻：24小时快讯、编辑部每日深度分析与实时行情。免费阅读，无需注册。",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
     nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], ["contact/", "联系"]],
     tabs: [["", "快讯", "live"], ["listings/", "上币", "list"], ["surge/", "异动", "surge"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"]],
