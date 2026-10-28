@@ -43,7 +43,7 @@
       fine: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。", ver: "版本" },
   };
   const guess = (navigator.language || "ko").toLowerCase();
-  let lang = store.get("lang", guess.startsWith("ko") ? "ko" : guess.startsWith("zh") ? "zh" : guess.startsWith("en") ? "en" : "ko");
+  let lang = store.get("lang", guess.startsWith("ko") ? "ko" : guess.startsWith("zh") ? "zh" : guess.startsWith("en") ? "en" : "en");
   let T = I[lang];
   const fm = (s, o) => Object.entries(o).reduce((a, [k, v]) => a.replaceAll("{" + k + "}", v), s);
   const hhmm = (d) => new Intl.DateTimeFormat(T.locale, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
@@ -179,7 +179,7 @@
       <button type="button" class="row" data-url="https://t.me/${esc(cfg?.telegram || "btcbullit")}"><span>${T.contact}</span><small>Telegram @${esc(cfg?.telegram || "btcbullit")}</small></button>
       <button type="button" class="row" data-url="${SITE}${lang === "ko" ? "" : lang + "/"}"><span>${T.site}</span><small>chainbrief</small></button>
       <button type="button" class="row" data-url="${SITE}privacy/"><span>${T.privacy}</span><small>→</small></button></div>`;
-    const ads = cfg?.ads || [];
+    const ads = (cfg?.ads || []).filter((a) => !/perpline/i.test(a.id || "") && !/perpline/i.test(a.url || "")); // 스토어 정책: 앱에는 거래소 레퍼럴 광고를 넣지 않음
     if (ads.length) out += `<div class="group"><span class="label">${T.partners}</span>${ads.map((a) => `<a class="partner" href="#" data-url="${esc(a.url)}"><span class="label">Partner · AD</span><span class="wm2">${esc(a.wordmark)}</span><p>${esc(a.short || a.title || "")}</p>${a.note ? `<span class="n">${esc(a.note)}</span>` : ""}<span class="go">${esc(a.cta || "→")}</span></a>`).join("")}</div>`;
     out += `<p class="fine">${T.fine}<br>CHAINBRIEF · ${T.ver} ${window.CB_APP_VERSION || "1.1"}</p>`;
     $("#moreView").innerHTML = out;

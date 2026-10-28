@@ -1,6 +1,6 @@
 {
   "appId": "com.chainbrief.app",
-  "appName": "체인브리프",
+  "appName": "CHAINBRIEF",
   "webDir": "www",
   "backgroundColor": "#0A0A0A",
   "plugins": {
@@ -13,8 +13,10 @@
     },
     "StatusBar": {
       "style": "DARK",
-      "backgroundColor": "#0A0A0A",
-      "overlaysWebView": false
+      "backgroundColor": "#0A0A0A"
+    },
+    "SystemBars": {
+      "insetsHandling": "css"
     }
   },
   "ios": {
