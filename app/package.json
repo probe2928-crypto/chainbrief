@@ -4,7 +4,7 @@
   "description": "체인브리프 iOS·안드로이드 앱 (Capacitor)",
   "scripts": {
     "sync": "cap sync",
-    "assets": "capacitor-assets generate --assetPath resources --iconBackgroundColor #0A0A0A --iconBackgroundColorDark #0A0A0A --splashBackgroundColor #0A0A0A --splashBackgroundColorDark #0A0A0A"
+    "assets": "capacitor-assets generate --assetPath resources --iconBackgroundColor #F1EADD --iconBackgroundColorDark #F1EADD --splashBackgroundColor #0A0A0A --splashBackgroundColorDark #0A0A0A"
   },
   "dependencies": {
     "@capacitor/android": "^8.0.0",
