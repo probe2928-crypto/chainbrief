@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, globalLedger } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
+import { writeProjects, projectNav } from "./projects.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -87,7 +88,7 @@ const ICON = {
   news: '<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',
   comm: '<path d="M4 5h16v11H9l-5 4z"/>',
 };
-const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], ["contact/", "문의"]];
+const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], projectNav("ko"), ["contact/", "문의"]];
 const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/", "급등", "surge"], ["news/", "뉴스", "news"], ["community/", "커뮤니티", "comm"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
@@ -671,6 +672,9 @@ write("privacy/index.html", layout({
   </main></div>`,
 }));
 
+// 프로젝트 뉴스 (파트너 콘텐츠, docs/PROJECT_PROMO.md)
+const projects = writeProjects({ root: ROOT, lang: "ko", write, layout, u, asset: u, esc, markdown, fmtDate: fullDate, telegram: TG });
+
 // 사이트 검색 (기사·속보, public/search.js)
 write("search/index.html", layout({
   title: "검색", active: "search/", canonical: "search/", extraScript: "search.js",
@@ -694,7 +698,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");

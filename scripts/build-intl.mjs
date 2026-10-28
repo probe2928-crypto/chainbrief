@@ -8,6 +8,7 @@ import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes , globalLedger } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
+import { writeProjects, projectNav } from "./projects.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -67,7 +68,7 @@ const ED = {
     tagline: "Blockchain news, analysis and live markets",
     description: "Independent blockchain and crypto news: a 24/7 live wire, daily analysis from our desk and live market data. Free to read, no sign-up.",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400;6..72,600",
-    nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], ["contact/", "Contact"]],
+    nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], projectNav("en"), ["contact/", "Contact"]],
     tabs: [["", "Live", "live"], ["listings/", "Listings", "list"], ["surge/", "Surge", "surge"], ["news/", "News", "news"], ["market/", "Markets", "mkt"]],
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
     all: "All", breaking: "Breaking", liveTitle: "Live Wire", search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
@@ -116,7 +117,7 @@ const ED = {
     tagline: "区块链新闻、深度分析与实时行情",
     description: "独立的区块链与加密新闻：24小时快讯、编辑部每日深度分析与实时行情。免费阅读，无需注册。",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
-    nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], ["contact/", "联系"]],
+    nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], projectNav("zh"), ["contact/", "联系"]],
     tabs: [["", "快讯", "live"], ["listings/", "上币", "list"], ["surge/", "异动", "surge"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"]],
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯", search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
@@ -504,6 +505,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     </div></main></div>`,
   }));
 
+  writeProjects({ root: ROOT, lang: L.code, prefix: P, write, layout, u, asset, esc, markdown, fmtDate: (d) => fmt(d, { year: "numeric", month: "long", day: "numeric" }), telegram: cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "" });
   write(`${P}search/index.html`, layout({
     title: L.S.title, description: L.S.desc, active: "search/", canonical: "search/", extraScript: "search.js",
     body: writeSearch({ write, prefix: P, articles, flashes, link: u, esc, S: L.S }),
