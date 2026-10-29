@@ -187,7 +187,7 @@
 
   var html = '<section class="band" aria-label="' + esc(T.title) + '"><div class="w">' +
     '<div class="head"><div><span class="k mono">' + esc(T.kick) + ' · ' + esc(bigLabel) + '</span><h2>' + esc(T.title) + '</h2></div>' +
-    '<span class="mono" style="color:#6A625A">' + (bigIds.length + smallIds.length + (giveCard ? 1 : 0)) + ' houses</span></div>' +
+    '<span class="mono" style="color:#6A625A">' + (bigIds.length + smallIds.length + (giveCard ? 1 : 0)) + ' partners</span></div>' +
     '<div class="row big' + (giveCard ? '' : ' nog') + '" style="--n:' + bigIds.length + '">' +
       bigIds.map(function (id, i) { return '<div class="fx" style="--d:' + i * 70 + 'ms;display:grid">' + card(id, 'b', i) + '</div>'; }).join('') +
       (giveCard ? '<div class="fx" style="--d:' + bigIds.length * 70 + 'ms;display:grid">' + giveCard + '</div>' : '') +
