@@ -37,7 +37,7 @@ export function symbols(title) {
 }
 const DERIV = /futures|perpetual|margin|options|pre-market|premarket|alpha|earn|convert|launchpool|hodler|megadrop|copy trading|trading bots|loan|monitoring tag|seed tag applied.*futures/i;
 export function kind(title, hint) {
-  if (/bStocks|xStocks|tokenized stock|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
+  if (/bStocks|xStocks|tokenized stock|TradFi|stock perpetual|equity|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
   if (/delist|cease trading|remove .* spot|end of support|will (remove|delist)/i.test(title)) return "delisting";
   if (hint === "delisting") return /spot|delist/i.test(title) ? "delisting" : null;
   if (hint === "futures" || (/perpetual|futures/i.test(title) && /launch|will list|introduce|new\b/i.test(title) && !/options|\bmargin\b|\bearn\b|copy trading|bots?\b|convert|loan|delist/i.test(title))) return /perpetual|futures|swap|contract/i.test(title) ? "futures" : null;
@@ -55,7 +55,7 @@ const SRC = {
   async binance() {
     const out = [];
     for (const [cat, hint] of [[48, "listing"], [161, "delisting"]]) {
-      const j = await get(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=${cat}&pageNo=1&pageSize=30`);
+      const j = await get(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=${cat}&pageNo=1&pageSize=20`);
       for (const a of j.data?.catalogs?.[0]?.articles || []) out.push(item("binance", a.code || a.id, a.title, a.releaseDate, `https://www.binance.com/en/support/announcement/detail/${a.code}`, hint));
     }
     return out;
@@ -64,8 +64,15 @@ const SRC = {
   async okx() {
     const out = [], since = Date.now() - KEEP_DAYS * 864e5;
     const spot = await get("https://www.okx.com/api/v5/public/instruments?instType=SPOT");
+    // 토큰화 주식(xStocks: XWMT 등)과 주식 무기한(MPWR·IBKR 등)을 코인 상장에서 뺀다:
+    // 코인 = 코인베이스 USD 마켓에 있거나, OKX 현물(USDT)에 있는 코인. X로 시작하는 새 현물은 이 목록에 없으면 토큰화 주식으로 본다.
+    const cb = new Set(whole.global?.known?.coinbase || []);
+    const spotBases = new Set((spot.data || []).filter((x) => x.quoteCcy === "USDT").map((x) => x.baseCcy));
+    const CRYPTO_X = new Set(["XRP", "XLM", "XTZ", "XDC", "XEC", "XAI", "XVS", "XEM", "XYO", "XCN", "XNO", "XPL", "XAUT", "XCH", "XION", "XMR", "XVG", "XWG", "XZK"]);
+    const isStockX = (b) => /^X[A-Z]{1,6}$/.test(b) && !CRYPTO_X.has(b) && !cb.has(b);
+    status._okxRaw = (spot.data || []).filter((x) => +x.listTime >= since).slice(-2);
     for (const x of spot.data || []) {
-      const t = +x.listTime; if (x.quoteCcy !== "USDT" || !t || t < since) continue;
+      const t = +x.listTime; if (x.quoteCcy !== "USDT" || !t || t < since || isStockX(x.baseCcy)) continue;
       out.push({ key: `okx-spot-${x.instId}`, exchange: "okx", type: "listing", inst: true, title: `OKX lists ${x.baseCcy}/USDT for spot trading${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [x.baseCcy], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-spot/${x.instId.toLowerCase()}` });
     }
     try {
@@ -73,6 +80,7 @@ const SRC = {
       for (const x of swap.data || []) {
         const t = +x.listTime; if (x.settleCcy !== "USDT" || !t || t < since) continue;
         const b = x.ctValCcy || x.instId.split("-")[0];
+        if (!spotBases.has(b) && !cb.has(b) && x.ruleType !== "pre_market") continue; // 현물 없는 새 무기한 = 대부분 주식 무기한
         out.push({ key: `okx-swap-${x.instId}`, exchange: "okx", type: "futures", inst: true, title: `OKX launches ${b}USDT perpetual swap${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [b], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-swap/${x.instId.toLowerCase()}` });
       }
     } catch {}
@@ -150,7 +158,8 @@ try {
   console.warn("✗ coinbase:", e.message);
 }
 
-const byKey = new Map(prev.items.filter((i) => !(i.exchange === "okx" && !i.inst)).map((i) => [i.key, i]));
+const okxFresh = status.okx?.ok && status.okx.at === now;
+const byKey = new Map(prev.items.filter((i) => !(okxFresh && i.exchange === "okx")).map((i) => [i.key, i])); // OKX는 받아오면 상품 목록에서 새로 만든다
 for (const i of fresh) byKey.set(i.key, { ...byKey.get(i.key), ...i, time: byKey.get(i.key)?.time || i.time });
 const cutoff = Date.now() - KEEP_DAYS * 864e5;
 const items = [...byKey.values()].filter((i) => (i.inst || i.exchange === "coinbase" || kind(i.title, i.type)) && new Date(i.time) >= cutoff && new Date(i.time) <= Date.now() + 3 * 864e5).sort((a, b) => new Date(b.time) - new Date(a.time));
