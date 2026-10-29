@@ -44,7 +44,7 @@
       line: { ko: '가볍게 떠나는 물건 10가지', en: 'Ten things for lighter travel', zh: '让旅行更轻的十件物品' } },
     oriel: { g: 'give', bg: '#E9CFBB', fg: '#161514', mark: 'oriel', font: 'grot', url: 'oriel/',
       cat: { ko: '재단', en: 'Foundation', zh: '基金会' },
-      line: { ko: '도움이 필요한 가정과 사랑스러운 아이들을 돕는 재단', en: 'Learning and daily support for families and children in need', zh: '支持有需要的家庭与孩子的学习和生活' } }
+      line: { ko: '도움이 필요한 가정과 사랑스런 아이들을 돕는 재단', en: 'Learning and daily support for families and children in need', zh: '支持有需要的家庭与孩子的学习和生活' } }
   };
 
   /* Context: when site A shows site B, a line written for that pair beats the generic one. */
@@ -61,9 +61,9 @@
   if (SELF === 'qurator') GIVE.ko = CTX.qurator.oriel;
 
   var T = {
-    ko: { kick: 'Network', title: '함께 운영하는 곳', life: 'Life · 여행 · 문화 · 생활', web3: 'Digital · 블록체인 · AI', give: 'Giving', more: '디지털', visit: '바로가기' },
-    en: { kick: 'Network', title: 'Our other houses', life: 'Life · Travel · Art · Goods', web3: 'Digital · Blockchain · AI', give: 'Giving', more: 'Digital', visit: 'Visit' },
-    zh: { kick: 'Network', title: '我们的其他品牌', life: 'Life · 旅行 · 艺术 · 生活', web3: 'Digital · 区块链 · AI', give: 'Giving', more: 'Digital', visit: '前往' }
+    ko: { kick: 'Partners', title: '서로 힘을 보태는 파트너', life: 'Life · 여행 · 문화 · 생활', web3: 'Digital · 블록체인 · AI', give: 'Giving', more: '디지털', visit: '바로가기' },
+    en: { kick: 'Partners', title: 'In good company', life: 'Life · Travel · Art · Goods', web3: 'Digital · Blockchain · AI', give: 'Giving', more: 'Digital', visit: 'Visit' },
+    zh: { kick: 'Partners', title: '携手同行的伙伴', life: 'Life · 旅行 · 艺术 · 生活', web3: 'Digital · 区块链 · AI', give: 'Giving', more: 'Digital', visit: '前往' }
   }[lang];
 
   var me0 = SITES[SELF] || { g: 'web3' };
