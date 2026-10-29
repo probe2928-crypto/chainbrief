@@ -202,6 +202,23 @@
     $("#newBtn")?.addEventListener("click", () => location.reload());
   }
 
+  /* 해외 거래소 상장 원장: 거래소 × 유형 필터 */
+  $$("[data-gl-filters]").forEach((bar) => {
+    const sec = bar.closest(".gl"); let ex = "all", ty = "all";
+    const apply = () => {
+      let n = 0;
+      $$(".gl-row", sec).forEach((r) => { const ok = (ex === "all" || r.dataset.ex === ex) && (ty === "all" || r.dataset.type === ty); r.hidden = !ok; if (ok) n++; });
+      const none = $("[data-gl-none]", sec); if (none) none.hidden = n > 0;
+    };
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      const key = b.dataset.glEx ? "glEx" : "glTy";
+      $$(`button[data-${key === "glEx" ? "gl-ex" : "gl-ty"}]`, bar).forEach((x) => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+      if (key === "glEx") ex = b.dataset.glEx; else ty = b.dataset.glTy;
+      apply();
+    });
+  });
+
   /* 기사 종류 필터 */
   tabs("#kindTabs", "kind", (k) => $$("#artList .art").forEach((a) => (a.hidden = k !== "전체" && a.dataset.kind !== k)));
 

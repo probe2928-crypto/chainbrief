@@ -139,27 +139,45 @@ export function smartQuotes(s) {
 // 해외 거래소 상장 원장 (data/global-listings.json) — KO·EN·中文 상장 페이지 공용
 // S = { label, title, aside, listing, delisting, notice, empty, checked, stale }, rel(d) = 날짜 도장, hhmm(d)
 export const GL_EX = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
-export function globalLedger({ data, S, esc, rel, hhmm, limit = 12 }) {
+export function globalLedger({ data, S, esc, rel, hhmm, limit = 40 }) {
   if (!data || !data.status) return "";
   const items = (data.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, limit);
+  const now = Date.now();
   const src = Object.keys(GL_EX).map((k) => {
     const st = data.status[k] || {};
     const at = st.ok ? st.at : st.lastOk;
-    const fresh = at && Date.now() - new Date(at) < 6 * 3600e3;
+    const fresh = at && now - new Date(at) < 6 * 3600e3;
     return `<span class="gl-src${fresh ? " ok" : ""}" title="${esc(at ? S.checked.replace("{t}", hhmm(new Date(at))) : S.stale)}"><i aria-hidden="true"></i>${GL_EX[k]}</span>`;
   }).join("");
+  const tyLabel = (t) => t === "listing" ? S.listing : t === "futures" ? (S.futures || "Futures") : S.delisting;
   const rows = items.map((i) => {
-    const d = new Date(i.time);
+    const d = new Date(i.time), soon = d > now;
     return `<li class="gl-row" data-ex="${esc(i.exchange)}" data-type="${esc(i.type)}">
-      <time datetime="${d.toISOString()}"><span class="lc-d">${esc(rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time>
+      <time datetime="${d.toISOString()}"><span class="lc-d">${esc(soon ? (S.upcoming || "Soon") : rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time>
       <div class="gl-b"><div class="gl-sym">${esc(i.symbols.join(" · "))}</div>
-      <div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(i.type === "listing" ? S.listing : S.delisting)}</span></div>
+      <div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(tyLabel(i.type))}</span>${soon ? `<span class="gl-soon">${esc(rel(d))}</span>` : ""}</div>
       <a class="gl-t" href="${esc(i.url)}" target="_blank" rel="noopener nofollow" lang="en" title="${esc(i.title)}">${esc(i.title)}<span class="sr"> — ${esc(S.notice)}</span></a></div>
     </li>`;
   }).join("");
+  const exs = Object.keys(GL_EX).filter((k) => items.some((i) => i.exchange === k));
+  const tys = ["listing", "futures", "delisting"].filter((t) => items.some((i) => i.type === t));
+  const tabs = items.length > 4 ? `<div class="tabs-row gl-filters" data-gl-filters>
+    ${[["all", S.all || "All"], ...exs.map((k) => [k, GL_EX[k]])].map(([k, l], n) => `<button class="tab" type="button" data-gl-ex="${k}" aria-pressed="${n === 0}">${esc(l)}</button>`).join("")}
+    ${tys.length > 1 ? `<span class="gl-div" aria-hidden="true"></span>${[["all", S.allTypes || S.all || "All"], ...tys.map((t) => [t, tyLabel(t)])].map(([k, l], n) => `<button class="tab" type="button" data-gl-ty="${k}" aria-pressed="${n === 0}">${esc(l)}</button>`).join("")}` : ""}
+  </div>` : "";
   return `<section class="gl" id="global" aria-labelledby="glT">
   <div class="sec"><div><span class="label">${esc(S.label)}</span><h2 id="glT">${esc(S.title)}</h2></div><div class="aside gl-srcs" aria-label="${esc(S.aside)}">${src}</div></div>
-  ${rows ? `<ol class="gl-list">${rows}</ol>` : `<div class="slot-empty">${esc(S.empty)}</div>`}
+  ${tabs}
+  ${rows ? `<ol class="gl-list">${rows}</ol><div class="slot-empty" data-gl-none hidden>${esc(S.none || S.empty)}</div>` : `<div class="slot-empty">${esc(S.empty)}</div>`}
   <p class="note">${esc(S.aside)}</p>
 </section>`;
+}
+// 사이드 레일용 해외 상장 5건 (EN·中文 홈)
+export function globalRail({ data, S, esc, rel, hhmm, href, more }) {
+  const items = (data?.items || []).filter((i) => i.type !== "delisting" && !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 5);
+  if (!items.length) return "";
+  const tyLabel = (t) => t === "listing" ? S.listing : (S.futures || "Futures");
+  return `<section class="block"><div class="block-head"><h2>${esc(S.title)}</h2><span class="label">Global</span></div>
+  ${items.map((i) => { const d = new Date(i.time); return `<div class="lst c gl-mini"><time datetime="${d.toISOString()}"><span class="lc-d">${esc(d > Date.now() ? (S.upcoming || "Soon") : rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time><div style="min-width:0"><div class="coin">${esc(i.symbols.join(" · "))}</div><div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(tyLabel(i.type))}</span></div></div></div>`; }).join("")}
+  <a class="more" href="${href}">${esc(more)}</a></section>`;
 }

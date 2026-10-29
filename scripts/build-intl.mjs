@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes , globalLedger } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes , globalLedger, globalRail } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -67,7 +67,7 @@ const ED = {
     code: "en", html: "en", locale: "en-US", tz: "UTC", tzL: "UTC", name: "CHAINBRIEF",
     tagline: "Blockchain news, analysis and live markets",
     description: "Independent blockchain and crypto news: a 24/7 live wire, daily analysis from our desk and live market data. Free to read, no sign-up.",
-    fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400;6..72,600",
+    fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400..600",
     nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], projectNav("en"), ["contact/", "Contact"]],
     tabs: [["", "Live", "live"], ["listings/", "Listings", "list"], ["surge/", "Surge", "surge"], ["news/", "News", "news"], ["market/", "Markets", "mkt"]],
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
@@ -77,7 +77,7 @@ const ED = {
     contactT: "Tips · Ads · Partnerships", contactX: `Message us on Telegram @${cfg.telegram}.`, openTg: "Open Telegram",
     disclaimer: "CHAINBRIEF content is for information only and is not investment advice. Third-party headlines remain the property of their publishers. Prices: CoinGecko, Upbit, Bithumb. Fear & Greed: Alternative.me.",
     readMore: "Read", copy: "Copy link", toWire: "Back to the wire", alsoT: "More from the wire",
-    gl: { label: "Global Exchanges", title: "Global exchange listings", aside: "Binance, OKX and Bybit announcements plus Coinbase's market list, checked every 15 minutes. Headlines and links only.", listing: "New listing", delisting: "Delisting", notice: "Exchange notice", empty: "No global exchange listings in the last 30 days yet.", checked: "Checked {t}", stale: "Not reachable right now" },
+    gl: { label: "Global Exchanges", title: "Global exchange listings", aside: "Spot and futures listings and delistings on Binance, OKX, Bybit and Coinbase, checked every 15 minutes. Headlines and links only.", listing: "Spot listing", futures: "Futures", delisting: "Delisting", upcoming: "Soon", all: "All", allTypes: "All types", none: "Nothing matches this filter.", more: "All global listings", notice: "Exchange notice", empty: "No global exchange listings in the last 30 days yet.", checked: "Checked {t}", stale: "Not reachable right now" },
     listingsTitle: "Korean Exchange Listings", listingsDesc: "New listings, caution flags and delistings on Upbit and Bithumb — Korea's two largest exchanges — grouped by time of day.",
     slots: [["Morning", 6, 12], ["Afternoon", 12, 18], ["Evening", 18, 24], ["Overnight", 0, 6]], today: "Today", yday: "Yesterday", nNew: "{n} new", none: "Nothing in this window.",
     ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, exAll: "All", typeAll: "All types", tyF: [["listing", "Listings"], ["caution", "Caution"], ["delisting", "Delistings"]],
@@ -116,7 +116,7 @@ const ED = {
     code: "zh", html: "zh-Hans", locale: "zh-CN", tz: "Asia/Hong_Kong", tzL: "HKT", name: "CHAINBRIEF 链报",
     tagline: "区块链新闻、深度分析与实时行情",
     description: "独立的区块链与加密新闻：24小时快讯、编辑部每日深度分析与实时行情。免费阅读，无需注册。",
-    fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
+    fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,500..600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
     nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], projectNav("zh"), ["contact/", "联系"]],
     tabs: [["", "快讯", "live"], ["listings/", "上币", "list"], ["surge/", "异动", "surge"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"]],
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
@@ -126,7 +126,7 @@ const ED = {
     contactT: "爆料 · 广告 · 合作", contactX: `请通过 Telegram @${cfg.telegram} 联系我们。`, openTg: "打开 Telegram",
     disclaimer: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。外部头条版权归原媒体所有。行情来源：CoinGecko、Upbit、Bithumb；恐惧与贪婪指数：Alternative.me。",
     readMore: "阅读", copy: "复制链接", toWire: "返回快讯", alsoT: "相关快讯",
-    gl: { label: "Global Exchanges", title: "全球交易所上币", aside: "每 15 分钟检查币安、OKX、Bybit 公告与 Coinbase 市场列表，仅转载公告标题与链接。", listing: "新上币", delisting: "下架", notice: "官方公告", empty: "近 30 天暂无全球交易所上币动态。", checked: "{t} 已检查", stale: "暂时无法连接" },
+    gl: { label: "Global Exchanges", title: "全球交易所上币", aside: "每 15 分钟检查币安、OKX、Bybit 与 Coinbase 的现货、合约上币及下架，仅转载公告标题与链接。", listing: "现货上币", futures: "合约上线", delisting: "下架", upcoming: "即将", all: "全部", allTypes: "全部类型", none: "没有符合条件的动态。", more: "全部全球上币", notice: "官方公告", empty: "近 30 天暂无全球交易所上币动态。", checked: "{t} 已检查", stale: "暂时无法连接" },
     listingsTitle: "韩国交易所上币动态", listingsDesc: "韩国两大交易所 Upbit 与 Bithumb 的新上币、警示与下架公告，按时段整理。",
     slots: [["上午", 6, 12], ["下午", 12, 18], ["晚间", 18, 24], ["凌晨", 0, 6]], today: "今天", yday: "昨天", nNew: "新币 {n}", none: "该时段暂无动态。",
     ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, exAll: "全部", typeAll: "全部类型", tyF: [["listing", "上币"], ["caution", "警示"], ["delisting", "下架"]],
@@ -370,7 +370,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
     <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
-  </section></div>${rail(listingRail + hlRail)}</main></div>`,
+  </section></div>${rail(globalRail({ data: globalLs, S: L.gl, esc, rel: relDay, hhmm, href: u("listings/"), more: L.gl.more }) + listingRail + hlRail)}</main></div>`,
   }));
 
   // 속보 상세
@@ -392,12 +392,12 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const openIdx = Math.max(0, days.findIndex((d) => d.items.length));
   write(`${P}listings/index.html`, layout({
     title: L.listingsTitle, active: "listings/", canonical: "listings/", description: L.listingsDesc,
-    body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${esc(L.ty[i.type])} · ${fmt(i.date, { month: "short", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${EXN[i.exchange]} ${i.markets.join(" / ")}`, href: i.url, cta: L.notice })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
+    body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${esc(L.ty[i.type])} · ${fmt(i.date, { month: "short", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${EXN[i.exchange]} ${i.markets.join(" / ")}`, href: i.url, cta: L.notice })), "sm")}<div class="wrap"><main class="grid"><div class="col">${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: L.gl })}<section>
     ${secHead("Listings", esc(L.listingsTitle), listings.updatedAt ? `${fm(L.updated, { t: hhmm(new Date(listings.updatedAt)) + " " + L.tzL })} · ${L.every15}` : L.every15)}
     <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? L.today : i === 1 ? L.yday : fmt(d.date, { weekday: "short" })}</small><b>${new Intl.DateTimeFormat("en-US", { timeZone: L.tz, day: "numeric" }).format(d.date)}</b><span class="cnt">${fm(L.nNew, { n: d.items.filter((x) => x.type === "listing").length })}</span></button>`).join("")}</div>
     <div class="tabs-row" id="lsFilters">${[["all", L.exAll], ["upbit", "Upbit"], ["bithumb", "Bithumb"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}<span style="width:1px;background:var(--line)"></span>${[["all", L.typeAll], ...L.tyF].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="daypanels">${days.map((day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>${L.slots.map(([nm, a, b]) => { const its = day.items.filter((i) => { const h = hourOf(i.date); return h >= a && h < b; }); return `<section class="slotsec"><h3>${esc(nm)} <span class="label">${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")} ${L.tzL}</span></h3>${its.length ? its.map((i) => listingItem(i)).join("") : `<div class="slot-empty">${esc(L.none)}</div>`}</section>`; }).join("")}</div>`).join("")}</div>
-    <p class="note">${esc(L.lsNote)}</p></section>${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: L.gl })}</div>${rail()}</main></div>`,
+    <p class="note">${esc(L.lsNote)}</p></section></div>${rail()}</main></div>`,
   }));
 
   // 급등

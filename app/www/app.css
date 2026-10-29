@@ -188,3 +188,10 @@ html[lang="en"] .prose h2{font-weight:600}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* v1.3: 숫자 굵기 · 해외 상장 */
+.num,.ls .px,.ls time,.fl time{font-weight:500}
+.ls .coin{font-weight:500}
+.ls.gl .coin{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:21px;letter-spacing:.02em}
+.ls.gl .t{margin-top:4px;font-family:"Newsreader",Georgia,serif;font-size:14.5px;line-height:1.45;color:var(--mute);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.ls .ty.futures{color:#7E6CB8}
+.sp{height:36px}

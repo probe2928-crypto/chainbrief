@@ -78,6 +78,7 @@ const hlItems = (headlines.items || []).filter((h) => h.lang !== "zh").map((h) =
 const listings = readJSON("data/listings.json", { items: [] });
 const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
 const globalLs = listings.global || null;
+const GL_KO = { label: "Global Exchanges", title: "해외 거래소 상장", aside: "바이낸스 · OKX · 바이비트 · 코인베이스의 현물·선물 상장과 상장 폐지를 15분마다 확인해요. 공지 제목과 링크만 옮겨요.", listing: "현물 상장", futures: "선물 상장", delisting: "상장 폐지", upcoming: "예정", all: "전체", allTypes: "모든 유형", none: "조건에 맞는 소식이 없어요.", notice: "공지 원문", empty: "최근 30일 해외 거래소 상장 소식이 아직 없어요.", checked: "{t} 확인", stale: "지금 연결 안 됨" };
 const community = readJSON("data/community.json", { groups: [] });
 
 /* ---------- partials ---------- */
@@ -118,7 +119,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 <link rel="apple-touch-icon" href="${u("icons/apple-touch-icon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)}" href="${u("rss.xml")}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,500..600&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="${u("style.css")}?v=${BUILD_ID}">
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
@@ -400,7 +401,7 @@ write("listings/index.html", layout({
   title: "업비트·빗썸 상장 소식", active: "listings/", canonical: "listings/",
   description: "업비트·빗썸 신규 상장, 거래 유의, 거래지원 종료 소식을 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
   body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${TYN[i.type]} · ${fmt(i.date, { month: "long", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${i.coins.map((c) => c.name).join(", ")} — ${i.title}`, href: i.url, cta: "공지 원문" })), "sm", "최근 상장")}<div class="wrap"><main class="grid"><div class="col"><section>
-  ${secHead("Listings", "상장 소식", listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인")}
+  ${secHead("Listings", "상장 소식", `${listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인"} · <a href="#global" class="gl-jump">해외 거래소 상장 ↓</a>`)}
   <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
   <div class="tabs-row" id="lsFilters">
     ${[["all", "전체"], ["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
@@ -409,7 +410,7 @@ write("listings/index.html", layout({
   </div>
   <div id="daypanels">${days.map(dayPanel).join("")}</div>
   <p class="note">거래소 공지와 마켓 목록을 함께 확인해요. 상장 코인 오른쪽은 현재가와 24시간 변동률이에요.</p>
-  </section>${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: { label: "Global Exchanges", title: "해외 거래소 상장", aside: "바이낸스 · OKX · 바이비트 공지와 코인베이스 마켓 목록을 15분마다 확인해요. 공지 제목과 링크만 옮겨요.", listing: "신규 상장", delisting: "상장 폐지", notice: "공지 원문", empty: "최근 30일 해외 거래소 상장 소식이 아직 없어요.", checked: "{t} 확인", stale: "지금 연결 안 됨" } })}</div>${rail()}</main></div>`,
+  </section>${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: GL_KO })}</div>${rail()}</main></div>`,
 }));
 
 // 급등 레이더 (브라우저에서 실시간 계산, public/surge.js)
@@ -706,6 +707,7 @@ const PUBLIC_ORIGIN = SITE_URL || "https://probe2928-crypto.github.io";
 writeAppFeed({ write, lang: "ko", flashes, articles, markdown, now: NOW, link: (p) => PUBLIC_ORIGIN + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
 write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
 write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
+write("global-listings.json", JSON.stringify({ updatedAt: globalLs?.updatedAt || null, items: (globalLs?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 80) }));
 write("manifest.webmanifest", JSON.stringify({
   name: `${cfg.nameEn} ${cfg.name}`, short_name: cfg.nameEn, description: cfg.description, lang: "ko",
   start_url: BASE, scope: BASE, display: "standalone", background_color: "#0A0A0A", theme_color: "#0A0A0A",

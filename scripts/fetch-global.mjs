@@ -30,6 +30,7 @@ export function symbols(title) {
   const out = new Set();
   for (const m of title.matchAll(/\(([A-Z0-9]{2,12})\)/g)) out.add(m[1]);
   for (const m of title.matchAll(/\b([A-Z0-9]{2,12})\/(USDT|USDC|USD|EUR|BTC)\b/g)) out.add(m[1]);
+  if (/perpetual|futures|contract|swap/i.test(title)) for (const m of title.matchAll(/\b(?:1000000|10000|1000|1M)?([A-Z][A-Z0-9]{1,14}?)(?:USDT|USDC)\b/g)) out.add(m[1]);
   const dl = title.match(/\bDelist\s+([A-Z0-9][A-Z0-9 ,&]*?)\s+(?:on|from|in)\b/i);
   if (dl) for (const s of dl[1].split(/\s*(?:,|&|\band\b)\s*/)) if (/^[A-Z0-9]{2,12}$/.test(s)) out.add(s);
   return [...out].filter((s) => !QUOTES.has(s) && !NOISE.has(s) && !/^\d+$/.test(s)).slice(0, 6);
@@ -39,6 +40,7 @@ export function kind(title, hint) {
   if (/bStocks|xStocks|tokenized stock|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
   if (/delist|cease trading|remove .* spot|end of support|will (remove|delist)/i.test(title)) return "delisting";
   if (hint === "delisting") return /spot|delist/i.test(title) ? "delisting" : null;
+  if (hint === "futures" || (/perpetual|futures/i.test(title) && /launch|will list|introduce|new\b/i.test(title) && !/options|\bmargin\b|\bearn\b|copy trading|bots?\b|convert|loan|delist/i.test(title))) return /perpetual|futures|swap|contract/i.test(title) ? "futures" : null;
   if (DERIV.test(title) && !/spot/i.test(title)) return null;
   if (/will list|to list|new listing|lists? |listing|spot trading|adds?\b.*spot/i.test(title)) return "listing";
   return null;
@@ -53,25 +55,64 @@ const SRC = {
   async binance() {
     const out = [];
     for (const [cat, hint] of [[48, "listing"], [161, "delisting"]]) {
-      const j = await get(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=${cat}&pageNo=1&pageSize=20`);
+      const j = await get(`https://www.binance.com/bapi/composite/v1/public/cms/article/list/query?type=1&catalogId=${cat}&pageNo=1&pageSize=30`);
       for (const a of j.data?.catalogs?.[0]?.articles || []) out.push(item("binance", a.code || a.id, a.title, a.releaseDate, `https://www.binance.com/en/support/announcement/detail/${a.code}`, hint));
     }
     return out;
   },
+  // OKX: 공식 상품 목록의 listTime (상장 시각) — 미국 서버에서도 글로벌 목록이 내려옴. 공지 API는 미국 법인 공지만 와서 쓰지 않음
   async okx() {
-    const out = [];
-    for (const [t, hint] of [["announcements-new-listings", "listing"], ["announcements-delistings", "delisting"]]) {
-      const j = await get(`https://www.okx.com/api/v5/support/announcements?annType=${t}&page=1`);
-      for (const a of j.data?.[0]?.details || []) out.push(item("okx", (a.url || a.title).replace(/^.*\//, "").slice(0, 80), a.title, +a.pTime, a.url, hint));
+    const out = [], since = Date.now() - KEEP_DAYS * 864e5;
+    const spot = await get("https://www.okx.com/api/v5/public/instruments?instType=SPOT");
+    for (const x of spot.data || []) {
+      const t = +x.listTime; if (x.quoteCcy !== "USDT" || !t || t < since) continue;
+      out.push({ key: `okx-spot-${x.instId}`, exchange: "okx", type: "listing", inst: true, title: `OKX lists ${x.baseCcy}/USDT for spot trading${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [x.baseCcy], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-spot/${x.instId.toLowerCase()}` });
     }
+    try {
+      const swap = await get("https://www.okx.com/api/v5/public/instruments?instType=SWAP");
+      for (const x of swap.data || []) {
+        const t = +x.listTime; if (x.settleCcy !== "USDT" || !t || t < since) continue;
+        const b = x.ctValCcy || x.instId.split("-")[0];
+        out.push({ key: `okx-swap-${x.instId}`, exchange: "okx", type: "futures", inst: true, title: `OKX launches ${b}USDT perpetual swap${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [b], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-swap/${x.instId.toLowerCase()}` });
+      }
+    } catch {}
     return out;
   },
+  // Bybit: 공지 API가 미국 서버를 막을 때가 있어 다른 도메인 → 선물 상품 목록(launchTime) → 공식 텔레그램 공지 채널 순으로 시도
   async bybit() {
-    const out = [];
-    for (const [t, hint] of [["new_crypto", "listing"], ["delistings", "delisting"]]) {
-      const j = await get(`https://api.bybit.com/v5/announcements/index?locale=en-US&type=${t}&page=1&limit=20`);
-      for (const a of j.result?.list || []) out.push(item("bybit", (a.url || a.title).replace(/^.*\//, "").replace(/\W+$/, "").slice(0, 80), a.title, a.dateTimestamp || a.publishTime, a.url, hint));
+    const hosts = ["https://api.bybit.com", "https://api.bytick.com"];
+    let lastErr;
+    for (const h of hosts) {
+      try {
+        const out = [];
+        for (const [t, hint] of [["new_crypto", "listing"], ["delistings", "delisting"]]) {
+          const j = await get(`${h}/v5/announcements/index?locale=en-US&type=${t}&page=1&limit=30`);
+          for (const a of j.result?.list || []) out.push(item("bybit", (a.url || a.title).replace(/^.*\//, "").replace(/\W+$/, "").slice(0, 80), a.title, a.dateTimestamp || a.publishTime, a.url, hint));
+        }
+        return out;
+      } catch (e) { lastErr = e; }
     }
+    for (const h of hosts) {
+      try {
+        const out = [], since = Date.now() - KEEP_DAYS * 864e5;
+        const j = await get(`${h}/v5/market/instruments-info?category=linear&limit=1000`);
+        for (const x of j.result?.list || []) {
+          const t = +x.launchTime; if (x.quoteCoin !== "USDT" || !t || t < since) continue;
+          out.push({ key: `bybit-linear-${x.symbol}`, exchange: "bybit", type: "futures", inst: true, title: `Bybit launches ${x.symbol} perpetual contract`, symbols: [x.baseCoin.replace(/^(1000000|10000|1000)/, "")], time: new Date(t).toISOString(), url: `https://www.bybit.com/trade/usdt/${x.symbol}` });
+        }
+        if (out.length) return out;
+      } catch (e) { lastErr = e; }
+    }
+    // 공식 공지 텔레그램 채널 웹 미리보기 (t.me/s/…)
+    const r = await fetch("https://t.me/s/Bybit_Announcements", { headers: { "User-Agent": UA["User-Agent"] } });
+    if (!r.ok) throw lastErr || new Error("HTTP " + r.status);
+    const html = await r.text(), out = [];
+    for (const m of html.matchAll(/<div class="tgme_widget_message_text[^"]*"[^>]*>([\s\S]*?)<\/div>[\s\S]*?<a class="tgme_widget_message_date" href="([^"]+)"><time datetime="([^"]+)"/g)) {
+      const text = m[1].replace(/<br\s*\/?>/g, "\n").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim();
+      const title = text.split("\n").map((x) => x.trim()).find((x) => x.length > 8) || "";
+      out.push(item("bybit", m[2].replace(/^.*\//, ""), title, m[3], m[2]));
+    }
+    if (!out.filter(Boolean).length) throw lastErr || new Error("no posts");
     return out;
   },
 };
@@ -109,20 +150,20 @@ try {
   console.warn("✗ coinbase:", e.message);
 }
 
-const byKey = new Map(prev.items.map((i) => [i.key, i]));
+const byKey = new Map(prev.items.filter((i) => !(i.exchange === "okx" && !i.inst)).map((i) => [i.key, i]));
 for (const i of fresh) byKey.set(i.key, { ...byKey.get(i.key), ...i, time: byKey.get(i.key)?.time || i.time });
 const cutoff = Date.now() - KEEP_DAYS * 864e5;
-const items = [...byKey.values()].filter((i) => (i.exchange === "coinbase" || kind(i.title, i.type)) && new Date(i.time) >= cutoff && new Date(i.time) <= Date.now() + 864e5).sort((a, b) => new Date(b.time) - new Date(a.time));
+const items = [...byKey.values()].filter((i) => (i.inst || i.exchange === "coinbase" || kind(i.title, i.type)) && new Date(i.time) >= cutoff && new Date(i.time) <= Date.now() + 3 * 864e5).sort((a, b) => new Date(b.time) - new Date(a.time));
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify({ ...whole, global: { updatedAt: now, items, known, status } }));
 console.log(`해외 상장 소식 ${items.length}건 저장`);
 
 // 바이낸스·코인베이스 현물 신규 상장 → 자동 속보 (첫 실행 건너뜀, 6시간 이내 새 소식만)
 if (hadPrev) {
-  const NAME = { binance: ["바이낸스", "Binance", "币安"], coinbase: ["코인베이스", "Coinbase", "Coinbase"] };
+  const NAME = { binance: ["바이낸스", "Binance", "币安"], coinbase: ["코인베이스", "Coinbase", "Coinbase"], okx: ["OKX", "OKX", "欧易 OKX"], bybit: ["바이비트", "Bybit", "Bybit"] };
   let made = 0;
   for (const i of items) {
-    if (!NAME[i.exchange] || i.type !== "listing" || prevKeys.has(i.key) || Date.now() - new Date(i.time) > 6 * 3600e3) continue;
+    if (!NAME[i.exchange] || i.type !== "listing" || prevKeys.has(i.key) || Date.now() - new Date(i.time) > 6 * 3600e3 || new Date(i.time) > Date.now()) continue;
     const [ko, en, zh] = NAME[i.exchange], s = i.symbols.join(", ");
     const link = (lg) => `[${lg === "ko" ? "공지 원문" : lg === "zh" ? "官方公告" : "Exchange notice"}](${i.url})`;
     const posts = {

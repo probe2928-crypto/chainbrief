@@ -20,6 +20,7 @@
       by: "글", read: "읽기", saved: "저장했어요", unsaved: "저장을 취소했어요", copied: "링크를 복사했어요", noSaved: "저장한 기사가 없어요. 기사 화면 위쪽 책갈피를 누르면 여기에 모여요.",
       settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
       ty: { listing: "신규 상장", delisting: "거래 종료", caution: "유의 종목", "caution-cleared": "유의 해제" }, notice: "공지 보기",
+      glT: "해외 거래소 상장", krT: "국내 거래소 상장", glTy: { listing: "현물 상장", futures: "선물 상장", delisting: "상장 폐지" }, soon: "예정",
       usd: "달러", krw: "업비트 원화", kimp: "김프", fng: "공포·탐욕", dom: "BTC 도미넌스", mktNote: "김프 = 업비트 원화가 ÷ (글로벌 달러가 × 환율) − 1. 1분마다 갱신. 투자 권유가 아니에요.",
       fngL: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
       fine: "체인브리프의 정보는 투자 권유가 아니며, 투자 판단과 책임은 이용자 본인에게 있어요.", ver: "버전" },
@@ -29,6 +30,7 @@
       by: "By", read: "Read", saved: "Saved", unsaved: "Removed from saved", copied: "Link copied", noSaved: "Nothing saved yet. Tap the bookmark at the top of a story to keep it here.",
       settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", site: "Website", privacy: "Privacy policy", partners: "Partners",
       ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, notice: "Notice",
+      glT: "Global exchange listings", krT: "Korean exchange listings", glTy: { listing: "Spot listing", futures: "Futures", delisting: "Delisting" }, soon: "Soon",
       usd: "USD", krw: "Upbit KRW", kimp: "Kimchi", fng: "Fear & Greed", dom: "BTC dominance", mktNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute. Not investment advice.",
       fngL: { "Extreme Fear": "Extreme fear", Fear: "Fear", Neutral: "Neutral", Greed: "Greed", "Extreme Greed": "Extreme greed" },
       fine: "CHAINBRIEF content is for information only and is not investment advice.", ver: "Version" },
@@ -38,6 +40,7 @@
       by: "作者", read: "阅读", saved: "已收藏", unsaved: "已取消收藏", copied: "链接已复制", noSaved: "还没有收藏。点击文章顶部的书签即可保存到这里。",
       settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", site: "网站", privacy: "隐私政策", partners: "Partners",
       ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, notice: "公告",
+      glT: "全球交易所上币", krT: "韩国交易所上币", glTy: { listing: "现货上币", futures: "合约上线", delisting: "下架" }, soon: "即将",
       usd: "美元", krw: "Upbit 韩元", kimp: "溢价", fng: "恐惧与贪婪", dom: "BTC 市占率", mktNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。不构成投资建议。",
       fngL: { "Extreme Fear": "极度恐惧", Fear: "恐惧", Neutral: "中性", Greed: "贪婪", "Extreme Greed": "极度贪婪" },
       fine: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。", ver: "版本" },
@@ -80,6 +83,8 @@
     catch { if (feed) { feed.offline = true; } }
   }
   async function loadListings() { try { listings = await getJSON(SITE + "listings.json?t=" + Date.now()); store.set("ls", listings.slice(0, 120)); } catch {} }
+  let glob = store.get("gls", null);
+  async function loadGlobal() { try { glob = await getJSON(SITE + "global-listings.json?t=" + Date.now()); store.set("gls", glob); } catch {} }
   async function loadPrices() {
     const coins = cfg?.coins || [];
     if (!coins.length) return;
@@ -133,15 +138,30 @@
     const [lead, ...rest] = arts;
     $("#newsList").innerHTML = `<a class="lead" href="#" data-art="${esc(lead.id)}"><img src="${artURL(lead.art)}" alt=""><div class="lead-body"><span class="eye">${esc([lead.category, lead.author].filter(Boolean).join(" · "))}</span><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || "")}</p></div></a><div class="pad">${head("Editorial", T.news, updLine())}${rest.map(cardHTML).join("")}</div>`;
   }
+  const EXG = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
+  function globalHTML() {
+    const gi = (glob?.items || []).slice(0, 40);
+    if (!gi.length) return "";
+    let out = head("Binance · OKX · Bybit · Coinbase", T.glT), last = "";
+    for (const i of gi) {
+      const d = new Date(i.time), soon = d > Date.now(), k = (soon ? "s" : "") + dkey(d);
+      if (k !== last) { out += `<div class="day">${soon ? T.soon + " · " : ""}${dayName(d)}</div>`; last = k; }
+      out += `<a class="ls gl" href="#" data-url="${esc(i.url)}"><time>${hhmm(d)}</time><div><div class="m"><span class="ex">${EXG[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(T.glTy[i.type] || "")}</span></div><div class="coin">${esc((i.symbols || []).join(" · "))}</div><div class="t">${esc(i.title)}</div></div><div class="px"></div></a>`;
+    }
+    return out;
+  }
   function renderListings() {
     const items = (listings || []).filter((i) => i.type !== "caution-cleared").slice(0, 80);
-    let out = head("Upbit · Bithumb", T.list), last = "";
+    const g = globalHTML();
+    let out = lang === "ko" ? "" : g, last = "";
+    out += (out ? '<div class="sp"></div>' : "") + head("Upbit · Bithumb", lang === "ko" ? T.list : T.krT);
     if (!items.length) out += `<div class="empty">${T.none}</div>`;
     for (const i of items) {
       const d = new Date(i.time), k = dkey(d), sym = i.coins?.[0]?.symbol || "";
       if (k !== last) { out += `<div class="day">${dayName(d)}</div>`; last = k; }
       out += `<a class="ls" href="#" data-url="${esc(i.url)}"><time>${hhmm(d)}</time><div><div class="m"><span class="ex">${i.exchange === "upbit" ? "Upbit" : "Bithumb"}</span><span class="ty ${i.type}">${esc(T.ty[i.type] || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc((i.coins || []).map((c) => c.symbol).join(" · "))}</div></div><div class="px" data-sym="${esc(sym)}"></div></a>`;
     }
+    if (lang === "ko" && g) out += '<div class="sp"></div>' + g;
     $("#lsList").innerHTML = out;
     fillListingPrices();
   }
@@ -265,7 +285,7 @@
     });
   });
   async function refresh() {
-    await Promise.all([loadFeed(), loadListings(), loadPrices()]);
+    await Promise.all([loadFeed(), loadListings(), loadGlobal(), loadPrices()]);
     renderTicker(); renderers[active]();
   }
 
@@ -280,7 +300,7 @@
     feed = store.get("feed." + lang, null);
     renderTicker(); show("live");
     await loadCfg();
-    await Promise.all([loadFeed(), loadListings()]);
+    await Promise.all([loadFeed(), loadListings(), loadGlobal()]);
     renderers[active]();
     try { P.SplashScreen?.hide(); } catch {}
     await loadPrices(); renderTicker(); if (active === "mkt") renderMarket();
