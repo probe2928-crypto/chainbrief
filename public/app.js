@@ -260,6 +260,8 @@
       $$(".lst", $("#daypanels")).forEach((r) => (r.hidden = (ex !== "all" && r.dataset.ex !== ex) || (ty !== "all" && !r.dataset.type.startsWith(ty))));
       // 거래소·유형 필터로 한 시간대가 통째로 비면 '조건에 맞는 소식이 없어요'
       $$(".slotsec", $("#daypanels")).forEach((sec) => { const rows = $$(".lst", sec); sec.classList.toggle("fe", rows.length > 0 && rows.every((r) => r.hidden)); });
+      // '7일' 보기: 날짜 묶음이 통째로 비면 숨기고, 전부 비면 패널에 한 줄
+      $$('.daypanel[data-day="week"]').forEach((p) => { const rows = $$(".lst", p); if (!p.dataset.fe) p.dataset.fe = ($(".slotsec", p) || {}).dataset?.fe || ""; p.classList.toggle("fe", rows.length > 0 && rows.every((r) => r.hidden)); });
       // 거래소를 고르면 해당 거래소 소식이 없는 날은 흐리게, 지금 날이 비면 가장 최근에 소식이 있는 날로 이동
       const hit = (d) => $$(`.daypanel[data-day="${d}"] .lst`).some((r) => !r.hidden);
       const dts = $$("#daytabs .daytab");

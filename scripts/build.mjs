@@ -398,15 +398,22 @@ for (let d = 0; d < 7; d++) {
   days.push({ key, date, items });
 }
 const soonLs = allLs.filter((i) => i.date > NOW && i.date - NOW < 30 * 864e5).reverse();
-const openIdx = Math.max(0, days.findIndex((d) => d.items.length));
+// 기본은 '7일' 한 목록(날짜 도장으로 묶음) — 하루씩 넘겨 보지 않아도 6개 거래소 소식을 한 번에
+const openIdx = -1;
 const FE = ' data-fe="조건에 맞는 소식이 없어요."';
-const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>
-  ${SLOTS.map(([ko, en, a, b]) => {
-    const its = day.items.filter((i) => { const h = kstHour(i.date); return h >= a && h < b; });
-    return `<section class="slotsec"${FE}><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
-      ${its.length ? its.map((i) => listingItem(i)).join("") : '<div class="slot-empty">이 시간대 소식이 없어요.</div>'}</section>`;
-  }).join("")}
+const wkDays = days.filter((d) => d.items.length);
+const lsStamp = (d, n) => `<div class="day ls-day"><span class="day-n">${+dayKey(d).slice(-2)}</span><span class="day-l">${fmt(d, { month: "long" })} ${fmt(d, { weekday: "long" })}</span><span class="day-y">${n}건</span></div>`;
+const weekPanel = `<div class="daypanel" data-day="week">${wkDays.length ? wkDays.map((d) => `<section class="slotsec wk"${FE}>${lsStamp(d.date, d.items.length)}${d.items.map((i) => listingItem(i)).join("")}</section>`).join("") : '<div class="slot-empty">최근 7일 동안 상장 소식이 없어요.</div>'}</div>`;
+// 하루 보기: 소식이 있는 시간대만 펼치고, 빈 시간대는 한 줄로 접는다
+const dayPanel = (day, idx) => {
+  const secs = SLOTS.map(([ko, en, a, b]) => ({ ko, en, a, b, its: day.items.filter((i) => { const h = kstHour(i.date); return h >= a && h < b; }) }));
+  const empty = secs.filter((x) => !x.its.length);
+  return `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>
+  ${secs.filter((x) => x.its.length).map(({ ko, en, a, b, its }) => `<section class="slotsec"${FE}><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
+      ${its.map((i) => listingItem(i)).join("")}</section>`).join("")}
+  ${empty.length === 4 ? '<div class="slot-quiet">이날은 상장 소식이 없었어요.</div>' : empty.length ? `<div class="slot-quiet"><span>${empty.map((x) => x.ko).join(" · ")}</span> 소식 없음</div>` : ""}
 </div>`;
+};
 const soonPanel = soonLs.length ? `<div class="daypanel" data-day="soon" hidden><section class="slotsec"${FE}><h3>예정 <span class="label">Upcoming · 거래소 공지 기준 시각</span></h3>
   ${soonLs.map((i) => listingItem(i).replace(`<time>${hhmm(i.date)}</time>`, `<time>${relDay(i.date)}<br>${hhmm(i.date)}</time>`)).join("")}</section></div>` : "";
 const lsHero = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 4);
@@ -415,13 +422,13 @@ write("listings/index.html", layout({
   description: "업비트·빗썸·바이낸스·OKX·바이비트·코인베이스의 신규 상장, 선물 상장, 거래 유의, 상장 폐지를 한 목록에서 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
   body: `${hero(lsHero.map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${TYN[i.type]} · ${fmt(i.date, { month: "long", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: i.global ? i.title : `${i.coins.map((c) => c.name).join(", ")} — ${i.title}`, href: i.url, cta: "공지 원문" })), "sm", "최근 상장")}<div class="wrap"><main class="grid"><div class="col"><section>
   ${secHead("Listings", "거래소 상장 소식", `거래소 6곳 · ${listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · ` : ""}15분마다 확인`)}
-  <div class="daytabs" id="daytabs">${soonLs.length ? `<button class="daytab soon" type="button" data-day="soon" aria-pressed="false"><small>예정</small><b>${soonLs.length}</b><span class="cnt">Soon</span></button>` : ""}${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter(isNew).length} New</span></button>`).join("")}</div>
+  <div class="daytabs" id="daytabs"><button class="daytab wk" type="button" data-day="week" aria-pressed="true"><small>최근</small><b>7<i>일</i></b><span class="cnt">${days.reduce((n, d) => n + d.items.length, 0)}건</span></button>${soonLs.length ? `<button class="daytab soon" type="button" data-day="soon" aria-pressed="false"><small>예정</small><b>${soonLs.length}</b><span class="cnt">Soon</span></button>` : ""}${days.map((d, i) => { const nw = d.items.filter(isNew).length; return `<button class="daytab${d.items.length ? "" : " zero"}" type="button" data-day="${d.key}" aria-pressed="false"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.length ? `${d.items.length}건${nw ? ` · <em>신규 ${nw}</em>` : ""}` : "—"}</span></button>`; }).join("")}</div>
   <div class="tabs-row" id="lsFilters">
-    ${[["all", "전체"], ...LS_EX.map((k) => [k, EXK[k] || EXN[k]])].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
+    ${[["all", "전체"], ...LS_EX.map((k) => [k, EXK[k] || EXN[k]])].map(([k, l], i) => `<button class="tab${k !== "all" && !days.some((d) => d.items.some((x) => x.exchange === k)) ? " dim" : ""}" type="button" data-ex="${k}" aria-pressed="${i === 0}"${k !== "all" && !days.some((d) => d.items.some((x) => x.exchange === k)) ? ' title="최근 7일 소식 없음"' : ""}>${l}</button>`).join("")}
     <span class="ls-div" aria-hidden="true"></span>
     ${[["all", "모든 유형"], ["listing", "신규 상장"], ["futures", "선물"], ["caution", "유의"], ["delisting", "종료"]].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
   </div>
-  <div id="daypanels">${soonPanel}${days.map(dayPanel).join("")}</div>
+  <div id="daypanels">${weekPanel}${soonPanel}${days.map(dayPanel).join("")}</div>
   <p class="note">거래소 공지와 마켓 목록을 15분마다 확인해요. 해외 거래소는 공지 제목과 링크만 옮겨요. 상장 코인 오른쪽 현재가와 24시간 변동률은 업비트·빗썸 원화 마켓 기준이에요. 토큰화 주식·주식 선물은 넣지 않아요.</p>
   </section></div>${rail()}</main></div>`,
 }));
@@ -438,7 +445,7 @@ write("surge/index.html", layout({
   ], "sm", "급등 레이더 안내")}<div class="wrap"><main class="single wide-single" id="surgeApp"><section>
   ${secHead("Surge Radar", "급등 레이더", '<span class="status" id="surgeStatus">불러오는 중…</span>')}
   <div class="controls">
-    <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
+    <div class="tabs-row" id="exSwitch">${[["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab${k !== "all" && !days.some((d) => d.items.some((x) => x.exchange === k)) ? " dim" : ""}" type="button" data-ex="${k}" aria-pressed="${i === 0}"${k !== "all" && !days.some((d) => d.items.some((x) => x.exchange === k)) ? ' title="최근 7일 소식 없음"' : ""}>${l}</button>`).join("")}</div>
     <div class="tabs-row" id="volFilter"><span class="label" style="align-self:center">거래대금</span>${[["0", "전체"], ["1000000000", "10억+"], ["10000000000", "100억+"]].map(([k, l], i) => `<button class="tab" type="button" data-vol="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</div>
     <label class="search"><span class="sr">코인 검색</span><input id="surgeQ" type="search" placeholder="코인 검색 (예: BTC, 리플)"></label>
   </div>

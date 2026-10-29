@@ -969,3 +969,22 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 .daytab.soon b{color:var(--a-lilac,var(--ink))}
 .lst .px:empty{display:none}
 .daytab.dim{opacity:.38}
+/* 상장: '최근 7일' 한 목록 — 날짜 도장으로 묶고, 하루 보기는 빈 시간대를 한 줄로 접는다 */
+.daytab.wk b i{font-style:normal;font-family:var(--f-sans);font-size:14px;font-weight:500;margin-left:2px;color:var(--mute)}
+.daytab.wk{border-right:1px solid var(--line);margin-right:4px}
+.daytab .cnt em{font-style:normal;color:var(--hue)}
+.daytab .cnt.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.daytab.zero b{color:var(--faint)}
+.slotsec.wk{padding-top:0}
+.ls-day{padding:36px 0 10px}
+.slotsec.wk:first-child .ls-day{padding-top:22px}
+.ls-day .day-n{font-size:34px}
+.ls-day .day-y{font-family:var(--f-sans);font-size:var(--fs-meta);letter-spacing:0;color:var(--mute)}
+.ls-day+.lst{border-top:0}
+.slot-quiet{padding:22px 0 4px;color:var(--faint);font-size:var(--fs-small)}
+.slot-quiet span{color:var(--mute);margin-right:4px}
+@media (max-width:640px){.ls-day .day-n{font-size:30px}.ls-day{padding-top:30px}}
+.slotsec.wk.fe{display:none}
+.daypanel.fe::after{content:attr(data-fe);display:block;padding:22px 0 16px;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
+.daytab .cnt{white-space:nowrap}
+#lsFilters .tab.dim:not([aria-pressed="true"]){color:var(--faint)}
