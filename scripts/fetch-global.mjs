@@ -70,9 +70,9 @@ const SRC = {
     const spotBases = new Set((spot.data || []).filter((x) => x.quoteCcy === "USDT").map((x) => x.baseCcy));
     const CRYPTO_X = new Set(["XRP", "XLM", "XTZ", "XDC", "XEC", "XAI", "XVS", "XEM", "XYO", "XCN", "XNO", "XPL", "XAUT", "XCH", "XION", "XMR", "XVG", "XWG", "XZK"]);
     const isStockX = (b) => /^X[A-Z]{1,6}$/.test(b) && !CRYPTO_X.has(b) && !cb.has(b);
-    status._okxRaw = (spot.data || []).filter((x) => +x.listTime >= since).slice(-2);
+    const notCrypto = (x) => x.instCategory ? x.instCategory !== "1" : isStockX(x.baseCcy || x.ctValCcy || ""); // instCategory 1 = 코인, 3 = 주식 등
     for (const x of spot.data || []) {
-      const t = +x.listTime; if (x.quoteCcy !== "USDT" || !t || t < since || isStockX(x.baseCcy)) continue;
+      const t = +x.listTime; if (x.quoteCcy !== "USDT" || !t || t < since || notCrypto(x)) continue;
       out.push({ key: `okx-spot-${x.instId}`, exchange: "okx", type: "listing", inst: true, title: `OKX lists ${x.baseCcy}/USDT for spot trading${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [x.baseCcy], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-spot/${x.instId.toLowerCase()}` });
     }
     try {
@@ -80,7 +80,7 @@ const SRC = {
       for (const x of swap.data || []) {
         const t = +x.listTime; if (x.settleCcy !== "USDT" || !t || t < since) continue;
         const b = x.ctValCcy || x.instId.split("-")[0];
-        if (!spotBases.has(b) && !cb.has(b) && x.ruleType !== "pre_market") continue; // 현물 없는 새 무기한 = 대부분 주식 무기한
+        if (x.instCategory ? x.instCategory !== "1" : (!spotBases.has(b) && !cb.has(b) && x.ruleType !== "pre_market")) continue; // 주식 무기한 제외
         out.push({ key: `okx-swap-${x.instId}`, exchange: "okx", type: "futures", inst: true, title: `OKX launches ${b}USDT perpetual swap${x.state === "preopen" ? " (opening soon)" : ""}`, symbols: [b], time: new Date(t).toISOString(), url: `https://www.okx.com/trade-swap/${x.instId.toLowerCase()}` });
       }
     } catch {}
@@ -131,6 +131,7 @@ const hadPrev = !!whole.global;
 const prev = { items: [], known: {}, status: {}, ...(whole.global || {}) };
 const prevKeys = new Set(prev.items.map((i) => i.key));
 const fresh = [], status = { ...prev.status }, known = { ...prev.known };
+delete status._okxRaw;
 const now = new Date().toISOString();
 
 for (const [ex, fn] of Object.entries(SRC)) {
