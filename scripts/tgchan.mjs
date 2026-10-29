@@ -51,14 +51,18 @@ export function tgChan(cfg, lang) {
     // 상단 띠 오른쪽 작은 링크
     topline: `<a class="tl-tg" href="${href}" ${ext} aria-label="${esc(L.short)} ${esc(handle)}">${ICON}<span>${esc(L.short)}</span></a>`,
     // 사이드 레일
-    rail: `<section class="block tgc"><div class="block-head"><h2>${esc(L.title)}</h2><span class="label">${esc(L.eye)}</span></div>
-  <a class="tgc-main" href="${href}" ${ext}><span class="tgc-ic">${ICON}</span><span class="tgc-h"><b>${esc(handle)}</b><small>${esc(L.text)}</small></span></a>
-  <div class="tgc-foot"><a class="btn" href="${href}" ${ext}>${esc(L.cta)}</a>${otherLinks ? `<span class="tgc-o">${otherLinks}</span>` : ""}</div>
+    rail: `<section class="block tgc" aria-label="${esc(L.eye)}"><a class="tgc-card" href="${href}" ${ext}>
+  <span class="tgc-top"><span class="label">${esc(L.eye)}</span><span class="tgc-mk">${ICON}</span></span>
+  <span class="tgc-t">${esc(L.title)}</span>
+  <span class="tgc-handle">${esc(handle)}</span>
+  <span class="tgc-x">${esc(L.text)}</span>
+  <span class="tgc-cta">${esc(L.cta)} <span aria-hidden="true">→</span></span>
+</a>${otherLinks ? `<p class="tgc-o"><span class="label">${esc(L.other)}</span><span class="tgc-ol">${otherLinks}</span></p>` : ""}
 </section>`,
     // 기사·속보 본문 끝
     card: `<aside class="tgcard"><a class="tgcard-in" href="${href}" ${ext}><span class="tgc-ic">${ICON}</span><span class="tgcard-t"><span class="label">${esc(L.eye)} · <span class="tgc-hd">${esc(handle)}</span></span><strong>${esc(L.title)}</strong><small>${esc(L.text)}</small></span><span class="tgcard-cta">${esc(L.cta)} <span aria-hidden="true">→</span></span></a></aside>`,
     // 홈 속보 목록 사이에 한 줄
-    inline: `<a class="tg-inline" href="${href}" ${ext}><span class="tgc-ic">${ICON}</span><span class="tgi-t">${esc(L.inline)}</span><span class="tgi-h">${esc(handle)} <span aria-hidden="true">→</span></span></a>`,
+    inline: `<a class="tg-inline" href="${href}" ${ext}><span class="tgi-mk">${ICON}</span><span class="tgi-t">${esc(L.inline)}</span><span class="tgi-h">${esc(handle)} <span aria-hidden="true">→</span></span></a>`,
     // 히어로 슬라이드
     slide: { art: "blue-hour", eye: `${esc(L.eye)} · ${esc(handle)}`, title: L.slideT, dek: L.slideD, href, cta: L.cta },
     // 푸터 칼럼 링크

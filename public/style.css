@@ -772,39 +772,49 @@ html.adclean :is(.topad,.topads-m,.adband,.ad-inline,a.ad,[data-ad]){display:non
 .tl-tg span{letter-spacing:.06em}
 @media (max-width:520px){.tl-tg span{display:none}}
 /* rail */
-.tgc .block-head h2{font-size:17px}
-.tgc-main{display:flex;gap:14px;align-items:flex-start;margin-top:14px;padding:16px;background:var(--w-blue);color:var(--wash-ink);border-top:2px solid var(--a-blue)}
-.tgc-main .tgc-ic{background:var(--a-blue);color:#fff}
-.tgc-h{display:grid;gap:4px;min-width:0}
-.tgc-h b{font-family:var(--f-label);font-weight:500;font-size:16px;letter-spacing:.04em}
-.tgc-h small{font-size:13.5px;line-height:1.6;color:var(--wash-sub)}
-.tgc-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:14px}
-.tgc-o{display:inline-flex;gap:12px;font-size:13px;color:var(--mute)}
-.tgc-o a{border-bottom:1px solid var(--line)}
-.tgc-o a:hover{color:var(--ink);border-bottom-color:var(--ink)}
-/* 기사·속보 끝 카드 */
+/* 사이드 레일 — 초대장 카드: 부드러운 워시 + 안쪽 헤어라인 액자, 핸들은 보도니로 새긴 주소처럼 */
+.tgc-card{position:relative;display:grid;gap:12px;padding:28px 26px 24px;background:var(--w-blue);color:var(--wash-ink);isolation:isolate}
+.tgc-card::after{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--a-blue) 30%,transparent);pointer-events:none;transition:inset .45s cubic-bezier(.2,.7,.2,1),border-color .45s}
+.tgc-card:hover::after,.tgc-card:focus-visible::after{inset:4px;border-color:color-mix(in srgb,var(--a-blue) 55%,transparent)}
+.tgc-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tgc-top .label{color:var(--wash-sub)}
+.tgc-mk{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid color-mix(in srgb,var(--a-blue) 45%,transparent);border-radius:50%;color:var(--a-blue)}
+.tgc-mk svg{width:13px;height:13px;fill:currentColor;margin-left:-1px}
+.tgc-t{font-family:var(--f-serif);font-weight:700;font-size:19px;line-height:1.45;letter-spacing:-.01em;text-wrap:balance}
+.tgc-handle{font-family:var(--f-display);font-weight:500;font-size:25px;line-height:1.15;letter-spacing:.01em;padding:12px 0 13px;border-block:1px solid color-mix(in srgb,var(--wash-ink) 14%,transparent);overflow-wrap:anywhere}
+.tgc-x{font-size:var(--fs-small);line-height:1.65;color:var(--wash-sub);text-wrap:pretty}
+.tgc-cta{justify-self:start;margin-top:4px;font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:var(--tr-caps);text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:3px;transition:letter-spacing .35s}
+.tgc-cta.cjk{font-family:var(--f-sans);font-size:13px;font-weight:500;letter-spacing:.02em;text-transform:none}
+.tgc-card:hover .tgc-cta [aria-hidden]{display:inline-block;transform:translateX(3px);transition:transform .3s}
+.tgc-o{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:14px 0 0;font-size:var(--fs-meta);color:var(--mute)}
+.tgc-ol{display:inline-flex;gap:14px}
+.tgc-ol a{border-bottom:1px solid var(--line)}
+.tgc-ol a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+/* 기사·속보 끝 카드 — 같은 액자 언어 */
 .tgcard{margin-top:44px}
-.tgcard-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 24px;background:var(--w-blue);color:var(--wash-ink);border-top:2px solid var(--a-blue);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
-.tgcard-in:hover{transform:translateY(-2px)}
-.tgcard .tgc-ic{width:46px;height:46px;background:var(--a-blue);color:#fff}
-.tgcard .tgc-ic svg{width:20px;height:20px}
+.tgcard-in{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;padding:26px 30px;background:var(--w-blue);color:var(--wash-ink)}
+.tgcard-in::after{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--a-blue) 30%,transparent);pointer-events:none;transition:inset .45s cubic-bezier(.2,.7,.2,1),border-color .45s}
+.tgcard-in:hover::after,.tgcard-in:focus-visible::after{inset:4px;border-color:color-mix(in srgb,var(--a-blue) 55%,transparent)}
+.tgcard .tgc-ic{width:48px;height:48px;background:transparent;color:var(--a-blue);border:1px solid color-mix(in srgb,var(--a-blue) 45%,transparent)}
+.tgcard .tgc-ic svg{width:19px;height:19px}
 .tgcard-t{display:grid;gap:4px}
 .tgcard-t .label{color:var(--wash-sub)}
 .tgcard-t strong{font-family:var(--f-serif);font-size:20px;line-height:1.4;letter-spacing:-.01em}
 .tgcard-t small{font-size:14px;color:var(--wash-sub);line-height:1.6}
 .tgcard-cta{font-family:var(--f-label);font-size:var(--fs-label);letter-spacing:var(--tr-caps);text-transform:uppercase;white-space:nowrap;border-bottom:1px solid currentColor;padding-bottom:3px}
-@media (max-width:640px){.tgcard-in{grid-template-columns:auto minmax(0,1fr);padding:20px}.tgcard-cta{grid-column:1/-1;justify-self:start}}
-/* 홈 속보 목록 사이 한 줄 */
-.tg-inline{display:flex;align-items:center;gap:14px;padding:14px 16px;margin:6px 0;background:var(--w-blue);color:var(--wash-ink);border-left:3px solid var(--a-blue)}
+@media (max-width:640px){.tgcard-in{grid-template-columns:auto minmax(0,1fr);padding:22px}.tgcard-cta{grid-column:1/-1;justify-self:start}}
+/* 홈 속보 사이 한 줄 — 왼쪽 막대 대신 위아래 헤어라인과 옅은 워시 */
+.tg-inline{display:flex;align-items:center;gap:16px;padding:16px 4px 16px 0;margin:0;background:linear-gradient(90deg,color-mix(in srgb,var(--a-blue) 9%,transparent),transparent 78%);color:var(--ink);border-block:1px solid color-mix(in srgb,var(--a-blue) 26%,transparent)}
 .tg-inline[hidden]{display:none}
-.tg-inline .tgc-ic{width:32px;height:32px;background:var(--a-blue);color:#fff}
-.tg-inline .tgc-ic svg{width:15px;height:15px}
-.tgi-t{flex:1;min-width:0;font-family:var(--f-serif);font-weight:700;font-size:16px;line-height:1.45}
-.tgi-h{font-family:var(--f-label);font-size:13px;letter-spacing:.06em;white-space:nowrap;color:var(--wash-sub)}
-.tg-inline:hover .tgi-h{color:var(--wash-ink)}
-@media (max-width:520px){.tgi-h{display:none}}
+.tgi-mk{flex:none;display:inline-grid;place-items:center;width:34px;height:34px;margin-left:14px;border:1px solid color-mix(in srgb,var(--a-blue) 45%,transparent);border-radius:50%;color:var(--a-blue)}
+.tgi-mk svg{width:14px;height:14px;fill:currentColor;margin-left:-1px}
+.tgi-t{flex:1;min-width:0;font-family:var(--f-serif);font-weight:400;font-size:17px;line-height:1.45;letter-spacing:-.01em}
+.tgi-h{font-family:var(--f-display);font-size:16px;letter-spacing:.01em;white-space:nowrap;color:var(--mute);transition:color .25s}
+.tg-inline:hover .tgi-h{color:var(--ink)}
+.tg-inline:hover .tgi-t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+@media (max-width:520px){.tgi-h{display:none}.tgi-t{font-size:16px}}
 .tg-inline+.item{border-top:0}
-/* 문의 페이지 */
+@media (prefers-reduced-motion:reduce){.tgc-card::after,.tgcard-in::after,.tgc-cta{transition:none}}
 .tgc-contact{border-top:1px solid var(--line);padding-top:26px}
 .tgc-contact p{margin:0 0 16px;color:var(--mute);font-weight:300;max-width:56ch}
 .tgc-contact ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
