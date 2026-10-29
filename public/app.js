@@ -202,6 +202,15 @@
     $("#newBtn")?.addEventListener("click", () => location.reload());
   }
 
+  /* 휴대폰 하단 '메뉴' 시트 */
+  const ns = $("#navsheet"), nsBtn = $("[data-navsheet]");
+  if (ns && nsBtn) {
+    const setNs = (on) => { ns.hidden = !on; nsBtn.setAttribute("aria-expanded", on ? "true" : "false"); document.documentElement.classList.toggle("ns-open", on); };
+    nsBtn.addEventListener("click", () => setNs(ns.hidden));
+    $$("[data-ns-close]", ns).forEach((b) => b.addEventListener("click", () => setNs(false)));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !ns.hidden) setNs(false); });
+  }
+
   /* 해외 거래소 상장 원장: 거래소 × 유형 필터 */
   $$("[data-gl-filters]").forEach((bar) => {
     const sec = bar.closest(".gl"); let ex = "all", ty = "all";

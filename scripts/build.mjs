@@ -88,9 +88,11 @@ const ICON = {
   surge: '<path d="M4 18 10 12l4 4 6-8"/><path d="M15 8h5v5"/>',
   news: '<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',
   comm: '<path d="M4 5h16v11H9l-5 4z"/>',
+  mkt: '<path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
-const NAV = [["", "속보"], ["listings/", "상장"], ["surge/", "급등"], ["news/", "뉴스"], ["community/", "커뮤니티"], ["market/", "시세"], projectNav("ko"), ["contact/", "문의"]];
-const TABS = [["", "속보", "live"], ["listings/", "상장", "list"], ["surge/", "급등", "surge"], ["news/", "뉴스", "news"], ["community/", "커뮤니티", "comm"]];
+const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["surge/", "급등"], ["community/", "커뮤니티"], projectNav("ko"), ["contact/", "문의"], ["listings/", "상장"]];
+const TABS = [["", "속보", "live"], ["news/", "뉴스", "news"], ["market/", "시세", "mkt"], ["surge/", "급등", "surge"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
@@ -151,7 +153,10 @@ ${adBand}
   <div class="ft-base"><span>© ${NOW.getFullYear()} ${esc(cfg.nameEn)}</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
-<nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
+<nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${TABS.some(([p]) => p === active) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>메뉴</button></nav>
+<div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="전체 메뉴"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="닫기">×</button></div>
+<nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a></nav>
+<div class="ns-langs"><a href="${u()}" aria-current="true">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${u("xsheet.js")}?v=${BUILD_ID}" defer></script>

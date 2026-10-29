@@ -68,8 +68,8 @@ const ED = {
     tagline: "Blockchain news, analysis and live markets",
     description: "Independent blockchain and crypto news: a 24/7 live wire, daily analysis from our desk and live market data. Free to read, no sign-up.",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400..600",
-    nav: [["", "Live"], ["listings/", "Listings"], ["surge/", "Surge"], ["news/", "News"], ["market/", "Markets"], projectNav("en"), ["contact/", "Contact"]],
-    tabs: [["", "Live", "live"], ["listings/", "Listings", "list"], ["surge/", "Surge", "surge"], ["news/", "News", "news"], ["market/", "Markets", "mkt"]],
+    nav: [["", "Live"], ["news/", "News"], ["market/", "Markets"], ["surge/", "Surge"], projectNav("en"), ["contact/", "Contact"], ["listings/", "Listings"]],
+    tabs: [["", "Live", "live"], ["news/", "News", "news"], ["market/", "Markets", "mkt"], ["surge/", "Surge", "surge"]], menuL: "Menu", searchL: "Search", closeL: "Close",
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
     all: "All", breaking: "Breaking", liveTitle: "Live Wire", search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
     emptyFeed: "The first stories are on their way.", headlinesT: "Global Headlines", more: "More", marketsT: "Markets", allMarkets: "All markets",
@@ -117,8 +117,8 @@ const ED = {
     tagline: "区块链新闻、深度分析与实时行情",
     description: "独立的区块链与加密新闻：24小时快讯、编辑部每日深度分析与实时行情。免费阅读，无需注册。",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,500..600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
-    nav: [["", "快讯"], ["listings/", "上币"], ["surge/", "异动"], ["news/", "新闻"], ["market/", "行情"], projectNav("zh"), ["contact/", "联系"]],
-    tabs: [["", "快讯", "live"], ["listings/", "上币", "list"], ["surge/", "异动", "surge"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"]],
+    nav: [["", "快讯"], ["news/", "新闻"], ["market/", "行情"], ["surge/", "异动"], projectNav("zh"), ["contact/", "联系"], ["listings/", "上币"]],
+    tabs: [["", "快讯", "live"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"], ["surge/", "异动", "surge"]], menuL: "菜单", searchL: "搜索", closeL: "关闭",
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯", search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
     emptyFeed: "首批快讯即将上线。", headlinesT: "全球头条", more: "更多", marketsT: "主要行情", allMarkets: "全部行情",
@@ -203,6 +203,7 @@ const ICON = {
   surge: '<path d="M4 18 10 12l4 4 6-8"/><path d="M15 8h5v5"/>',
   news: '<rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h8M8 17h5"/>',
   mkt: '<path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 const ART = { Policy: "sage-bands", Markets: "gold-silk", Industry: "light-grid", Exchanges: "light-grid", Technology: "contour", Global: "blue-hour", 政策: "sage-bands", 市场: "gold-silk", 产业: "light-grid", 交易所: "light-grid", 技术: "contour", 海外: "blue-hour" };
@@ -290,7 +291,10 @@ ${adBand}
   <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
-<nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}</nav>
+<nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${L.tabs.some(([p]) => p === active) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>${esc(L.menuL)}</button></nav>
+<div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="${esc(L.menuL)}"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="${esc(L.closeL)}">×</button></div>
+<nav class="ns-links">${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">${esc(L.searchL)}</a></nav>
+<div class="ns-langs"><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en"${L.code === "en" ? ' aria-current="true"' : ""}>English</a><a href="${asset("zh/")}" lang="zh-Hans"${L.code === "zh" ? ' aria-current="true"' : ""}>中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${asset("xsheet.js")}?v=${BUILD_ID}" defer></script>
