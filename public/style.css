@@ -954,3 +954,11 @@ nav.tabs .tab-menu[aria-current="page"],nav.tabs .tab-menu[aria-expanded="true"]
 .ns-langs a[aria-current]{color:var(--ink);border-bottom:1px solid currentColor}
 html.ns-open{overflow:hidden}
 @media (min-width:960px){.navsheet{display:none!important}}
+
+/* 거래소 선택 시트를 다시 여는 오른쪽 가장자리 탭 (반투명) */
+.cbx-tab{position:fixed;right:0;top:46%;z-index:8;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px 14px 10px;border:1px solid var(--line);border-right:0;border-radius:10px 0 0 10px;background:color-mix(in srgb,var(--paper) 72%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ink);opacity:.82;cursor:pointer;box-shadow:-4px 6px 18px rgba(0,0,0,.08);transition:opacity .2s,transform .2s}
+.cbx-tab:hover,.cbx-tab:focus-visible{opacity:1;transform:translateX(-2px)}
+.cbx-tab-p{font-family:var(--f-label);font-weight:600;font-size:12px;letter-spacing:0;color:var(--signal)}
+.cbx-tab-l{font-family:var(--f-sans);font-weight:500;font-size:13px;letter-spacing:.06em;writing-mode:vertical-rl}
+html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
+@media (max-width:959px){.cbx-tab{top:auto;bottom:calc(150px + env(safe-area-inset-bottom,0px));padding:12px 6px 12px 8px}}

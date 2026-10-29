@@ -11,21 +11,32 @@
   var COOL_H = 3, KEY = "cbx-last", SHOW = 6;
   var lang = (H.lang || "ko").slice(0, 2); if (lang !== "ko" && lang !== "zh") lang = "en";
   var T = {
-    ko: { eye: "Partner · Perpline", title: "거래할 거래소를 선택하세요", pay: function (n) { return "수수료 " + n + "% 페이백"; }, code: "코드", all: function (n) { return n + "곳 전체 비교"; }, cancel: "취소", go: "거래소로 이동", close: "닫기",
+    ko: { eye: "Partner · Perpline", tab: "거래소 페이백", tabTop: "{n}%", title: "거래할 거래소를 선택하세요", pay: function (n) { return "수수료 " + n + "% 페이백"; }, code: "코드", all: function (n) { return n + "곳 전체 비교"; }, cancel: "취소", go: "거래소로 이동", close: "닫기",
       notes: ["Perpline 제휴 링크예요. 가입 후 UID를 텔레그램 @{tg}로 보내면 거래 수수료 페이백을 매주 USDT로 받아요.", "해외 거주자 대상 서비스예요. 한국·미국 거주자는 이용할 수 없어요.", "선물·레버리지 거래는 원금을 모두 잃을 수 있어요. 체인브리프는 특정 거래소나 거래를 권유하지 않아요."] },
-    en: { eye: "Partner · Perpline", title: "Choose an exchange to trade on", pay: function (n) { return n + "% Payback"; }, code: "Code", all: function (n) { return "Compare all " + n; }, cancel: "Cancel", go: "Go to exchange", close: "Close",
+    en: { eye: "Partner · Perpline", tab: "Fee payback", tabTop: "{n}%", title: "Choose an exchange to trade on", pay: function (n) { return n + "% Payback"; }, code: "Code", all: function (n) { return "Compare all " + n; }, cancel: "Cancel", go: "Go to exchange", close: "Close",
       notes: ["Perpline partner links. After you sign up, send your UID to @{tg} on Telegram and get part of your trading fees back in USDT every week.", "Not available to residents of South Korea or the United States.", "Futures and leverage can lose your entire margin. CHAINBRIEF does not recommend any exchange or trade."] },
-    zh: { eye: "合作 · Perpline", title: "请选择交易所", pay: function (n) { return "手续费返佣 " + n + "%"; }, code: "邀请码", all: function (n) { return "比较全部 " + n + " 家"; }, cancel: "取消", go: "前往交易所", close: "关闭",
+    zh: { eye: "合作 · Perpline", tab: "手续费返佣", tabTop: "{n}%", title: "请选择交易所", pay: function (n) { return "手续费返佣 " + n + "%"; }, code: "邀请码", all: function (n) { return "比较全部 " + n + " 家"; }, cancel: "取消", go: "前往交易所", close: "关闭",
       notes: ["以上为 Perpline 合作链接。注册后将 UID 发送至 Telegram @{tg}，每周以 USDT 返还部分交易手续费。", "不向韩国及美国居民提供服务。", "合约与杠杆交易可能损失全部保证金。CHAINBRIEF 不推荐任何交易所或交易。"] },
   }[lang];
 
   var data = null, open = false;
   function recent() { try { return Date.now() - (+localStorage.getItem(KEY) || 0) < COOL_H * 3600e3; } catch (e) { return true; } }
   function mark() { try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {} }
-  if (recent()) return;
   fetch(FEED, { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
-    if (j && j.venues && j.venues.length) data = j;
+    if (j && j.venues && j.venues.length) { data = j; addTab(); }
   }).catch(function () {});
+
+  // 언제든 다시 열 수 있는 오른쪽 가장자리 반투명 버튼
+  function addTab() {
+    if (D.querySelector(".cbx-tab")) return;
+    var top = data.venues.reduce(function (m, v) { return Math.max(m, v.rebate || 0); }, 0);
+    var b = D.createElement("button");
+    b.type = "button"; b.className = "cbx-tab";
+    b.setAttribute("aria-label", T.title);
+    b.innerHTML = '<span class="cbx-tab-p">' + esc(T.tabTop.replace("{n}", top)) + '</span><span class="cbx-tab-l">' + esc(T.tab) + "</span>";
+    b.addEventListener("click", function () { if (!open) show(""); });
+    D.body.appendChild(b);
+  }
 
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
   var TRIG = "nav.tabs a, nav.top a:not(.nav-wm):not(.nav-search), #filters .tab, #kindTabs .tab, .desks a";
@@ -39,7 +50,7 @@
   }, true);
 
   function show(next) {
-    open = true; mark();
+    open = true; if (next !== "") mark();
     var vs = data.venues.slice(0, SHOW), more = data.venues.length;
     var notes = T.notes.map(function (n) { return "<li>" + esc(n.replace("{tg}", data.telegram || "btcbullit")) + "</li>"; }).join("");
     var wrap = D.createElement("div");
