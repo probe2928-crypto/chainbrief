@@ -96,6 +96,7 @@ jobs:
           - app: qurator
             name: QURATOR
             bundle: kr.qurator.dailyart
+            camera: "작품 옆 QR 코드를 읽어 해설을 열 때 카메라를 사용합니다."
     env:
       HAS_ASC: ${{ secrets.ASC_KEY_P8 != '' && secrets.ASC_KEY_ID != '' && secrets.ASC_ISSUER_ID != '' && secrets.APPLE_TEAM_ID != '' }}
       ONLY: ${{ github.event.inputs.only }}
@@ -129,6 +130,8 @@ jobs:
           /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" $PL || true
           /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName ${{ matrix.name }}" $PL || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string ${{ matrix.name }}" $PL
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" $PL || true
+          if [ -n "${{ matrix.camera }}" ]; then /usr/libexec/PlistBuddy -c "Add :NSCameraUsageDescription string '${{ matrix.camera }}'" $PL || /usr/libexec/PlistBuddy -c "Set :NSCameraUsageDescription '${{ matrix.camera }}'" $PL; /usr/libexec/PlistBuddy -c "Print :NSCameraUsageDescription" $PL; fi
+          /usr/libexec/PlistBuddy -c "Add :CFBundleDevelopmentRegion string ko" $PL || /usr/libexec/PlistBuddy -c "Set :CFBundleDevelopmentRegion ko" $PL
           npx cap sync ios
       - name: iOS 빌드 확인 (서명 없이)
         if: steps.go.outputs.run == 'true' && env.HAS_ASC != 'true'
