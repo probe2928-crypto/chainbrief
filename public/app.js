@@ -256,7 +256,17 @@
   }
   if ($("#daytabs")) {
     let ex = "all", ty = "all";
-    const apply = () => $$(".lst", $("#daypanels")).forEach((r) => (r.hidden = (ex !== "all" && r.dataset.ex !== ex) || (ty !== "all" && !r.dataset.type.startsWith(ty))));
+    const apply = () => {
+      $$(".lst", $("#daypanels")).forEach((r) => (r.hidden = (ex !== "all" && r.dataset.ex !== ex) || (ty !== "all" && !r.dataset.type.startsWith(ty))));
+      // 거래소·유형 필터로 한 시간대가 통째로 비면 '조건에 맞는 소식이 없어요'
+      $$(".slotsec", $("#daypanels")).forEach((sec) => { const rows = $$(".lst", sec); sec.classList.toggle("fe", rows.length > 0 && rows.every((r) => r.hidden)); });
+      // 거래소를 고르면 해당 거래소 소식이 없는 날은 흐리게, 지금 날이 비면 가장 최근에 소식이 있는 날로 이동
+      const hit = (d) => $$(`.daypanel[data-day="${d}"] .lst`).some((r) => !r.hidden);
+      const dts = $$("#daytabs .daytab");
+      dts.forEach((t) => t.classList.toggle("dim", (ex !== "all" || ty !== "all") && !hit(t.dataset.day)));
+      const cur = dts.find((t) => t.getAttribute("aria-pressed") === "true");
+      if (cur && !hit(cur.dataset.day)) { const nx = dts.find((t) => t.dataset.day !== "soon" && hit(t.dataset.day)); if (nx) nx.click(); }
+    };
     tabs("#daytabs", "day", (d) => $$(".daypanel").forEach((p) => (p.hidden = p.dataset.day !== d)));
     tabs("#lsFilters", "ex", (v) => { ex = v; apply(); });
     tabs("#lsFilters", "type", (v) => { ty = v; apply(); });

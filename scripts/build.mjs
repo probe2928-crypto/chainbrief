@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, globalLedger } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -78,7 +78,9 @@ const hlItems = (headlines.items || []).filter((h) => h.lang !== "zh").map((h) =
 const listings = readJSON("data/listings.json", { items: [] });
 const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
 const globalLs = listings.global || null;
-const GL_KO = { label: "Global Exchanges", title: "해외 거래소 상장", aside: "바이낸스 · OKX · 바이비트 · 코인베이스의 현물·선물 상장과 상장 폐지를 15분마다 확인해요. 공지 제목과 링크만 옮겨요.", listing: "현물 상장", futures: "선물 상장", delisting: "상장 폐지", upcoming: "예정", all: "전체", allTypes: "모든 유형", none: "조건에 맞는 소식이 없어요.", notice: "공지 원문", empty: "최근 30일 해외 거래소 상장 소식이 아직 없어요.", checked: "{t} 확인", stale: "지금 연결 안 됨" };
+// 상장 페이지·레일·홈 카드는 거래소 전체(국내+해외)를 한 목록으로
+const allLs = mergeListings(listings.items || [], globalLs);
+const isNew = (i) => i.type === "listing" || i.type === "futures";
 const community = readJSON("data/community.json", { groups: [] });
 
 /* ---------- partials ---------- */
@@ -198,9 +200,9 @@ function headlineList(items) {
     <span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false })}</time></span>
   </li>`).join("")}</ul>`;
 }
-const EXN = { upbit: "Upbit", bithumb: "Bithumb" };
-const EXK = { upbit: "업비트", bithumb: "빗썸" };
-const TYN = { listing: "신규 상장", delisting: "거래지원 종료", caution: "유의 지정", "caution-cleared": "유의 해제" };
+const EXN = EX_ALL;
+const EXK = { upbit: "업비트", bithumb: "빗썸", binance: "바이낸스", okx: "OKX", bybit: "바이비트", coinbase: "코인베이스" };
+const TYN = { listing: "신규 상장", futures: "선물 상장", delisting: "거래지원 종료", caution: "유의 지정", "caution-cleared": "유의 해제" };
 function listingItem(i, compact = false) {
   const c = i.coins[0] || { symbol: "", name: "" };
   return `<div class="lst" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}">
@@ -208,9 +210,9 @@ function listingItem(i, compact = false) {
     <div style="min-width:0">
       <div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${TYN[i.type] || ""}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div>
       <div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}<small>${esc(i.coins.map((x) => x.name).join(", "))}</small></div>
-      ${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow">${esc(i.title)}</a></div>`}
+      ${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow"${i.global ? ' lang="en"' : ""}>${esc(i.title)}</a></div>`}
     </div>
-    <div class="px" data-px>${i.type === "listing" ? "—" : ""}</div>
+    <div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div>
   </div>`;
 }
 
@@ -256,7 +258,7 @@ const partner = IMP ? `<section class="block slot impact">
   <span>${esc(IMP.ko.text)}</span>
   <a class="btn ghost" href="${IMP.url}${IMP.ko.path}" target="_blank" rel="noopener">${esc(IMP.ko.cta)}</a>
 </section>` : "";
-const recentListings = lsItems.filter((i) => i.type === "listing").slice(0, 5);
+const recentListings = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 5);
 // 사이드바 상장: 시각 위에 날짜(오늘·어제·10.26)를 얹어 어제·오늘이 섞여 보이지 않게
 const relDay = (d) => { const k = dayKey(d), t = dayKey(NOW), y = dayKey(new Date(NOW.getTime() - 864e5)); return k === t ? "오늘" : k === y ? "어제" : fmt(d, { month: "2-digit", day: "2-digit" }).replace(/\.\s?/g, ".").replace(/\.$/, ""); };
 function listingRailItem(i) {
@@ -265,11 +267,11 @@ function listingRailItem(i) {
     <time datetime="${i.date.toISOString()}"><span class="lc-d">${relDay(i.date)}</span><span class="lc-h num">${hhmm(i.date)}</span></time>
     <div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}<small>${esc(i.coins.map((x) => x.name).join(", "))}</small></div>
     <div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${TYN[i.type] || ""}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div>
-    <div class="px" data-px>${i.type === "listing" ? "—" : ""}</div>
+    <div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div>
   </div>`;
 }
 const listingRail = `<section class="block">
-  <div class="block-head"><h2>최근 상장</h2><span class="label">Upbit · Bithumb</span></div>
+  <div class="block-head"><h2>최근 상장</h2><span class="label">All Exchanges</span></div>
   ${recentListings.length ? recentListings.map(listingRailItem).join("") : '<div class="slot-empty">상장 소식을 불러오는 중이에요.</div>'}
   <a class="more" href="${u("listings/")}">상장 소식 전체</a>
 </section>`;
@@ -326,7 +328,7 @@ const artSlide = (a, eye) => ({ art: ART[a.category], eye, title: a.title, dek: 
 const eyeOf = (a) => `${a.format ? esc(a.format) : a.author === cfg.author ? "오늘의 해설" : "기사"} · ${esc(a.author || "편집국")}`;
 
 // 홈 상단 컬러 필드: 시장 숫자 4칸 + 오늘의 기사
-const wk = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
+const wk = allLs.filter((i) => isNew(i) && i.date <= NOW && NOW - i.date < 7 * 864e5);
 const topArt = articles.find((a) => a.format) || articles[0];
 const homeSlides = (() => {
   const out = [], seen = new Set();
@@ -334,8 +336,8 @@ const homeSlides = (() => {
   add(articles.find((a) => a.format === "심층취재"));
   add(articles.find((a) => a.author === cfg.author));
   add(articles.find((a) => a.format === "칼럼"));
-  const wkL = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
-  if (wkL.length) out.push({ art: "light-grid", eye: "Listings · 업비트 · 빗썸", title: `이번 주 신규 상장 ${wkL.length}건`, dek: [...new Set(wkL.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: "상장 소식 보기" });
+  const wkL = wk;
+  if (wkL.length) out.push({ art: "light-grid", eye: "Listings · 전체 거래소", title: `이번 주 신규 상장 ${wkL.length}건`, dek: [...new Set(wkL.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: "상장 소식 보기" });
   out.push({ art: "prism", eye: "Surge Radar · 실시간", title: "지금 가장 빠르게 움직이는 코인", dek: "5분 급등, 거래 급증, 52주 신고가, 신규 상장 성적표를 한 화면에서.", href: u("surge/"), cta: "급등 레이더 열기" });
   if (CH) out.splice(Math.min(2, out.length), 0, CH.slide);
   add(articles.find((a) => a.format && !seen.has(a.id)));
@@ -345,7 +347,7 @@ const colorField = `<section class="cfield" aria-label="오늘의 시장"><div c
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
   <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>업비트 BTC 기준</span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">시장 심리</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
-  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">최근 7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">업비트 ${wk.filter((i) => i.exchange === "upbit").length} · 빗썸 ${wk.filter((i) => i.exchange === "bithumb").length}</span></a>
+  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">최근 7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">국내 ${wk.filter(isKR).length} · 해외 ${wk.filter((i) => !isKR(i)).length}</span></a>
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(topArt.format || "오늘의 기사")} · ${esc(topArt.author || "편집국")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">읽기 →</span></a>` : ""}
 </div></section>`;
 
@@ -385,37 +387,43 @@ flashes.forEach((f, i) => {
   }));
 });
 
-// 상장 소식: 최근 7일, 하루를 오전·오후·저녁·새벽으로
+// 상장 소식: 거래소 전체(국내+해외) 최근 7일 + 예정, 하루를 오전·오후·저녁·새벽으로
 const SLOTS = [["오전", "Morning", 6, 12], ["오후", "Afternoon", 12, 18], ["저녁", "Evening", 18, 24], ["새벽", "Late Night", 0, 6]];
+const LS_EX = ["upbit", "bithumb", "binance", "okx", "bybit", "coinbase"];
 const days = [];
 for (let d = 0; d < 7; d++) {
   const date = new Date(NOW.getTime() - d * 864e5);
   const key = dayKey(date);
-  const items = lsItems.filter((i) => dayKey(i.date) === key);
+  const items = allLs.filter((i) => i.date <= NOW && dayKey(i.date) === key);
   days.push({ key, date, items });
 }
+const soonLs = allLs.filter((i) => i.date > NOW && i.date - NOW < 30 * 864e5).reverse();
 const openIdx = Math.max(0, days.findIndex((d) => d.items.length));
+const FE = ' data-fe="조건에 맞는 소식이 없어요."';
 const dayPanel = (day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>
   ${SLOTS.map(([ko, en, a, b]) => {
     const its = day.items.filter((i) => { const h = kstHour(i.date); return h >= a && h < b; });
-    return `<section class="slotsec"><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
+    return `<section class="slotsec"${FE}><h3>${ko} <span class="label">${en} · ${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")}시</span></h3>
       ${its.length ? its.map((i) => listingItem(i)).join("") : '<div class="slot-empty">이 시간대 소식이 없어요.</div>'}</section>`;
   }).join("")}
 </div>`;
+const soonPanel = soonLs.length ? `<div class="daypanel" data-day="soon" hidden><section class="slotsec"${FE}><h3>예정 <span class="label">Upcoming · 거래소 공지 기준 시각</span></h3>
+  ${soonLs.map((i) => listingItem(i).replace(`<time>${hhmm(i.date)}</time>`, `<time>${relDay(i.date)}<br>${hhmm(i.date)}</time>`)).join("")}</section></div>` : "";
+const lsHero = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 4);
 write("listings/index.html", layout({
-  title: "업비트·빗썸 상장 소식", active: "listings/", canonical: "listings/",
-  description: "업비트·빗썸 신규 상장, 거래 유의, 거래지원 종료 소식을 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
-  body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${TYN[i.type]} · ${fmt(i.date, { month: "long", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${i.coins.map((c) => c.name).join(", ")} — ${i.title}`, href: i.url, cta: "공지 원문" })), "sm", "최근 상장")}<div class="wrap"><main class="grid"><div class="col"><section>
-  ${secHead("Listings", "상장 소식", `${listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · 15분마다 확인` : "15분마다 확인"} · <a href="#global" class="gl-jump">해외 거래소 상장 ↓</a>`)}
-  <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter((x) => x.type === "listing").length} New</span></button>`).join("")}</div>
+  title: "거래소 상장 소식", active: "listings/", canonical: "listings/",
+  description: "업비트·빗썸·바이낸스·OKX·바이비트·코인베이스의 신규 상장, 선물 상장, 거래 유의, 상장 폐지를 한 목록에서 하루 단위 오전·오후·저녁·새벽으로 정리했어요.",
+  body: `${hero(lsHero.map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${TYN[i.type]} · ${fmt(i.date, { month: "long", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: i.global ? i.title : `${i.coins.map((c) => c.name).join(", ")} — ${i.title}`, href: i.url, cta: "공지 원문" })), "sm", "최근 상장")}<div class="wrap"><main class="grid"><div class="col"><section>
+  ${secHead("Listings", "거래소 상장 소식", `거래소 6곳 · ${listings.updatedAt ? `${hhmm(new Date(listings.updatedAt))} 업데이트 · ` : ""}15분마다 확인`)}
+  <div class="daytabs" id="daytabs">${soonLs.length ? `<button class="daytab soon" type="button" data-day="soon" aria-pressed="false"><small>예정</small><b>${soonLs.length}</b><span class="cnt">Soon</span></button>` : ""}${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? "오늘" : i === 1 ? "어제" : fmt(d.date, { weekday: "short" })}</small><b>${fmt(d.date, { day: "numeric" }).replace("일", "")}</b><span class="cnt">${d.items.filter(isNew).length} New</span></button>`).join("")}</div>
   <div class="tabs-row" id="lsFilters">
-    ${[["all", "전체"], ["upbit", "업비트"], ["bithumb", "빗썸"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
-    <span style="width:1px;background:var(--line)"></span>
-    ${[["all", "모든 유형"], ["listing", "신규 상장"], ["caution", "유의"], ["delisting", "종료"]].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
+    ${[["all", "전체"], ...LS_EX.map((k) => [k, EXK[k] || EXN[k]])].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
+    <span class="ls-div" aria-hidden="true"></span>
+    ${[["all", "모든 유형"], ["listing", "신규 상장"], ["futures", "선물"], ["caution", "유의"], ["delisting", "종료"]].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
   </div>
-  <div id="daypanels">${days.map(dayPanel).join("")}</div>
-  <p class="note">거래소 공지와 마켓 목록을 함께 확인해요. 상장 코인 오른쪽은 현재가와 24시간 변동률이에요.</p>
-  </section>${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: GL_KO })}</div>${rail()}</main></div>`,
+  <div id="daypanels">${soonPanel}${days.map(dayPanel).join("")}</div>
+  <p class="note">거래소 공지와 마켓 목록을 15분마다 확인해요. 해외 거래소는 공지 제목과 링크만 옮겨요. 상장 코인 오른쪽 현재가와 24시간 변동률은 업비트·빗썸 원화 마켓 기준이에요. 토큰화 주식·주식 선물은 넣지 않아요.</p>
+  </section></div>${rail()}</main></div>`,
 }));
 
 // 급등 레이더 (브라우저에서 실시간 계산, public/surge.js)

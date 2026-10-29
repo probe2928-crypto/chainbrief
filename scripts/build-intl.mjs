@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes , globalLedger, globalRail } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -60,6 +60,8 @@ const allHL = (headlines.items || []).filter((h) => !/\p{Script=Hangul}/u.test(h
 const listings = readJSON("data/listings.json", { items: [] });
 const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time) }));
 const globalLs = listings.global || null;
+const allLs = mergeListings(listings.items || [], globalLs); // 거래소 전체 한 목록
+const isNew = (i) => i.type === "listing" || i.type === "futures";
 
 /* ---------- 언어 사전 ---------- */
 const ED = {
@@ -73,15 +75,15 @@ const ED = {
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
     all: "All", breaking: "Breaking", liveTitle: "Live Wire", search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
     emptyFeed: "The first stories are on their way.", headlinesT: "Global Headlines", more: "More", marketsT: "Markets", allMarkets: "All markets",
-    moodT: "Market Mood", kimp: "BTC Kimchi premium", dom: "BTC dominance", koreaListings: "Korea Listings", allListings: "All listings",
+    moodT: "Market Mood", kimp: "BTC Kimchi premium", dom: "BTC dominance", koreaListings: "Latest Listings", allListings: "All listings",
     contactT: "Tips · Ads · Partnerships", contactX: `Message us on Telegram @${cfg.telegram}.`, openTg: "Open Telegram",
     disclaimer: "CHAINBRIEF content is for information only and is not investment advice. Third-party headlines remain the property of their publishers. Prices: CoinGecko, Upbit, Bithumb. Fear & Greed: Alternative.me.",
     readMore: "Read", copy: "Copy link", toWire: "Back to the wire", alsoT: "More from the wire",
     gl: { label: "Global Exchanges", title: "Global exchange listings", aside: "Spot and futures listings and delistings on Binance, OKX, Bybit and Coinbase, checked every 15 minutes. Headlines and links only.", listing: "Spot listing", futures: "Futures", delisting: "Delisting", upcoming: "Soon", all: "All", allTypes: "All types", none: "Nothing matches this filter.", more: "All global listings", notice: "Exchange notice", empty: "No global exchange listings in the last 30 days yet.", checked: "Checked {t}", stale: "Not reachable right now" },
-    listingsTitle: "Korean Exchange Listings", listingsDesc: "New listings, caution flags and delistings on Upbit and Bithumb — Korea's two largest exchanges — grouped by time of day.",
+    listingsTitle: "Exchange Listings", listingsDesc: "New spot and futures listings, caution flags and delistings on Binance, OKX, Bybit, Coinbase, Upbit and Bithumb — one ledger, grouped by time of day.",
     slots: [["Morning", 6, 12], ["Afternoon", 12, 18], ["Evening", 18, 24], ["Overnight", 0, 6]], today: "Today", yday: "Yesterday", nNew: "{n} new", none: "Nothing in this window.",
-    ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, exAll: "All", typeAll: "All types", tyF: [["listing", "Listings"], ["caution", "Caution"], ["delisting", "Delistings"]],
-    notice: "Official notice (Korean)", lsNote: "Times in UTC. Sourced from exchange notices and market lists. The right column shows the current KRW price and 24h change.",
+    ty: { listing: "New listing", futures: "Futures", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, exAll: "All", typeAll: "All types", tyF: [["listing", "Listings"], ["futures", "Futures"], ["caution", "Caution"], ["delisting", "Delistings"]], lsEx: "6 exchanges", soonT: "Upcoming", soonX: "Times as announced", fe: "Nothing matches this filter.",
+    notice: "Official notice (Korean)", lsNote: "Times in UTC. Checked every 15 minutes from exchange notices and market lists; for global exchanges we carry headlines and links only. Prices on the right are Upbit/Bithumb KRW with 24h change. Tokenized stocks and stock futures are excluded.",
     updated: "Updated {t}", every15: "checked every 15 min",
     surgeTitle: "Surge Radar", surgeDesc: "Live top movers on Upbit and Bithumb KRW markets: 5-minute spikes, volume surges, 52-week highs, new-listing performance and cross-exchange gaps.",
     newsTitle: "News", catAll: "All", catN: "{n} stories", catOther: "Other section", catAria: "Stories by section", catDek: { Policy: "Bills, tax and supervision — where regulation reshapes market structure.", Markets: "Prices, flows and the reasons behind them.", Industry: "Companies, projects and where the money moves.", Exchanges: "Listings, warnings and the race between venues.", Technology: "Protocols, security and what code changes.", Global: "Major markets and the regulators that shape them." }, editorial: "CHAINBRIEF Analysis", region: "US · Europe · Singapore",
@@ -90,8 +92,8 @@ const ED = {
     th: ["Coin", "USD", "Upbit KRW", "24H", "Kimchi", "Volume"],
     contactPage: "Tips, advertising and partnerships", contactBody: `Send us a message on Telegram and we will get back to you. If the button doesn't open, search for @${cfg.telegram} in Telegram.`, copyId: "Copy ID", weTake: "What we handle", weTakeL: ["News tips", "Advertising & banners", "Exchange & project partnerships", "Corrections"],
     notFound: "Page not found", notFoundX: "This page has moved or no longer exists.",
-    slideRead: "Read the story", slideListings: "This week on Korean exchanges: {n} new listings", slideListingsCta: "See listings", slideSurge: "The coins moving fastest right now", slideSurgeX: "5-minute spikes, volume surges, 52-week highs and new-listing performance on one screen.", slideSurgeCta: "Open the radar",
-    cf: ["Bitcoin · USD", "Kimchi premium", "Market mood", "Korea listings · 7 days", "Analysis"], cfBasis: "Upbit BTC",
+    slideRead: "Read the story", slideListings: "This week across 6 exchanges: {n} new listings", slideListingsCta: "See listings", slideSurge: "The coins moving fastest right now", slideSurgeX: "5-minute spikes, volume surges, 52-week highs and new-listing performance on one screen.", slideSurgeCta: "Open the radar",
+    cf: ["Bitcoin · USD", "Kimchi premium", "Market mood", "New listings · 7 days", "Analysis"], cfBasis: "Upbit BTC",
     surgeHero: [["5-minute spikes", "The coins that rose most in the last five minutes, tracked on 1-minute candles."], ["Volume surges", "Coins trading at 1.5× or more their normal five-minute volume."], ["52-week highs · New listings", "Coins near their highs, and how the last 30 days of listings are doing."]],
     marketHero: [["Dollars and won, side by side", "Global prices next to Upbit's KRW prices, updated every minute."], ["The Kimchi premium", "How much more Korean traders pay than the rest of the world, coin by coin."]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "Volume", volAll: "All", vol10: "₩1B+", vol100: "₩10B+", q: "Search coins (BTC, XRP…)", grp: [["Right Now", "Short-term signals"], ["24 Hours", "Today's movers"], ["Momentum", "Highs · New listings"]],
@@ -122,15 +124,15 @@ const ED = {
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯", search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
     emptyFeed: "首批快讯即将上线。", headlinesT: "全球头条", more: "更多", marketsT: "主要行情", allMarkets: "全部行情",
-    moodT: "市场情绪", kimp: "BTC 泡菜溢价", dom: "BTC 市占率", koreaListings: "韩国上币", allListings: "全部上币",
+    moodT: "市场情绪", kimp: "BTC 泡菜溢价", dom: "BTC 市占率", koreaListings: "最新上币", allListings: "全部上币",
     contactT: "爆料 · 广告 · 合作", contactX: `请通过 Telegram @${cfg.telegram} 联系我们。`, openTg: "打开 Telegram",
     disclaimer: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。外部头条版权归原媒体所有。行情来源：CoinGecko、Upbit、Bithumb；恐惧与贪婪指数：Alternative.me。",
     readMore: "阅读", copy: "复制链接", toWire: "返回快讯", alsoT: "相关快讯",
     gl: { label: "Global Exchanges", title: "全球交易所上币", aside: "每 15 分钟检查币安、OKX、Bybit 与 Coinbase 的现货、合约上币及下架，仅转载公告标题与链接。", listing: "现货上币", futures: "合约上线", delisting: "下架", upcoming: "即将", all: "全部", allTypes: "全部类型", none: "没有符合条件的动态。", more: "全部全球上币", notice: "官方公告", empty: "近 30 天暂无全球交易所上币动态。", checked: "{t} 已检查", stale: "暂时无法连接" },
-    listingsTitle: "韩国交易所上币动态", listingsDesc: "韩国两大交易所 Upbit 与 Bithumb 的新上币、警示与下架公告，按时段整理。",
+    listingsTitle: "交易所上币动态", listingsDesc: "币安、OKX、Bybit、Coinbase、Upbit、Bithumb 的现货与合约上币、警示及下架公告，一个列表按时段整理。",
     slots: [["上午", 6, 12], ["下午", 12, 18], ["晚间", 18, 24], ["凌晨", 0, 6]], today: "今天", yday: "昨天", nNew: "新币 {n}", none: "该时段暂无动态。",
-    ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, exAll: "全部", typeAll: "全部类型", tyF: [["listing", "上币"], ["caution", "警示"], ["delisting", "下架"]],
-    notice: "官方公告（韩文）", lsNote: "时间为香港时间（HKT）。数据来自交易所公告与市场列表，右侧为当前韩元价格与 24 小时涨跌。",
+    ty: { listing: "新上币", futures: "合约上线", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, exAll: "全部", typeAll: "全部类型", tyF: [["listing", "上币"], ["futures", "合约"], ["caution", "警示"], ["delisting", "下架"]], lsEx: "6 家交易所", soonT: "即将", soonX: "以公告时间为准", fe: "没有符合条件的动态。",
+    notice: "官方公告（韩文）", lsNote: "时间为香港时间（HKT）。每 15 分钟检查交易所公告与市场列表，全球交易所仅转载公告标题与链接。右侧为 Upbit/Bithumb 韩元价格与 24 小时涨跌。不收录代币化股票与股票合约。",
     updated: "{t} 更新", every15: "每 15 分钟检查",
     surgeTitle: "异动雷达", surgeDesc: "Upbit、Bithumb 韩元市场实时异动：5 分钟急涨、成交放量、52 周新高、新币表现与交易所价差。",
     newsTitle: "新闻", catAll: "全部", catN: "{n} 篇", catOther: "其他栏目", catAria: "按栏目浏览", catDek: { 政策: "法案、税制与监管——规则改变市场结构的地方。", 市场: "价格与资金流向，以及背后的原因。", 产业: "企业与项目，资金流动的方向。", 交易所: "上币、警示与交易所之间的竞争。", 技术: "协议与安全，代码带来的改变。", 海外: "全球主要市场与监管机构的动向。" }, editorial: "链报分析", region: "香港 · 新加坡",
@@ -139,8 +141,8 @@ const ED = {
     th: ["币种", "美元", "Upbit 韩元", "24H", "溢价", "成交额"],
     contactPage: "爆料、广告与合作", contactBody: `通过 Telegram 给我们留言，我们会尽快回复。若按钮无法打开，请在 Telegram 中搜索 @${cfg.telegram}。`, copyId: "复制 ID", weTake: "我们受理", weTakeL: ["新闻爆料", "广告与横幅合作", "交易所与项目合作", "更正请求"],
     notFound: "页面不存在", notFoundX: "该页面已移动或已删除。",
-    slideRead: "阅读全文", slideListings: "本周韩国交易所新上币 {n} 个", slideListingsCta: "查看上币", slideSurge: "此刻涨得最快的币", slideSurgeX: "5 分钟急涨、成交放量、52 周新高与新币表现，一屏看全。", slideSurgeCta: "打开雷达",
-    cf: ["比特币 · 美元", "泡菜溢价", "市场情绪", "韩国上币 · 7 天", "分析"], cfBasis: "Upbit BTC",
+    slideRead: "阅读全文", slideListings: "本周 6 家交易所新上币 {n} 个", slideListingsCta: "查看上币", slideSurge: "此刻涨得最快的币", slideSurgeX: "5 分钟急涨、成交放量、52 周新高与新币表现，一屏看全。", slideSurgeCta: "打开雷达",
+    cf: ["比特币 · 美元", "泡菜溢价", "市场情绪", "新上币 · 7 天", "分析"], cfBasis: "Upbit BTC",
     surgeHero: [["5 分钟急涨", "以 1 分钟 K 线追踪过去 5 分钟涨幅最大的币。"], ["成交放量", "成交额达到平时 5 分钟均值 1.5 倍以上的币。"], ["52 周新高 · 新币成绩单", "接近高点的币，以及近 30 天新上币的表现。"]],
     marketHero: [["美元与韩元，一目了然", "全球价格与 Upbit 韩元价格并列，每分钟更新。"], ["泡菜溢价", "韩国投资者比全球多付多少，逐币查看。"]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "成交额", volAll: "全部", vol10: "10亿韩元+", vol100: "100亿韩元+", q: "搜索币种（BTC、XRP…）", grp: [["Right Now", "短线信号"], ["24 Hours", "今日涨跌"], ["Momentum", "新高 · 新币"]],
@@ -208,7 +210,7 @@ const ICON = {
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 const ART = { Policy: "sage-bands", Markets: "gold-silk", Industry: "light-grid", Exchanges: "light-grid", Technology: "contour", Global: "blue-hour", 政策: "sage-bands", 市场: "gold-silk", 产业: "light-grid", 交易所: "light-grid", 技术: "contour", 海外: "blue-hour" };
 const ART_POOL = ["blue-hour", "rose-dusk", "gold-silk", "prism", "contour", "smoke", "sage-bands", "light-grid"];
-const EXN = { upbit: "Upbit", bithumb: "Bithumb" };
+const EXN = EX_ALL;
 
 const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
 for (const L of [ED.en, ED.zh]) {
@@ -333,14 +335,14 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const headlineList = (items) => items.length ? `<ul class="hl">${items.map((h) => `<li><a href="${esc(h.url)}" target="_blank" rel="noopener nofollow">${esc(h.title)}</a><span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })}</time></span></li>`).join("")}</ul>` : `<div class="empty">—</div>`;
   const listingItem = (i, compact = false) => {
     const c = i.coins[0] || { symbol: "" };
-    return `<div class="lst" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time>${hhmm(i.date)}</time><div style="min-width:0"><div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div>${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow">${esc(L.notice)}</a></div>`}</div><div class="px" data-px>${i.type === "listing" ? "—" : ""}</div></div>`;
+    return `<div class="lst" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time>${hhmm(i.date)}</time><div style="min-width:0"><div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div>${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow"${i.global ? ' lang="en"' : ""}>${esc(i.global ? i.title : L.notice)}</a></div>`}</div><div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div></div>`;
   };
   const marketRail = `<section class="block desk-only"><div class="block-head"><h2>${esc(L.marketsT)}</h2><span class="label">USD · 24H</span></div><table><tbody>${cfg.coins.slice(0, 6).map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num c"></td></tr>`).join("")}</tbody></table><a class="more" href="${u("market/")}">${esc(L.allMarkets)}</a></section>`;
   const sentiment = `<section class="block"><div class="block-head"><h2>${esc(L.moodT)}</h2><span class="label">Fear &amp; Greed</span></div><div class="gauge"><div class="row"><span class="big" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--mute)"></span></div><div class="bar"><i id="fngBar" style="left:50%"></i></div><div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div></div><div class="kp"><div><small>${esc(L.kimp)}</small><strong class="num" id="kimpBtc">—</strong></div><div><small>${esc(L.dom)}</small><strong class="num" id="btcDom">—</strong></div></div></section>`;
-  const recentL = lsItems.filter((i) => i.type === "listing").slice(0, 5);
+  const recentL = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 5);
   const relDay = (d) => { const k = dayKey(d); return k === dayKey(NOW) ? L.today : L.code === "zh" && k === dayKey(new Date(NOW.getTime() - 864e5)) ? L.yday : L.code === "zh" ? fmt(d, { month: "numeric", day: "numeric" }) : fmt(d, { month: "short", day: "numeric" }); };
-  const listingRailItem = (i) => { const c = i.coins[0] || { symbol: "" }; return `<div class="lst c" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time datetime="${i.date.toISOString()}"><span class="lc-d">${esc(relDay(i.date))}</span><span class="lc-h num">${hhmm(i.date)}</span></time><div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div><div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div><div class="px" data-px>${i.type === "listing" ? "—" : ""}</div></div>`; };
-  const listingRail = `<section class="block"><div class="block-head"><h2>${esc(L.koreaListings)}</h2><span class="label">Upbit · Bithumb</span></div>${recentL.map(listingRailItem).join("")}<a class="more" href="${u("listings/")}">${esc(L.allListings)}</a></section>`;
+  const listingRailItem = (i) => { const c = i.coins[0] || { symbol: "" }; return `<div class="lst c" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time datetime="${i.date.toISOString()}"><span class="lc-d">${esc(relDay(i.date))}</span><span class="lc-h num">${hhmm(i.date)}</span></time><div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div><div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div><div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div></div>`; };
+  const listingRail = `<section class="block"><div class="block-head"><h2>${esc(L.koreaListings)}</h2><span class="label">All Exchanges</span></div>${recentL.map(listingRailItem).join("")}<a class="more" href="${u("listings/")}">${esc(L.allListings)}</a></section>`;
   const contactRail = TG ? `<section class="block slot"><span class="label">Contact</span><strong>${esc(L.contactT)}</strong><span>${esc(L.contactX)}</span><a class="btn ghost" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a></section>` : "";
   const hlRail = `<section class="block"><div class="block-head"><h2>${esc(L.headlinesT)}</h2><span class="label">Global</span></div>${headlineList(hl.slice(0, 6))}<a class="more" href="${u("news/")}">${esc(L.more)}</a></section>`;
   const IM = cfg.impact && cfg.impact[L.code];
@@ -353,9 +355,9 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const card = (a) => `<a class="art" href="${u(`articles/${a.id}/`)}"><div class="meta" style="margin:0"><span class="tag kr">${esc(a.category || "")}</span>${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div><h3>${esc(a.title)}</h3><p>${esc(a.summary || plain(a.body).slice(0, 140))}</p><div style="margin-top:10px"><span class="byline">${fmt(a.date, { month: "short", day: "numeric" })} · <b>${esc(a.author || L.name)}</b></span></div></a>`;
 
   // 홈
-  const wk = lsItems.filter((i) => i.type === "listing" && Date.now() - i.date < 7 * 864e5);
+  const wk = allLs.filter((i) => isNew(i) && i.date <= NOW && NOW - i.date < 7 * 864e5);
   const homeSlides = [...articles.slice(0, 3).map(artSlide)];
-  if (wk.length) homeSlides.push({ art: "light-grid", eye: "Upbit · Bithumb", title: fm(L.slideListings, { n: wk.length }), dek: [...new Set(wk.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: L.slideListingsCta });
+  if (wk.length) homeSlides.push({ art: "light-grid", eye: "Listings · All Exchanges", title: fm(L.slideListings, { n: wk.length }), dek: [...new Set(wk.flatMap((i) => i.coins.map((c) => c.symbol)))].slice(0, 8).join(" · "), href: u("listings/"), cta: L.slideListingsCta });
   homeSlides.push({ art: "prism", eye: "Surge Radar", title: L.slideSurge, dek: L.slideSurgeX, href: u("surge/"), cta: L.slideSurgeCta });
   if (CH) homeSlides.splice(Math.min(2, homeSlides.length), 0, CH.slide);
   const topArt = articles[0];
@@ -363,7 +365,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">${esc(L.cf[0])}</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
   <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">${esc(L.cf[1])}</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>${esc(L.cfBasis)}</span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">${esc(L.cf[2])}</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
-  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">${esc(L.cf[3])}</span><span class="cf-big">${wk.length}</span><span class="cf-s">Upbit ${wk.filter((i) => i.exchange === "upbit").length} · Bithumb ${wk.filter((i) => i.exchange === "bithumb").length}</span></a>
+  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">${esc(L.cf[3])}</span><span class="cf-big">${wk.length}</span><span class="cf-s">Global ${wk.filter((i) => !isKR(i)).length} · Korea ${wk.filter(isKR).length}</span></a>
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(L.cf[4])} · ${esc(topArt.author || "")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">${esc(L.readMore)} →</span></a>` : ""}
 </div></section>`;
   const cats = [["전체", L.all], ["중요", L.breaking], ...L.cats.map((c) => [c, c])];
@@ -374,7 +376,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
     <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
-  </section></div>${rail(globalRail({ data: globalLs, S: L.gl, esc, rel: relDay, hhmm, href: u("listings/"), more: L.gl.more }) + listingRail + hlRail)}</main></div>`,
+  </section></div>${rail(listingRail + hlRail)}</main></div>`,
   }));
 
   // 속보 상세
@@ -390,17 +392,22 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     }));
   });
 
-  // 상장
+  // 상장 — 거래소 전체(해외+국내) 한 목록 + 예정
+  const LS_EX = ["binance", "okx", "bybit", "coinbase", "upbit", "bithumb"];
   const days = [];
-  for (let d = 0; d < 7; d++) { const date = new Date(NOW.getTime() - d * 864e5); const key = dayKey(date); days.push({ key, date, items: lsItems.filter((i) => dayKey(i.date) === key) }); }
+  for (let d = 0; d < 7; d++) { const date = new Date(NOW.getTime() - d * 864e5); const key = dayKey(date); days.push({ key, date, items: allLs.filter((i) => i.date <= NOW && dayKey(i.date) === key) }); }
+  const soonLs = allLs.filter((i) => i.date > NOW && i.date - NOW < 30 * 864e5).reverse();
   const openIdx = Math.max(0, days.findIndex((d) => d.items.length));
+  const FE = ` data-fe="${esc(L.fe)}"`;
+  const soonPanel = soonLs.length ? `<div class="daypanel" data-day="soon" hidden><section class="slotsec"${FE}><h3>${esc(L.soonT)} <span class="label">${esc(L.soonX)}</span></h3>${soonLs.map((i) => listingItem(i).replace(`<time>${hhmm(i.date)}</time>`, `<time>${esc(relDay(i.date))}<br>${hhmm(i.date)}</time>`)).join("")}</section></div>` : "";
+  const lsHero = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 4);
   write(`${P}listings/index.html`, layout({
     title: L.listingsTitle, active: "listings/", canonical: "listings/", description: L.listingsDesc,
-    body: `${hero(lsItems.filter((i) => i.type === "listing").slice(0, 4).map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${esc(L.ty[i.type])} · ${fmt(i.date, { month: "short", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: `${EXN[i.exchange]} ${i.markets.join(" / ")}`, href: i.url, cta: L.notice })), "sm")}<div class="wrap"><main class="grid"><div class="col">${globalLedger({ data: globalLs, esc, rel: relDay, hhmm, S: L.gl })}<section>
-    ${secHead("Listings", esc(L.listingsTitle), listings.updatedAt ? `${fm(L.updated, { t: hhmm(new Date(listings.updatedAt)) + " " + L.tzL })} · ${L.every15}` : L.every15)}
-    <div class="daytabs" id="daytabs">${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? L.today : i === 1 ? L.yday : fmt(d.date, { weekday: "short" })}</small><b>${new Intl.DateTimeFormat("en-US", { timeZone: L.tz, day: "numeric" }).format(d.date)}</b><span class="cnt">${fm(L.nNew, { n: d.items.filter((x) => x.type === "listing").length })}</span></button>`).join("")}</div>
-    <div class="tabs-row" id="lsFilters">${[["all", L.exAll], ["upbit", "Upbit"], ["bithumb", "Bithumb"]].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}<span style="width:1px;background:var(--line)"></span>${[["all", L.typeAll], ...L.tyF].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
-    <div id="daypanels">${days.map((day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>${L.slots.map(([nm, a, b]) => { const its = day.items.filter((i) => { const h = hourOf(i.date); return h >= a && h < b; }); return `<section class="slotsec"><h3>${esc(nm)} <span class="label">${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")} ${L.tzL}</span></h3>${its.length ? its.map((i) => listingItem(i)).join("") : `<div class="slot-empty">${esc(L.none)}</div>`}</section>`; }).join("")}</div>`).join("")}</div>
+    body: `${hero(lsHero.map((i, k) => ({ art: ["light-grid", "gold-silk", "contour", "blue-hour"][k], eye: `${EXN[i.exchange]} · ${esc(L.ty[i.type])} · ${fmt(i.date, { month: "short", day: "numeric" })}`, title: i.coins.map((c) => c.symbol).join(" · "), dek: i.global ? i.title : `${EXN[i.exchange]} ${i.markets.join(" / ")}`, href: i.url, cta: i.global ? L.gl.notice : L.notice })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
+    ${secHead("Listings", esc(L.listingsTitle), `${esc(L.lsEx)} · ` + (listings.updatedAt ? `${fm(L.updated, { t: hhmm(new Date(listings.updatedAt)) + " " + L.tzL })} · ${L.every15}` : L.every15))}
+    <div class="daytabs" id="daytabs">${soonLs.length ? `<button class="daytab soon" type="button" data-day="soon" aria-pressed="false"><small>${esc(L.soonT)}</small><b>${soonLs.length}</b><span class="cnt">Soon</span></button>` : ""}${days.map((d, i) => `<button class="daytab" type="button" data-day="${d.key}" aria-pressed="${i === openIdx}"><small>${i === 0 ? L.today : i === 1 ? L.yday : fmt(d.date, { weekday: "short" })}</small><b>${new Intl.DateTimeFormat("en-US", { timeZone: L.tz, day: "numeric" }).format(d.date)}</b><span class="cnt">${fm(L.nNew, { n: d.items.filter(isNew).length })}</span></button>`).join("")}</div>
+    <div class="tabs-row" id="lsFilters">${[["all", L.exAll], ...LS_EX.map((k) => [k, EXN[k]])].map(([k, l], i) => `<button class="tab" type="button" data-ex="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}<span class="ls-div" aria-hidden="true"></span>${[["all", L.typeAll], ...L.tyF].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
+    <div id="daypanels">${soonPanel}${days.map((day, idx) => `<div class="daypanel" data-day="${day.key}"${idx !== openIdx ? " hidden" : ""}>${L.slots.map(([nm, a, b]) => { const its = day.items.filter((i) => { const h = hourOf(i.date); return h >= a && h < b; }); return `<section class="slotsec"${FE}><h3>${esc(nm)} <span class="label">${String(a).padStart(2, "0")}–${String(b).padStart(2, "0")} ${L.tzL}</span></h3>${its.length ? its.map((i) => listingItem(i)).join("") : `<div class="slot-empty">${esc(L.none)}</div>`}</section>`; }).join("")}</div>`).join("")}</div>
     <p class="note">${esc(L.lsNote)}</p></section></div>${rail()}</main></div>`,
   }));
 

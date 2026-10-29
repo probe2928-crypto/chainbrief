@@ -962,3 +962,10 @@ html.ns-open{overflow:hidden}
 .cbx-tab-l{font-family:var(--f-sans);font-weight:500;font-size:13px;letter-spacing:.06em;writing-mode:vertical-rl}
 html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 @media (max-width:959px){.cbx-tab{top:auto;bottom:calc(150px + env(safe-area-inset-bottom,0px));padding:12px 6px 12px 8px}}
+
+/* 상장: 거래소 전체 한 목록 (2026-10-29) */
+.slotsec.fe::after{content:attr(data-fe);display:block;padding:16px 0;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
+#lsFilters .ls-div{width:1px;align-self:stretch;background:var(--line);flex:none}
+.daytab.soon b{color:var(--a-lilac,var(--ink))}
+.lst .px:empty{display:none}
+.daytab.dim{opacity:.38}

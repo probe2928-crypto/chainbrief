@@ -172,6 +172,16 @@ export function globalLedger({ data, S, esc, rel, hhmm, limit = 40 }) {
   <p class="note">${esc(S.aside)}</p>
 </section>`;
 }
+// 거래소 전체 상장 — 국내(업비트·빗썸) + 해외(바이낸스·OKX·바이비트·코인베이스)를 한 목록으로 (세준 지시 2026-10-29: 코리아 리스팅 따로 두지 않음)
+export const EX_ALL = { upbit: "Upbit", bithumb: "Bithumb", binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
+export const isKR = (i) => i.exchange === "upbit" || i.exchange === "bithumb";
+export function mergeListings(krItems = [], global = null) {
+  const g = (global?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).map((i) => ({
+    key: i.key, exchange: i.exchange, type: i.type, title: i.title, url: i.url, time: i.time,
+    coins: (i.symbols || []).map((s) => ({ symbol: s, name: "" })), markets: [], global: true,
+  }));
+  return [...krItems, ...g].map((i) => ({ ...i, date: new Date(i.time) })).sort((a, b) => b.date - a.date);
+}
 // 사이드 레일용 해외 상장 5건 (EN·中文 홈)
 export function globalRail({ data, S, esc, rel, hhmm, href, more }) {
   const items = (data?.items || []).filter((i) => i.type !== "delisting" && !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 5);

@@ -25,7 +25,7 @@
       fngL: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
       fine: "체인브리프의 정보는 투자 권유가 아니며, 투자 판단과 책임은 이용자 본인에게 있어요.", ver: "버전" },
     en: { html: "en", locale: "en-US", code: "EN", tLive: "Live", tNews: "News", tList: "Listings", tMkt: "Markets", tMore: "Saved",
-      live: "Live Wire", news: "CHAINBRIEF Analysis", list: "Korea Listings", mkt: "Markets", more: "Saved stories",
+      live: "Live Wire", news: "CHAINBRIEF Analysis", list: "Exchange Listings", mkt: "Markets", more: "Saved stories",
       all: "All", imp: "Breaking", today: "Today", yday: "Yesterday", upd: "Updated {t}", offline: "Offline — showing saved content", none: "No stories yet.",
       by: "By", read: "Read", saved: "Saved", unsaved: "Removed from saved", copied: "Link copied", noSaved: "Nothing saved yet. Tap the bookmark at the top of a story to keep it here.",
       settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", site: "Website", privacy: "Privacy policy", partners: "Partners",
@@ -35,7 +35,7 @@
       fngL: { "Extreme Fear": "Extreme fear", Fear: "Fear", Neutral: "Neutral", Greed: "Greed", "Extreme Greed": "Extreme greed" },
       fine: "CHAINBRIEF content is for information only and is not investment advice.", ver: "Version" },
     zh: { html: "zh-Hans", locale: "zh-CN", code: "中文", tLive: "快讯", tNews: "新闻", tList: "上币", tMkt: "行情", tMore: "收藏",
-      live: "7×24 快讯", news: "链报分析", list: "韩国上币", mkt: "实时行情", more: "我的收藏",
+      live: "7×24 快讯", news: "链报分析", list: "交易所上币", mkt: "实时行情", more: "我的收藏",
       all: "全部", imp: "重要", today: "今天", yday: "昨天", upd: "{t} 更新", offline: "离线 — 显示已保存内容", none: "暂无内容。",
       by: "作者", read: "阅读", saved: "已收藏", unsaved: "已取消收藏", copied: "链接已复制", noSaved: "还没有收藏。点击文章顶部的书签即可保存到这里。",
       settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", site: "网站", privacy: "隐私政策", partners: "Partners",
@@ -138,30 +138,27 @@
     const [lead, ...rest] = arts;
     $("#newsList").innerHTML = `<a class="lead" href="#" data-art="${esc(lead.id)}"><img src="${artURL(lead.art)}" alt=""><div class="lead-body"><span class="eye">${esc([lead.category, lead.author].filter(Boolean).join(" · "))}</span><h2>${esc(lead.title)}</h2><p>${esc(lead.summary || "")}</p></div></a><div class="pad">${head("Editorial", T.news, updLine())}${rest.map(cardHTML).join("")}</div>`;
   }
-  const EXG = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
-  function globalHTML() {
-    const gi = (glob?.items || []).slice(0, 40);
-    if (!gi.length) return "";
-    let out = head("Binance · OKX · Bybit · Coinbase", T.glT), last = "";
-    for (const i of gi) {
-      const d = new Date(i.time), soon = d > Date.now(), k = (soon ? "s" : "") + dkey(d);
-      if (k !== last) { out += `<div class="day">${soon ? T.soon + " · " : ""}${dayName(d)}</div>`; last = k; }
-      out += `<a class="ls gl" href="#" data-url="${esc(i.url)}"><time>${hhmm(d)}</time><div><div class="m"><span class="ex">${EXG[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(T.glTy[i.type] || "")}</span></div><div class="coin">${esc((i.symbols || []).join(" · "))}</div><div class="t">${esc(i.title)}</div></div><div class="px"></div></a>`;
-    }
-    return out;
-  }
+  // 상장: 거래소 전체(국내+해외) 한 목록 — 예정이 맨 위, 거래소 칩으로 거르기
+  const EXG = { upbit: "Upbit", bithumb: "Bithumb", binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
+  let lsEx = "all";
   function renderListings() {
-    const items = (listings || []).filter((i) => i.type !== "caution-cleared").slice(0, 80);
-    const g = globalHTML();
-    let out = lang === "ko" ? "" : g, last = "";
-    out += (out ? '<div class="sp"></div>' : "") + head("Upbit · Bithumb", lang === "ko" ? T.list : T.krT);
-    if (!items.length) out += `<div class="empty">${T.none}</div>`;
-    for (const i of items) {
-      const d = new Date(i.time), k = dkey(d), sym = i.coins?.[0]?.symbol || "";
-      if (k !== last) { out += `<div class="day">${dayName(d)}</div>`; last = k; }
-      out += `<a class="ls" href="#" data-url="${esc(i.url)}"><time>${hhmm(d)}</time><div><div class="m"><span class="ex">${i.exchange === "upbit" ? "Upbit" : "Bithumb"}</span><span class="ty ${i.type}">${esc(T.ty[i.type] || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc((i.coins || []).map((c) => c.symbol).join(" · "))}</div></div><div class="px" data-sym="${esc(sym)}"></div></a>`;
-    }
-    if (lang === "ko" && g) out += '<div class="sp"></div>' + g;
+    const kr = (listings || []).filter((i) => i.type !== "caution-cleared").map((i) => ({ ...i, kr: true }));
+    const gl = (glob?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).map((i) => ({ ...i, coins: (i.symbols || []).map((s) => ({ symbol: s })) }));
+    const now = Date.now();
+    const all = [...kr, ...gl].sort((a, b) => new Date(b.time) - new Date(a.time));
+    const exs = (lang === "ko" ? ["upbit", "bithumb", "binance", "okx", "bybit", "coinbase"] : ["binance", "okx", "bybit", "coinbase", "upbit", "bithumb"]).filter((k) => all.some((i) => i.exchange === k));
+    const pick = all.filter((i) => lsEx === "all" || i.exchange === lsEx);
+    const soon = pick.filter((i) => new Date(i.time) > now).reverse(), past = pick.filter((i) => new Date(i.time) <= now).slice(0, 80);
+    let out = head(lang === "ko" ? "전체 거래소" : "All Exchanges", T.list, updLine());
+    out += `<div class="chips" id="lsChips">${[["all", T.all], ...exs.map((k) => [k, EXG[k]])].map(([k, l]) => `<button type="button" data-ex="${k}" aria-pressed="${lsEx === k}">${esc(l)}</button>`).join("")}</div>`;
+    if (!pick.length) out += `<div class="empty">${T.none}</div>`;
+    const row = (i) => {
+      const d = new Date(i.time), sym = i.coins?.[0]?.symbol || "", ty = i.kr ? T.ty[i.type] : T.glTy[i.type];
+      return `<a class="ls${i.kr ? "" : " gl"}" href="#" data-url="${esc(i.url)}"><time>${hhmm(d)}</time><div><div class="m"><span class="ex">${EXG[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(ty || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc((i.coins || []).map((c) => c.symbol).join(" · "))}</div>${i.kr ? "" : `<div class="t">${esc(i.title)}</div>`}</div><div class="px"${i.kr ? ` data-sym="${esc(sym)}"` : ""}></div></a>`;
+    };
+    let last = "";
+    for (const i of soon) { const d = new Date(i.time), k = "s" + dkey(d); if (k !== last) { out += `<div class="day">${T.soon} · ${dayName(d)}</div>`; last = k; } out += row(i); }
+    for (const i of past) { const d = new Date(i.time), k = dkey(d); if (k !== last) { out += `<div class="day">${dayName(d)}</div>`; last = k; } out += row(i); }
     $("#lsList").innerHTML = out;
     fillListingPrices();
   }
@@ -257,6 +254,7 @@
     const url = e.target.closest("[data-url]"); if (url) { e.preventDefault(); open(url.dataset.url); return; }
     const fl = e.target.closest(".fl"); if (fl && !e.target.closest("a")) { fl.classList.toggle("open"); return; }
     const f = e.target.closest("#liveChips button"); if (f) { filter = f.dataset.f; renderLive(); return; }
+    const lx = e.target.closest("#lsChips button"); if (lx) { lsEx = lx.dataset.ex; renderListings(); return; }
     const l = e.target.closest("#langSeg button"); if (l && l.dataset.l !== lang) { setLang(l.dataset.l); return; }
     const th = e.target.closest("#themeSeg button"); if (th) { store.set("theme", th.dataset.th); applyTheme(); renderMore(); }
     if (e.target.closest(".fl a, .prose a")) { e.preventDefault(); open(e.target.closest("a").href); }
