@@ -60,7 +60,7 @@
       '<h2 id="cbxT">' + esc(T.title) + '</h2>' +
       '<div class="cbx-list" role="radiogroup">' + vs.map(function (v, i) {
         var lg = v.logo ? '<img src="' + esc(v.logo) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement(\'b\'),{textContent:\'' + esc(v.name.charAt(0)) + '\'}))">' : "<b>" + esc(v.name.charAt(0)) + "</b>";
-        return '<button type="button" class="cbx-row" role="radio" aria-checked="false" data-i="' + i + '"><span class="cbx-lg">' + lg + '</span><span class="cbx-nm">' + esc(v.name) + (v.code ? '<small>' + esc(T.code) + " " + esc(v.code) + "</small>" : "") + '</span><span class="cbx-pay">' + esc(T.pay(v.rebate)) + "</span></button>";
+        return '<button type="button" class="cbx-row" role="radio" aria-checked="false" data-i="' + i + '"><span class="cbx-lg">' + lg + '</span><span class="cbx-nm">' + esc(v.name) + '</span><span class="cbx-pay">' + esc(T.pay(v.rebate)) + "</span></button>";
       }).join("") + "</div>" +
       '<a class="cbx-all" href="' + esc(data.url) + '?ref=chainbrief" target="_blank" rel="noopener sponsored">' + esc(T.all(more)) + ' · Perpline <span aria-hidden="true">→</span></a>' +
       '<ul class="cbx-notes">' + notes + "</ul>" +
