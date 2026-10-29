@@ -1,0 +1,168 @@
+name: 스토어 앱 (LUFT · QURATOR)
+# LUFT(쇼핑, iOS·안드로이드)와 QURATOR(iOS) 앱을 여기서 함께 빌드한다.
+# 앱 소스는 각 저장소의 app/ 폴더(probe2928-crypto/luft, probe2928-crypto/qurator, 공개 저장소)에 있고,
+# 서명용 Secrets(애플 4개·안드로이드 2개)를 이 저장소 하나에만 넣으면 세 앱(체인브리프 포함)이 모두 같은 키를 씀.
+# QURATOR 안드로이드는 qurator 저장소의 TWA 빌드(android.yml)를 그대로 씀.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "luft / qurator / 비우면 둘 다"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths: [".github/workflows/store-apps.yml"]
+  schedule:
+    - cron: "40 18 * * 0"   # 매주 월요일 03:40 KST — 사이트 변경분으로 테스트 빌드 확인
+
+permissions:
+  contents: write
+
+jobs:
+  luft-android:
+    if: github.event.inputs.only == '' || github.event.inputs.only == 'luft' || github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_B64 != '' }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { path: cb }
+      - uses: actions/checkout@v5
+        with: { repository: probe2928-crypto/luft, path: luft }
+      - uses: actions/setup-node@v5
+        with: { node-version: 22 }
+      - uses: actions/setup-java@v5
+        with: { distribution: temurin, java-version: 21 }
+      - name: 앱 화면 준비 + 안드로이드 프로젝트
+        working-directory: luft/app
+        run: |
+          npm install --no-audit --no-fund
+          node build-www.mjs
+          npx cap add android
+          npm run assets -- --android || true
+          V="$(node -p "require('./package.json').version")"
+          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"$V\"/" android/app/build.gradle
+          npx cap sync android
+      - name: 테스트 APK (고정 테스트 키)
+        working-directory: luft/app
+        run: |
+          mkdir -p ~/.android && cp ../../cb/app/debug.keystore ~/.android/debug.keystore
+          cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon -q
+          cp app/build/outputs/apk/debug/app-debug.apk ../luft-android.apk
+      - name: 출시용 AAB (서명 키가 Secrets에 있을 때)
+        if: env.HAS_KEY == 'true'
+        working-directory: luft/app
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          KEY_ALIAS="${KEY_ALIAS:-upload}"; KEY_PASS="${KEY_PASS:-$KS_PASS}"
+          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          cd android
+          ./gradlew bundleRelease --no-daemon -q -Pandroid.injected.signing.store.file=$RUNNER_TEMP/upload.jks -Pandroid.injected.signing.store.password=$KS_PASS -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=$KEY_PASS
+          cp app/build/outputs/bundle/release/app-release.aab ../luft-playstore.aab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: luft-android
+          path: |
+            luft/app/luft-android.apk
+            luft/app/luft-playstore.aab
+          if-no-files-found: ignore
+      - name: Releases에 올리기 (luft-android-latest)
+        working-directory: cb
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FILES="../luft/app/luft-android.apk"
+          [ -f ../luft/app/luft-playstore.aab ] && FILES="../luft/app/luft-playstore.aab $FILES"
+          gh release delete luft-android-latest -y --cleanup-tag || true
+          gh release create luft-android-latest $FILES --prerelease \
+            --title "LUFT 안드로이드 앱 (빌드 ${{ github.run_number }})" \
+            --notes "luft-android.apk: 폰에 바로 설치하는 테스트용. luft-playstore.aab: Google Play 업로드용(서명 키 있을 때만). $(date -u +%Y-%m-%dT%H:%MZ)"
+
+  ios:
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: luft
+            name: LUFT
+            bundle: kr.luft.store
+          - app: qurator
+            name: QURATOR
+            bundle: kr.qurator.dailyart
+    env:
+      HAS_ASC: ${{ secrets.ASC_KEY_P8 != '' && secrets.ASC_KEY_ID != '' && secrets.ASC_ISSUER_ID != '' && secrets.APPLE_TEAM_ID != '' }}
+      ONLY: ${{ github.event.inputs.only }}
+    steps:
+      - name: 이번에 빌드할 앱인지
+        id: go
+        run: |
+          if [ -z "$ONLY" ] || [ "$ONLY" = "${{ matrix.app }}" ]; then echo "run=true" >> $GITHUB_OUTPUT; else echo "run=false" >> $GITHUB_OUTPUT; fi
+      - uses: actions/checkout@v5
+        if: steps.go.outputs.run == 'true'
+        with: { repository: "probe2928-crypto/${{ matrix.app }}", path: src }
+      - uses: actions/setup-node@v5
+        if: steps.go.outputs.run == 'true'
+        with: { node-version: 22 }
+      - name: Xcode 26 선택
+        if: steps.go.outputs.run == 'true'
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] && sudo xcode-select -s "$X"; xcodebuild -version
+      - name: 앱 화면 준비 + iOS 프로젝트
+        if: steps.go.outputs.run == 'true'
+        working-directory: src/app
+        run: |
+          npm install --no-audit --no-fund
+          node build-www.mjs
+          npx cap add ios
+          npm run assets -- --ios || true
+          V="$(node -p "require('./package.json').version")"
+          PL=ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $V" $PL || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" $PL || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName ${{ matrix.name }}" $PL || /usr/libexec/PlistBuddy -c "Add :CFBundleDisplayName string ${{ matrix.name }}" $PL
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" $PL || true
+          npx cap sync ios
+      - name: iOS 빌드 확인 (서명 없이)
+        if: steps.go.outputs.run == 'true' && env.HAS_ASC != 'true'
+        working-directory: src/app
+        run: |
+          xcodebuild $(ls -d ios/App/App.xcworkspace >/dev/null 2>&1 && echo -workspace ios/App/App.xcworkspace || echo -project ios/App/App.xcodeproj) -scheme App -configuration Release \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build -quiet
+          echo "시뮬레이터 빌드 성공 — App Store Connect 키가 Secrets에 들어오면 TestFlight 업로드까지 자동"
+      - name: 서명 빌드 → TestFlight 업로드
+        if: steps.go.outputs.run == 'true' && env.HAS_ASC == 'true'
+        working-directory: src/app
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          KEY="$RUNNER_TEMP/AuthKey_$ASC_KEY_ID.p8"
+          if echo "$ASC_KEY_P8" | grep -q "BEGIN PRIVATE KEY"; then printf '%s\n' "$ASC_KEY_P8" > "$KEY"; else echo "$ASC_KEY_P8" | base64 -d > "$KEY"; fi
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
+          xcodebuild $(ls -d ios/App/App.xcworkspace >/dev/null 2>&1 && echo -workspace ios/App/App.xcworkspace || echo -project ios/App/App.xcodeproj) -scheme App -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic PRODUCT_BUNDLE_IDENTIFIER=${{ matrix.bundle }} TARGETED_DEVICE_FAMILY=1 \
+            $AUTH archive -quiet
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/export" $AUTH
+          echo "${{ matrix.name }} 업로드 완료 — App Store Connect → TestFlight에서 확인"
