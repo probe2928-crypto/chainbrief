@@ -988,3 +988,28 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 .daypanel.fe::after{content:attr(data-fe);display:block;padding:22px 0 16px;color:var(--faint);font-size:var(--fs-small);border-bottom:1px solid var(--line)}
 .daytab .cnt{white-space:nowrap}
 #lsFilters .tab.dim:not([aria-pressed="true"]){color:var(--faint)}
+
+/* 속보: 홈 하단 '이전 속보' 줄 + /flash/ 아카이브 날짜 색인 (2026-10-29) */
+.wire-more{display:flex;align-items:baseline;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:28px;padding:22px 2px 20px;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);color:var(--ink);background:linear-gradient(90deg,var(--wash),transparent 70%) no-repeat;background-size:0 100%;transition:background-size .5s cubic-bezier(.2,.7,.2,1)}
+.wire-more:hover,.wire-more:focus-visible{background-size:100% 100%}
+.wm-l{font-family:var(--f-serif);font-size:var(--fs-lead);font-weight:700;letter-spacing:-.01em}
+.wm-l b{font-family:var(--f-num);font-weight:600;font-size:24px;margin-left:4px;font-variant-numeric:lining-nums}
+.wm-go{font-size:var(--fs-meta);color:var(--mute);border-bottom:1px solid currentColor;padding-bottom:2px;transition:color .2s}
+.wire-more:hover .wm-go{color:var(--ink)}
+.dayidx{display:flex;align-items:center;gap:20px;padding:14px 0 12px;border-bottom:1px solid var(--line)}
+.dayidx>.label{flex:none;color:var(--faint)}
+.di-row{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.di-row::-webkit-scrollbar{display:none}
+.di-row a{flex:none;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:9px;align-items:baseline;padding:4px 20px 4px 0;margin-right:20px;border-right:1px solid var(--line);color:var(--mute);transition:color .2s}
+.di-row a:last-child{border-right:0}
+.di-row a:hover,.di-row a:focus-visible{color:var(--ink)}
+.di-n{grid-row:1/3;font-family:var(--f-num);font-weight:600;font-size:30px;line-height:1;color:var(--ink);font-variant-numeric:lining-nums}
+.di-l{font-size:var(--fs-meta);line-height:1.35;white-space:nowrap}
+.di-c{font-family:var(--f-label);font-weight:500;font-size:var(--fs-meta);line-height:1.35;color:var(--faint);white-space:nowrap}
+#feed .day{scroll-margin-top:96px}
+@media (max-width:640px){.dayidx{gap:14px}.dayidx>.label{display:none}.di-n{font-size:26px}.wm-l{font-size:17px}.wire-more{margin-top:20px}}
+@media (prefers-reduced-motion:reduce){.wire-more{transition:none}}
+
+/* 거래소 페이백 탭: 세로 한글 자간 줄이고, 폰에서는 히어로 문구가 탭 밑으로 들어가지 않게 */
+.cbx-tab-l{letter-spacing:.02em}
+@media (max-width:959px){html:not(.adclean) .hero .slide-body,html:not(.adclean) .hero .hero-ui{padding-right:56px}}

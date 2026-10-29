@@ -100,6 +100,7 @@ const CH = tgChan(cfg, "ko");
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
 function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "" }) {
+  const navA = active === "flash/" ? "" : active; // 속보 아카이브는 '속보' 메뉴로 표시
   const full = title ? `${title} | ${cfg.name}` : `${cfg.nameEn} ${cfg.name} — ${cfg.tagline}`;
   const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
   return `<!doctype html>
@@ -110,7 +111,7 @@ function layout({ title, description = cfg.description, active = "", body, canon
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(description)}">
-${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${SITE_URL && canonical === active && ["", "listings/", "surge/", "news/", "market/", "contact/", "search/"].includes(active) ? [["ko", ""], ["en", "en/"], ["zh-Hans", "zh/"], ["x-default", ""]].map(([h, pre]) => `<link rel="alternate" hreflang="${h}" href="${abs(pre + active)}">`).join("") : ""}
+${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${SITE_URL && canonical === active && ["", "flash/", "listings/", "surge/", "news/", "market/", "contact/", "search/"].includes(active) ? [["ko", ""], ["en", "en/"], ["zh-Hans", "zh/"], ["x-default", ""]].map(([h, pre]) => `<link rel="alternate" hreflang="${h}" href="${abs(pre + active)}">`).join("") : ""}
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
@@ -128,10 +129,10 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
+  <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
 </header>
 <div class="tape" aria-label="실시간 시세"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
@@ -155,9 +156,9 @@ ${adBand}
   <div class="ft-base"><span>© ${NOW.getFullYear()} ${esc(cfg.nameEn)}</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
-<nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${TABS.some(([p]) => p === active) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>메뉴</button></nav>
+<nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${TABS.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>메뉴</button></nav>
 <div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="전체 메뉴"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="닫기">×</button></div>
-<nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a></nav>
+<nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a></nav>
 <div class="ns-langs"><a href="${u()}" aria-current="true">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
@@ -180,7 +181,7 @@ function flashItem(f) {
 </article>`;
 }
 // 날짜 구분: 보도니 숫자 + 월·요일 + 연도 — 지면 날짜 도장처럼
-const dayStamp = (d) => `<div class="day"><span class="day-n">${+dayKey(d).slice(-2)}</span><span class="day-l">${fmt(d, { month: "long" })} ${fmt(d, { weekday: "long" })}</span><span class="day-y num">${fmt(d, { year: "numeric" }).replace(/\D/g, "")}</span></div>`;
+const dayStamp = (d) => `<div class="day" id="d-${dayKey(d)}"><span class="day-n">${+dayKey(d).slice(-2)}</span><span class="day-l">${fmt(d, { month: "long" })} ${fmt(d, { weekday: "long" })}</span><span class="day-y num">${fmt(d, { year: "numeric" }).replace(/\D/g, "")}</span></div>`;
 function feedHTML(list, inline = "", at = 6) {
   if (!list.length) return `<div class="empty">첫 속보를 준비하고 있어요.</div>`;
   let out = "", last = "", n = 0;
@@ -351,7 +352,14 @@ const colorField = `<section class="cfield" aria-label="오늘의 시장"><div c
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(topArt.format || "오늘의 기사")} · ${esc(topArt.author || "편집국")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">읽기 →</span></a>` : ""}
 </div></section>`;
 
-// 홈: 라이브 속보
+// 홈: 라이브 속보 — 최근 2일(KST)만 (최소 24·최대 40건). 나머지는 /flash/ 아카이브
+const homeWire = (() => {
+  const days = [...new Set(flashes.map((f) => dayKey(f.date)))].slice(0, 2);
+  const l = flashes.filter((f) => days.includes(dayKey(f.date)));
+  return (l.length < 24 ? flashes.slice(0, 24) : l).slice(0, 40);
+})();
+const wireMore = (rest, href, l1, l2) => `<a class="wire-more" href="${href}"><span class="wm-l">${rest > 0 ? `${l1} <b class="num">${rest}</b>` : l1}</span><span class="wm-go">${l2} <span aria-hidden="true">→</span></span></a>`;
+const dayIndex = (list, cnt) => { const m = new Map(); for (const f of list) { const k = dayKey(f.date); if (!m.has(k)) m.set(k, { d: f.date, n: 0 }); m.get(k).n++; } return [...m.entries()].map(([k, v]) => `<a href="#d-${k}"><span class="di-n num">${+k.slice(-2)}</span><span class="di-l">${fmt(v.d, { month: "short" })} ${fmt(v.d, { weekday: "short" })}</span><span class="di-c">${cnt(v.n)}</span></a>`).join(""); };
 const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
@@ -361,12 +369,32 @@ write("index.html", layout({
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">새 속보 보기</button></div>
-    <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div>
+    <div id="feed">${feedHTML(homeWire, CH ? CH.inline : "")}</div>
     <div class="empty" id="noMatch" hidden>조건에 맞는 속보가 없어요.</div>
+    ${wireMore(flashes.length - homeWire.length, u("flash/"), "이전 속보", "날짜별로 전체 보기")}
   </section></div>
   ${rail(listingRail + `<section class="block"><div class="block-head"><h2>해외 헤드라인</h2><span class="label">Global</span></div>${headlineList(hlItems.slice(0, 6))}<a class="more" href="${u("news/")}">더 보기</a></section>`)}
 </main></div>`,
 }));
+
+// 속보 아카이브 /flash/ — 날짜 색인 + 전체 속보 + 분류·검색
+{
+  const arch = flashes.slice(0, 400);
+  const pick = [...flashes.filter((f) => f.important), ...flashes].filter((f, i, a) => a.indexOf(f) === i).slice(0, 4);
+  const slides = pick.map((f) => ({ art: ART[f.category] || "blue-hour", eye: `속보 · ${esc(f.category || "시장")} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 110), href: u(`flash/${f.id}/`), cta: "속보 읽기" }));
+  write("flash/index.html", layout({
+    title: "속보 아카이브", description: `체인브리프 라이브 속보 ${arch.length}건을 날짜별로 다시 봅니다.`, active: "flash/", canonical: "flash/",
+    body: `${hero(slides, "sm", "주요 속보")}<div class="wrap"><main class="grid"><div class="col"><section>
+    ${secHead("Wire Archive", "속보 아카이브", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
+    <nav class="dayidx" aria-label="날짜로 이동"><span class="label">Dates</span><div class="di-row">${dayIndex(arch, (n) => `${n}건`)}</div></nav>
+    <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
+    <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">새 속보 보기</button></div>
+    <div id="feed">${feedHTML(arch)}</div>
+    <div class="empty" id="noMatch" hidden>조건에 맞는 속보가 없어요.</div>
+    ${wireMore(0, u(""), "최근 속보는 홈에서 실시간으로", "라이브 속보로")}
+  </section></div>${rail()}</main></div>`,
+  }));
+}
 
 // 속보 상세
 flashes.forEach((f, i) => {
@@ -719,7 +747,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");

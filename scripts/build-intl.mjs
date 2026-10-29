@@ -73,7 +73,8 @@ const ED = {
     nav: [["", "Live"], ["news/", "News"], ["market/", "Markets"], ["surge/", "Surge"], projectNav("en"), ["contact/", "Contact"], ["listings/", "Listings"]],
     tabs: [["", "Live", "live"], ["news/", "News", "news"], ["market/", "Markets", "mkt"], ["surge/", "Surge", "surge"]], menuL: "Menu", searchL: "Search", closeL: "Close",
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
-    all: "All", breaking: "Breaking", liveTitle: "Live Wire", search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
+    all: "All", breaking: "Breaking", liveTitle: "Live Wire",
+    wa: { title: "Wire archive", desc: "Every CHAINBRIEF wire story, by date — {n} items.", dates: "Jump to a date", earlier: "Earlier stories", byDate: "Browse the full archive", n: "{n}", backL: "The newest stories update live on the front page", back: "Back to Live Wire", eye: "Wire", read: "Read the story", hero: "Top wire stories" }, search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
     emptyFeed: "The first stories are on their way.", headlinesT: "Global Headlines", more: "More", marketsT: "Markets", allMarkets: "All markets",
     moodT: "Market Mood", kimp: "BTC Kimchi premium", dom: "BTC dominance", koreaListings: "Latest Listings", allListings: "All listings",
     contactT: "Tips · Ads · Partnerships", contactX: `Message us on Telegram @${cfg.telegram}.`, openTg: "Open Telegram",
@@ -122,7 +123,8 @@ const ED = {
     nav: [["", "快讯"], ["news/", "新闻"], ["market/", "行情"], ["surge/", "异动"], projectNav("zh"), ["contact/", "联系"], ["listings/", "上币"]],
     tabs: [["", "快讯", "live"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"], ["surge/", "异动", "surge"]], menuL: "菜单", searchL: "搜索", closeL: "关闭",
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
-    all: "全部", breaking: "重要", liveTitle: "7×24 快讯", search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
+    all: "全部", breaking: "重要", liveTitle: "7×24 快讯",
+    wa: { title: "快讯档案", desc: "按日期回看链报全部 7×24 快讯，共 {n} 条。", dates: "按日期跳转", earlier: "更早的快讯", byDate: "按日期查看全部", n: "{n} 条", backL: "最新快讯在首页实时更新", back: "返回 7×24 快讯", eye: "快讯", read: "阅读快讯", hero: "重点快讯" }, search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
     emptyFeed: "首批快讯即将上线。", headlinesT: "全球头条", more: "更多", marketsT: "主要行情", allMarkets: "全部行情",
     moodT: "市场情绪", kimp: "BTC 泡菜溢价", dom: "BTC 市占率", koreaListings: "最新上币", allListings: "全部上币",
     contactT: "爆料 · 广告 · 合作", contactX: `请通过 Telegram @${cfg.telegram} 联系我们。`, openTg: "打开 Telegram",
@@ -197,7 +199,7 @@ const ABOUT = {
   },
 };
 
-const SHARED_PAGES = ["", "listings/", "surge/", "news/", "market/", "contact/", "search/"];
+const SHARED_PAGES = ["", "flash/", "listings/", "surge/", "news/", "market/", "contact/", "search/"];
 
 const ICON = {
   live: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
@@ -249,6 +251,7 @@ for (const L of [ED.en, ED.zh]) {
   const adBand = ADS.length ? `<section class="adband" aria-label="${esc(L.partnersT)}"><div class="wrap"><div class="adband-head"><span class="label">${esc(L.partnersT)}</span><span class="label">${esc(L.partnersX)}</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 
   function layout({ title, description = L.description, active = "", body, canonical = "", type = "website", extraScript = "", float = true }) {
+    const navA = active === "flash/" ? "" : active; // 속보 아카이브는 Live 메뉴로 표시
     const full = title ? `${title} | ${L.name}` : `${L.name} — ${L.tagline}`;
     const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
     // hreflang은 세 에디션에 같은 페이지가 있는 섹션 페이지에만 (기사·속보는 에디션마다 다른 글이라 제외) + x-default=KO
@@ -275,7 +278,7 @@ ${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(can
 <div class="topline"><div class="wrap"><span class="tl-l">${langSwitch(active)}<span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="${esc(L.S.title)}">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> ${L.tzL}</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(L.name)} ${esc(L.homeLabel)}">CHAINBRIEF</a>${topAd(ADS[1], "r")}</div>
-  <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="${esc(L.S.title)}" title="${esc(L.S.title)} ( / )">${SEARCH_SVG}</a></nav>
+  <nav class="top"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">CHAINBRIEF</a>${L.nav.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="${esc(L.S.title)}" title="${esc(L.S.title)} ( / )">${SEARCH_SVG}</a></nav>
 </header>
 <div class="tape"><div class="wrap">${tape}</div></div>
 ${ADS.length >= 2 ? `<div class="topads-m">${topAd(ADS[0], "l", true)}${topAd(ADS[1], "r", true)}</div>` : ""}
@@ -293,9 +296,9 @@ ${adBand}
   <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
-<nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${L.tabs.some(([p]) => p === active) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>${esc(L.menuL)}</button></nav>
+<nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${L.tabs.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>${esc(L.menuL)}</button></nav>
 <div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="${esc(L.menuL)}"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="${esc(L.closeL)}">×</button></div>
-<nav class="ns-links">${L.nav.map(([p, l]) => `<a href="${u(p)}"${active === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">${esc(L.searchL)}</a></nav>
+<nav class="ns-links">${L.nav.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">${esc(L.searchL)}</a></nav>
 <div class="ns-langs"><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en"${L.code === "en" ? ' aria-current="true"' : ""}>English</a><a href="${asset("zh/")}" lang="zh-Hans"${L.code === "zh" ? ' aria-current="true"' : ""}>中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
@@ -329,7 +332,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   function feedHTML(list, inline = "", at = 6) {
     if (!list.length) return `<div class="empty">${esc(L.emptyFeed)}</div>`;
     let out = "", last = "", n = 0;
-    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day"><span class="day-n">${+k.slice(-2)}</span><span class="day-l">${fmt(f.date, { month: "long" })}${L.locale.startsWith("zh") ? " " : " · "}${fmt(f.date, { weekday: "long" })}</span><span class="day-y num">${k.slice(0, 4)}</span></div>`; last = k; } out += flashItem(f); if (inline && ++n === at) out += inline; }
+    for (const f of list) { const k = dayKey(f.date); if (k !== last) { out += `<div class="day" id="d-${k}"><span class="day-n">${+k.slice(-2)}</span><span class="day-l">${fmt(f.date, { month: "long" })}${L.locale.startsWith("zh") ? " " : " · "}${fmt(f.date, { weekday: "long" })}</span><span class="day-y num">${k.slice(0, 4)}</span></div>`; last = k; } out += flashItem(f); if (inline && ++n === at) out += inline; }
     return out;
   }
   const headlineList = (items) => items.length ? `<ul class="hl">${items.map((h) => `<li><a href="${esc(h.url)}" target="_blank" rel="noopener nofollow">${esc(h.title)}</a><span class="src"><b>${esc(h.source)}</b><time data-rel="${h.date.toISOString()}">${fmt(h.date, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })}</time></span></li>`).join("")}</ul>` : `<div class="empty">—</div>`;
@@ -369,15 +372,38 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(L.cf[4])} · ${esc(topArt.author || "")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">${esc(L.readMore)} →</span></a>` : ""}
 </div></section>`;
   const cats = [["전체", L.all], ["중요", L.breaking], ...L.cats.map((c) => [c, c])];
+  // 홈은 최근 2일 속보만 (최소 24·최대 40건) — 나머지는 /flash/ 아카이브
+  const homeWire = (() => { const days = [...new Set(flashes.map((f) => dayKey(f.date)))].slice(0, 2); const l = flashes.filter((f) => days.includes(dayKey(f.date))); return (l.length < 24 ? flashes.slice(0, 24) : l).slice(0, 40); })();
+  const wireMore = (rest, href, l1, l2) => `<a class="wire-more" href="${href}"><span class="wm-l">${esc(l1)}${rest > 0 ? ` <b class="num">${rest}</b>` : ""}</span><span class="wm-go">${esc(l2)} <span aria-hidden="true">→</span></span></a>`;
+  const dayIndex = (list) => { const m = new Map(); for (const f of list) { const k = dayKey(f.date); if (!m.has(k)) m.set(k, { d: f.date, n: 0 }); m.get(k).n++; } return [...m.entries()].map(([k, v]) => `<a href="#d-${k}"><span class="di-n num">${+k.slice(-2)}</span><span class="di-l">${fmt(v.d, { month: "short" })} ${fmt(v.d, { weekday: "short" })}</span><span class="di-c">${esc(fm(L.wa.n, { n: v.n }))}</span></a>`).join(""); };
   write(`${P}index.html`, layout({
     active: "", canonical: "",
     body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Live Wire", esc(L.liveTitle), `<label class="search"><span class="sr">${esc(L.search)}</span><input id="q" type="search" placeholder="${esc(L.search)}"></label>`)}
     <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
-    <div id="feed">${feedHTML(flashes.slice(0, 150), CH ? CH.inline : "")}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
+    <div id="feed">${feedHTML(homeWire, CH ? CH.inline : "")}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
+    ${wireMore(flashes.length - homeWire.length, u("flash/"), L.wa.earlier, L.wa.byDate)}
   </section></div>${rail(listingRail + hlRail)}</main></div>`,
   }));
+
+  // 속보 아카이브 /flash/
+  {
+    const arch = flashes.slice(0, 400);
+    const pick = [...flashes.filter((f) => f.important), ...flashes].filter((f, i, a) => a.indexOf(f) === i).slice(0, 4);
+    const slides = pick.map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(L.wa.eye)} · ${esc(f.category || "")} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 140), href: u(`flash/${f.id}/`), cta: L.wa.read }));
+    write(`${P}flash/index.html`, layout({
+      title: L.wa.title, description: fm(L.wa.desc, { n: arch.length }), active: "flash/", canonical: "flash/",
+      body: `${hero(slides, "sm", L.wa.hero)}<div class="wrap"><main class="grid"><div class="col"><section>
+    ${secHead("Wire Archive", esc(L.wa.title), `<label class="search"><span class="sr">${esc(L.search)}</span><input id="q" type="search" placeholder="${esc(L.search)}"></label>`)}
+    <nav class="dayidx" aria-label="${esc(L.wa.dates)}"><span class="label">Dates</span><div class="di-row">${dayIndex(arch)}</div></nav>
+    <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
+    <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
+    <div id="feed">${feedHTML(arch)}</div><div class="empty" id="noMatch" hidden>${esc(L.noMatch)}</div>
+    ${wireMore(0, u(), L.wa.backL, L.wa.back)}
+  </section></div>${rail()}</main></div>`,
+    }));
+  }
 
   // 속보 상세
   flashes.forEach((f, i) => {
