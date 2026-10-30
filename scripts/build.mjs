@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -170,13 +170,14 @@ ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` 
 }
 const secHead = (label, title, aside = "", tag = "h1") => `<div class="sec"><div><span class="label">${label}</span><${tag}>${title}</${tag}></div>${aside ? `<div class="aside">${aside}</div>` : ""}</div>`;
 
+const chips = (t, b) => coinChips(coinsIn(t, b), { coins: cfg.coins, href: u("market/"), krw: true, label: "관련 코인 · 현재 시세와 24시간 변동" });
 function flashItem(f) {
   return `<article class="item${f.important ? " imp" : ""}" data-cat="${esc(f.category || "")}" data-imp="${f.important ? 1 : 0}">
   <time datetime="${f.date.toISOString()}">${hhmm(f.date)}</time>
   <div style="min-width:0">
     <h3><a href="${u(`flash/${f.id}/`)}">${esc(f.title)}</a></h3>
     ${f.body ? `<div class="body">${markdown(f.body)}</div>` : ""}
-    <div class="meta">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}</div>
+    <div class="meta">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}${chips(f.title, f.body)}</div>
   </div>
 </article>`;
 }
@@ -406,6 +407,7 @@ flashes.forEach((f, i) => {
     <div class="col"><article class="doc">
       <div class="kicker">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1>
+      ${coinsIn(f.title, f.body).length ? `<p class="cc-line"><span class="cc-l">관련 코인</span>${chips(f.title, f.body)}</p>` : ""}
       <div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn" href="${u()}">속보 목록</a></div>
       ${CH ? CH.card : ""}
@@ -545,6 +547,7 @@ articles.forEach((a, i) => {
       <div class="kicker">${catTag(a)}${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>
       ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
+      ${coinsIn(a.title, a.summary).length ? `<p class="cc-line"><span class="cc-l">관련 코인</span>${chips(a.title, a.summary)}</p>` : ""}
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>

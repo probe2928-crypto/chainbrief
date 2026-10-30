@@ -78,14 +78,14 @@
     for (const c of CB.coins) {
       const d = data[c.id]; if (!d) continue;
       const prev = last[c.id]?.usd;
-      $$(`[data-tape="${c.id}"], [data-row="${c.id}"]`).forEach((el) => {
+      $$(`[data-tape="${c.id}"], [data-row="${c.id}"], [data-chip="${c.id}"]`).forEach((el) => {
         const p = $(".p", el), ch = $(".c", el);
         if (p) {
-          p.textContent = (el.dataset.tape ? "$" : "") + usd(d.usd);
+          p.textContent = (el.dataset.tape || el.dataset.chip ? "$" : "") + usd(d.usd);
           if (prev && prev !== d.usd) { p.classList.remove("flash-up", "flash-down"); void p.offsetWidth; p.classList.add(d.usd > prev ? "flash-up" : "flash-down"); }
         }
         if (ch) { ch.textContent = pct(d.usd_24h_change); ch.className = "num c " + dir(d.usd_24h_change); }
-        const k = $(".krw", el); if (k) k.textContent = d.upbit ? krw(d.upbit) : "—";
+        const k = $(".krw", el); if (k) k.textContent = d.upbit ? krw(d.upbit) + (el.dataset.chip ? T.won : "") : "—";
         const kp = $(".kimp", el); if (kp) { kp.textContent = d.kimp == null ? "—" : pct(d.kimp); kp.className = "num kimp " + (d.kimp == null ? "" : dir(d.kimp)); }
         const v = $(".vol", el); if (v) v.textContent = d.krw_24h_vol ? eok(d.krw_24h_vol) : "—";
       });

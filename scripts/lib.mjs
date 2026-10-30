@@ -191,3 +191,36 @@ export function globalRail({ data, S, esc, rel, hhmm, href, more }) {
   ${items.map((i) => { const d = new Date(i.time); return `<div class="lst c gl-mini"><time datetime="${d.toISOString()}"><span class="lc-d">${esc(d > Date.now() ? (S.upcoming || "Soon") : rel(d))}</span><span class="lc-h num">${hhmm(d)}</span></time><div style="min-width:0"><div class="coin">${esc(i.symbols.join(" · "))}</div><div class="lc-m"><span class="lc-ex">${GL_EX[i.exchange] || esc(i.exchange)}</span><span class="ty ${esc(i.type)}">${esc(tyLabel(i.type))}</span></div></div></div>`; }).join("")}
   <a class="more" href="${href}">${esc(more)}</a></section>`;
 }
+
+// 관련 코인 시세 칩 — 속보·기사 제목/본문에 나온 주요 코인을 찾아 현재가·24시간 변동 칩으로 (app.js가 [data-chip]을 채움)
+// 코인니스 벤치마크(2026-10-30): 뉴스 옆에서 바로 해당 코인 시세 확인
+const COIN_RX = {
+  bitcoin: [/(?<![A-Za-z])(BTC|Bitcoin|bitcoin)(?![A-Za-z])/, /(?<![가-힣])비트코인/, /比特币/],
+  ethereum: [/(?<![A-Za-z])(ETH|Ethereum|Ether)(?![A-Za-z])/, /(?<![가-힣])이더리움/, /以太坊|以太币/],
+  ripple: [/(?<![A-Za-z])XRP(?![A-Za-z])/, /(?<![가-힣])리플(?!랩스)/, /瑞波币/],
+  solana: [/(?<![A-Za-z])(SOL|Solana)(?![A-Za-z])/, /(?<![가-힣])솔라나/, /索拉纳|Solana/],
+  binancecoin: [/(?<![A-Za-z])BNB(?![A-Za-z])/],
+  dogecoin: [/(?<![A-Za-z])(DOGE|Dogecoin)(?![A-Za-z])/, /(?<![가-힣])도지코인/, /狗狗币/],
+  cardano: [/(?<![A-Za-z])(ADA|Cardano)(?![A-Za-z])/, /(?<![가-힣])(에이다|카르다노)/, /艾达币|卡尔达诺/],
+  tron: [/(?<![A-Za-z])(TRX|Tron|TRON)(?![A-Za-z])/, /(?<![가-힣])트론(?![가-힣])/, /波场/],
+};
+export function coinsIn(title = "", body = "", max = 3) {
+  const txt = (s) => String(s).replace(/\]\([^)]*\)/g, "]").replace(/https?:\/\/\S+/g, "").replace(/[A-Z·\/]*\bBTC\b[A-Z·\/]*\s*(마켓|markets?|市场)/g, "");
+  const t = txt(title), b = txt(body), hits = [];
+  for (const [id, rxs] of Object.entries(COIN_RX)) {
+    let pos = Infinity;
+    for (const rx of rxs) { const m = t.match(rx); if (m) pos = Math.min(pos, m.index); else { const n = b.match(rx); if (n) pos = Math.min(pos, 1e6 + n.index); } }
+    if (pos < Infinity) hits.push([pos, id]);
+  }
+  return hits.sort((a, b) => a[0] - b[0]).slice(0, max).map((h) => h[1]);
+}
+/** coins = cfg.coins, krw = 한국어판(원화 가격), label = 접근성 설명 */
+export function coinChips(ids, { coins, href, krw = false, label = "" }) {
+  if (!ids.length) return "";
+  const by = Object.fromEntries(coins.map((c) => [c.id, c]));
+  return `<span class="cc-row" aria-label="${label}">${ids.map((id) => {
+    const c = by[id]; if (!c) return "";
+    const won = krw && c.upbit !== false;
+    return `<a class="cc" href="${href}" data-chip="${id}"${won ? " data-won" : ""}><b>${c.symbol}</b><span class="num ${won ? "krw" : "p"}">—</span><span class="num c">—</span></a>`;
+  }).join("")}</span>`;
+}

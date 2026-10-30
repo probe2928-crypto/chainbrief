@@ -5,7 +5,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -36,7 +36,8 @@ function frontmatter(src) {
     v = q ? q[2] : v.replace(/\s+#\s.*$/, "");
     if (v === "true") v = true; else if (v === "false") v = false;
     const k = line.slice(0, i).trim();
-    data[k] = /^(title|summary|dek|subtitle)$/.test(k) ? smartQuotes(v) : v;
+    // 중문 제목: 숫자와 단위(万·亿·美元…)가 줄 끝·줄 앞으로 갈라지지 않게 단어 결합자
+    data[k] = /^(title|summary|dek|subtitle)$/.test(k) && typeof v === "string" ? smartQuotes(v).replace(/(\d)(?=[万亿千百]|美元|港元|枚|%)/g, "$1\u2060") : v;
   }
   return { data, body: m[2].trim() };
 }
@@ -88,6 +89,7 @@ const ED = {
     updated: "Updated {t}", every15: "checked every 15 min",
     surgeTitle: "Surge Radar", surgeDesc: "Live top movers on Upbit and Bithumb KRW markets: 5-minute spikes, volume surges, 52-week highs, new-listing performance and cross-exchange gaps.",
     newsTitle: "News", catAll: "All", catN: "{n} stories", catOther: "Other section", catAria: "Stories by section", catDek: { Policy: "Bills, tax and supervision — where regulation reshapes market structure.", Markets: "Prices, flows and the reasons behind them.", Industry: "Companies, projects and where the money moves.", Exchanges: "Listings, warnings and the race between venues.", Technology: "Protocols, security and what code changes.", Global: "Major markets and the regulators that shape them." }, editorial: "CHAINBRIEF Analysis", region: "US · Europe · Singapore",
+    ccLabel: "Coins mentioned", ccAria: "Coins mentioned · current price and 24h change",
     marketTitle: "Live Prices", marketDesc: "Global USD prices, Upbit KRW prices and the Kimchi premium, refreshed every minute.",
     kimpNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute.",
     th: ["Coin", "USD", "Upbit KRW", "24H", "Kimchi", "Volume"],
@@ -138,6 +140,7 @@ const ED = {
     updated: "{t} 更新", every15: "每 15 分钟检查",
     surgeTitle: "异动雷达", surgeDesc: "Upbit、Bithumb 韩元市场实时异动：5 分钟急涨、成交放量、52 周新高、新币表现与交易所价差。",
     newsTitle: "新闻", catAll: "全部", catN: "{n} 篇", catOther: "其他栏目", catAria: "按栏目浏览", catDek: { 政策: "法案、税制与监管——规则改变市场结构的地方。", 市场: "价格与资金流向，以及背后的原因。", 产业: "企业与项目，资金流动的方向。", 交易所: "上币、警示与交易所之间的竞争。", 技术: "协议与安全，代码带来的改变。", 海外: "全球主要市场与监管机构的动向。" }, editorial: "链报分析", region: "香港 · 新加坡",
+    ccLabel: "相关币种", ccAria: "相关币种 · 当前价格与 24 小时涨跌",
     marketTitle: "实时行情", marketDesc: "全球美元价格、Upbit 韩元价格与泡菜溢价，每分钟更新。",
     kimpNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。",
     th: ["币种", "美元", "Upbit 韩元", "24H", "溢价", "成交额"],
@@ -328,7 +331,9 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const artSlide = (a) => ({ art: ART[a.category], eye: `${esc(a.region || a.category || "")} · ${esc(a.author || L.name)}`, title: a.title, dek: a.summary || plain(a.body).slice(0, 140), href: u(`articles/${a.id}/`), cta: L.slideRead });
 
   // 파츠
-  const flashItem = (f) => `<article class="item${f.important ? " imp" : ""}" data-cat="${esc(f.category || "")}" data-imp="${f.important ? 1 : 0}"><time datetime="${f.date.toISOString()}">${hhmm(f.date)}</time><div style="min-width:0"><h3><a href="${u(`flash/${f.id}/`)}">${esc(f.title)}</a></h3>${f.body ? `<div class="body">${markdown(f.body)}</div>` : ""}<div class="meta">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}</div></div></article>`;
+  const chips = (t, b) => coinChips(coinsIn(t, b), { coins: cfg.coins, href: u("market/"), label: esc(L.ccAria) });
+  const ccLine = (t, b) => coinsIn(t, b).length ? `<p class="cc-line"><span class="cc-l">${esc(L.ccLabel)}</span>${chips(t, b)}</p>` : "";
+  const flashItem = (f) => `<article class="item${f.important ? " imp" : ""}" data-cat="${esc(f.category || "")}" data-imp="${f.important ? 1 : 0}"><time datetime="${f.date.toISOString()}">${hhmm(f.date)}</time><div style="min-width:0"><h3><a href="${u(`flash/${f.id}/`)}">${esc(f.title)}</a></h3>${f.body ? `<div class="body">${markdown(f.body)}</div>` : ""}<div class="meta">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}${chips(f.title, f.body)}</div></div></article>`;
   function feedHTML(list, inline = "", at = 6) {
     if (!list.length) return `<div class="empty">${esc(L.emptyFeed)}</div>`;
     let out = "", last = "", n = 0;
@@ -412,7 +417,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: f.title, description: plain(f.body || f.title).slice(0, 160), canonical: `flash/${f.id}/`, type: "article",
       body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
-      <h1>${esc(f.title)}</h1><div class="prose">${markdown(f.body || "")}</div>
+      <h1>${esc(f.title)}</h1>${ccLine(f.title, f.body)}<div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${CH ? CH.card : ""}</article>
       ${near.length ? `<section>${secHead("Also", esc(L.alsoT), "", "h2")}${near.map(flashItem).join("")}</section>` : ""}</div>${rail()}</main></div>`,
     }));
@@ -483,7 +488,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
       body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
-      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
+      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>

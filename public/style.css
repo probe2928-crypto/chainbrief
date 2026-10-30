@@ -1013,3 +1013,19 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 /* 거래소 페이백 탭: 세로 한글 자간 줄이고, 폰에서는 히어로 문구가 탭 밑으로 들어가지 않게 */
 .cbx-tab-l{letter-spacing:.02em}
 @media (max-width:959px){html:not(.adclean) .hero .slide-body,html:not(.adclean) .hero .hero-ui{padding-right:56px}}
+
+/* 관련 코인 시세 칩 (속보·기사) — 심볼은 뉴스리더, 가격·변동은 Jost, 헤어라인 밑줄만 */
+.cc-row{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 16px;margin-left:auto}
+.cc{display:inline-flex;align-items:baseline;gap:7px;padding:0 0 2px;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none!important;transition:border-color .3s}
+.cc:hover,.cc:focus-visible{border-color:var(--ink)}
+.cc b{font-family:var(--f-num);font-weight:600;font-size:14px;letter-spacing:.03em}
+.cc .num{font-size:13px}
+.cc .krw,.cc .p{color:var(--mute)}
+.cc-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin:-4px 0 24px}
+.cc-line .cc-l{font-family:var(--f-sans);font-size:var(--fs-meta);color:var(--mute)}
+.cc-line .cc-row{margin-left:0}
+@media (max-width:640px){
+  .cc-row{margin-left:0}
+  .item .cc .krw,.item .cc .p{display:none}
+}
+@media (prefers-reduced-motion:reduce){.cc{transition:none}}
