@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Bodoni;src:url(file:///tmp/gf/ofl/bodonimoda/BodoniModa[opsz,wght].ttf)}
+@font-face{font-family:BodoniI;src:url(file:///tmp/gf/ofl/bodonimoda/BodoniModa-Italic[opsz,wght].ttf)}
+@font-face{font-family:Jost;src:url(file:///tmp/gf/ofl/jost/Jost[wght].ttf)}
+@font-face{font-family:News;src:url(file:///tmp/gf/ofl/newsreader/Newsreader[opsz,wght].ttf)}
+@font-face{font-family:SC;src:url(file:///tmp/gf/ofl/notoserifsc/NotoSerifSC[wght].ttf)}
+@font-face{font-family:SCS;src:url(file:///tmp/gf/ofl/notosanssc/NotoSansSC[wght].ttf)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#F2EADF}
+#st{position:relative;width:1080px;height:1920px;overflow:hidden;background:#F2EADF;color:#111}
+#bg{position:absolute;inset:-10%;background:radial-gradient(ellipse at 75% 10%,rgba(255,255,255,.7),transparent 55%),radial-gradient(ellipse at 15% 95%,rgba(176,138,74,.16),transparent 55%)}
+.tag{font-family:Jost;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:#5A544B}
+.zh .tag{font-family:Jost,SCS}
+.wm{font-family:Bodoni;font-variation-settings:"opsz" 11;font-weight:500;letter-spacing:.3em}
+.red{color:#B3211C}.dot{display:inline-block;border-radius:50%;background:#B3211C}
+.layer{position:absolute;inset:0;opacity:0}
+/* top bar */
+#top{position:absolute;left:90px;right:90px;top:120px;bottom:auto;display:flex;justify-content:space-between;align-items:center;font-size:24px;z-index:5}
+#top .wm{font-size:30px;letter-spacing:.28em}
+#segs{position:absolute;left:90px;right:90px;top:84px;display:flex;gap:10px;z-index:5}
+#segs i{flex:1;height:4px;background:rgba(17,17,17,.14);position:relative;overflow:hidden}
+#segs i b{position:absolute;left:0;top:0;bottom:0;background:#111;width:0}
+/* intro */
+#intro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#intro .C{font-family:BodoniI;font-variation-settings:"opsz" 96;font-size:420px;line-height:1;position:relative}
+#intro .C .dot{width:40px;height:40px;position:absolute;right:-56px;bottom:62px}
+#intro .wm{font-size:64px;margin-top:40px;text-indent:.3em}
+#intro .d{font-size:26px;margin-top:34px}
+/* card */
+.card{padding:0 90px;display:flex;flex-direction:column;justify-content:center}
+.card .meta{font-size:24px;display:flex;align-items:center;gap:22px}
+.card .brk{font-family:Jost;font-weight:500;letter-spacing:.3em;color:#fff;background:#B3211C;padding:8px 16px 7px 20px;font-size:22px}
+.card .rule{height:2px;background:#111;margin:40px 0 46px;transform-origin:left}
+.card h1{font-family:Bodoni;font-variation-settings:"opsz" 14;font-weight:550;font-size:86px;line-height:1.08;letter-spacing:-.012em}
+.zh .card h1{font-family:SC;font-weight:700;font-size:82px;line-height:1.28;letter-spacing:.01em}
+.card p{font-family:News;font-variation-settings:"opsz" 16;font-size:40px;line-height:1.45;color:#2A2723;margin-top:48px}
+.zh .card p{font-family:SCS;font-weight:400;font-size:38px;line-height:1.7}
+.card .n{position:absolute;right:90px;bottom:250px;font-family:BodoniI;font-variation-settings:"opsz" 96;font-size:200px;color:rgba(17,17,17,.07);line-height:1}
+#foot{position:absolute;left:90px;right:90px;bottom:140px;top:auto;display:flex;justify-content:space-between;font-size:22px;z-index:5}
+/* outro */
+#outro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 90px}
+#outro .h{font-family:Bodoni;font-variation-settings:"opsz" 14;font-weight:500;font-size:96px;line-height:1.1}
+.zh #outro .h{font-family:SC;font-weight:700;font-size:88px;line-height:1.3}
+#outro .h em{font-family:BodoniI;font-style:normal;color:#B3211C}
+.zh #outro .h em{font-family:SC;color:#B3211C}
+#outro .wm{font-size:58px;margin-top:70px;text-indent:.3em}
+#outro .s{font-size:26px;margin-top:30px}
+</style></head><body><div id="st"><div id="bg"></div>
+<div id="segs"></div>
+<div id="top" class="layer"><span class="wm">CHAINBRIEF</span><span class="tag" id="topr"></span></div>
+<div id="intro" class="layer"><div class="C">C<span class="dot"></span></div><div class="wm">CHAINBRIEF</div><div class="tag d" id="introd"></div></div>
+<div id="cards"></div>
+<div id="outro" class="layer"><div class="h" id="outh"></div><div class="wm">CHAINBRIEF</div><div class="tag s" id="outs"></div></div>
+<div id="foot" class="layer tag"><span id="footl"></span><span id="footr"></span></div>
+</div>
+<script>
+const ease=x=>x<0?0:x>1?1:1-Math.pow(1-x,3), cl=x=>x<0?0:x>1?1:x;
+let D, T;
+function setup(data){
+  D=data; if(D.lang==='zh') document.body.classList.add('zh');
+  const L=D.labels;
+  document.getElementById('introd').textContent=L.intro;
+  document.getElementById('topr').textContent=L.top;
+  document.getElementById('outh').innerHTML=L.outro;
+  document.getElementById('outs').textContent=L.outroSub;
+  document.getElementById('footl').textContent=L.footL;
+  const c=document.getElementById('cards'), s=document.getElementById('segs');
+  D.items.forEach((it,i)=>{
+    const d=document.createElement('div'); d.className='layer card'; d.id='c'+i;
+    d.innerHTML=`<div class="meta tag">${it.breaking?`<span class="brk">${L.breaking}</span>`:''}<span>${it.cat}</span><span>·</span><span>${it.time}</span></div><div class="rule"></div><h1></h1><p></p><div class="n">${String(i+1).padStart(2,'0')}</div>`;
+    d.querySelector('h1').textContent=it.title; d.querySelector('p').textContent=it.dek; c.appendChild(d);
+    const g=document.createElement('i'); g.innerHTML='<b></b>'; s.appendChild(g);
+  });
+  T={intro:1.8, card:D.cardSec||5, outro:3};
+  return T.intro+D.items.length*T.card+T.outro;
+}
+function render(t){
+  const n=D.items.length, endCards=T.intro+n*T.card;
+  const intro=document.getElementById('intro');
+  const io=t<T.intro-0.35?ease(t/0.6):1-ease((t-(T.intro-0.35))/0.35);
+  intro.style.opacity=io; intro.style.transform=`translateY(${(1-ease(t/0.8))*30}px) scale(${1+t*0.01})`;
+  const chrome=t>T.intro-0.2&&t<endCards+0.1?cl((t-(T.intro-0.2))/0.4):0;
+  ['top','foot'].forEach(id=>document.getElementById(id).style.opacity=chrome);
+  document.getElementById('segs').style.opacity=chrome;
+  D.items.forEach((it,i)=>{
+    const s=T.intro+i*T.card, lt=t-s, el=document.getElementById('c'+i);
+    const seg=document.querySelectorAll('#segs b')[i]; seg.style.width=(cl(lt/T.card)*100)+'%';
+    if(lt<-0.1||lt>T.card+0.05){el.style.opacity=0;return;}
+    const out=lt>T.card-0.35?1-ease((lt-(T.card-0.35))/0.35):1;
+    el.style.opacity=Math.min(ease(lt/0.35),out);
+    el.querySelector('.meta').style.transform=`translateY(${(1-ease(lt/0.5))*24}px)`;
+    el.querySelector('.rule').style.transform=`scaleX(${ease((lt-0.1)/0.7)})`;
+    const h=el.querySelector('h1'); h.style.opacity=ease((lt-0.15)/0.5); h.style.transform=`translateY(${(1-ease((lt-0.15)/0.6))*46}px)`;
+    const p=el.querySelector('p'); p.style.opacity=ease((lt-0.55)/0.5); p.style.transform=`translateY(${(1-ease((lt-0.55)/0.6))*30}px)`;
+    el.querySelector('.n').style.transform=`translateY(${-lt*8}px)`;
+    document.getElementById('footr').textContent=`${String(i+1).padStart(2,'0')} / ${String(n).padStart(2,'0')}`;
+  });
+  const ot=t-endCards, o=document.getElementById('outro');
+  o.style.opacity=ot<0?0:ease(ot/0.5); o.style.transform=`translateY(${(1-ease(ot/0.7))*30}px)`;
+  document.getElementById('bg').style.transform=`translate(${Math.sin(t/4)*30}px,${Math.cos(t/5)*30}px)`;
+}
+</script></body></html>

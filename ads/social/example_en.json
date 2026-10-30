@@ -1,0 +1,8 @@
+{"lang":"en","cardSec":5,
+"labels":{"intro":"Daily Brief · Oct 30, 2026","top":"Daily Brief","breaking":"Breaking","footL":"Full stories · link in caption","outro":"The day in crypto,<br><em>briefed.</em>","outroSub":"Follow for daily briefs · EN · 中文"},
+"items":[
+{"breaking":true,"cat":"Exchanges","time":"12:25 UTC","title":"Binance sets aside $6.34 billion as analysts tie record hack to North Korea","dek":"TRM Labs and Chainalysis link the theft to the TraderTraitor unit. Withdrawals stay paused; Binance says customer assets won't be touched."},
+{"cat":"On-chain","time":"00:28 UTC","title":"Aave freezes all DAO-run V3 and V4 markets after the hacker borrows ETH","dek":"A wallet tied to the Binance attack posted stolen USDT as collateral and borrowed about 20,000 ETH. Withdrawals and repayments still work."},
+{"cat":"Exchanges","time":"12:28 UTC","title":"Coinbase Q3 profit hits $719 million as revenue falls 35%","dek":"Almost all of the profit came from gains on crypto it holds. Prediction markets passed $200 million in annualized revenue."},
+{"cat":"Bitcoin","time":"12:26 UTC","title":"Bitcoin ETFs eke out $17 million inflow as ether funds lose $105 million","dek":"A fourth straight day of inflows, but far below Wednesday's $137 million as the Binance hack hit prices."}
+]}

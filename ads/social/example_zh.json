@@ -1,0 +1,8 @@
+{"lang":"zh","cardSec":5,
+"labels":{"intro":"每日快讯 · 2026年10月30日","top":"每日快讯","breaking":"突发","footL":"全文链接见说明","outro":"加密世界的一天，<br><em>一次读懂。</em>","outroSub":"关注我们 · 每日更新 · 中文 · EN"},
+"items":[
+{"breaking":true,"cat":"交易所","time":"UTC 12:31","title":"币安预留63.4亿美元填补损失，链上机构指向朝鲜黑客","dek":"TRM Labs与Chainalysis判断攻击出自TraderTraitor；提现仍暂停，币安称不动用客户资产。"},
+{"cat":"链上","time":"UTC 00:22","title":"Aave冻结V3、V4全部DAO市场","dek":"黑客相关地址以USDT作抵押借出近2万枚ETH；用户仍可取款和还款，合约未受影响。"},
+{"cat":"稳定币","time":"UTC 00:24","title":"USD1、PAXG发行方加入冻结，涉币安被盗资产逾26亿美元","dek":"继Tether、Circle之后，World Liberty与Paxos也冻结了相关资产。"},
+{"cat":"交易所","time":"UTC 12:33","title":"Coinbase三季度净利7.19亿美元，营收同比降35%","dek":"利润主要来自所持加密资产的账面收益；预测市场年化收入突破2亿美元。"}
+]}
