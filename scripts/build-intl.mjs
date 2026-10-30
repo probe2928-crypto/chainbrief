@@ -77,7 +77,7 @@ const ED = {
     all: "All", breaking: "Breaking", liveTitle: "Live Wire",
     wa: { title: "Wire archive", desc: "Every CHAINBRIEF wire story, by date — {n} items.", dates: "Jump to a date", earlier: "Earlier stories", byDate: "Browse the full archive", n: "{n}", backL: "The newest stories update live on the front page", back: "Back to Live Wire", eye: "Wire", read: "Read the story", hero: "Top wire stories" }, search: "Search the wire", newBtn: "New stories", noMatch: "No stories match.",
     emptyFeed: "The first stories are on their way.", headlinesT: "Global Headlines", more: "More", marketsT: "Markets", allMarkets: "All markets",
-    moodT: "Market Mood", kimp: "BTC Kimchi premium", dom: "BTC dominance", koreaListings: "Latest Listings", allListings: "All listings",
+    moodT: "Market Mood", dom: "BTC dominance", koreaListings: "Latest Listings", allListings: "All listings",
     contactT: "Tips · Ads · Partnerships", contactX: `Message us on Telegram @${cfg.telegram}.`, openTg: "Open Telegram",
     disclaimer: "CHAINBRIEF content is for information only and is not investment advice. Third-party headlines remain the property of their publishers. Prices: CoinGecko, Upbit, Bithumb. Fear & Greed: Alternative.me.",
     readMore: "Read", copy: "Copy link", toWire: "Back to the wire", alsoT: "More from the wire",
@@ -90,15 +90,15 @@ const ED = {
     surgeTitle: "Surge Radar", surgeDesc: "Live top movers on Upbit and Bithumb KRW markets: 5-minute spikes, volume surges, 52-week highs, new-listing performance and cross-exchange gaps.",
     newsTitle: "News", catAll: "All", catN: "{n} stories", catOther: "Other section", catAria: "Stories by section", catDek: { Policy: "Bills, tax and supervision — where regulation reshapes market structure.", Markets: "Prices, flows and the reasons behind them.", Industry: "Companies, projects and where the money moves.", Exchanges: "Listings, warnings and the race between venues.", Technology: "Protocols, security and what code changes.", Global: "Major markets and the regulators that shape them." }, editorial: "CHAINBRIEF Analysis", region: "US · Europe · Singapore",
     ccLabel: "Coins mentioned", ccAria: "Coins mentioned · current price and 24h change",
-    marketTitle: "Live Prices", marketDesc: "Global USD prices, Upbit KRW prices and the Kimchi premium, refreshed every minute.",
-    kimpNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute.",
-    th: ["Coin", "USD", "Upbit KRW", "24H", "Kimchi", "Volume"],
+    marketTitle: "Live Prices", marketDesc: "Global USD prices next to Upbit KRW prices, refreshed every minute.",
+    kimpNote: "Refreshed every minute.",
+    th: ["Coin", "USD", "Upbit KRW", "24H", "Volume"],
     contactPage: "Tips, advertising and partnerships", contactBody: `Send us a message on Telegram and we will get back to you. If the button doesn't open, search for @${cfg.telegram} in Telegram.`, copyId: "Copy ID", weTake: "What we handle", weTakeL: ["News tips", "Advertising & banners", "Exchange & project partnerships", "Corrections"],
     notFound: "Page not found", notFoundX: "This page has moved or no longer exists.",
     slideRead: "Read the story", slideListings: "This week across 6 exchanges: {n} new listings", slideListingsCta: "See listings", slideSurge: "The coins moving fastest right now", slideSurgeX: "5-minute spikes, volume surges, 52-week highs and new-listing performance on one screen.", slideSurgeCta: "Open the radar",
-    cf: ["Bitcoin · USD", "Kimchi premium", "Market mood", "New listings · 7 days", "Analysis"], cfBasis: "Upbit BTC",
+    cf: ["Bitcoin · USD", "", "Market mood", "New listings · 7 days", "Analysis"], cfBasis: "Upbit BTC",
     surgeHero: [["5-minute spikes", "The coins that rose most in the last five minutes, tracked on 1-minute candles."], ["Volume surges", "Coins trading at 1.5× or more their normal five-minute volume."], ["52-week highs · New listings", "Coins near their highs, and how the last 30 days of listings are doing."]],
-    marketHero: [["Dollars and won, side by side", "Global prices next to Upbit's KRW prices, updated every minute."], ["The Kimchi premium", "How much more Korean traders pay than the rest of the world, coin by coin."]],
+    marketHero: [["Dollars and won, side by side", "Global prices next to Upbit's KRW prices, updated every minute."]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "Volume", volAll: "All", vol10: "₩1B+", vol100: "₩10B+", q: "Search coins (BTC, XRP…)", grp: [["Right Now", "Short-term signals"], ["24 Hours", "Today's movers"], ["Momentum", "Highs · New listings"]],
       boards: { rkShort: ["5 Min", "5-minute spikes", "Last 5 minutes · 1-minute candles"], rkSpike: ["Volume Spike", "Volume surges", "Last 5-min volume ÷ normal 5-min average"], rkUp: ["Top Gainers", "Top gainers"], rkDown: ["Top Losers", "Top losers"], rkVol: ["Volume", "Top volume"], rkGap: ["Upbit vs Bithumb", "Exchange gap", "Same coin, Upbit vs Bithumb KRW price"], rkHigh: ["52-Week High", "Near 52-week highs", "Current price vs 52-week high"], rkList: ["New Listings", "New-listing scorecard", "Listings in the last 30 days · vs first-day open"] },
       note: "KRW markets. 24h change is vs the previous close; short-term signals use 1-minute candles. Tap a row to open the exchange chart. For reference only, not investment advice." },
@@ -128,7 +128,7 @@ const ED = {
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯",
     wa: { title: "快讯档案", desc: "按日期回看链报全部 7×24 快讯，共 {n} 条。", dates: "按日期跳转", earlier: "更早的快讯", byDate: "按日期查看全部", n: "{n} 条", backL: "最新快讯在首页实时更新", back: "返回 7×24 快讯", eye: "快讯", read: "阅读快讯", hero: "重点快讯" }, search: "搜索快讯", newBtn: "有新快讯", noMatch: "没有符合条件的快讯。",
     emptyFeed: "首批快讯即将上线。", headlinesT: "全球头条", more: "更多", marketsT: "主要行情", allMarkets: "全部行情",
-    moodT: "市场情绪", kimp: "BTC 泡菜溢价", dom: "BTC 市占率", koreaListings: "最新上币", allListings: "全部上币",
+    moodT: "市场情绪", dom: "BTC 市占率", koreaListings: "最新上币", allListings: "全部上币",
     contactT: "爆料 · 广告 · 合作", contactX: `请通过 Telegram @${cfg.telegram} 联系我们。`, openTg: "打开 Telegram",
     disclaimer: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。外部头条版权归原媒体所有。行情来源：CoinGecko、Upbit、Bithumb；恐惧与贪婪指数：Alternative.me。",
     readMore: "阅读", copy: "复制链接", toWire: "返回快讯", alsoT: "相关快讯",
@@ -141,15 +141,15 @@ const ED = {
     surgeTitle: "异动雷达", surgeDesc: "Upbit、Bithumb 韩元市场实时异动：5 分钟急涨、成交放量、52 周新高、新币表现与交易所价差。",
     newsTitle: "新闻", catAll: "全部", catN: "{n} 篇", catOther: "其他栏目", catAria: "按栏目浏览", catDek: { 政策: "法案、税制与监管——规则改变市场结构的地方。", 市场: "价格与资金流向，以及背后的原因。", 产业: "企业与项目，资金流动的方向。", 交易所: "上币、警示与交易所之间的竞争。", 技术: "协议与安全，代码带来的改变。", 海外: "全球主要市场与监管机构的动向。" }, editorial: "链报分析", region: "香港 · 新加坡",
     ccLabel: "相关币种", ccAria: "相关币种 · 当前价格与 24 小时涨跌",
-    marketTitle: "实时行情", marketDesc: "全球美元价格、Upbit 韩元价格与泡菜溢价，每分钟更新。",
-    kimpNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。",
-    th: ["币种", "美元", "Upbit 韩元", "24H", "溢价", "成交额"],
+    marketTitle: "实时行情", marketDesc: "全球美元价格与 Upbit 韩元价格，每分钟更新。",
+    kimpNote: "每分钟更新。",
+    th: ["币种", "美元", "Upbit 韩元", "24H", "成交额"],
     contactPage: "爆料、广告与合作", contactBody: `通过 Telegram 给我们留言，我们会尽快回复。若按钮无法打开，请在 Telegram 中搜索 @${cfg.telegram}。`, copyId: "复制 ID", weTake: "我们受理", weTakeL: ["新闻爆料", "广告与横幅合作", "交易所与项目合作", "更正请求"],
     notFound: "页面不存在", notFoundX: "该页面已移动或已删除。",
     slideRead: "阅读全文", slideListings: "本周 6 家交易所新上币 {n} 个", slideListingsCta: "查看上币", slideSurge: "此刻涨得最快的币", slideSurgeX: "5 分钟急涨、成交放量、52 周新高与新币表现，一屏看全。", slideSurgeCta: "打开雷达",
-    cf: ["比特币 · 美元", "泡菜溢价", "市场情绪", "新上币 · 7 天", "分析"], cfBasis: "Upbit BTC",
+    cf: ["比特币 · 美元", "", "市场情绪", "新上币 · 7 天", "分析"], cfBasis: "Upbit BTC",
     surgeHero: [["5 分钟急涨", "以 1 分钟 K 线追踪过去 5 分钟涨幅最大的币。"], ["成交放量", "成交额达到平时 5 分钟均值 1.5 倍以上的币。"], ["52 周新高 · 新币成绩单", "接近高点的币，以及近 30 天新上币的表现。"]],
-    marketHero: [["美元与韩元，一目了然", "全球价格与 Upbit 韩元价格并列，每分钟更新。"], ["泡菜溢价", "韩国投资者比全球多付多少，逐币查看。"]],
+    marketHero: [["美元与韩元，一目了然", "全球价格与 Upbit 韩元价格并列，每分钟更新。"]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "成交额", volAll: "全部", vol10: "10亿韩元+", vol100: "100亿韩元+", q: "搜索币种（BTC、XRP…）", grp: [["Right Now", "短线信号"], ["24 Hours", "今日涨跌"], ["Momentum", "新高 · 新币"]],
       boards: { rkShort: ["5 Min", "5 分钟急涨", "最近 5 分钟 · 1 分钟 K 线"], rkSpike: ["Volume Spike", "成交放量", "最近 5 分钟成交额 ÷ 平时 5 分钟均值"], rkUp: ["Top Gainers", "涨幅榜"], rkDown: ["Top Losers", "跌幅榜"], rkVol: ["Volume", "成交额榜"], rkGap: ["Upbit vs Bithumb", "交易所价差", "同一币种在 Upbit 与 Bithumb 的韩元价差"], rkHigh: ["52-Week High", "接近 52 周新高", "现价 vs 52 周最高价"], rkList: ["New Listings", "新币成绩单", "近 30 天上币 · 相对首日开盘价"] },
       note: "韩元市场。24 小时涨跌相对前一日收盘，短线指标基于 1 分钟 K 线。点击可跳转交易所图表。仅供参考，不构成投资建议。" },
@@ -346,7 +346,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     return `<div class="lst" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time>${hhmm(i.date)}</time><div style="min-width:0"><div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div>${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow"${i.global ? ' lang="en"' : ""}>${esc(i.global ? i.title : L.notice)}</a></div>`}</div><div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div></div>`;
   };
   const marketRail = `<section class="block desk-only"><div class="block-head"><h2>${esc(L.marketsT)}</h2><span class="label">USD · 24H</span></div><table><tbody>${cfg.coins.slice(0, 6).map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num c"></td></tr>`).join("")}</tbody></table><a class="more" href="${u("market/")}">${esc(L.allMarkets)}</a></section>`;
-  const sentiment = `<section class="block"><div class="block-head"><h2>${esc(L.moodT)}</h2><span class="label">Fear &amp; Greed</span></div><div class="gauge"><div class="row"><span class="big" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--mute)"></span></div><div class="bar"><i id="fngBar" style="left:50%"></i></div><div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div></div><div class="kp"><div><small>${esc(L.kimp)}</small><strong class="num" id="kimpBtc">—</strong></div><div><small>${esc(L.dom)}</small><strong class="num" id="btcDom">—</strong></div></div></section>`;
+  const sentiment = `<section class="block"><div class="block-head"><h2>${esc(L.moodT)}</h2><span class="label">Fear &amp; Greed</span></div><div class="gauge"><div class="row"><span class="big" id="fngVal">—</span><span class="lbl" id="fngLbl"></span><span id="fngPrev" style="margin-left:auto;font-size:12px;color:var(--mute)"></span></div><div class="bar"><i id="fngBar" style="left:50%"></i></div><div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div></div><div class="kp"><div><small>${esc(L.dom)}</small><strong class="num" id="btcDom">—</strong></div></div></section>`;
   const recentL = allLs.filter((i) => isNew(i) && i.date <= NOW).slice(0, 5);
   const relDay = (d) => { const k = dayKey(d); return k === dayKey(NOW) ? L.today : L.code === "zh" && k === dayKey(new Date(NOW.getTime() - 864e5)) ? L.yday : L.code === "zh" ? fmt(d, { month: "numeric", day: "numeric" }) : fmt(d, { month: "short", day: "numeric" }); };
   const listingRailItem = (i) => { const c = i.coins[0] || { symbol: "" }; return `<div class="lst c" data-ex="${i.exchange}" data-type="${i.type}" data-sym="${esc(c.symbol)}"><time datetime="${i.date.toISOString()}"><span class="lc-d">${esc(relDay(i.date))}</span><span class="lc-h num">${hhmm(i.date)}</span></time><div style="min-width:0"><div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}</div><div class="lc-m"><span class="lc-ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${esc(L.ty[i.type] || "")}</span>${i.markets?.length ? `<span class="lc-mk">${i.markets.join(" · ")}</span>` : ""}</div></div><div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div></div>`; };
@@ -371,7 +371,6 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const topArt = articles[0];
   const colorField = `<section class="cfield"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">${esc(L.cf[0])}</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
-  <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">${esc(L.cf[1])}</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>${esc(L.cfBasis)}</span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">${esc(L.cf[2])}</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
   <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">${esc(L.cf[3])}</span><span class="cf-big">${wk.length}</span><span class="cf-s">Global ${wk.filter((i) => !isKR(i)).length} · Korea ${wk.filter(isKR).length}</span></a>
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(L.cf[4])} · ${esc(topArt.author || "")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">${esc(L.readMore)} →</span></a>` : ""}
@@ -517,7 +516,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     title: L.marketTitle, active: "market/", canonical: "market/", description: L.marketDesc,
     body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "rose-dusk"][k], eye: ["Markets", "Kimchi Premium"][k], title: t, dek: d, href: "#mkt", cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", esc(L.marketTitle), '<span id="mktUpdated">…</span>')}
-    <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
+    <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
     <p class="note">${esc(L.kimpNote)}</p></section>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
   }));
 

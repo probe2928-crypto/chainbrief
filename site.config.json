@@ -2,7 +2,7 @@
   "name": "체인브리프",
   "nameEn": "CHAINBRIEF",
   "tagline": "가장 빠른 코인 속보와 시세",
-  "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세와 김치프리미엄을 한곳에서.",
+  "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세를 한곳에서.",
   "domain": "",
   "lang": "ko",
   "tgChannels": { "ko": "@chainbrief_kr", "en": "@chainbrief_global", "zh": "@chainbrief_cn" },

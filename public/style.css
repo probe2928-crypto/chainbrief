@@ -1029,3 +1029,43 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
   .item .cc .krw,.item .cc .p{display:none}
 }
 @media (prefers-reduced-motion:reduce){.cc{transition:none}}
+
+/* ---------- v3.4 · 간결화: 히어로 축소, 컬러필드 3칸, 상단 파트너 한 줄 ---------- */
+.hero-lg{--hmin:clamp(300px,44vh,440px)}
+.hero-sm{--hmin:clamp(220px,30vh,300px)}
+.slide-body{padding-block:56px 76px;gap:12px}
+.hero-sm .slide-body{padding-block:40px 64px;gap:10px}
+.slide-t{font-size:clamp(26px,3.4vw,44px);line-height:1.18;max-width:18em}
+.hero-sm .slide-t{font-size:clamp(22px,2.3vw,30px)}
+.slide-d{-webkit-line-clamp:1}
+.hero-ui{bottom:22px}
+.hero-sm .hero-ui{bottom:18px}
+.cf-grid{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.6fr)}
+.cf{min-height:132px;padding:20px 24px 18px}
+.cf::after{left:24px}
+.cf-big{font-size:clamp(26px,2.4vw,34px)}
+@media (max-width:959px){
+  .hero-lg{--hmin:280px}
+  .hero-sm{--hmin:200px}
+  .slide-body{padding-block:28px 60px;gap:8px}
+  .hero-sm .slide-body{padding-block:24px 52px}
+  .slide-t{font-size:24px;line-height:1.22}
+  .hero-sm .slide-t{font-size:20px}
+  .slide-d{font-size:14px;line-height:1.55}
+  .slide-cta{margin-top:2px}
+  .hero-ui{bottom:14px}
+  .cf-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .cf{min-height:0;padding:14px 14px 12px;gap:4px}
+  .cf::after{left:14px;width:20px}
+  .cf:nth-child(3){border-left:1px solid var(--line)}
+  .cf:nth-child(n+3){border-top:0}
+  .cf-art{border-top:1px solid var(--line)!important;border-left:0!important;padding:14px 20px}
+  .cf-big{font-size:20px}
+  .cf-l{font-size:10px;letter-spacing:.08em}
+  .cf-s{font-size:11px}
+  .cf-title{font-size:16px;-webkit-line-clamp:2}
+  .topads-m .topad{align-content:center;padding-block:8px}
+  .topads-m .ta-x{display:none!important}
+  .topads-m .ta-t{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+  .cf-art{display:none!important}
+}

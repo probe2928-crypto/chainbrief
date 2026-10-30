@@ -223,7 +223,7 @@ const marketRail = `<section class="block desk-only">
   <table><tbody>
   ${cfg.coins.slice(0, 6).map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num c"></td></tr>`).join("")}
   </tbody></table>
-  <a class="more" href="${u("market/")}">전체 시세 · 김프</a>
+  <a class="more" href="${u("market/")}">전체 시세</a>
 </section>`;
 const sentiment = `<section class="block">
   <div class="block-head"><h2>시장 심리</h2><span class="label">Fear &amp; Greed</span></div>
@@ -233,7 +233,6 @@ const sentiment = `<section class="block">
     <div class="scale"><span>Fear</span><span>Neutral</span><span>Greed</span></div>
   </div>
   <div class="kp">
-    <div><small>BTC 김치프리미엄</small><strong class="num" id="kimpBtc">—</strong></div>
     <div><small>BTC 도미넌스</small><strong class="num" id="btcDom">—</strong></div>
   </div>
 </section>`;
@@ -347,9 +346,8 @@ const homeSlides = (() => {
 })();
 const colorField = `<section class="cfield" aria-label="오늘의 시장"><div class="wrap cf-grid">
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">Bitcoin · USD</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
-  <a class="cf cf-butter" href="${u("market/")}"><span class="cf-l">김치프리미엄</span><span class="cf-big" data-kimp>—</span><span class="cf-s" data-kimp-src>업비트 BTC 기준</span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">시장 심리</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
-  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">최근 7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">국내 ${wk.filter(isKR).length} · 해외 ${wk.filter((i) => !isKR(i)).length}</span></a>
+  <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">7일 신규 상장</span><span class="cf-big">${wk.length}</span><span class="cf-s">국내 ${wk.filter(isKR).length} · 해외 ${wk.filter((i) => !isKR(i)).length}</span></a>
   ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(topArt.format || "오늘의 기사")} · ${esc(topArt.author || "편집국")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">읽기 →</span></a>` : ""}
 </div></section>`;
 
@@ -605,18 +603,17 @@ for (const r of reps) {
 // 시세
 const MACRO_DATA = loadMacro(ROOT);
 write("market/index.html", layout({
-  title: "실시간 시세 · 김치프리미엄 · 글로벌 마켓", active: "market/", canonical: "market/",
-  description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세와 업비트 김치프리미엄, 미국·한국 증시 지수와 선물·원자재·크립토 관련 주식·환율.",
+  title: "실시간 시세 · 글로벌 마켓", active: "market/", canonical: "market/",
+  description: "비트코인·이더리움 등 주요 코인의 실시간 달러·원화 시세, 미국·한국 증시 지수와 선물·원자재·크립토 관련 주식·환율.",
   body: `${hero([
     { art: "gold-silk", eye: "Markets · 실시간", title: "달러와 원화, 한 번에", dek: "주요 코인의 글로벌 시세와 업비트 원화 가격을 1분마다 비교해요.", href: "#mkt", cta: "시세 보기" },
-    { art: "rose-dusk", eye: "Kimchi Premium", title: "김치프리미엄", dek: "국내 가격이 해외보다 얼마나 비싼지, 코인별로.", href: "#mkt", cta: "김프 보기" },
     { art: "smoke", eye: "Global Markets", title: "증시와 선물, 같은 화면에서", dek: "나스닥·S&P·코스피, CME 비트코인 선물, 금·원유, 코인베이스·스트래티지까지.", href: "#global", cta: "글로벌 마켓 보기" },
   ], "sm", "시세 안내")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", "실시간 시세", '<span id="mktUpdated">불러오는 중…</span>')}
-    <div class="wide" id="mkt"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>김프</th><th>거래대금</th></tr></thead><tbody>
-    ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num kimp">—</td><td class="num vol">—</td></tr>`).join("")}
+    <div class="wide" id="mkt"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>거래대금</th></tr></thead><tbody>
+    ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
-    <p class="note">김프 = 업비트 원화 가격 ÷ (글로벌 달러 가격 × 환율) − 1. 1분마다 갱신.</p>
+    <p class="note">1분마다 갱신.</p>
   </section>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
   <aside class="rail">${sentiment}${chRail}${partner}${contactRail}</aside></main></div>`,
 }));
