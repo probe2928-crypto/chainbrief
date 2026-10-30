@@ -1081,3 +1081,23 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 @media (max-width:959px){.also{margin-top:8px}.also-l{padding-right:9px;margin-right:9px}}
 /* 中文 큰 제목: 띄어쓰기·문장부호를 구절 경계로 존중 ('遭盗 多 / 方冻结'처럼 구절이 갈라지지 않게), 한 구절이 줄보다 길면 그때만 아무 데서나 */
 html[lang="zh-Hans"] :is(.slide-t,.doc h1,.lead-art h2,.cf-title){word-break:keep-all;overflow-wrap:anywhere}
+
+/* 속보 보기 전환: 요약까지 ↔ 제목만 (2026-10-30 저녁) — 지면 색인처럼 시각·제목만 촘촘히 */
+.viewsw{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:10px 0 0;font-family:var(--f-sans);font-size:13px}
+.viewsw .vs-l{margin-right:auto;font-family:var(--f-label);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none}
+.viewsw button{background:none;border:0;padding:4px 0 3px;color:var(--mute);font:inherit;letter-spacing:0;cursor:pointer;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.viewsw button:hover{color:var(--ink)}
+.viewsw button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.viewsw button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.viewsw button+button{position:relative}
+.viewsw button+button::before{content:"";position:absolute;left:-9px;top:50%;width:1px;height:11px;margin-top:-5px;background:var(--line)}
+#feed.compact .item{grid-template-columns:56px minmax(0,1fr);gap:14px;padding:13px 0}
+#feed.compact .item time{display:block;padding-top:2px;font-size:13px;letter-spacing:.02em;white-space:nowrap}
+#feed.compact .item.imp time::before{width:4px;height:4px;margin-right:5px}
+#feed.compact .item time::after{display:none}
+#feed.compact .item h3{margin:0;font-size:17px;line-height:1.55}
+#feed.compact .item .body,#feed.compact .item .meta,#feed.compact .tg-inline{display:none!important}
+#feed.compact .day{padding-top:32px}
+@media (max-width:600px){#feed.compact .item{grid-template-columns:52px minmax(0,1fr);gap:10px;padding:12px 0}#feed.compact .item h3{font-size:16.5px}}
+@media (prefers-reduced-motion:reduce){.viewsw button{transition:none}}

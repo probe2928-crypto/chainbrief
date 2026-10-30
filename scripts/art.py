@@ -1,5 +1,5 @@
 """체인브리프 히어로 아트 생성 (절차적 생성, 라이선스 걱정 없음)
-사용: python3 scripts/art.py  → public/art/<name>.jpg (2000px) + <name>-m.jpg (1000px)
+사용: python3 scripts/art.py  → public/art/<name>.jpg (2000px) + <name>-l.jpg (1600px) + <name>-m.jpg (1000px)
 """
 import os
 import numpy as np
@@ -48,6 +48,7 @@ def vignette(img, s=0.55):
 def save(name, img):
     im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8))
     im.save(os.path.join(OUT, f"{name}.jpg"), quality=84, optimize=True, progressive=True)
+    im.resize((1600, 900), Image.LANCZOS).save(os.path.join(OUT, f"{name}-l.jpg"), quality=84, optimize=True, progressive=True)
     im.resize((1000, 563), Image.LANCZOS).save(os.path.join(OUT, f"{name}-m.jpg"), quality=82, optimize=True, progressive=True)
     print("saved", name)
 

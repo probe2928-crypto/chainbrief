@@ -4,7 +4,7 @@
   const T = Object.assign({
     locale: "ko-KR", tz: "Asia/Seoul", now: "방금", min: "분 전", hr: "시간 전", day: "일 전", yday: "어제 ",
     newN: "새 속보 {n}건 보기", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
-    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", expand: "펼쳐 읽기", collapse: "접기",
+    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", expand: "펼쳐 읽기", collapse: "접기", view: "보기", vFull: "요약까지", vTitle: "제목만",
     fng: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
   }, CB.t || {});
   const $ = (s, el = document) => el.querySelector(s);
@@ -187,6 +187,17 @@
         const m = $(".meta", it); m ? m.append(btn) : b.after(btn);
       });
     };
+    // 보기 전환: '요약까지' ↔ '제목만'(시각 + 제목만 촘촘히) — 독자별로 기억
+    const fl = $("#filters");
+    if (fl) {
+      const vw = document.createElement("div");
+      vw.className = "viewsw"; vw.setAttribute("role", "group"); vw.setAttribute("aria-label", T.view);
+      vw.innerHTML = `<span class="vs-l">${esc(T.view)}</span><button type="button" data-v="full">${esc(T.vFull)}</button><button type="button" data-v="title">${esc(T.vTitle)}</button>`;
+      fl.after(vw);
+      const setV = (v) => { feed.classList.toggle("compact", v === "title"); $$("[data-v]", vw).forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === v)); };
+      setV(store.get("cb.view") === "title" ? "title" : "full");
+      vw.addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (!b) return; setV(b.dataset.v); store.set("cb.view", b.dataset.v); if (b.dataset.v === "full") clamp(); });
+    }
     (document.fonts?.ready || Promise.resolve()).then(clamp);
     narrow.addEventListener?.("change", clamp);
     tabs("#filters", "c", (v) => { cat = v; apply(); clamp(); });

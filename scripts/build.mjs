@@ -302,8 +302,8 @@ function pickArt(used, want) {
 const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto.createHash("md5"); try { for (const f of fs.readdirSync(d).sort()) h.update(fs.readFileSync(path.join(d, f))); } catch {} return h.digest("hex").slice(0, 8); })();
 // 첫 장만 바로 받고, 나머지 슬라이드 그림은 app.js가 차례 직전에 data-src → src 로 채움 (첫 화면 ~1.5MB 절약)
 const artImg = (name, eager) => eager
-  ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" fetchpriority="high" decoding="async"></picture>`
-  : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${u(`art/${name}.jpg`)}?v=${ART_V}" alt="" decoding="async"></picture>`;
+  ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></picture>`
+  : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${u(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
 function hero(slides, size = "lg", label = "주요 소식") {
   if (!slides.length) return "";
   const used = new Set();
