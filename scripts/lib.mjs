@@ -224,3 +224,30 @@ export function coinChips(ids, { coins, href, krw = false, label = "" }) {
     return `<a class="cc" href="${href}" data-chip="${id}"${won ? " data-won" : ""}><b>${c.symbol}</b><span class="num ${won ? "krw" : "p"}">—</span><span class="num c">—</span></a>`;
   }).join("")}</span>`;
 }
+
+// 동시 상장 — 같은 티커가 다른 거래소에도 있는지 (업비트·빗썸은 현재 마켓 목록 listings.known, 해외는 최근 상장 원장 기준)
+// 티커만 비교하므로 이름이 다른 동명 티커는 걸러지지 않는다 → 화면에 '티커 기준'으로 안내
+export function alsoIndex(known = {}, all = []) {
+  const kr = {};
+  for (const ex of ["upbit", "bithumb"]) for (const m of known[ex] || []) {
+    const [q, s] = String(m).split("-"); if (!s) continue;
+    const e = ((kr[s] ??= {})[ex] ??= []); if (!e.includes(q)) e.push(q);
+  }
+  const gl = {};
+  for (const j of all) if (!isKR(j) && j.type !== "delisting") for (const c of j.coins || []) ((gl[c.symbol] ??= new Set())).add(j.exchange);
+  const ORDER = ["upbit", "bithumb", "binance", "okx", "bybit", "coinbase"];
+  return (i) => {
+    const s = i.coins?.[0]?.symbol; if (!s) return [];
+    const out = [];
+    for (const ex of ["upbit", "bithumb"]) if (ex !== i.exchange && kr[s]?.[ex]) {
+      const qs = kr[s][ex]; out.push({ ex, mk: qs.includes("KRW") ? "KRW" : qs[0], kr: true });
+    }
+    for (const ex of gl[s] || []) if (ex !== i.exchange) out.push({ ex, mk: "", kr: false });
+    return out.sort((a, b) => ORDER.indexOf(a.ex) - ORDER.indexOf(b.ex));
+  };
+}
+/** list = alsoIndex(...)(item), names = 거래소 표시 이름, label = 앞 라벨 */
+export function alsoLine(list, { names, label, esc, title = "" }) {
+  if (!list.length) return "";
+  return `<div class="also"${title ? ` title="${esc(title)}"` : ""}><span class="also-l">${esc(label)}</span>${list.map((a) => `<span class="also-x${a.kr ? " kr" : ""}">${esc(names[a.ex] || a.ex)}${a.mk ? `<small>${esc(a.mk)}</small>` : ""}</span>`).join("")}</div>`;
+}

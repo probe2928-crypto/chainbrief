@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -80,6 +80,7 @@ const lsItems = (listings.items || []).map((i) => ({ ...i, date: new Date(i.time
 const globalLs = listings.global || null;
 // 상장 페이지·레일·홈 카드는 거래소 전체(국내+해외)를 한 목록으로
 const allLs = mergeListings(listings.items || [], globalLs);
+const alsoOf = alsoIndex(listings.known, allLs);
 const isNew = (i) => i.type === "listing" || i.type === "futures";
 const community = readJSON("data/community.json", { groups: [] });
 
@@ -212,6 +213,7 @@ function listingItem(i, compact = false) {
     <div style="min-width:0">
       <div class="meta" style="margin:0 0 6px"><span class="ex">${EXN[i.exchange]}</span><span class="ty ${i.type}">${TYN[i.type] || ""}</span>${i.markets?.length ? `<span>${i.markets.join(" · ")}</span>` : ""}</div>
       <div class="coin">${esc(i.coins.map((x) => x.symbol).join(" · "))}<small>${esc(i.coins.map((x) => x.name).join(", "))}</small></div>
+      ${compact ? "" : alsoLine(alsoOf(i), { names: EXK, label: i.type === "delisting" ? "계속 거래" : "다른 거래소", esc, title: "업비트·빗썸은 현재 마켓, 해외는 최근 상장 공지 기준 · 티커로 비교" })}
       ${compact ? "" : `<div class="t"><a href="${esc(i.url)}" target="_blank" rel="noopener nofollow"${i.global ? ' lang="en"' : ""}>${esc(i.title)}</a></div>`}
     </div>
     <div class="px"${isKR(i) ? " data-px" : ""}>${isKR(i) && i.type === "listing" ? "—" : ""}</div>
@@ -457,7 +459,7 @@ write("listings/index.html", layout({
     ${[["all", "모든 유형"], ["listing", "신규 상장"], ["futures", "선물"], ["caution", "유의"], ["delisting", "종료"]].map(([k, l], i) => `<button class="tab" type="button" data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}
   </div>
   <div id="daypanels">${weekPanel}${soonPanel}${days.map(dayPanel).join("")}</div>
-  <p class="note">거래소 공지와 마켓 목록을 15분마다 확인해요. 해외 거래소는 공지 제목과 링크만 옮겨요. 상장 코인 오른쪽 현재가와 24시간 변동률은 업비트·빗썸 원화 마켓 기준이에요. 토큰화 주식·주식 선물은 넣지 않아요.</p>
+  <p class="note">거래소 공지와 마켓 목록을 15분마다 확인해요. 해외 거래소는 공지 제목과 링크만 옮겨요. 상장 코인 오른쪽 현재가와 24시간 변동률은 업비트·빗썸 원화 마켓 기준이에요. ‘다른 거래소’는 같은 티커가 업비트·빗썸 현재 마켓이나 해외 거래소 최근 상장 공지에 있는지 보여줘요. 토큰화 주식·주식 선물은 넣지 않아요.</p>
   </section></div>${rail()}</main></div>`,
 }));
 

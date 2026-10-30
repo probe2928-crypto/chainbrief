@@ -1069,3 +1069,15 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
   .topads-m .ta-t{white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
   .cf-art{display:none!important}
 }
+
+/* ---------- v3.5 · 상장 '다른 거래소'(동시 상장) — 헤어라인 앞 라벨 + 거래소 이름, 국내 원화 마켓은 잉크 점 ---------- */
+.also{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0;margin-top:9px;font-family:var(--f-label);font-size:var(--fs-meta);line-height:1.5;color:var(--ink)}
+.also-l{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding-right:12px;margin-right:12px;border-right:1px solid var(--line)}
+.also-l.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0;text-transform:none;color:var(--mute)}
+.also-x{white-space:nowrap;font-weight:500}
+.also-x+.also-x::before{content:"·";padding:0 9px;color:var(--faint);font-weight:400}
+.also-x.cjk{font-family:var(--f-sans);letter-spacing:0}
+.also-x small{font-family:var(--f-label);font-weight:500;font-size:12px;letter-spacing:.08em;color:var(--mute);margin-left:5px}
+@media (max-width:959px){.also{margin-top:8px}.also-l{padding-right:9px;margin-right:9px}}
+/* 中文 큰 제목: 띄어쓰기·문장부호를 구절 경계로 존중 ('遭盗 多 / 方冻结'처럼 구절이 갈라지지 않게), 한 구절이 줄보다 길면 그때만 아무 데서나 */
+html[lang="zh-Hans"] :is(.slide-t,.doc h1,.lead-art h2,.cf-title){word-break:keep-all;overflow-wrap:anywhere}
