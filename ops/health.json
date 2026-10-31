@@ -1,0 +1,79 @@
+{
+ "at": "2026-10-31T18:30:00Z",
+ "repos": [
+  {
+   "repo": "chainbrief",
+   "lastRun": "2026-10-31T18:13:46Z 빌드 및 배포 success",
+   "failures": [],
+   "fixed": [],
+   "note": "10/31 01:42~01:52 UTC 앱 빌드·스토어 앱 실패 3건은 이후 성공으로 해결됨. 빌드 및 배포 실제 간격 약 30~40분(15분 cron 지연)"
+  },
+  {
+   "repo": "blockkey",
+   "lastRun": "2026-10-31T03:29:54Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "perpline",
+   "lastRun": "2026-10-31T03:26:43Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "oriel",
+   "lastRun": "2026-10-31T03:29:56Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "luft",
+   "lastRun": "2026-10-31T06:36:20Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
+   "lastRun": "2026-10-31T14:23:03Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": null,
+   "failures": [],
+   "fixed": [],
+   "note": "API가 numeric-ID 경로로 리다이렉트돼 프록시 차단 — 이름 변경/이전 추정, 확인 불가"
+  }
+ ],
+ "sites": [
+  {
+   "url": "https://probe2928-crypto.github.io/*, lifejunjun.com",
+   "ok": null,
+   "note": "이 실행 환경에서 github.io·lifejunjun.com 접속 차단(프록시 403)·WebFetch 권한 미승인 — 라이브 확인 못 함"
+  },
+  {
+   "url": "chainbrief data (repo)",
+   "ok": true,
+   "note": "listings.json 18:13Z 갱신, 자동 속보 KO 01:29 KST · EN 21:28 · ZH 21:26 (12시간 이내), 로컬 npm run build 성공"
+  },
+  {
+   "url": "perpline api/venues.json (repo)",
+   "ok": true,
+   "note": "3885B"
+  },
+  {
+   "url": "luft catalog.js (repo)",
+   "ok": true,
+   "note": "41435B"
+  },
+  {
+   "url": "qurator data/works.json (repo)",
+   "ok": true,
+   "note": "122685B"
+  }
+ ],
+ "failedTasks": [],
+ "deviceAbsent": 0,
+ "enabledTasks": 52
+}

@@ -1,5 +1,6 @@
 # 운영 일지 (최신이 위)
 
+2026-11-01 03:17 | 시스템 엔지니어 | 정상 7 · 장애 0 · 고침 0 | 라이브 URL 직접 확인 불가(이 실행 환경에서 github.io 차단) — Actions·저장소 데이터로 대체 점검; firstbrick API 접근 불가(저장소 ID 이동 추정), 체인브리프 EN·ZH 자동 속보 마지막 21:2x KST
 2026-10-31 19:36 | 커뮤니티 매니저 | 답글 0 · 바깥 댓글 4 (X 3: CoinDesk·Cointelegraph·WuBlockchain / 링크드인 1: Cointelegraph) | 첫 회차 — 반응은 다음 회차 확인 · 기록 ops/engagement.md
 2026-10-31 20:56 | 실무이사 | 메타 체인브리프 EN·ZH 광고를 텔레그램 직행으로 전환(새 광고 'TG 직행 EN v1'·'TG 직행 ZH v1', 최적화 링크 클릭, 예산 각 ₩5,000 그대로, 기존 사이트행 광고 일시정지) + 5개 팀 전략 회의(월·수·금 16:47) 신설 | 메타 검토 통과 확인, 구독자 증가로 효과 측정
 2026-10-31 15:50 | AI 디자인 디렉터 | 주간 디자인 점검 8개 사이트: 고친 것 3(chainbrief 中文 제목 줄바꿈·yeobaek 허브 카드·luft 모바일 라벨), 시안 lifejunjun design/20261031-ljj-feature-hero | 세준 적용 OK 대기 · 기록 ops/DESIGN.md
