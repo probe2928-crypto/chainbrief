@@ -102,33 +102,32 @@ async function upsertLocalized(kind, parentRel, parentId, listPath, locale, attr
   return j.data.id;
 }
 
-const FREQ = new Set(["alcoholTobaccoOrDrugUseOrReferences", "contests", "gamblingSimulated", "horrorOrFearThemes", "matureOrSuggestiveThemes", "medicalOrTreatmentInformation", "profanityOrCrudeHumor", "sexualContentGraphicAndNudity", "sexualContentOrNudity", "violenceCartoonOrFantasy", "violenceRealistic", "violenceRealisticProlongedGraphicOrSadistic", "gunsOrOtherWeapons"]);
-const SKIP = new Set(["kidsAgeBand", "developerAgeRatingInfoUrl", "ageRatingOverride", "ageRatingOverrideV2", "koreaAgeRatingOverride", "seventeenPlus"]);
+const FREQ = new Set(["alcoholTobaccoOrDrugUseOrReferences", "contests", "gamblingSimulated", "horrorOrFearThemes", "matureOrSuggestiveThemes", "medicalOrTreatmentInformation", "profanityOrCrudeHumor", "sexualContentGraphicAndNudity", "sexualContentOrNudity", "violenceCartoonOrFantasy", "violenceRealistic", "violenceRealisticProlongedGraphicOrSadistic", "gunsOrOtherWeapons", "medicalOrTreatmentInformation"]);
+const SKIP = new Set(["kidsAgeBand", "developerAgeRatingInfoUrl", "ageRatingOverride", "ageRatingOverrideV2", "koreaAgeRatingOverride", "seventeenPlus", "gracRatingClassificationNumber"]);
 async function ageRating(infoId, cfg, app) {
   const j = await get(`/v1/appInfos/${infoId}/ageRatingDeclaration`);
   const d = j.data; const cur = d.attributes || {};
   const want = {};
+  // 애플은 모든 항목을 한 번에 저장해야 한다 — 빈 항목은 '없음'(빈도형) 또는 false(예/아니요형)로 채운다
   for (const [k, v] of Object.entries(cur)) {
-    if (SKIP.has(k)) continue;
-    if (k in (cfg.ageRating || {})) { if (v !== cfg.ageRating[k]) want[k] = cfg.ageRating[k]; continue; }
-    if (v !== null && v !== undefined) continue;
-    want[k] = FREQ.has(k) || /Themes|References|Content|Violence|Humor|Information|Weapons/.test(k) ? "NONE" : false;
+    if (SKIP.has(k) || /Number$|Url$/.test(k)) continue;
+    if (k in (cfg.ageRating || {})) { want[k] = cfg.ageRating[k]; continue; }
+    want[k] = v !== null && v !== undefined ? v : FREQ.has(k) ? "NONE" : false;
   }
-  for (const [k, v] of Object.entries(cfg.ageRating || {})) if (!(k in cur) && !(k in want)) want[k] = v;
-  if (!Object.keys(want).length) return "설정됨";
-  try {
-    await api("PATCH", `/v1/ageRatingDeclarations/${d.id}`, { data: { type: "ageRatingDeclarations", id: d.id, attributes: want } });
-  } catch (e) {
-    // 모르는 항목이 섞여 있으면 하나씩 다시
-    note(app, `연령 등급 일괄 저장 실패 → 항목별 재시도 (${e.message.slice(0, 160)})`);
-    for (const [k, v] of Object.entries(want)) {
-      try { await api("PATCH", `/v1/ageRatingDeclarations/${d.id}`, { data: { type: "ageRatingDeclarations", id: d.id, attributes: { [k]: v } } }); }
-      catch (e2) { const alt = v === false ? "NONE" : v === "NONE" ? false : null; if (alt === null) { note(app, `연령 ${k} 실패`); continue; }
-        try { await api("PATCH", `/v1/ageRatingDeclarations/${d.id}`, { data: { type: "ageRatingDeclarations", id: d.id, attributes: { [k]: alt } } }); } catch { note(app, `연령 ${k} 실패: ${e2.message.slice(0, 120)}`); } }
+  if (Object.entries(want).every(([k, v]) => cur[k] === v)) return "설정됨";
+  for (let i = 0; i < 8; i++) {
+    try {
+      await api("PATCH", `/v1/ageRatingDeclarations/${d.id}`, { data: { type: "ageRatingDeclarations", id: d.id, attributes: want } });
+      note(app, `연령 등급 저장 (${Object.keys(want).length}항목)`);
+      return "저장함";
+    } catch (e) {
+      const bad = (e.json?.errors || []).map((x) => (x.detail || "").match(/attribute '([^']+)'/)?.[1] || (x.source?.pointer || "").split("/").pop()).filter((k) => k && k in want);
+      if (!bad.length) throw e;
+      for (const k of bad) { const v = want[k]; if (v === false) want[k] = "NONE"; else if (v === "NONE") want[k] = false; else delete want[k]; }
+      note(app, `연령 항목 형식 조정: ${bad.join(", ")}`);
     }
   }
-  note(app, `연령 등급 저장: ${Object.keys(want).length}항목`);
-  return "저장함";
+  throw new Error("연령 등급 저장 실패");
 }
 
 async function freePrice(appId, app) {
