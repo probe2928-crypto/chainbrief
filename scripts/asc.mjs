@@ -251,7 +251,7 @@ async function runApp(name, cfg) {
     r.availability = await step("판매 국가", () => availability(app.id, cfg, name));
 
     if (!editable) {
-      if (all.length === 0 && latest) {
+      if (latest && !all.some((v) => v.version === latest.version)) {
         editable = (await step("버전 만들기", () => api("POST", "/v1/appStoreVersions", { data: { type: "appStoreVersions", attributes: { platform: "IOS", versionString: latest.version }, relationships: { app: { data: { type: "apps", id: app.id } } } } })))?.data || null;
       } else note(name, "편집 가능한 버전 없음 (심사 중이거나 출시됨)");
     }
