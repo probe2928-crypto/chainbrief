@@ -1,6 +1,6 @@
 {
-  "at": "2026-10-31T02:14:21.353Z",
-  "cmd": "sync",
+  "at": "2026-10-31T02:19:38.458Z",
+  "cmd": "submit",
   "apps": [
     {
       "app": "chainbrief",
@@ -31,62 +31,20 @@
         {
           "id": "50c212b2-df8b-4c05-9eab-a32987ac5598",
           "version": "1.3.0",
-          "state": "PREPARE_FOR_SUBMISSION",
-          "storeState": "PREPARE_FOR_SUBMISSION",
+          "state": "WAITING_FOR_REVIEW",
+          "storeState": "WAITING_FOR_REVIEW",
           "created": "2026-10-30T18:05:55-07:00"
         }
       ],
-      "ageRating": "저장함",
+      "ageRating": "설정됨",
       "price": "설정됨",
       "availability": "174개국",
-      "reviewSubmissions": []
-    },
-    {
-      "app": "luft",
-      "bundle": "kr.luft.store",
-      "errors": [],
-      "appId": "6829093001",
-      "name": "LUFT",
-      "primaryLocale": "ko",
-      "builds": [
+      "reviewSubmissions": [
         {
-          "id": "e327ef2e-393d-42c6-ae6d-457f12528654",
-          "build": "8",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-30T19:06:56-07:00",
-          "expired": false
-        },
-        {
-          "id": "fc5b151b-4524-443a-96d9-fc8e0c956970",
-          "build": "9",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-30T19:00:07-07:00",
-          "expired": false
+          "state": "WAITING_FOR_REVIEW",
+          "submitted": "2026-10-31T02:19:50.846Z"
         }
-      ],
-      "latestValidBuild": {
-        "id": "e327ef2e-393d-42c6-ae6d-457f12528654",
-        "build": "8",
-        "version": "1.0.0",
-        "state": "VALID",
-        "uploaded": "2026-10-30T19:06:56-07:00",
-        "expired": false
-      },
-      "versions": [
-        {
-          "id": "8225ca7f-21e2-44e4-992d-eb71c17be34d",
-          "version": "1.0.0",
-          "state": "PREPARE_FOR_SUBMISSION",
-          "storeState": "PREPARE_FOR_SUBMISSION",
-          "created": "2026-10-30T18:13:18-07:00"
-        }
-      ],
-      "ageRating": "저장함",
-      "price": "설정됨",
-      "availability": "1개국",
-      "reviewSubmissions": []
+      ]
     },
     {
       "app": "qurator",
@@ -125,20 +83,24 @@
         {
           "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
           "version": "1.0.0",
-          "state": "PREPARE_FOR_SUBMISSION",
-          "storeState": "PREPARE_FOR_SUBMISSION",
+          "state": "WAITING_FOR_REVIEW",
+          "storeState": "WAITING_FOR_REVIEW",
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
-      "ageRating": "저장함",
+      "ageRating": "설정됨",
       "price": "설정됨",
       "availability": "174개국",
-      "reviewSubmissions": []
+      "reviewSubmissions": [
+        {
+          "state": "WAITING_FOR_REVIEW",
+          "submitted": "2026-10-31T02:20:08.397Z"
+        }
+      ]
     }
   ],
   "log": [
-    "[chainbrief] 연령 등급 저장 (24항목)",
-    "[luft] 연령 등급 저장 (24항목)",
-    "[qurator] 연령 등급 저장 (24항목)"
+    "[chainbrief] 심사 제출 완료",
+    "[qurator] 심사 제출 완료"
   ]
 }
