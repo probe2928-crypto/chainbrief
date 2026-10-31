@@ -2,6 +2,7 @@
 // 콘텐츠: content/en/{articles,flash}, content/zh/{articles,flash}
 // 공용 데이터: data/listings.json, data/headlines.json (언어별로 매체 필터)
 import fs from "node:fs";
+import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -242,6 +243,12 @@ for (const L of [ED.en, ED.zh]) {
     .filter((f) => !isNaN(f.date) && f.date <= new Date(Date.now() + 60_000)).sort((a, b) => b.date - a.date);
   const articles = readDir(`content/${L.code}/articles`).map((a) => ({ ...a, date: new Date(a.date) }))
     .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000)).sort((a, b) => b.date - a.date);
+  // 지금의 이슈 (In Focus)
+  const IG = issueGroups({ flashes, articles, lang: L.code, now: NOW });
+  const IS = L.code === "en"
+    ? { title: "In Focus", win: "Last 72 hours · flashes and stories grouped by theme", all: "All issues", recent: "Latest", since: "Last 30 days", tl: "Timeline", tlT: "Flashes on this issue", desc: "CHAINBRIEF flashes and stories grouped by theme, so you can follow a story from the start.", dek: "From hacks to stablecoins, regulation and rates — scattered flashes and stories gathered into one thread you can follow from the beginning.", count: (f, a) => [f ? `<b class="num">${f}</b> ${f === 1 ? "flash" : "flashes"}` : "", a ? `<b class="num">${a}</b> ${a === 1 ? "story" : "stories"}` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') }
+    : { title: "热点议题", win: "近72小时 · 按主题归集快讯与文章", all: "全部议题", recent: "最新", since: "近30天", tl: "Timeline", tlT: "议题快讯", desc: "按主题归集链报快讯与文章，从头追踪事件脉络。", dek: "从黑客事件到稳定币、监管与利率——把分散的快讯和文章归到同一条主线，从头读起。", count: (f, a) => [f ? `快讯 <b class="num">${f}</b>` : "", a ? `文章 <b class="num">${a}</b>` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') };
+  const IA = { groups: IG, S: IS, u, esc, lang: L.code };
   let hl = allHL.filter((h) => h.lang === (L.code === "zh" ? "zh" : "en"));
   if (L.code === "zh" && hl.length < 6) hl = [...hl, ...allHL.filter((h) => h.lang === "en")];
   const ADS = (cfg.ads || []).map((a) => ({ ...a, ...(L.ads[a.id] || {}), topEyebrow: L.ads[a.id]?.top || a.topEyebrow, eyebrow: "Partner" }));
@@ -302,7 +309,7 @@ ${adBand}
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>` : ""}
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${L.tabs.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>${esc(L.menuL)}</button></nav>
 <div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="${esc(L.menuL)}"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="${esc(L.closeL)}">×</button></div>
-<nav class="ns-links">${L.nav.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">${esc(L.searchL)}</a></nav>
+<nav class="ns-links">${L.nav.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">${esc(L.searchL)}</a>${IG.all.length ? `<a href="${u("issue/")}"${navA === "issue/" ? ' aria-current="page"' : ""}>${esc(IS.title)}</a>` : ""}</nav>
 <div class="ns-langs"><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en"${L.code === "en" ? ' aria-current="true"' : ""}>English</a><a href="${asset("zh/")}" lang="zh-Hans"${L.code === "zh" ? ' aria-current="true"' : ""}>中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins.map((c) => ({ ...c, name: c.symbol })), latest: flashes[0]?.id || "", flashUrl: u("flash.json"), sb: {}, t: L.t })}</script>
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
@@ -383,7 +390,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const dayIndex = (list) => { const m = new Map(); for (const f of list) { const k = dayKey(f.date); if (!m.has(k)) m.set(k, { d: f.date, n: 0 }); m.get(k).n++; } return [...m.entries()].map(([k, v]) => `<a href="#d-${k}"><span class="di-n num">${+k.slice(-2)}</span><span class="di-l">${fmt(v.d, { month: "short" })} ${fmt(v.d, { weekday: "short" })}</span><span class="di-c">${esc(fm(L.wa.n, { n: v.n }))}</span></a>`).join(""); };
   write(`${P}index.html`, layout({
     active: "", canonical: "",
-    body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid"><div class="col"><section>
+    body: `${hero(homeSlides, "lg")}${colorField}${issueBand(IA)}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Live Wire", esc(L.liveTitle), `<label class="search"><span class="sr">${esc(L.search)}</span><input id="q" type="search" placeholder="${esc(L.search)}"></label>`)}
     <div class="tabs-row" id="filters">${cats.map(([k, l], i) => `<button class="tab${k === "중요" ? " hot" : ""}" type="button" data-c="${esc(k)}" aria-pressed="${i === 0}">${esc(l)}</button>`).join("")}</div>
     <div id="newWrap" hidden><button class="newpill" id="newBtn" type="button">${esc(L.newBtn)}</button></div>
@@ -417,7 +424,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: f.title, description: plain(f.body || f.title).slice(0, 160), canonical: `flash/${f.id}/`, type: "article",
       body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
-      <h1>${esc(f.title)}</h1>${ccLine(f.title, f.body)}<div class="prose">${markdown(f.body || "")}</div>
+      <h1>${esc(f.title)}</h1>${ccLine(f.title, f.body)}${issueLink({ ...IA, item: f })}<div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${CH ? CH.card : ""}</article>
       ${near.length ? `<section>${secHead("Also", esc(L.alsoT), "", "h2")}${near.map(flashItem).join("")}</section>` : ""}</div>${rail()}</main></div>`,
     }));
@@ -488,7 +495,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
       body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
-      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}
+      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
@@ -511,6 +518,26 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       </div>${rail()}</main></div>`,
     }));
   }
+
+  // 이슈 페이지
+  for (const g of IG.all) {
+    const nm = g.x[L.code][0], arts = g.a, fl = g.f.slice(0, 80);
+    const slides = [...arts.slice(0, 3).map((a) => ({ ...artSlide(a), eye: `${esc(nm)} · ${esc(a.author || L.name)}` })), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(nm)} · ${esc(L.wa.eye)} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 140), href: u(`flash/${f.id}/`), cta: L.wa.read }))];
+    write(`${P}issue/${g.x.slug}/index.html`, layout({
+      title: `${nm} · ${IS.title}`, description: `${g.x[L.code][1]}`, active: "issue/", canonical: `issue/${g.x.slug}/`,
+      body: `${hero(slides, "sm")}<div class="wrap"><p class="crumbs"><a href="${u("issue/")}">In Focus</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(nm)}</span></p><main class="grid"><div class="col">
+      <section>${secHead("Dossier", esc(nm), IS.count(g.f.length, g.a.length))}<p class="cat-dek">${esc(g.x[L.code][1])}</p>${issueIndex({ ...IA, cur: g.x.slug })}
+      ${arts.length ? `<div class="arts">${arts.slice(0, 6).map(card).join("")}</div>` : ""}</section>
+      ${fl.length ? `<section>${secHead(IS.tl, esc(IS.tlT), esc(IS.since), "h2")}<div id="feed">${feedHTML(fl)}</div></section>` : ""}
+      </div>${rail()}</main></div>`,
+    }));
+  }
+  if (IG.all.length) write(`${P}issue/index.html`, layout({
+    title: IS.title, description: IS.desc, active: "issue/", canonical: "issue/",
+    body: `${hero(IG.all.slice().sort((a, b) => b.score - a.score).slice(0, 4).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return { art: ART[l?.category] || "blue-hour", eye: `In Focus · ${IS.count(g.f.length, g.a.length).replace(/<[^>]+>/g, "")}`, title: g.x[L.code][0], dek: g.x[L.code][1], href: u(`issue/${g.x.slug}/`), cta: L.code === "en" ? "Follow the issue" : "追踪议题" }; }), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>${secHead("In Focus", esc(IS.title), esc(IS.since))}<p class="cat-dek">${esc(IS.dek)}</p>
+    <ol class="is-list">${[...IG.all].sort((a, b) => b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li><a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x[L.code][0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x[L.code][1])}</p>${l ? `<p class="is-h"><span class="label">${esc(IS.recent)}</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
+    </section></div>${rail()}</main></div>`,
+  }));
 
   // 시세
   write(`${P}market/index.html`, layout({
@@ -571,7 +598,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   if (SITE_URL) {
     const sm = path.join(OUT, "sitemap.xml");
     if (fs.existsSync(sm)) {
-      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), "authors/", ...staffList.map(([, r]) => `authors/${r.slug}/`), "privacy/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
+      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), "authors/", ...staffList.map(([, r]) => `authors/${r.slug}/`), "privacy/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
       fs.writeFileSync(sm, fs.readFileSync(sm, "utf8").replace("</urlset>", urls + "</urlset>"));
     }
   }

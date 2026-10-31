@@ -7,6 +7,7 @@ import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, sm
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
+import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -83,6 +84,9 @@ const allLs = mergeListings(listings.items || [], globalLs);
 const alsoOf = alsoIndex(listings.known, allLs);
 const isNew = (i) => i.type === "listing" || i.type === "futures";
 const community = readJSON("data/community.json", { groups: [] });
+// 지금의 이슈: 속보·기사를 주제별로 묶음(최근 72시간 순위, 페이지는 30일)
+const IG = issueGroups({ flashes, articles, lang: "ko", now: NOW });
+const IS = { title: "지금의 이슈", win: "최근 72시간 · 속보와 기사를 주제로 묶음", all: "이슈 전체", count: (f, a) => [f ? `속보 <b class="num">${f}</b>` : "", a ? `기사 <b class="num">${a}</b>` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') };
 
 /* ---------- partials ---------- */
 const ICON = {
@@ -159,7 +163,7 @@ ${adBand}
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${TABS.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>메뉴</button></nav>
 <div class="navsheet" id="navsheet" hidden><div class="ns-bg" data-ns-close></div><div class="ns-panel" role="dialog" aria-label="전체 메뉴"><div class="ns-head"><span class="label">Menu</span><button type="button" class="ns-x" data-ns-close aria-label="닫기">×</button></div>
-<nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a></nav>
+<nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a>${IG.all.length ? `<a href="${u("issue/")}"${navA === "issue/" ? ' aria-current="page"' : ""}>지금의 이슈</a>` : ""}</nav>
 <div class="ns-langs"><a href="${u()}" aria-current="true">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
 <script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
@@ -365,7 +369,7 @@ const cats = ["전체", "중요", ...cfg.categories];
 write("index.html", layout({
   active: "", canonical: "",
   jsonld: SITE_URL ? JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), inLanguage: "ko", publisher: { "@type": "NewsMediaOrganization", name: cfg.name, alternateName: cfg.nameEn, url: abs(""), sameAs: CH ? CH.sameAs : [] }, potentialAction: { "@type": "SearchAction", target: abs("search/") + "?q={search_term_string}", "query-input": "required name=search_term_string" } }) : "",
-  body: `${hero(homeSlides, "lg")}${colorField}<div class="wrap"><main class="grid">
+  body: `${hero(homeSlides, "lg")}${colorField}${issueBand({ groups: IG, S: IS, u, esc, lang: "ko" })}<div class="wrap"><main class="grid">
   <div class="col"><section>
     ${secHead("Live Wire", "라이브 속보", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <div class="tabs-row" id="filters" role="toolbar" aria-label="분류">${cats.map((c, i) => `<button class="tab${c === "중요" ? " hot" : ""}" type="button" data-c="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("")}</div>
@@ -408,6 +412,7 @@ flashes.forEach((f, i) => {
       <div class="kicker">${f.important ? '<span class="tag hot">Breaking</span>' : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${esc(f.title)}</h1>
       ${coinsIn(f.title, f.body).length ? `<p class="cc-line"><span class="cc-l">관련 코인</span>${chips(f.title, f.body)}</p>` : ""}
+      ${issueLink({ item: f, groups: IG, S: IS, u, esc, lang: "ko" })}
       <div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn" href="${u()}">속보 목록</a></div>
       ${CH ? CH.card : ""}
@@ -548,6 +553,7 @@ articles.forEach((a, i) => {
       <h1>${esc(a.title)}</h1>
       ${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}
       ${coinsIn(a.title, a.summary).length ? `<p class="cc-line"><span class="cc-l">관련 코인</span>${chips(a.title, a.summary)}</p>` : ""}
+      ${issueLink({ item: a, groups: IG, S: IS, u, esc, lang: "ko" })}
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
@@ -737,6 +743,26 @@ write("search/index.html", layout({
 }));
 
 // 404
+// 이슈 페이지 /issue/<slug>/ + 색인 /issue/
+for (const g of IG.all) {
+  const arts = g.a, fl = g.f.slice(0, 80);
+  const slides = [...arts.slice(0, 3).map((a) => artSlide(a, `${esc(g.x.ko[0])} · ${eyeOf(a)}`)), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(g.x.ko[0])} · 속보 · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 110), href: u(`flash/${f.id}/`), cta: "속보 읽기" }))];
+  write(`issue/${g.x.slug}/index.html`, layout({
+    title: `${g.x.ko[0]} · 지금의 이슈`, description: `${g.x.ko[1]} 체인브리프 속보 ${g.f.length}건·기사 ${g.a.length}편을 한곳에.`, active: "issue/", canonical: `issue/${g.x.slug}/`,
+    body: `${hero(slides, "sm", g.x.ko[0])}<div class="wrap"><p class="crumbs"><a href="${u("issue/")}">In Focus</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(g.x.ko[0])}</span></p><main class="grid"><div class="col">
+    <section>${secHead("Dossier", esc(g.x.ko[0]), IS.count(g.f.length, g.a.length))}<p class="cat-dek">${esc(g.x.ko[1])}</p>${issueIndex({ groups: IG, S: IS, u, esc, lang: "ko", cur: g.x.slug })}
+    ${arts.length ? `<div class="arts">${arts.slice(0, 6).map(card).join("")}</div>` : ""}</section>
+    ${fl.length ? `<section>${secHead("Timeline", "이슈 속보", "최근 30일", "h2")}<div id="feed">${feedHTML(fl)}</div></section>` : ""}
+    </div>${rail()}</main></div>`,
+  }));
+}
+if (IG.all.length) write("issue/index.html", layout({
+  title: "지금의 이슈", description: "체인브리프 속보와 기사를 주제별로 묶어 흐름을 따라갑니다.", active: "issue/", canonical: "issue/",
+  body: `${hero(IG.all.slice().sort((a, b) => b.score - a.score).slice(0, 4).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return { art: ART[l?.category] || "blue-hour", eye: `In Focus · ${IS.count(g.f.length, g.a.length).replace(/<[^>]+>/g, "")}`, title: g.x.ko[0], dek: g.x.ko[1], href: u(`issue/${g.x.slug}/`), cta: "이슈 따라가기" }; }), "sm", "지금의 이슈")}<div class="wrap"><main class="grid"><div class="col"><section>${secHead("In Focus", "지금의 이슈", "최근 30일")}<p class="cat-dek">해킹부터 스테이블코인, 규제와 금리까지 — 흩어진 속보와 기사를 주제 하나로 모아 처음부터 따라갑니다.</p>
+  <ol class="is-list">${[...IG.all].sort((a, b) => b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li><a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x.ko[0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x.ko[1])}</p>${l ? `<p class="is-h"><span class="label">최근</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
+  </section></div>${rail()}</main></div>`,
+}));
+
 write("404.html", layout({ title: "페이지를 찾을 수 없어요", canonical: null, body: `<div class="wrap"><main class="single"><div class="doc"><span class="label">404</span><h1>페이지를 찾을 수 없어요</h1><p class="lede">주소가 바뀌었거나 삭제된 페이지예요.</p><a class="btn" href="${u()}">라이브 속보로</a></div></main></div>` }));
 
 /* ---------- feeds & meta ---------- */
@@ -749,7 +775,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
