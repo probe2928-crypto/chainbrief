@@ -154,7 +154,7 @@ jobs:
           AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $ASC_KEY_ID -authenticationKeyIssuerID $ASC_ISSUER_ID"
           xcodebuild $(ls -d ios/App/App.xcworkspace >/dev/null 2>&1 && echo -workspace ios/App/App.xcworkspace || echo -project ios/App/App.xcodeproj) -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
-            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Manual CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" PRODUCT_BUNDLE_IDENTIFIER=${{ matrix.bundle }} TARGETED_DEVICE_FAMILY=1 \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Manual CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" TARGETED_DEVICE_FAMILY=1 \
             $AUTH archive -quiet
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
