@@ -1248,3 +1248,24 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
   .ev-b a{display:block;margin-top:3px}
 }
 @media (prefers-reduced-motion:reduce){.ev-dot::after{animation:none;opacity:0}}
+
+/* 2026-10-31 저녁 · 폰: 텔레그램 버튼은 읽는 동안 접힘 / 기사 상단 아트 띠를 낮추고 경로를 그림 위에 */
+@media (max-width:959px){
+  .tg-float{transition:transform .32s cubic-bezier(.2,.7,.2,1),opacity .24s ease}
+  .tg-float.is-tucked{transform:translateX(calc(100% + 24px));opacity:0;pointer-events:none}
+}
+@media (max-width:959px) and (prefers-reduced-motion:reduce){.tg-float{transition:none}}
+@media (max-width:700px){
+  .cover{height:128px}
+  .cover::after{background:linear-gradient(0deg,rgba(6,6,8,.72) 0%,rgba(6,6,8,.18) 62%,rgba(6,6,8,0) 100%)}
+  .cover + .wrap > .crumbs{position:relative;z-index:1;margin-top:-46px;height:46px;align-items:center;color:rgba(255,255,255,.72)}
+  .cover + .wrap > .crumbs a,.cover + .wrap > .crumbs .here{color:#fff}
+  .cover + .wrap > .crumbs a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+  .cover + .wrap > .crumbs .sep{background:rgba(255,255,255,.55)}
+  .cover + .wrap > .crumbs :focus-visible{outline-color:#F4F2ED}
+}
+@media (max-width:700px){
+  .cover + .wrap > main.grid{margin-top:30px}
+  .cover + .wrap .doc .kicker > a.tag:first-child{display:none}
+  .cover + .wrap .doc .kicker:has(> a.tag:only-child){display:none}
+}

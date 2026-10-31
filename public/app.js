@@ -468,3 +468,25 @@
     edge();
   });
 })();
+
+// 폰: 아래로 읽는 동안 텔레그램 둥근 버튼을 접어 두고, 위로 올리거나 멈추면(1.2초) 다시 보인다
+(() => {
+  const fab = document.querySelector(".tg-float");
+  if (!fab || !window.matchMedia) return;
+  const phone = matchMedia("(max-width:959px)");
+  let lastY = scrollY, timer = 0, ticking = false;
+  const set = (tuck) => fab.classList.toggle("is-tucked", tuck);
+  const check = () => {
+    ticking = false;
+    const y = scrollY;
+    if (!phone.matches) { set(false); lastY = y; return; }
+    const nearEnd = y + innerHeight >= document.documentElement.scrollHeight - 80;
+    if (y > 160 && y > lastY + 4 && !nearEnd) set(true);
+    else if (y < lastY - 4 || y <= 160 || nearEnd) set(false);
+    lastY = y;
+    clearTimeout(timer);
+    timer = setTimeout(() => set(false), 1200);
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
+  fab.addEventListener("focus", () => set(false));
+})();
