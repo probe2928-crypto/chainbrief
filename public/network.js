@@ -11,6 +11,14 @@
   if (window.__cbNetwork) return; window.__cbNetwork = 1;
   var me = document.currentScript || document.querySelector('script[src*="network.js"]');
   var SELF = (me && me.getAttribute('data-site')) || '';
+  /* Savri — cookieless visit analytics for every site (one property; pages split by path). */
+  try {
+    if (location.hostname === 'probe2928-crypto.github.io' && !document.querySelector('script[src*="savri.io/script.js"]')) {
+      var sv = document.createElement('script'); sv.defer = true; sv.src = 'https://savri.io/script.js';
+      sv.setAttribute('data-site-id', 'site_mvvy2a4d_govfksp'); sv.setAttribute('data-api', 'https://savri.io');
+      (document.head || document.documentElement).appendChild(sv);
+    }
+  } catch (e) {}
   try { if (document.documentElement.classList.contains('adclean')) return; } catch (e) {}
 
   var B = 'https://probe2928-crypto.github.io/';
