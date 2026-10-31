@@ -1,6 +1,6 @@
 {
-  "at": "2026-10-31T02:19:38.458Z",
-  "cmd": "submit",
+  "at": "2026-10-31T04:18:20.297Z",
+  "cmd": "status",
   "apps": [
     {
       "app": "chainbrief",
@@ -36,15 +36,56 @@
           "created": "2026-10-30T18:05:55-07:00"
         }
       ],
-      "ageRating": "설정됨",
-      "price": "설정됨",
-      "availability": "174개국",
       "reviewSubmissions": [
         {
           "state": "WAITING_FOR_REVIEW",
           "submitted": "2026-10-31T02:19:50.846Z"
         }
       ]
+    },
+    {
+      "app": "luft",
+      "bundle": "kr.luft.store",
+      "errors": [],
+      "appId": "6829093001",
+      "name": "LUFT",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "e327ef2e-393d-42c6-ae6d-457f12528654",
+          "build": "8",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:06:56-07:00",
+          "expired": false
+        },
+        {
+          "id": "fc5b151b-4524-443a-96d9-fc8e0c956970",
+          "build": "9",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:00:07-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "e327ef2e-393d-42c6-ae6d-457f12528654",
+        "build": "8",
+        "version": "1.0.0",
+        "state": "VALID",
+        "uploaded": "2026-10-30T19:06:56-07:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "8225ca7f-21e2-44e4-992d-eb71c17be34d",
+          "version": "1.0.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-10-30T18:13:18-07:00"
+        }
+      ],
+      "reviewSubmissions": []
     },
     {
       "app": "qurator",
@@ -88,9 +129,6 @@
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
-      "ageRating": "설정됨",
-      "price": "설정됨",
-      "availability": "174개국",
       "reviewSubmissions": [
         {
           "state": "WAITING_FOR_REVIEW",
@@ -99,8 +137,5 @@
       ]
     }
   ],
-  "log": [
-    "[chainbrief] 심사 제출 완료",
-    "[qurator] 심사 제출 완료"
-  ]
+  "log": []
 }
