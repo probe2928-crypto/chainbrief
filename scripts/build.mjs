@@ -7,7 +7,7 @@ import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, sm
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
-import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
+import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./issues.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -87,7 +87,8 @@ const isNew = (i) => i.type === "listing" || i.type === "futures";
 const community = readJSON("data/community.json", { groups: [] });
 // 지금의 이슈: 속보·기사를 주제별로 묶음(최근 72시간 순위, 페이지는 30일)
 const IG = issueGroups({ flashes, articles, lang: "ko", now: NOW });
-const IS = { title: "지금의 이슈", win: "최근 72시간 · 속보와 기사를 주제로 묶음", all: "이슈 전체", count: (f, a) => [f ? `속보 <b class="num">${f}</b>` : "", a ? `기사 <b class="num">${a}</b>` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') };
+const IS = { title: "지금의 이슈", win: "최근 72시간 · 속보와 기사를 주제로 묶음", all: "이슈 전체",
+  ev: { live: "진행 중인 사건", latest: "최신", go: "경과 보기", art: "기사", fl: "속보", day: (n) => `<b class="num">${n}</b>일째`, first: "첫 보도", tl: "경과", tlT: "첫 보도부터 시간순" }, count: (f, a) => [f ? `속보 <b class="num">${f}</b>` : "", a ? `기사 <b class="num">${a}</b>` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') };
 
 /* ---------- partials ---------- */
 const ICON = {
@@ -750,6 +751,19 @@ write("search/index.html", layout({
 // 이슈 페이지 /issue/<slug>/ + 색인 /issue/
 for (const g of IG.all) {
   const arts = g.a, fl = g.f.slice(0, 80);
+  if (g.x.event) {
+    const slides = [...arts.slice(0, 3).map((a) => artSlide(a, `${esc(IS.ev.live)} · ${eyeOf(a)}`)), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(IS.ev.live)} · 속보 · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 110), href: u(`flash/${f.id}/`), cta: "속보 읽기" }))];
+    write(`issue/${g.x.slug}/index.html`, layout({
+      title: `${g.x.ko[0]} · 지금의 이슈`, description: `${g.x.ko[1]} 체인브리프 속보 ${g.f.length}건·기사 ${g.a.length}편.`, active: "issue/", canonical: `issue/${g.x.slug}/`,
+      body: `${hero(slides, "sm", g.x.ko[0])}<div class="wrap"><p class="crumbs"><a href="${u("issue/")}">In Focus</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(g.x.ko[0])}</span></p><main class="grid"><div class="col">
+      <section>${secHead("Developing", esc(g.x.ko[0]), IS.count(g.f.length, g.a.length))}<p class="cat-dek">${esc(g.x.ko[1])}</p>
+      <p class="ev-sum-line">${g.live ? `<span class="ev-k"><i class="ev-dot" aria-hidden="true"></i>${IS.ev.live}</span>` : ""}<span>${IS.ev.first} <b class="num">${esc(fmt(g.first, { month: "numeric", day: "numeric" }).replace(/\.\s?/g, ".").replace(/\.$/, ""))}</b> ${hhmm(g.first)}</span><span>${IS.ev.day(g.day)}</span>${g.latest ? `<span>${IS.ev.latest} <b class="num">${hhmm(g.latest.date)}</b></span>` : ""}</p>
+      ${issueIndex({ groups: IG, S: IS, u, esc, lang: "ko", cur: g.x.slug })}</section>
+      <section>${secHead("Chronology", IS.ev.tl, IS.ev.tlT, "h2")}${eventTimeline({ g, S: IS, u, esc, lang: "ko", fmt, hhmm, tz: KST })}</section>
+      </div>${rail()}</main></div>`,
+    }));
+    continue;
+  }
   const slides = [...arts.slice(0, 3).map((a) => artSlide(a, `${esc(g.x.ko[0])} · ${eyeOf(a)}`)), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(g.x.ko[0])} · 속보 · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 110), href: u(`flash/${f.id}/`), cta: "속보 읽기" }))];
   write(`issue/${g.x.slug}/index.html`, layout({
     title: `${g.x.ko[0]} · 지금의 이슈`, description: `${g.x.ko[1]} 체인브리프 속보 ${g.f.length}건·기사 ${g.a.length}편을 한곳에.`, active: "issue/", canonical: `issue/${g.x.slug}/`,
@@ -763,7 +777,7 @@ for (const g of IG.all) {
 if (IG.all.length) write("issue/index.html", layout({
   title: "지금의 이슈", description: "체인브리프 속보와 기사를 주제별로 묶어 흐름을 따라갑니다.", active: "issue/", canonical: "issue/",
   body: `${hero(IG.all.slice().sort((a, b) => b.score - a.score).slice(0, 4).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return { art: ART[l?.category] || "blue-hour", eye: `In Focus · ${IS.count(g.f.length, g.a.length).replace(/<[^>]+>/g, "")}`, title: g.x.ko[0], dek: g.x.ko[1], href: u(`issue/${g.x.slug}/`), cta: "이슈 따라가기" }; }), "sm", "지금의 이슈")}<div class="wrap"><main class="grid"><div class="col"><section>${secHead("In Focus", "지금의 이슈", "최근 30일")}<p class="cat-dek">해킹부터 스테이블코인, 규제와 금리까지 — 흩어진 속보와 기사를 주제 하나로 모아 처음부터 따라갑니다.</p>
-  <ol class="is-list">${[...IG.all].sort((a, b) => b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li><a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x.ko[0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x.ko[1])}</p>${l ? `<p class="is-h"><span class="label">최근</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
+  <ol class="is-list">${[...IG.all].sort((a, b) => (b.x.event ? 1 : 0) - (a.x.event ? 1 : 0) || b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li${g.x.event ? ' class="is-ev"' : ""}>${g.x.event ? `<span class="ev-k"><i class="ev-dot" aria-hidden="true"></i>${g.live ? IS.ev.live : "사건"} · ${IS.ev.day(g.day)}</span>` : ""}<a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x.ko[0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x.ko[1])}</p>${l ? `<p class="is-h"><span class="label">최근</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
   </section></div>${rail()}</main></div>`,
 }));
 

@@ -2,7 +2,7 @@
 // 콘텐츠: content/en/{articles,flash}, content/zh/{articles,flash}
 // 공용 데이터: data/listings.json, data/headlines.json (언어별로 매체 필터)
 import fs from "node:fs";
-import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
+import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./issues.mjs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -247,10 +247,13 @@ for (const L of [ED.en, ED.zh]) {
   const articles = readDir(`content/${L.code}/articles`).map((a) => ({ ...a, date: new Date(a.date) }))
     .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000)).sort((a, b) => b.date - a.date);
   // 지금의 이슈 (In Focus)
-  const IG = issueGroups({ flashes, articles, lang: L.code, now: NOW });
+  const IG = issueGroups({ flashes, articles, lang: L.code, now: NOW, tz: L.tz });
   const IS = L.code === "en"
     ? { title: "In Focus", win: "Last 72 hours · flashes and stories grouped by theme", all: "All issues", recent: "Latest", since: "Last 30 days", tl: "Timeline", tlT: "Flashes on this issue", desc: "CHAINBRIEF flashes and stories grouped by theme, so you can follow a story from the start.", dek: "From hacks to stablecoins, regulation and rates — scattered flashes and stories gathered into one thread you can follow from the beginning.", count: (f, a) => [f ? `<b class="num">${f}</b> ${f === 1 ? "flash" : "flashes"}` : "", a ? `<b class="num">${a}</b> ${a === 1 ? "story" : "stories"}` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') }
     : { title: "热点议题", win: "近72小时 · 按主题归集快讯与文章", all: "全部议题", recent: "最新", since: "近30天", tl: "Timeline", tlT: "议题快讯", desc: "按主题归集链报快讯与文章，从头追踪事件脉络。", dek: "从黑客事件到稳定币、监管与利率——把分散的快讯和文章归到同一条主线，从头读起。", count: (f, a) => [f ? `快讯 <b class="num">${f}</b>` : "", a ? `文章 <b class="num">${a}</b>` : ""].filter(Boolean).join('<i class="dot" aria-hidden="true"> · </i>') };
+  IS.ev = L.code === "en"
+    ? { live: "Developing", latest: "Latest", go: "Follow it", art: "Analysis", fl: "Flash", day: (n) => `Day <b class="num">${n}</b>`, first: "First report", tl: "Chronology", tlT: "From the first report", past: "Story" }
+    : { live: "进行中", latest: "最新", go: "查看经过", art: "文章", fl: "快讯", day: (n) => `第 <b class="num">${n}</b> 天`, first: "首条报道", tl: "Chronology", tlT: "从首条报道起", past: "事件" };
   const IA = { groups: IG, S: IS, u, esc, lang: L.code };
   let hl = allHL.filter((h) => h.lang === (L.code === "zh" ? "zh" : "en"));
   if (L.code === "zh" && hl.length < 6) hl = [...hl, ...allHL.filter((h) => h.lang === "en")];
@@ -526,6 +529,19 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   // 이슈 페이지
   for (const g of IG.all) {
     const nm = g.x[L.code][0], arts = g.a, fl = g.f.slice(0, 80);
+    if (g.x.event) {
+      const slides = [...arts.slice(0, 3).map((a) => ({ ...artSlide(a), eye: `${esc(IS.ev.live)} · ${esc(a.author || L.name)}` })), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(IS.ev.live)} · ${esc(L.wa.eye)} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 140), href: u(`flash/${f.id}/`), cta: L.wa.read }))];
+      write(`${P}issue/${g.x.slug}/index.html`, layout({
+        title: `${nm} · ${IS.title}`, description: `${g.x[L.code][1]}`, active: "issue/", canonical: `issue/${g.x.slug}/`,
+        body: `${hero(slides, "sm")}<div class="wrap"><p class="crumbs"><a href="${u("issue/")}">In Focus</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(nm)}</span></p><main class="grid"><div class="col">
+        <section>${secHead("Developing", esc(nm), IS.count(g.f.length, g.a.length))}<p class="cat-dek">${esc(g.x[L.code][1])}</p>
+        <p class="ev-sum-line">${g.live ? `<span class="ev-k"><i class="ev-dot" aria-hidden="true"></i>${esc(IS.ev.live)}</span>` : ""}<span>${esc(IS.ev.first)} <b class="num">${esc(fmt(g.first, { month: "short", day: "numeric" }))}</b> ${hhmm(g.first)}</span><span>${IS.ev.day(g.day)}</span>${g.latest ? `<span>${esc(IS.ev.latest)} <b class="num">${hhmm(g.latest.date)}</b></span>` : ""}</p>
+        ${issueIndex({ ...IA, cur: g.x.slug })}</section>
+        <section>${secHead("Chronology", esc(IS.ev.tl), esc(IS.ev.tlT), "h2")}${eventTimeline({ g, S: IS, u, esc, lang: L.code, fmt, hhmm, tz: L.tz })}</section>
+        </div>${rail()}</main></div>`,
+      }));
+      continue;
+    }
     const slides = [...arts.slice(0, 3).map((a) => ({ ...artSlide(a), eye: `${esc(nm)} · ${esc(a.author || L.name)}` })), ...fl.slice(0, Math.max(0, 3 - arts.length)).map((f) => ({ art: ART[f.category] || "blue-hour", eye: `${esc(nm)} · ${esc(L.wa.eye)} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 140), href: u(`flash/${f.id}/`), cta: L.wa.read }))];
     write(`${P}issue/${g.x.slug}/index.html`, layout({
       title: `${nm} · ${IS.title}`, description: `${g.x[L.code][1]}`, active: "issue/", canonical: `issue/${g.x.slug}/`,
@@ -539,7 +555,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   if (IG.all.length) write(`${P}issue/index.html`, layout({
     title: IS.title, description: IS.desc, active: "issue/", canonical: "issue/",
     body: `${hero(IG.all.slice().sort((a, b) => b.score - a.score).slice(0, 4).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return { art: ART[l?.category] || "blue-hour", eye: `In Focus · ${IS.count(g.f.length, g.a.length).replace(/<[^>]+>/g, "")}`, title: g.x[L.code][0], dek: g.x[L.code][1], href: u(`issue/${g.x.slug}/`), cta: L.code === "en" ? "Follow the issue" : "追踪议题" }; }), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>${secHead("In Focus", esc(IS.title), esc(IS.since))}<p class="cat-dek">${esc(IS.dek)}</p>
-    <ol class="is-list">${[...IG.all].sort((a, b) => b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li><a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x[L.code][0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x[L.code][1])}</p>${l ? `<p class="is-h"><span class="label">${esc(IS.recent)}</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
+    <ol class="is-list">${[...IG.all].sort((a, b) => (b.x.event ? 1 : 0) - (a.x.event ? 1 : 0) || b.score - a.score || (b.f.length + b.a.length) - (a.f.length + a.a.length)).map((g) => { const l = [...g.a, ...g.f].sort((x, y) => y.date - x.date)[0]; return `<li${g.x.event ? ' class="is-ev"' : ""}>${g.x.event ? `<span class="ev-k"><i class="ev-dot" aria-hidden="true"></i>${esc(g.live ? IS.ev.live : IS.ev.past)} · ${IS.ev.day(g.day)}</span>` : ""}<a class="is-lt" href="${u(`issue/${g.x.slug}/`)}">${esc(g.x[L.code][0])}</a><span class="is-c">${IS.count(g.f.length, g.a.length)}</span><p class="is-ld">${esc(g.x[L.code][1])}</p>${l ? `<p class="is-h"><span class="label">${esc(IS.recent)}</span> ${esc(l.title)}</p>` : ""}</li>`; }).join("")}</ol>
     </section></div>${rail()}</main></div>`,
   }));
 

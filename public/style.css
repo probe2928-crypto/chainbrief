@@ -1175,3 +1175,76 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
 .is-list .is-h{margin:8px 0 0;font-size:var(--fs-small);-webkit-line-clamp:1}
 .is-list .is-h .label{margin-right:6px}
 @media (max-width:600px){.is-list li{padding-left:40px;grid-template-columns:minmax(0,1fr)}.is-list li::before{font-size:22px}.is-lt{font-size:19px}.is-list .is-c{margin-top:4px}}
+
+/* ---------- 진행 중인 사건 (Developing) — 같은 고유명사+주제가 3건 이상 이어지면 사건으로 · 2026-10-31 ---------- */
+.ev-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:2px;flex:none;position:relative}
+.ev-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--signal);opacity:0;animation:evRing 2.4s cubic-bezier(.2,.6,.3,1) infinite}
+@keyframes evRing{0%{transform:scale(.4);opacity:.7}70%,100%{transform:scale(1.5);opacity:0}}
+.ev-k{display:inline-block;font-family:var(--f-label);font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--signal);white-space:nowrap}
+.ev-k .num{font-size:14px}
+.evs{list-style:none;margin:0;padding:0}
+.evs li+li .ev{border-top:1px solid var(--line)}
+.ev{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;column-gap:22px;row-gap:6px;padding:18px 22px 18px 20px;background:var(--w-rose);color:var(--wash-ink)}
+.ev::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--signal)}
+.evs li:first-child .ev{margin-top:18px}
+.evs li:last-child .ev{margin-bottom:2px}
+.ev-t{font-family:var(--f-serif);font-weight:800;font-size:23px;line-height:1.3;letter-spacing:-.025em;color:var(--wash-ink)}
+.ev-m{font-size:var(--fs-meta);color:var(--wash-sub);white-space:nowrap;text-align:right}
+.ev-m .num{color:var(--wash-ink);font-size:14px}
+.ev-m .dot{font-style:normal;opacity:.6}
+.ev-l{grid-column:2/3;font-family:var(--f-serif);font-size:15px;line-height:1.6;color:var(--wash-sub);display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.ev-l .label{margin-right:10px;color:var(--wash-sub);opacity:.8}
+.ev-go{grid-column:3/4;justify-self:end;font-size:var(--fs-meta);color:var(--wash-ink);border-bottom:1px solid currentColor;padding-bottom:1px;white-space:nowrap}
+.ev:hover .ev-t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.ev:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.issues .evs+.is-row{margin-top:10px}
+@media (max-width:760px){
+  .ev{grid-template-columns:minmax(0,1fr) auto;padding:16px 16px 16px 16px;column-gap:12px}
+  .ev-k{grid-column:1/2}
+  .ev-m{grid-column:2/3;grid-row:1}
+  .ev-t{grid-column:1/-1;font-size:21px}
+  .ev-l{grid-column:1/-1;-webkit-line-clamp:2}
+  .ev-go{grid-column:1/-1;justify-self:start;margin-top:4px}
+}
+/* 사건 페이지 요약 줄 + 경과(Chronology) */
+.ev-sum-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:14px 0 6px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:var(--fs-meta);color:var(--mute)}
+.ev-sum-line .num{color:var(--ink);font-size:15px}
+.ev-tl{list-style:none;margin:26px 0 0;padding:0 0 0 0;position:relative}
+.ev-tl::before{content:"";position:absolute;left:66px;top:8px;bottom:8px;width:1px;background:var(--line)}
+.ev-day{display:flex;align-items:baseline;gap:14px;padding:26px 0 10px 90px;position:relative}
+.ev-day:first-child{padding-top:4px}
+.ev-day::before{content:"";position:absolute;left:62px;top:calc(50% + 3px);width:9px;height:9px;border-radius:50%;background:var(--paper,var(--bg));border:1px solid var(--ink)}
+.ev-day:first-child::before{top:calc(50% - 8px)}
+.ev-dn{font-family:var(--f-serif);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
+.ev-dn .num{font-family:var(--f-num);font-weight:600;font-size:26px;letter-spacing:0;margin-right:2px}
+.ev-dd{font-size:var(--fs-meta);color:var(--faint)}
+.ev-it{display:grid;grid-template-columns:52px minmax(0,1fr);column-gap:38px;padding:12px 0;position:relative}
+.ev-it::before{content:"";position:absolute;left:64px;top:21px;width:5px;height:5px;border-radius:50%;background:var(--faint)}
+.ev-it.is-a::before{background:var(--ink);width:7px;height:7px;left:63px;top:20px}
+.ev-it.imp::before{background:var(--signal)}
+.ev-tm{font-family:var(--f-label);font-weight:500;font-size:14px;color:var(--mute);text-align:right;font-variant-numeric:tabular-nums;padding-top:2px}
+.ev-b .label{display:block;margin-bottom:3px;color:var(--faint)}
+.ev-b a{font-family:var(--f-serif);font-weight:700;font-size:17px;line-height:1.55;letter-spacing:-.015em;color:var(--ink)}
+.ev-it.is-a .ev-b a{font-size:20px;font-weight:800}
+.ev-b a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.ev-b p{margin:6px 0 0;font-family:var(--f-serif);font-size:var(--fs-small);line-height:1.7;color:var(--mute);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.desks .ev-dot{margin-right:6px;vertical-align:1px}
+.is-list li.is-ev .ev-k{grid-column:1/-1;margin-bottom:6px}
+.is-link.is-ev .label{display:inline-block;color:var(--signal);font-size:13px;letter-spacing:.02em;text-transform:none}
+@media (max-width:600px){
+  .ev-tl::before{left:8px}
+  .ev-day{padding-left:28px}
+  .ev-day::before{left:4px}
+  .ev-it{grid-template-columns:minmax(0,1fr);padding:10px 0 10px 28px}
+  .ev-it::before{left:6px;top:20px}
+  .ev-it.is-a::before{left:5px;top:19px}
+  .ev-it.is-a .ev-b a{font-size:18.5px}
+  .ev-tm{text-align:left;font-size:13px;padding:0}
+  .ev-b .label{display:inline;margin-left:8px}
+  .ev-tm+.ev-b{margin-top:2px}
+  .ev-it{display:block}
+  .ev-tm{display:inline}
+  .ev-b{display:contents}
+  .ev-b a{display:block;margin-top:3px}
+}
+@media (prefers-reduced-motion:reduce){.ev-dot::after{animation:none;opacity:0}}
