@@ -251,3 +251,7 @@ export function alsoLine(list, { names, label, esc, title = "" }) {
   if (!list.length) return "";
   return `<div class="also"${title ? ` title="${esc(title)}"` : ""}><span class="also-l">${esc(label)}</span>${list.map((a) => `<span class="also-x${a.kr ? " kr" : ""}">${esc(names[a.ex] || a.ex)}${a.mk ? `<small>${esc(a.mk)}</small>` : ""}</span>`).join("")}</div>`;
 }
+
+// 방문 통계 (GA4, 웹사이트만 — 앱은 별도 화면이라 들어가지 않음). 유럽·영국·스위스는 쿠키 없이, 광고 기능 꺼짐
+export const GA_ID = "G-8YQ1BGBDR7";
+export const gaSnippet = (hosts = ["probe2928-crypto.github.io"]) => `<script>(function(){if(${JSON.stringify(hosts)}.indexOf(location.hostname)<0)return;var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};var D={ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};gtag("consent","default",Object.assign({analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]},D));gtag("consent","default",Object.assign({analytics_storage:"granted"},D));gtag("js",new Date());gtag("config","${GA_ID}",{allow_google_signals:false,allow_ad_personalization_signals:false})})();</script>`;

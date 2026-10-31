@@ -6,7 +6,7 @@ import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -15,6 +15,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
 const MACRO_DATA = loadMacro(ROOT);
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "site.config.json"), "utf8"));
+const GA_HOSTS = ["probe2928-crypto.github.io", ...(cfg.domain ? [cfg.domain, "www." + cfg.domain] : [])];
 let BASE = process.env.BASE_PATH || "/";
 if (!BASE.endsWith("/")) BASE += "/";
 const SITE_URL = (cfg.domain ? `https://${cfg.domain}` : (process.env.SITE_URL || "")).replace(/\/$/, "");
@@ -184,6 +185,7 @@ const ABOUT = {
       ["What we collect", "There are no accounts. We do not collect names, contact details, location or advertising identifiers. The language, appearance and saved stories you choose in the app stay on your device and are never sent to our servers."],
       ["Third-party services", "To show prices and indicators, the website and apps connect directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me. Those services may keep standard connection logs, such as IP addresses, under their own policies. The website is served by GitHub Pages and loads fonts from Google Fonts."],
       ["Partners and outside links", "The service shows partner banners (BLOCKKEY, Perpline) and links to outside stories. Following a link takes you to that site, where its own privacy policy applies. We use no ad tracking."],
+      ["Visit statistics (website)", "The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out in your browser settings or with the Google Analytics opt-out add-on (tools.google.com/dlpage/gaoptout)."],
       ["Contact", "Send privacy questions to Telegram @{tg}."],
     ],
     about: "About",
@@ -198,6 +200,7 @@ const ABOUT = {
       ["我们收集的信息", "本服务无需注册，不收集姓名、联系方式、位置或广告标识符等可识别个人的信息。你在应用中选择的语言、显示模式与收藏的文章只保存在你的设备上，不会传送到我们的服务器。"],
       ["第三方服务", "为显示行情与指标，网站和应用会直接连接 CoinGecko、Upbit、Bithumb 与 Alternative.me 的公开接口。上述服务可能按其各自政策保留一般访问记录（如 IP 地址）。网站由 GitHub Pages 提供，字体来自 Google Fonts。"],
       ["合作伙伴与外部链接", "本服务展示合作伙伴（BLOCKKEY、Perpline）横幅及外部文章链接。点击后将前往相应网站，并适用该网站的隐私政策。本服务不使用广告追踪工具。"],
+      ["访问统计（网站）", "网站（不含应用）使用 Google Analytics 4 统计访问量：浏览的页面、设备与浏览器类型、大致地区等信息会发送给 Google，不会用于识别个人。广告功能与 Google 信号已关闭，在欧洲经济区、英国和瑞士以无 Cookie 方式运行。您可通过浏览器设置或 Google Analytics 停用插件（tools.google.com/dlpage/gaoptout）拒绝。"],
       ["联系方式", "如有隐私相关问题，请通过 Telegram @{tg} 联系我们。"],
     ],
     about: "About",
@@ -271,6 +274,7 @@ for (const L of [ED.en, ED.zh]) {
 <html lang="${L.html}">
 <head>
 <meta charset="utf-8">
+${gaSnippet(GA_HOSTS)}
 <script>try{if(/[?&](utm_source=(meta|facebook|instagram|fb|ig)|cb=ad)(&|$)/i.test(location.search))sessionStorage.setItem("cbAd","1");if(sessionStorage.getItem("cbAd")==="1")document.documentElement.classList.add("adclean")}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>

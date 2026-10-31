@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
@@ -12,6 +12,7 @@ import { issueGroups, issueBand, issueIndex, issueLink } from "./issues.mjs";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "site.config.json"), "utf8"));
+const GA_HOSTS = ["probe2928-crypto.github.io", ...(cfg.domain ? [cfg.domain, "www." + cfg.domain] : [])];
 
 let BASE = process.env.BASE_PATH || "/";
 if (!BASE.endsWith("/")) BASE += "/";
@@ -112,6 +113,7 @@ function layout({ title, description = cfg.description, active = "", body, canon
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+${gaSnippet(GA_HOSTS)}
 <script>try{if(/[?&](utm_source=(meta|facebook|instagram|fb|ig)|cb=ad)(&|$)/i.test(location.search))sessionStorage.setItem("cbAd","1");if(sessionStorage.getItem("cbAd")==="1")document.documentElement.classList.add("adclean")}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
@@ -712,7 +714,7 @@ write("privacy/index.html", layout({
   body: `<div class="wrap"><main class="single">
   ${secHead("Privacy", "개인정보처리방침")}
   <div class="prose" style="margin-top:32px">
-  <p>체인브리프(CHAINBRIEF, 이하 "서비스")는 웹사이트와 iOS·안드로이드 앱에서 이용자의 개인정보를 최소한으로만 다룹니다. 시행일: 2026년 10월 26일.</p>
+  <p>체인브리프(CHAINBRIEF, 이하 "서비스")는 웹사이트와 iOS·안드로이드 앱에서 이용자의 개인정보를 최소한으로만 다룹니다. 시행일: 2026년 10월 26일 (2026년 10월 31일 방문 통계 항목 추가).</p>
   <h2>수집하는 정보</h2>
   <p>앱과 웹사이트는 회원가입이 없으며, 이름·연락처·위치·광고 식별자 등 개인을 알아볼 수 있는 정보를 수집하지 않습니다. 앱에서 고른 언어·화면 모드와 저장한 기사는 이용자의 기기 안에만 저장되고 서버로 전송되지 않습니다.</p>
   <h2>외부 서비스</h2>
@@ -721,10 +723,12 @@ write("privacy/index.html", layout({
   <p>웹사이트 게시판에 글이나 댓글을 쓰면 입력한 닉네임과 내용, 삭제용 비밀번호의 암호화 값, 도배 방지를 위한 접속 IP의 해시 값이 저장됩니다. 이 정보는 게시판 운영에만 쓰이며, 작성자는 언제든 비밀번호로 삭제할 수 있습니다.</p>
   <h2>광고·외부 링크</h2>
   <p>서비스에는 제휴사(BLOCKKEY, Perpline) 배너와 외부 기사 링크가 있습니다. 링크를 누르면 해당 사이트로 이동하며, 그 사이트의 개인정보 정책이 적용됩니다. 서비스는 광고 추적 도구를 쓰지 않습니다.</p>
+  <h2>방문 통계 (웹사이트)</h2>
+  <p>웹사이트는 방문 통계를 위해 Google 애널리틱스(GA4)를 사용합니다. 방문한 페이지, 기기·브라우저 종류, 대략적인 지역 같은 정보가 Google에 전송되며 개인을 식별하는 데 쓰지 않습니다. 광고 기능과 Google 신호는 꺼 두었고, 유럽(EEA)·영국·스위스에서는 쿠키 없이 동작합니다. 브라우저 설정이나 <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google 애널리틱스 차단 부가기능</a>으로 거부할 수 있습니다. iOS·안드로이드 앱에는 이 도구가 들어 있지 않습니다.</p>
   <h2>문의</h2>
   <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
   <h2>Privacy Policy (English)</h2>
-  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Contact: Telegram @${esc(cfg.telegram)}.</p>
   </div>
   </main></div>`,
 }));
