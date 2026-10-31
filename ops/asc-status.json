@@ -1,0 +1,123 @@
+{
+  "at": "2026-10-31T02:06:13.714Z",
+  "cmd": "status",
+  "apps": [
+    {
+      "app": "chainbrief",
+      "bundle": "com.chainbrief.app",
+      "errors": [],
+      "appId": "6829091321",
+      "name": "CHAINBRIEF",
+      "primaryLocale": "en-US",
+      "builds": [
+        {
+          "id": "6b71fa43-1abb-4edb-938c-ba4f6da23ef2",
+          "build": "15",
+          "version": "1.3.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T18:52:31-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "6b71fa43-1abb-4edb-938c-ba4f6da23ef2",
+        "build": "15",
+        "version": "1.3.0",
+        "state": "VALID",
+        "uploaded": "2026-10-30T18:52:31-07:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "50c212b2-df8b-4c05-9eab-a32987ac5598",
+          "version": "1.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-10-30T18:05:55-07:00"
+        }
+      ],
+      "reviewSubmissions": []
+    },
+    {
+      "app": "luft",
+      "bundle": "kr.luft.store",
+      "errors": [],
+      "appId": "6829093001",
+      "name": "LUFT",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "fc5b151b-4524-443a-96d9-fc8e0c956970",
+          "build": "9",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:00:07-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "fc5b151b-4524-443a-96d9-fc8e0c956970",
+        "build": "9",
+        "version": "1.0.0",
+        "state": "VALID",
+        "uploaded": "2026-10-30T19:00:07-07:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "8225ca7f-21e2-44e4-992d-eb71c17be34d",
+          "version": "1.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-10-30T18:13:18-07:00"
+        }
+      ],
+      "reviewSubmissions": []
+    },
+    {
+      "app": "qurator",
+      "bundle": "kr.qurator.dailyart",
+      "errors": [],
+      "appId": "6829093287",
+      "name": "QURATOR — Daily Art",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "9fa69b54-4230-4ad1-bd81-0472461ec958",
+          "build": "10",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:00:45-07:00",
+          "expired": false
+        },
+        {
+          "id": "02792c4f-f25a-498a-ba46-957e5b4baa98",
+          "build": "9",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T18:59:06-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "9fa69b54-4230-4ad1-bd81-0472461ec958",
+        "build": "10",
+        "version": "1.0.0",
+        "state": "VALID",
+        "uploaded": "2026-10-30T19:00:45-07:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
+          "version": "1.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-10-30T18:14:07-07:00"
+        }
+      ],
+      "reviewSubmissions": []
+    }
+  ],
+  "log": []
+}
