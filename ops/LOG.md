@@ -1,6 +1,5 @@
 # 운영 일지 (최신이 위)
 
-
 2026-10-31 19:36 | 커뮤니티 매니저 | 답글 0 · 바깥 댓글 4 (X 3: CoinDesk·Cointelegraph·WuBlockchain / 링크드인 1: Cointelegraph) | 첫 회차 — 반응은 다음 회차 확인 · 기록 ops/engagement.md
 2026-10-31 15:50 | AI 디자인 디렉터 | 주간 디자인 점검 8개 사이트: 고친 것 3(chainbrief 中文 제목 줄바꿈·yeobaek 허브 카드·luft 모바일 라벨), 시안 lifejunjun design/20261031-ljj-feature-hero | 세준 적용 OK 대기 · 기록 ops/DESIGN.md
 2026-10-31 13:24 | 앱스토어 매니저 | 체인브리프 심사대기(1.3.0 b15) · LUFT 제출준비(b8, sync 오류 없음) · QURATOR 심사대기(1.0.0 b10) | LUFT 앱: 홈에서 '샵' 탭 눌러도 목록으로 안 내려가던 버그 수정(luft 41eeb6c, 빌드는 일요일) · 플레이 본인인증 완료 메일 확인 / LUFT는 토스 클라이언트 키 비어 있어 제출 보류 · 안드로이드 출시 서명키 Secrets 아직 없음(출시 AAB 단계 skip)
