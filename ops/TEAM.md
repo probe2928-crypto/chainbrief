@@ -24,3 +24,10 @@
 | 월·수·금 08:47 | Perpline 고도화·디자인 | 디자인·시황 노트 | 매번 |
 그 밖: EN·中文 발행, 라이브 속보, 광고 체크(Bitmedia·메타), 인생준준·여백의 지도, 긍정학개론, 영어 공부, BLOCKKEY 등 기존 작업 유지.
 정리: '이사 아침 브리핑 09:17'은 09:13·08:23과 겹쳐서 꺼둠(삭제 아님).
+
+## 도구 (2026-10-31 실무이사 추가)
+- Google Search Console(probe2928@gmail.com): chainbrief·perpline·qurator·luft·lifejunjun·yeobaek·blockkey·oriel 8개 사이트 소유 확인(파일 google73631224b8745f18.html — 지우지 말 것). 사이트맵 제출: chainbrief·perpline·blockkey·oriel.
+- Google Analytics 4: 계정 a190604910 / 속성 263527390(probe29) / 웹 스트림 CHAINBRIEF, 측정 ID G-8YQ1BGBDR7 — 위 8개 사이트 공용(페이지 경로로 사이트 구분). 웹사이트만, 앱·TWA·ko(Perpline) 제외, 유럽·영국·스위스는 쿠키 없이, 광고 기능 꺼짐. 개인정보처리방침에 안내 추가(oriel은 방침 섹션 없음).
+- 앱스토어: scripts/asc.mjs + .github/workflows/asc.yml (App Store Connect API).
+- OpenSEO 프로젝트 CHAINBRIEF(722325ea…) — 사이트 감사 1회 실행.
+- 연결만 하면 되는 것(세준 로그인 필요): Supermetrics의 Facebook 페이지·Instagram·LinkedIn 페이지·X·GA4·Search Console, OpenSEO의 GA4·Search Console 연동, HyperFrames 재연결.
