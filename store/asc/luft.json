@@ -1,0 +1,33 @@
+{
+  "bundle": "kr.luft.store",
+  "category": "SHOPPING",
+  "category2": "LIFESTYLE",
+  "copyright": "2026 LUFT",
+  "contentRights": "USES_THIRD_PARTY_CONTENT",
+  "territories": {
+    "only": [
+      "KOR"
+    ]
+  },
+  "screenshots": "_luft_store",
+  "submit": false,
+  "locales": {
+    "ko": {
+      "name": "LUFT",
+      "subtitle": "서울 컬렉션 · 내 이름을 새기는 케이스",
+      "description": "가볍게 떠나는 일상. LUFT는 여행과 하루를 가볍게 만드는 물건만 고릅니다.\n\n· 서울 컬렉션: 일월오봉, 달항아리, 청자, 나전, 모란, 보자기, 단청. 한국 유산 모티프를 담은 폰케이스에 내 이름 낙관을 새겨 국내에서 한 개씩 만듭니다.\n· LUFT ORIGINAL: 이니셜과 여행 기록을 새기는 케이스\n· 여행 소품: 공항에서 숙소까지 짐을 줄여 주는 물건들\n\n주문 제작 케이스는 국내에서 만들어 보내드립니다. 주문 조회, 교환·반품 접수, 1:1 문의를 앱에서 바로 할 수 있어요.",
+      "keywords": "폰케이스,아이폰케이스,각인,이름,한국전통,달항아리,일월오봉,여행용품,기념품,선물",
+      "promo": "한국 유산 모티프 폰케이스에 내 이름 낙관을 새겨 한 개씩 만듭니다.",
+      "privacyUrl": "https://probe2928-crypto.github.io/luft/#info",
+      "supportUrl": "https://probe2928-crypto.github.io/luft/#help",
+      "marketingUrl": "https://probe2928-crypto.github.io/luft/"
+    }
+  },
+  "review": {
+    "firstName": "Sejun",
+    "lastName": "Park",
+    "phone": "+82 10-5529-5086",
+    "email": "probe2928@gmail.com",
+    "notes": "실물 상품(폰케이스·여행 소품) 쇼핑 앱이며, 결제는 토스페이먼츠 카드 결제입니다(App Review 3.1.3(e) 실물 상품). 회원가입 없는 비회원 주문이라 로그인 정보가 필요 없습니다.\nPhysical goods store (phone cases, travel goods). Payments are card payments through Toss Payments (guideline 3.1.3(e)). Guest checkout, no login needed."
+  }
+}

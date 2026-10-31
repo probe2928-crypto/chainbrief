@@ -8,3 +8,7 @@ app/android/
 app/ios/
 .DS_Store
 data/macro.json
+
+_luft_store/
+_qurator_store/
+ops/

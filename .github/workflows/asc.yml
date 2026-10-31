@@ -1,0 +1,58 @@
+name: 앱스토어 관리 (App Store Connect)
+# 스토어 문구·스크린샷·연령등급·가격·판매국가·심사 정보·빌드 연결·심사 제출을 애플 API로 처리한다.
+# 설정: store/asc/<앱>.json · 코드: scripts/asc.mjs · 결과: ops-status 브랜치 ops/asc-status.json (비밀값 없음)
+# 매일 아침 상태만 읽어서 기록 → 앱스토어 매니저(예약 작업)가 읽고 판단한다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: "status / sync / submit"
+        required: true
+        default: status
+      apps:
+        description: "chainbrief,qurator,luft (비우면 전부)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "17 21 * * *"   # 매일 06:17 KST 상태 기록
+
+permissions:
+  contents: write
+
+concurrency: { group: asc, cancel-in-progress: false }
+
+jobs:
+  asc:
+    runs-on: ubuntu-latest
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: 22 }
+      - name: 스크린샷 가져오기 (LUFT · QURATOR)
+        run: |
+          git clone -q --depth 1 https://github.com/probe2928-crypto/luft /tmp/luft && mkdir -p _luft_store && cp /tmp/luft/app/store/ios-*.png _luft_store/ || true
+          git clone -q --depth 1 --branch android-build https://github.com/probe2928-crypto/qurator /tmp/qurator && mkdir -p _qurator_store && cp /tmp/qurator/store/ios-*.png _qurator_store/ || true
+          ls _luft_store _qurator_store app/store | head -40
+      - name: 실행
+        run: node scripts/asc.mjs "${{ github.event.inputs.cmd || 'status' }}" "${{ github.event.inputs.apps }}"
+      - name: 결과 올리기 (ops-status 브랜치)
+        if: always()
+        run: |
+          [ -f ops/asc-status.json ] || exit 0
+          cp ops/asc-status.json /tmp/asc-status.json
+          git config user.name "chainbrief-bot"; git config user.email "actions@users.noreply.github.com"
+          git fetch -q origin ops-status || true
+          if git rev-parse -q --verify origin/ops-status >/dev/null; then git checkout -q -B ops-status origin/ops-status; else git checkout -q --orphan ops-status; git rm -rqf . || true; fi
+          mkdir -p ops && cp /tmp/asc-status.json ops/asc-status.json
+          git add ops/asc-status.json
+          git commit -qm "앱스토어 상태 $(date -u +%Y-%m-%dT%H:%MZ) (${{ github.event.inputs.cmd || 'status' }})" || exit 0
+          git push -q origin ops-status
+          {
+            echo '### App Store Connect'
+            node -e 'const r=require("/tmp/asc-status.json");for(const a of r.apps){console.log(`- **${a.app}** 버전: ${(a.versions||[]).map(v=>v.version+" "+v.state).join(", ")||"-"} · 빌드: ${a.latestValidBuild?a.latestValidBuild.version+" ("+a.latestValidBuild.build+")":"처리 중/없음"} · 오류 ${a.errors?.length||0}`);for(const e of a.errors||[])console.log(`  - ${e}`)}'
+          } >> "$GITHUB_STEP_SUMMARY"

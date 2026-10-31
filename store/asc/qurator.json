@@ -1,0 +1,33 @@
+{
+  "bundle": "kr.qurator.dailyart",
+  "category": "EDUCATION",
+  "category2": "LIFESTYLE",
+  "copyright": "2026 Sejun Park",
+  "contentRights": "USES_THIRD_PARTY_CONTENT",
+  "territories": {
+    "exclude": [
+      "CHN"
+    ]
+  },
+  "screenshots": "_qurator_store",
+  "submit": true,
+  "locales": {
+    "ko": {
+      "name": "QURATOR — Daily Art",
+      "subtitle": "QR 도슨트 · 오늘의 명작과 영어 해설",
+      "description": "작품 옆 QR을 찍으면 해설이 텍스트와 음성으로 열립니다.\n매일 한 점의 명작을 영어 해설, 한국어 번역, 도슨트 음성으로 소개합니다.\n\n· QR 스캔: 전시장의 QURATOR QR을 앱으로 바로 읽기\n· 오늘의 작품: 매일 한 점, 영어 해설 + 한국어 번역 + 오늘의 영어 표현\n· 특집: 지금 미술계에서 화제인 작품을 미술사의 눈으로\n· 탐색: 시카고 미술관·클리블랜드 미술관 공개 소장품 검색\n· 지난 작품 모아 보기\n\nQURATOR의 나눔은 오리엘 재단을 통해 도움이 필요한 가정과 사랑스런 아이들에게 전해질 예정입니다(재단 등록 후 집행).",
+      "keywords": "미술,도슨트,QR,작품해설,미술관,전시,명화,영어공부,미술사,오디오가이드",
+      "promo": "작품 옆 QR 하나로 해설·음성·영어 표현까지. 매일 한 점, 명작과 친해지는 시간.",
+      "privacyUrl": "https://probe2928-crypto.github.io/qurator/#/policy/privacy",
+      "supportUrl": "https://probe2928-crypto.github.io/qurator/#/support",
+      "marketingUrl": "https://probe2928-crypto.github.io/qurator/"
+    }
+  },
+  "review": {
+    "firstName": "Sejun",
+    "lastName": "Park",
+    "phone": "+82 10-5529-5086",
+    "email": "probe2928@gmail.com",
+    "notes": "무료 앱입니다. 로그인·결제·구독 판매가 없습니다. (Free app. No login, no purchases.)\nQR scan test: turn any artwork page into a QR code, e.g. https://probe2928-crypto.github.io/qurator/#/w/w-starry , then tap the scan button at the top right. The commentary for that artwork opens.\nThe camera is used only to read QR codes; nothing is stored or sent.\nArtwork images are public-domain works from museum open-access collections (Art Institute of Chicago, Cleveland Museum of Art, Wikimedia Commons)."
+  }
+}
