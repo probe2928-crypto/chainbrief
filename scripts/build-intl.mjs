@@ -25,6 +25,8 @@ const NOW = new Date();
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 
 const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// 中文 큰 제목: 한자↔영문·숫자 경계에 줄바꿈 기회(<wbr>) — keep-all이라 'Solan/a'처럼 영단어 중간이 잘리던 것 방지 (디자인 점검 10/31)
+const zt = (s = "", code = "") => code === "zh" ? esc(s).replace(/([\u3400-\u9fff])(?=[A-Za-z0-9$])|([A-Za-z0-9%])(?=[\u3400-\u9fff])/g, "$1$2<wbr>") : esc(s);
 const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
 function frontmatter(src) {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -339,7 +341,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     const ext = (h) => /^https?:/.test(h) ? ' target="_blank" rel="noopener nofollow"' : "";
     return `<section class="hero hero-${size}" data-hero aria-roledescription="carousel">
   <div class="hero-track">${slides.map((sl, i) => `<article class="slide${i ? "" : " is-active"}" aria-roledescription="slide"${i ? ' aria-hidden="true"' : ""}>${artImg(pick(sl.art), !i)}<div class="slide-shade"></div>
-    <div class="wrap slide-body"><span class="slide-eye">${sl.eye}</span><h2 class="slide-t"><a href="${esc(sl.href)}"${ext(sl.href)}>${esc(sl.title)}</a></h2>${sl.dek ? `<p class="slide-d">${esc(sl.dek)}</p>` : ""}<a class="slide-cta" href="${esc(sl.href)}"${ext(sl.href)} tabindex="-1">${esc(sl.cta)} <span aria-hidden="true">→</span></a></div></article>`).join("")}</div>
+    <div class="wrap slide-body"><span class="slide-eye">${sl.eye}</span><h2 class="slide-t"><a href="${esc(sl.href)}"${ext(sl.href)}>${zt(sl.title, L.code)}</a></h2>${sl.dek ? `<p class="slide-d">${esc(sl.dek)}</p>` : ""}<a class="slide-cta" href="${esc(sl.href)}"${ext(sl.href)} tabindex="-1">${esc(sl.cta)} <span aria-hidden="true">→</span></a></div></article>`).join("")}</div>
   ${slides.length > 1 ? `<div class="wrap hero-ui"><div class="hero-bars">${slides.map((_, i) => `<button type="button" class="hero-bar" aria-label="${i + 1}"><i></i></button>`).join("")}</div><span class="hero-count num"><b>01</b> / ${String(slides.length).padStart(2, "0")}</span><button type="button" class="hero-nav" data-dir="-1" aria-label="Previous">←</button><button type="button" class="hero-nav" data-dir="1" aria-label="Next">→</button></div>` : ""}
 </section>`;
   }
@@ -388,7 +390,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   <a class="cf cf-klein" href="${u("market/")}" data-tape="bitcoin"><span class="cf-l">${esc(L.cf[0])}</span><span class="cf-big p">—</span><span class="cf-s c"></span></a>
   <a class="cf cf-coral" href="${u("surge/")}"><span class="cf-l">${esc(L.cf[2])}</span><span class="cf-big" data-fng>—</span><span class="cf-s" data-fng-lbl>Fear &amp; Greed</span></a>
   <a class="cf cf-lavender" href="${u("listings/")}"><span class="cf-l">${esc(L.cf[3])}</span><span class="cf-big">${wk.length}</span><span class="cf-s">Global ${wk.filter((i) => !isKR(i)).length} · Korea ${wk.filter(isKR).length}</span></a>
-  ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(L.cf[4])} · ${esc(topArt.author || "")}</span><span class="cf-title">${esc(topArt.title)}</span><span class="cf-s">${esc(L.readMore)} →</span></a>` : ""}
+  ${topArt ? `<a class="cf cf-olive cf-art" href="${u(`articles/${topArt.id}/`)}"><span class="cf-l">${esc(L.cf[4])} · ${esc(topArt.author || "")}</span><span class="cf-title">${zt(topArt.title, L.code)}</span><span class="cf-s">${esc(L.readMore)} →</span></a>` : ""}
 </div></section>`;
   const cats = [["전체", L.all], ["중요", L.breaking], ...L.cats.map((c) => [c, c])];
   // 홈은 최근 2일 속보만 (최소 24·최대 40건) — 나머지는 /flash/ 아카이브
@@ -431,7 +433,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: f.title, description: plain(f.body || f.title).slice(0, 160), canonical: `flash/${f.id}/`, type: "article",
       body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
-      <h1>${esc(f.title)}</h1>${ccLine(f.title, f.body)}${issueLink({ ...IA, item: f })}<div class="prose">${markdown(f.body || "")}</div>
+      <h1>${zt(f.title, L.code)}</h1>${ccLine(f.title, f.body)}${issueLink({ ...IA, item: f })}<div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${CH ? CH.card : ""}</article>
       ${near.length ? `<section>${secHead("Also", esc(L.alsoT), "", "h2")}${near.map(flashItem).join("")}</section>` : ""}</div>${rail()}</main></div>`,
     }));
@@ -502,7 +504,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
       body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
-      <h1>${esc(a.title)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}
+      <h1>${zt(a.title, L.code)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
