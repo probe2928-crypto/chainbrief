@@ -28,18 +28,24 @@ async function tg(method, body) {
 const T = {
   en: {
     desc: `Crypto news, briefed fast. Breaking headlines, new exchange listings (Binance, OKX, Bybit, Coinbase) and short sourced analysis. Free. Web: ${SITE.replace(/^https:\/\//, "")}en · Contact @${cfg.telegram}`,
-    welcome: (h) => `👋 <b>Welcome to CHAINBRIEF</b>\n\nWhat you get here, free:\n🔴 Breaking crypto news as it happens\n🆕 New exchange listings: Binance, OKX, Bybit, Coinbase and more\n☀️ A daily brief with the five stories that matter\n📰 Short, sourced analysis\n\nKnow someone who trades? Share the channel: ${link(h)}\n\n<i>News only, not financial advice.</i>`,
+    welcome: (h) => `👋 <b>Welcome to CHAINBRIEF</b>\n\nWhat you get here, free:\n🔴 Breaking crypto news as it happens\n🆕 New exchange listings: Binance, OKX, Bybit, Coinbase and more\n☀️ A daily brief with the five stories that matter\n📰 Short, sourced analysis\n\n🌐 Full stories, live prices and the listings calendar on our website (buttons below)\n\nKnow someone who trades? Share the channel: ${link(h)}\n\n<i>News only, not financial advice.</i>`,
     brief: (d) => `☀️ <b>Daily Brief</b> · ${d}`,
     share: (h) => `Share CHAINBRIEF → ${link(h)}`,
     lang: "en-US", tz: "UTC", dir: "content/en/flash", pre: "en/",
   },
   zh: {
     desc: `加密快讯，一眼读懂。突发新闻、交易所上币提醒（币安、OKX、Bybit、Coinbase）与有出处的简短分析，免费订阅。网站 ${SITE.replace(/^https:\/\//, "")}zh · 联系 @${cfg.telegram}`,
-    welcome: (h) => `👋 <b>欢迎来到 CHAINBRIEF 链报</b>\n\n在这里免费获得：\n🔴 第一时间的加密突发新闻\n🆕 交易所新上币提醒：币安、OKX、Bybit、Coinbase 等\n☀️ 每日简报：当天最重要的五条新闻\n📰 有出处的简短分析\n\n身边有做交易的朋友？分享频道：${link(h)}\n\n<i>仅为资讯，不构成投资建议。</i>`,
+    welcome: (h) => `👋 <b>欢迎来到 CHAINBRIEF 链报</b>\n\n在这里免费获得：\n🔴 第一时间的加密突发新闻\n🆕 交易所新上币提醒：币安、OKX、Bybit、Coinbase 等\n☀️ 每日简报：当天最重要的五条新闻\n📰 有出处的简短分析\n\n🌐 完整报道、实时行情与上币日历请看网站（下方按钮）\n\n身边有做交易的朋友？分享频道：${link(h)}\n\n<i>仅为资讯，不构成投资建议。</i>`,
     brief: (d) => `☀️ <b>每日简报</b> · ${d}`,
     share: (h) => `分享链报 → ${link(h)}`,
     lang: "zh-CN", tz: "Asia/Hong_Kong", dir: "content/zh/flash", pre: "zh/",
   },
+};
+
+const utm = (u) => `${u}${u.includes("?") ? "&" : "?"}utm_source=telegram&utm_medium=channel`;
+const KB = {
+  en: (pre) => ({ inline_keyboard: [[{ text: "🌐 Open CHAINBRIEF", url: utm(`${SITE}${pre}`) }], [{ text: "📈 Live prices", url: utm(`${SITE}${pre}market/`) }, { text: "🆕 Listings", url: utm(`${SITE}${pre}listings/`) }]] }),
+  zh: (pre) => ({ inline_keyboard: [[{ text: "🌐 打开链报网站", url: utm(`${SITE}${pre}`) }], [{ text: "📈 实时行情", url: utm(`${SITE}${pre}market/`) }, { text: "🆕 上币动态", url: utm(`${SITE}${pre}listings/`) }]] }),
 };
 
 function frontmatter(src) {
@@ -71,11 +77,14 @@ if (cmd === "setup") {
     state.welcome = state.welcome || {};
     if (!state.welcome[lang]) {
       try {
-        const m = await tg("sendMessage", { chat_id: h, text: T[lang].welcome(h), parse_mode: "HTML", link_preview_options: { is_disabled: true } });
+        const m = await tg("sendMessage", { chat_id: h, text: T[lang].welcome(h), parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: KB[lang](T[lang].pre) });
         state.welcome[lang] = m.message_id;
         try { await tg("pinChatMessage", { chat_id: h, message_id: m.message_id, disable_notification: true }); console.log(lang, "환영 글 고정"); }
         catch (e) { console.log(lang, "고정 실패 —", e.message); }
       } catch (e) { console.log(lang, "환영 글 실패 —", e.message); }
+    } else {
+      try { await tg("editMessageText", { chat_id: h, message_id: state.welcome[lang], text: T[lang].welcome(h), parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: KB[lang](T[lang].pre) }); console.log(lang, "환영 글 수정(사이트 버튼)"); }
+      catch (e) { console.log(lang, "환영 글 수정 실패 —", e.message); }
     }
   }
   fs.writeFileSync(STATE, JSON.stringify(state, null, 1));
@@ -97,7 +106,7 @@ if (cmd === "brief") {
   const day = new Intl.DateTimeFormat(t.lang, { timeZone: t.tz, month: "short", day: "numeric", weekday: "short" }).format(new Date());
   const lines = top.map((x, i) => `${i + 1}. <a href="${SITE}${t.pre}flash/${x.id}/">${esc(x.title)}</a>`).join("\n");
   const text = `${t.brief(day)}\n\n${lines}\n\n${t.share(h)}`;
-  const m = await tg("sendMessage", { chat_id: h, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } });
+  const m = await tg("sendMessage", { chat_id: h, text, parse_mode: "HTML", link_preview_options: { is_disabled: true }, reply_markup: KB[lang](t.pre) });
   state.brief[key] = m.message_id;
   state.brief = Object.fromEntries(Object.entries(state.brief).slice(-60));
   fs.writeFileSync(STATE, JSON.stringify(state, null, 1));

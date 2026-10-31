@@ -61,10 +61,22 @@ function message(x) {
   return `📰 <b>${esc(x.title)}</b>\n\n${esc(x.summary || "")}\n\n<a href="${url}">${esc(t.read)} →</a>${by}${tag}`;
 }
 
-async function send(chat, html, url) {
+// 게시물 아래 버튼: 기사 원문 · 사이트(시세·상장) — 채널 구독자를 홈페이지로 이어 줌 (GA에 utm으로 잡힘)
+const BTN = {
+  ko: { read: "기사 보기", site: "체인브리프 홈", list: "상장 소식" },
+  en: { read: "Read on CHAINBRIEF", site: "Live prices", list: "Listings" },
+  zh: { read: "阅读全文", site: "实时行情", list: "上币动态" },
+};
+const utm = (u) => `${u}${u.includes("?") ? "&" : "?"}utm_source=telegram&utm_medium=channel`;
+function buttons(lang, url) {
+  const b = BTN[lang] || BTN.en, pre = L[lang]?.pre || "";
+  return { inline_keyboard: [[{ text: `📰 ${b.read}`, url: utm(url) }], [{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]] };
+}
+
+async function send(chat, html, url, lang) {
   const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
     method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: { url, prefer_small_media: true, show_above_text: false } }),
+    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: { url, prefer_small_media: true, show_above_text: false }, ...(lang ? { reply_markup: buttons(lang, url) } : {}) }),
   });
   const j = await r.json().catch(() => ({}));
   if (!j.ok) throw new Error(j.description || `HTTP ${r.status}`);
@@ -94,7 +106,7 @@ for (const lang of Object.keys(L)) {
   let n = 0;
   for (const x of fresh) {
     if (DRY) { console.log(`[${lang}] ${chat}\n${message(x)}\n`); seen.add(x.id); continue; }
-    try { await send(chat, message(x), urlOf(x)); seen.add(x.id); n++; changed = true; await new Promise((r) => setTimeout(r, 1500)); }
+    try { await send(chat, message(x), urlOf(x), lang); seen.add(x.id); n++; changed = true; await new Promise((r) => setTimeout(r, 1500)); }
     catch (e) { console.log(`텔레그램 ${lang} 실패: ${x.id} — ${e.message}`); if (/chat not found|not enough rights|bot is not a member/i.test(e.message)) break; }
   }
   state[lang] = [...seen].slice(-800);
