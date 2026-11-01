@@ -10,15 +10,16 @@ const OUT = path.join(ROOT, "data/returns.json");
 const UA = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36", Accept: "application/json" };
 const COINS = [
   { sym: "BTC", yahoo: "BTC-USD", bitstamp: "btcusd", from: "2013-01-01" },
-  { sym: "ETH", yahoo: "ETH-USD", from: "2016-01-01" },
+  { sym: "ETH", yahoo: "ETH-USD", cc: "ETH", from: "2016-01-01" },
   { sym: "SOL", yahoo: "SOL-USD", from: "2020-05-01" },
-  { sym: "XRP", yahoo: "XRP-USD", from: "2014-01-01" },
+  { sym: "XRP", yahoo: "XRP-USD", cc: "XRP", bitstamp: "xrpusd", from: "2014-01-01" },
 ];
 const FORCE = process.argv.includes("--force");
 
 let old = null;
 try { old = JSON.parse(fs.readFileSync(OUT, "utf8")); } catch {}
-if (old && !FORCE && Date.now() - new Date(old.updated).getTime() < 6 * 3600e3) { console.log("수익률: 6시간 안에 갱신됨 — 건너뜀"); process.exit(0); }
+const VER = 2; // 데이터 형식·수집 방식이 바뀌면 올린다 (캐시된 옛 파일 무시)
+if (old && old.v === VER && !FORCE && Date.now() - new Date(old.updated).getTime() < 6 * 3600e3) { console.log("수익률: 6시간 안에 갱신됨 — 건너뜀"); process.exit(0); }
 
 const day = (ms) => new Date(ms).toISOString().slice(0, 10);
 async function getJSON(url) {
@@ -27,10 +28,12 @@ async function getJSON(url) {
   finally { clearTimeout(t); }
 }
 
-async function yahoo(sym) {
+async function yahoo(sym, fromIso) {
+  // range=max 는 오래된 구간을 듬성듬성 돌려줘서 월말 종가가 틀어진다 → period1/period2 로 일봉 전부 받기
+  const p1 = Math.floor(new Date(fromIso + "T00:00:00Z").getTime() / 1000), p2 = Math.floor(Date.now() / 1000) + 86400;
   for (const host of ["query1", "query2"]) {
     try {
-      const j = await getJSON(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=max&interval=1d`);
+      const j = await getJSON(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?period1=${p1}&period2=${p2}&interval=1d`);
       const r = j?.chart?.result?.[0]; const ts = r?.timestamp || []; const cl = r?.indicators?.quote?.[0]?.close || [];
       const out = new Map();
       ts.forEach((t, i) => { if (cl[i] != null && cl[i] > 0) out.set(day(t * 1000), cl[i]); });
@@ -54,26 +57,42 @@ async function bitstamp(pair, fromIso, toIso) {
   return out;
 }
 
-const result = { updated: new Date().toISOString(), note: "Daily closes at 00:00 UTC. Sources: Yahoo Finance chart API; Bitstamp for BTC before Yahoo history.", coins: {} };
+// CryptoCompare 일봉(키 없이 가능할 때만) — Yahoo 이전 구간 보충용
+async function cryptocompare(fsym, fromIso, toIso) {
+  const out = new Map(); let to = Math.floor(new Date(toIso + "T00:00:00Z").getTime() / 1000);
+  const from = Math.floor(new Date(fromIso + "T00:00:00Z").getTime() / 1000);
+  for (let i = 0; i < 5 && to > from; i++) {
+    const j = await getJSON(`https://min-api.cryptocompare.com/data/v2/histoday?fsym=${fsym}&tsym=USD&limit=2000&toTs=${to}`);
+    const rows = j?.Data?.Data || []; if (!rows.length) break;
+    for (const r of rows) if (r.close > 0) out.set(day(r.time * 1000), r.close);
+    to = rows[0].time - 86400;
+  }
+  return out;
+}
+
+const result = { v: VER, updated: new Date().toISOString(), note: "Daily closes at 00:00 UTC. Sources: Yahoo Finance chart API; Bitstamp for BTC before Yahoo history.", coins: {} };
 for (const c of COINS) {
   try {
-    const y = await yahoo(c.yahoo);
+    const y = await yahoo(c.yahoo, c.from);
     let map = y.map;
     const first = [...map.keys()].sort()[0];
-    if (c.bitstamp && first > c.from) {
-      try { const b = await bitstamp(c.bitstamp, c.from, first); for (const [d, v] of b) if (!map.has(d)) map.set(d, v); }
-      catch (e) { console.log(`${c.sym} Bitstamp 보충 실패: ${e.message}`); }
+    for (const [name, fn] of [["CryptoCompare", c.cc && (() => cryptocompare(c.cc, c.from, first))], ["Bitstamp", c.bitstamp && (() => bitstamp(c.bitstamp, c.from, first))]]) {
+      if (!fn || [...map.keys()].sort()[0] <= c.from) continue;
+      try { const b = await fn(); let n = 0; for (const [d, v] of b) if (d < first && !map.has(d)) { map.set(d, v); n++; } console.log(`${c.sym} ${name} 보충 ${n}일`); }
+      catch (e) { console.log(`${c.sym} ${name} 보충 실패: ${e.message}`); }
     }
     const days = [...map.entries()].filter(([d]) => d >= c.from).sort((a, b) => (a[0] < b[0] ? -1 : 1));
     // Yahoo 일봉의 날짜 = 그날 0시 시가 기준 → 종가는 그날 24시(UTC). 마지막(오늘) 봉은 진행 중이라 제외하고 live로 둔다
     const today = day(Date.now());
     const closed = days.filter(([d]) => d < today);
+    // 월말 종가: 그 달 마지막 날(없으면 마지막 2일 안) 종가만 인정 — 듬성한 데이터·진행 중인 달은 빼서 엉뚱한 수익률을 막는다
+    const last = {};
+    for (const [d, v] of closed) last[d.slice(0, 7)] = [d, v];
     const monthEnd = {};
-    for (const [d, v] of closed) monthEnd[d.slice(0, 7)] = +v.toPrecision(8); // 달마다 마지막 날 종가가 남는다
-    const lastMonth = closed.length ? closed[closed.length - 1][0] : null;
-    // 마지막 달이 아직 안 끝났으면(오늘이 그 달) monthEnd에서 빼고 진행 중으로 계산하게 한다
-    if (lastMonth && lastMonth.slice(0, 7) === today.slice(0, 7)) delete monthEnd[today.slice(0, 7)];
-    else if (lastMonth && new Date(lastMonth + "T00:00:00Z").getUTCDate() !== new Date(Date.UTC(+lastMonth.slice(0, 4), +lastMonth.slice(5, 7), 0)).getUTCDate()) delete monthEnd[lastMonth.slice(0, 7)];
+    for (const [ym, [d, v]] of Object.entries(last)) {
+      const dim = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).getUTCDate();
+      if (+d.slice(8, 10) >= dim - 2 && ym !== today.slice(0, 7)) monthEnd[ym] = +v.toPrecision(8);
+    }
     result.coins[c.sym] = {
       since: Object.keys(monthEnd).sort()[1] || null,
       monthEnd,
@@ -81,7 +100,8 @@ for (const c of COINS) {
       live: y.live ? +(+y.live).toPrecision(8) : (closed.length ? closed[closed.length - 1][1] : null),
       liveAt: y.liveAt || Date.now(),
     };
-    console.log(`수익률 ${c.sym}: ${days.length}일, ${Object.keys(monthEnd).length}개월 (${days[0]?.[0]}~)`);
+    const gaps = days.filter((x, i) => i && (new Date(x[0]) - new Date(days[i - 1][0])) > 3 * 864e5).length;
+    console.log(`수익률 ${c.sym}: ${days.length}일, ${Object.keys(monthEnd).length}개월 (${days[0]?.[0]}~), 3일 넘는 빈 구간 ${gaps}곳`);
   } catch (e) {
     console.log(`수익률 ${c.sym} 실패: ${e.message}`);
     if (old?.coins?.[c.sym]) result.coins[c.sym] = old.coins[c.sym];
