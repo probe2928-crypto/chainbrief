@@ -209,7 +209,7 @@ const ABOUT = {
   },
 };
 
-const SHARED_PAGES = ["", "flash/", "listings/", "surge/", "news/", "market/", "contact/", "search/"];
+const SHARED_PAGES = ["", "flash/", "listings/", "surge/", "news/", "market/", "returns/", "contact/", "search/"];
 
 const ICON = {
   live: '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
@@ -567,7 +567,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "rose-dusk"][k], eye: ["Markets", "Kimchi Premium"][k], title: t, dek: d, href: "#mkt", cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", esc(L.marketTitle), '<span id="mktUpdated">…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
-    <p class="note">${esc(L.kimpNote)}</p></section>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
+    <p class="note">${esc(L.kimpNote)}</p></section><a class="rt-link" href="${u("returns/")}"><b>${L.code === "zh" ? "加密货币收益率热力图" : "Crypto Returns Heatmap"}</b><span>${L.code === "zh" ? "月度·年度历史收益与季节性 →" : "Monthly and yearly history, seasonality →"}</span></a>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
   }));
 
   // 문의
@@ -587,6 +587,16 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     body: `<div class="wrap"><main class="single">${secHead("Newsroom", esc(A.newsroom))}
     <ul class="staff">${staffList.map(([name, r]) => { const n = articles.filter((a) => a.author === name).length; return `<li><a href="${u(`authors/${r.slug}/`)}"><span class="label">${esc(r.desk)}</span><strong>${esc(name)}</strong><span class="beat">${esc(r.beat)}</span><span class="cnt">${esc(r.formats.join(" · "))} · ${esc(A.nStories.replace("{n}", n))}</span></a></li>`; }).join("")}</ul>
     <p class="note">${esc(A.newsroomNote)} <a href="${u("contact/")}" style="text-decoration:underline">${esc(A.contactL)}</a>${L.code === "zh" ? "。" : "."}</p></main></div>`,
+  }));
+  write(`${P}returns/index.html`, layout({
+    title: L.code === "zh" ? "加密货币收益率热力图 · 月度与年度历史收益" : "Crypto Returns Heatmap · Monthly & Yearly History",
+    description: L.code === "zh" ? "比特币、以太坊、Solana、XRP 的月度、季度、年度历史收益一表看清：本月、本季、年初至今累计收益与历史中位数、上涨概率、月度季节性。" : "Bitcoin, Ether, Solana and XRP monthly, quarterly and yearly returns in one table: month, quarter and year to date versus historical medians, win rates and seasonality.",
+    active: "returns/", canonical: "returns/", extraScript: "returns.js",
+    body: `<div class="wrap"><main class="single wide-single">
+    ${secHead("Returns", L.code === "zh" ? "加密货币收益率热力图" : "Crypto Returns Heatmap", `<a class="more" href="${u("market/")}">${L.code === "zh" ? "实时行情" : "Live prices"}</a>`)}
+    <p class="lead">${L.code === "zh" ? "每个月、每个季度涨跌多少，一张表看清。竖着看是同一个月份历年的表现（季节性），横着看是当年的走势。" : "How much each coin rose or fell, month by month and quarter by quarter. Read down a column for seasonality, across a row for the shape of a year."}</p>
+    <div class="rt" data-returns data-lang="${L.code === "zh" ? "zh" : "en"}" data-src="${asset("api/returns.json")}"></div>
+    </main></div>`,
   }));
   for (const [name, r] of staffList) {
     const mine = articles.filter((a) => a.author === name);

@@ -35,6 +35,7 @@ jobs:
             data/translations.json
             data/community.json
             data/macro.json
+            data/returns.json
           key: collect-${{ github.run_id }}
           restore-keys: collect-
 
@@ -54,6 +55,10 @@ jobs:
 
       - name: 글로벌 마켓 시세 수집 (지수·선물·주식·환율)
         run: npm run macro
+        continue-on-error: true
+
+      - name: 코인 수익률 히트맵 데이터 수집 (6시간마다)
+        run: npm run returns
         continue-on-error: true
 
       - name: 상장 소식·자동 속보 저장

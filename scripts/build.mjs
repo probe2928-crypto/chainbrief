@@ -119,7 +119,7 @@ ${gaSnippet(GA_HOSTS)}
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(description)}">
-${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${SITE_URL && canonical === active && ["", "flash/", "listings/", "surge/", "news/", "market/", "contact/", "search/"].includes(active) ? [["ko", ""], ["en", "en/"], ["zh-Hans", "zh/"], ["x-default", ""]].map(([h, pre]) => `<link rel="alternate" hreflang="${h}" href="${abs(pre + active)}">`).join("") : ""}
+${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${SITE_URL && canonical === active && ["", "flash/", "listings/", "surge/", "news/", "market/", "returns/", "contact/", "search/"].includes(active) ? [["ko", ""], ["en", "en/"], ["zh-Hans", "zh/"], ["x-default", ""]].map(([h, pre]) => `<link rel="alternate" hreflang="${h}" href="${abs(pre + active)}">`).join("") : ""}
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
@@ -137,7 +137,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","flash/","listings/","surge/","news/","market/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
@@ -625,8 +625,21 @@ write("market/index.html", layout({
     ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
     <p class="note">1분마다 갱신.</p>
-  </section>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
+  </section><a class="rt-link" href="${u("returns/")}"><b>코인 수익률 히트맵</b><span>월별·연도별 역대 수익률과 계절성 →</span></a>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
   <aside class="rail">${sentiment}${chRail}${partner}${contactRail}</aside></main></div>`,
+}));
+
+// 수익률 히트맵 (public/returns.js · data/returns.json → api/returns.json)
+try { fs.mkdirSync(path.join(OUT, "api"), { recursive: true }); fs.copyFileSync(path.join(ROOT, "data/returns.json"), path.join(OUT, "api/returns.json")); } catch {}
+write("returns/index.html", layout({
+  title: "코인 수익률 히트맵 · 월별·연도별 역대 수익률", active: "returns/", canonical: "returns/",
+  description: "비트코인·이더리움·솔라나·XRP의 월별·분기별·연도별 역대 수익률을 한 표로. 이번 달·분기·올해 누적 수익률과 역대 중앙값, 상승 확률, 월별 계절성.",
+  extraScript: "returns.js",
+  body: `<div class="wrap"><main class="single wide-single">
+  ${secHead("Returns", "코인 수익률 히트맵", `<a class="more" href="${u("market/")}">실시간 시세</a>`)}
+  <p class="lead">달마다, 분기마다 코인이 얼마나 오르고 내렸는지 한눈에. 세로로 보면 같은 달의 해마다 성적(계절성), 가로로 보면 그해의 흐름이에요.</p>
+  <div class="rt" data-returns data-lang="ko" data-src="${u("api/returns.json")}"></div>
+  </main></div>`,
 }));
 
 // 커뮤니티
@@ -793,7 +806,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "returns/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
