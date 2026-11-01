@@ -123,7 +123,7 @@ jobs:
           npm install --no-audit --no-fund
           node build-www.mjs
           npx cap add ios
-          npm run assets -- --ios || true
+          npm run assets -- --ios
           V="$(node -p "require('./package.json').version")"
           PL=ios/App/App/Info.plist
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $V" $PL || true

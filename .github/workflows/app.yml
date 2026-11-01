@@ -30,7 +30,6 @@ jobs:
       - run: npx cap add android
       - name: 아이콘·스플래시 생성
         run: npm run assets -- --android
-        continue-on-error: true
       - name: 버전·이름 설정
         run: |
           V="$(node -p "require('./package.json').version")"
@@ -97,7 +96,6 @@ jobs:
       - run: npx cap add ios
       - name: 아이콘·스플래시 생성
         run: npm run assets -- --ios
-        continue-on-error: true
       - name: 버전 설정
         run: |
           V="$(node -p "require('./package.json').version")"
