@@ -1322,3 +1322,9 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
 .rt-link span{font-size:var(--fs-meta);color:var(--mute)}
 @media (max-width:720px){.rt-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rt-card:nth-child(3){border-left:0}.rt-card:nth-child(n+3){border-top:1px solid var(--line)}
  .rt-sbars{grid-template-columns:repeat(6,minmax(0,1fr));row-gap:14px}.rt-tab{padding:9px 11px}}
+/* 넓은 화면: 첫 화면 이미지·요약 카드도 본문 폭(1200px)에 맞춤 — 모든 페이지 공통 */
+@media (min-width:1280px){
+  .hero,.cf-grid{max-width:1200px;margin-inline:auto}
+  .hero{margin-top:28px}
+  .hero .wrap{padding-left:56px;padding-right:56px}
+}
