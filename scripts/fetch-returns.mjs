@@ -10,15 +10,15 @@ const OUT = path.join(ROOT, "data/returns.json");
 const UA = { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36", Accept: "application/json" };
 const COINS = [
   { sym: "BTC", yahoo: "BTC-USD", bitstamp: "btcusd", from: "2013-01-01" },
-  { sym: "ETH", yahoo: "ETH-USD", cc: "ETH", from: "2016-01-01" },
+  { sym: "ETH", yahoo: "ETH-USD", bitstamp: "ethusd", from: "2016-01-01" },
   { sym: "SOL", yahoo: "SOL-USD", from: "2020-05-01" },
-  { sym: "XRP", yahoo: "XRP-USD", cc: "XRP", bitstamp: "xrpusd", from: "2014-01-01" },
+  { sym: "XRP", yahoo: "XRP-USD", bitstamp: "xrpusd", from: "2014-01-01" },
 ];
 const FORCE = process.argv.includes("--force");
 
 let old = null;
 try { old = JSON.parse(fs.readFileSync(OUT, "utf8")); } catch {}
-const VER = 2; // 데이터 형식·수집 방식이 바뀌면 올린다 (캐시된 옛 파일 무시)
+const VER = 3; // 데이터 형식·수집 방식이 바뀌면 올린다 (캐시된 옛 파일 무시)
 if (old && old.v === VER && !FORCE && Date.now() - new Date(old.updated).getTime() < 6 * 3600e3) { console.log("수익률: 6시간 안에 갱신됨 — 건너뜀"); process.exit(0); }
 
 const day = (ms) => new Date(ms).toISOString().slice(0, 10);
@@ -48,9 +48,9 @@ async function yahoo(sym, fromIso) {
 async function bitstamp(pair, fromIso, toIso) {
   const out = new Map(); let start = Math.floor(new Date(fromIso + "T00:00:00Z").getTime() / 1000);
   const end = Math.floor(new Date(toIso + "T00:00:00Z").getTime() / 1000);
-  for (let i = 0; i < 10 && start < end; i++) {
+  for (let i = 0; i < 12 && start < end; i++) {
     const j = await getJSON(`https://www.bitstamp.net/api/v2/ohlc/${pair}/?step=86400&limit=1000&start=${start}`);
-    const rows = j?.data?.ohlc || []; if (!rows.length) break;
+    const rows = j?.data?.ohlc || []; if (!rows.length) { start += 1000 * 86400; continue; } // 상장 전 구간은 건너뜀
     for (const r of rows) out.set(day(+r.timestamp * 1000), +r.close);
     start = +rows[rows.length - 1].timestamp + 86400;
   }
