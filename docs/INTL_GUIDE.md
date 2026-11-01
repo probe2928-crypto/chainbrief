@@ -55,6 +55,6 @@ important: true (시장을 움직이는 뉴스만) / false
 - Headings come from the story itself (e.g. "Why Korea made the list"), never template headings like "What happened / Why it matters / What's next / The bottom line / Key takeaways". Short pieces need no headings.
 - Mix sentence lengths. Explain jargon once in plain words. Compare big numbers to something readers know.
 - End on the next concrete event (date, vote, deadline), not a moral or summary.
-- English words to cut: delve, landscape, navigate, underscore(s), pivotal, crucial, robust, notably, it's worth noting, in a move that, amid (more than once), signals (as a verb, more than once), poised to, sparked, a testament to, game-changer, unprecedented, in conclusion, overall, ultimately. No em-dash chains; max one em dash per paragraph.
-- 中文避免的套话：值得注意的是、不难看出、综上所述、总而言之、意义重大、引发广泛关注、备受瞩目、持续发酵、新的阶段、进一步、赋能、助力、加速推进、业内人士认为（没有具体来源时）。小标题用内容本身，不用「事件回顾／各方观点／未来展望」这类模板。
+- English words to cut: delve, landscape, navigate, underscore(s), pivotal, crucial, robust, notably, it's worth noting, in a move that, amid (more than once), signals (as a verb, more than once), poised to, sparked, a testament to, game-changer, unprecedented, in conclusion, overall, ultimately. Don't end on a "Things to watch:" checklist. No em-dash chains; max one em dash per paragraph.
+- 中文避免的套话：值得注意的是、不难看出、综上所述、总而言之、意义重大、引发广泛关注、备受瞩目、持续发酵、新的阶段、进一步、赋能、助力、加速推进、业内人士认为／也有业内人士提醒（没有具体来源时）、从行业层面看、第一个焦点是……第二个焦点是……（逐条编号式段首）。小标题用内容本身，不用「事件回顾／各方观点／未来展望」这类模板。
 - Before publishing: read it through once out loud — remove the words above, break up three sentences in a row with the same shape, rename any template heading, fix anything a real reporter wouldn't say.

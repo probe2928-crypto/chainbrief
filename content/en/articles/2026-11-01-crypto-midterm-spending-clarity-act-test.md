@@ -9,7 +9,7 @@ summary: Crypto-funded political groups have put somewhere between $176 million 
 
 U.S. voters finish casting ballots on Tuesday, Nov. 3, and the crypto industry has more riding on the result than almost any other single-issue lobby. Super PACs funded by exchanges and venture firms have spent heavily on House and Senate races, with the biggest sum aimed at one Senate seat in Ohio. The outcome will help decide whether the Clarity Act, the market structure bill that failed a key Senate vote in September, gets revived in the weeks after the election or has to start over with a new Congress in January.
 
-## What happened
+## $176 million or $200 million, depending on who counts
 
 The size of the bet depends on the tally. A Reuters review of campaign finance and advertising data through Oct. 20 found about $176 million in crypto-linked spending across more than 100 congressional races. Roughly $150.8 million of that came from Fairshake and its affiliated committees, and about $25 million from other crypto-backed groups. CNBC, citing a count by the watchdog group Public Citizen, put the industry's total above $200 million and described the crypto groups as the largest set of single-issue super PACs in U.S. history.
 
@@ -21,7 +21,7 @@ So far the spending has not moved Brown out of the lead in public polling. A Mar
 
 In the House, CNBC reported that Fairshake-linked committees are backing 33 candidates, 19 Republicans and 14 Democrats, and have spent at least $1 million each on six incumbents. Earlier in the cycle the group said all 32 House incumbents it had endorsed supported the Clarity Act. Fairshake also claims that 53 of the 58 candidates it supported in primaries and special elections won, a figure that is self-reported.
 
-## The debate
+## Investment or influence
 
 Supporters describe the money as a long-term play for durable rules. Colin McLaren, who heads government relations at the Solana Policy Institute, called the spending "an investment in the future." Industry figures argue that agency guidance can be reversed by the next administration, while a statute cannot be undone so easily. Fairshake spokesman Geoff Vetter has said the group backs pro-crypto candidates in both parties, though its Senate support this cycle has reportedly gone only to Republicans.
 
@@ -31,7 +31,7 @@ The Clarity Act itself remains the main dividing line. The House passed it 294 t
 
 Last week's $6.3 billion theft from Binance added a new layer. Some Republicans argued the bill would have given firms clearer legal cover to freeze stolen funds. Democrats and consumer groups said the hack shows the risks of loosening oversight.
 
-## What it means
+## A lame-duck window for the Clarity Act
 
 The most likely window for the Clarity Act is the lame-duck session after Tuesday. The Senate is scheduled to sit until Nov. 6 in its current work period and can return before the new Congress is sworn in on Jan. 3. Outgoing members sometimes find it easier to cut deals in that stretch. If the election gives either party a clear mandate, leaders may prefer to wait and write a new version next year, which would push any final law well into 2027.
 
@@ -39,7 +39,7 @@ The Ohio result will be read as a referendum on the industry's tactics. A Husted
 
 In the meantime, regulators are moving on their own track. The CFTC is collecting comments until mid-December on a voluntary registration path for crypto venues, and the SEC's proposed token offering rules closed for comment on Oct. 20. Those steps can be reversed by a future administration, which is why the industry keeps pushing for a statute.
 
-Things to watch after Tuesday: the Ohio Senate count, the partisan balance in the Senate and whether it shifts the 60-vote math, any statement from Senate leaders on a lame-duck schedule for the bill, and whether the ethics provisions are reopened or dropped.
+The first number to watch on Tuesday night is the Ohio Senate count. After that comes the partisan balance in the Senate and whether it shifts the 60-vote math, then any word from Senate leaders on a lame-duck schedule for the bill, and whether the ethics provisions are reopened or dropped.
 
 *This article is for information only and is not investment advice.*
 
