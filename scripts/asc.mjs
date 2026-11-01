@@ -281,6 +281,20 @@ async function runApp(name, cfg) {
       const subs = await getAll(`/v1/reviewSubmissions?filter[app]=${app.id}&filter[platform]=IOS`);
       let sub = subs.find((s) => s.attributes.state === "READY_FOR_REVIEW");
       if (subs.some((s) => ["WAITING_FOR_REVIEW", "IN_REVIEW"].includes(s.attributes.state))) { note(name, "이미 심사 대기/진행 중"); return; }
+      // 반려(해결되지 않은 문제) 뒤 재제출: 빈 초안은 취소하고, 기존 제출의 항목을 '해결됨'으로 바꾼 뒤 그 제출을 다시 낸다
+      const unresolved = subs.find((s) => s.attributes.state === "UNRESOLVED_ISSUES");
+      if (unresolved) {
+        for (const d of subs.filter((s) => s.attributes.state === "READY_FOR_REVIEW")) {
+          const di = await getAll(`/v1/reviewSubmissions/${d.id}/items`).catch(() => []);
+          if (!di.length) { await api("PATCH", `/v1/reviewSubmissions/${d.id}`, { data: { type: "reviewSubmissions", id: d.id, attributes: { canceled: true } } }).catch((e) => note(name, "빈 초안 취소 실패: " + e.message)); note(name, "빈 제출 초안 취소"); }
+        }
+        const ui = await getAll(`/v1/reviewSubmissions/${unresolved.id}/items`);
+        for (const it of ui) if (it.attributes.state === "REJECTED" || it.attributes.resolved === false)
+          await api("PATCH", `/v1/reviewSubmissionItems/${it.id}`, { data: { type: "reviewSubmissionItems", id: it.id, attributes: { resolved: true } } }).catch((e) => note(name, "항목 해결 표시 실패: " + e.message));
+        await api("PATCH", `/v1/reviewSubmissions/${unresolved.id}`, { data: { type: "reviewSubmissions", id: unresolved.id, attributes: { submitted: true } } });
+        note(name, "반려된 제출을 고쳐서 다시 제출 완료");
+        return;
+      }
       if (!sub) sub = (await api("POST", "/v1/reviewSubmissions", { data: { type: "reviewSubmissions", attributes: { platform: "IOS" }, relationships: { app: { data: { type: "apps", id: app.id } } } } })).data;
       const items = await getAll(`/v1/reviewSubmissions/${sub.id}/items`);
       if (!items.length) await api("POST", "/v1/reviewSubmissionItems", { data: { type: "reviewSubmissionItems", relationships: { reviewSubmission: { data: { type: "reviewSubmissions", id: sub.id } }, appStoreVersion: { data: { type: "appStoreVersions", id: editable.id } } } } });
