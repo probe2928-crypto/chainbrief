@@ -48,7 +48,9 @@ important: true (시장을 움직이는 뉴스만) / false
 - 중국어는 간체. 홍콩 SFC·HKMA, 싱가포르 MAS 1차 자료를 우선. 본토 뉴스는 사실만 건조하게.
 - 영어는 미국 SEC·CFTC·연준·재무부, EU ESMA·MiCA, 싱가포르 MAS 1차 자료 우선.
 
-## Voice — write like a human reporter (세준 지시 2026-11-02: 기사가 기계가 쓴 것처럼 딱딱함)
+## Voice — write like a human reporter
+> Read the top section of `docs/STYLE_NOTES.md` (writing coach notes, updated daily) before writing.
+ (세준 지시 2026-11-02: 기사가 기계가 쓴 것처럼 딱딱함)
 - Open with a concrete fact, scene, number or person — never an abstract summary sentence.
 - Headings come from the story itself (e.g. "Why Korea made the list"), never template headings like "What happened / Why it matters / What's next / The bottom line / Key takeaways". Short pieces need no headings.
 - Mix sentence lengths. Explain jargon once in plain words. Compare big numbers to something readers know.
