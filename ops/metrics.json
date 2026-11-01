@@ -1,0 +1,339 @@
+{
+ "days": [
+  {
+   "date": "2026-10-31",
+   "tz_note": "GA4 속성 기준 일자, GA 설치 첫날(부분 데이터 가능)",
+   "total": {
+    "users_all_property": 207,
+    "sessions": 213,
+    "views": 260,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 158,
+     "sessions": 162,
+     "views": 192,
+     "split": {
+      "en": {
+       "users": 117,
+       "sessions": 118,
+       "views": 134
+      },
+      "zh": {
+       "users": 38,
+       "sessions": 40,
+       "views": 51
+      },
+      "ko": {
+       "views": 7,
+       "note": "전체-en-zh 차이로 계산(사용자 합산 불가)"
+      }
+     },
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "perpline": {
+     "users": 29,
+     "sessions": 30,
+     "views": 39,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "luft": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 20,
+     "sessions": 20,
+     "views": 23,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    }
+   },
+   "gsc_note": "8개 사이트 모두 2026-10-25~31 클릭·노출 0(데이터 행 없음) — 신규 등록이라 아직 집계 전으로 보임",
+   "social": {
+    "fb": {
+     "chainbrief": {
+      "followers": null,
+      "reach": 2241,
+      "impressions": 2387,
+      "engagement": 213
+     },
+     "lifejunjun": {
+      "followers": null,
+      "reach": 35,
+      "impressions": 36,
+      "engagement": 1
+     },
+     "oriel": {
+      "followers": null,
+      "reach": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "page_followers가 3개 페이지 모두 0으로 반환 — 미확인 처리. reach=page_total_media_view_unique, impressions=page_media_view"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 180,
+      "reach": 661,
+      "impressions": 452,
+      "impressions_note": "profile_views(계정 전체 콘텐츠 조회)"
+     }
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 0,
+      "impressions": 2,
+      "engagement": 0
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social 컬렉션에 metrics_<날짜> 문서 없음"
+    }
+   },
+   "prev_day_ref": {
+    "fb_chainbrief_reach_10_30": 2084,
+    "fb_chainbrief_engagement_10_30": 452,
+    "ig_reach_10_30": 2001,
+    "li_blockkey_impr_10_30": 37
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/chainbrief/en/",
+      "/chainbrief/zh/",
+      "/chainbrief/"
+     ],
+     "perpline": [
+      "/perpline/start.html",
+      "/perpline/",
+      "/perpline/exchanges/btcc.html"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/run.html"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "Philippines",
+      91
+     ],
+     [
+      "Malaysia",
+      37
+     ],
+     [
+      "South Korea",
+      26
+     ],
+     [
+      "United States",
+      21
+     ],
+     [
+      "Iran",
+      3
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "meta / paid",
+      122
+     ],
+     [
+      "bitmedia / banner",
+      59
+     ],
+     [
+      "instagram / paid",
+      20
+     ],
+     [
+      "(direct) / (none)",
+      10
+     ],
+     [
+      "facebook.com / referral",
+      1
+     ]
+    ],
+    "by_site": {
+     "chainbrief": {
+      "countries": [
+       [
+        "Philippines",
+        91
+       ],
+       [
+        "Malaysia",
+        34
+       ],
+       [
+        "United States",
+        20
+       ],
+       [
+        "South Korea",
+        4
+       ],
+       [
+        "Iran",
+        3
+       ]
+      ],
+      "sources": [
+       [
+        "meta / paid",
+        122
+       ],
+       [
+        "bitmedia / banner",
+        32
+       ],
+       [
+        "(direct) / (none)",
+        8
+       ]
+      ]
+     },
+     "lifejunjun": {
+      "countries": [
+       [
+        "South Korea",
+        20
+       ]
+      ],
+      "sources": [
+       [
+        "instagram / paid",
+        20
+       ]
+      ]
+     },
+     "perpline": {
+      "countries": [
+       [
+        "Madagascar",
+        3
+       ],
+       [
+        "Malaysia",
+        3
+       ],
+       [
+        "Russia",
+        2
+       ],
+       [
+        "Saudi Arabia",
+        2
+       ],
+       [
+        "Argentina",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "bitmedia / banner",
+        27
+       ]
+      ]
+     },
+     "(none)": {
+      "countries": [
+       [
+        "South Korea",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     },
+     "blockkey": {
+      "countries": [
+       [
+        "South Korea",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     },
+     "yeobaek": {
+      "countries": [
+       [
+        "Sweden",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "facebook.com / referral",
+        1
+       ],
+       [
+        "m.facebook.com / referral",
+        1
+       ]
+      ]
+     }
+    }
+   }
+  }
+ ]
+}
