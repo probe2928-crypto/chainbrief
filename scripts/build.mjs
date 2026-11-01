@@ -100,7 +100,7 @@ const ICON = {
   mkt: '<path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
-const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["surge/", "급등"], ["community/", "커뮤니티"], projectNav("ko"), ["contact/", "문의"], ["listings/", "상장"]];
+const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["returns/", "수익률"], ["surge/", "급등"], ["community/", "커뮤니티"], projectNav("ko"), ["contact/", "문의"], ["listings/", "상장"]];
 const TABS = [["", "속보", "live"], ["news/", "뉴스", "news"], ["market/", "시세", "mkt"], ["surge/", "급등", "surge"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
