@@ -154,6 +154,7 @@
       .then(function (d) { build(root, d); })
       .catch(function () { root.innerHTML = '<p class="rt-empty">' + L.fail + "</p>"; });
   }
+  window.RTinit = init; // 다른 사이트(Perpline)에서 언어 전환 시 다시 그리기
   function start() { [].forEach.call(document.querySelectorAll("[data-returns]"), init); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
