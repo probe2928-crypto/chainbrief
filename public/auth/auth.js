@@ -46,7 +46,7 @@
       mkt: "마케팅 목적 개인정보 이용 및 광고성 정보 수신", ch_email: "이메일", ch_kakao: "카카오톡", ch_sms: "문자",
       night: "야간(21시~다음 날 8시) 광고성 정보 수신", view: "보기", hide: "접기",
       privacy_detail: "<b>수집 항목</b> 이메일, 이름·닉네임(소셜 계정이 주는 경우), 소셜 계정 식별값, 가입한 사이트·유입 경로, 접속 기록<br><b>목적</b> 회원 식별과 로그인, 서비스 제공, 문의 응대, 부정 이용 방지<br><b>보유 기간</b> 회원 탈퇴 시까지(법령에 따라 보관해야 하는 기록은 그 기간까지)<br>동의를 거부할 수 있지만, 거부하면 가입할 수 없어요.",
-      mkt_detail: "<b>항목</b> 이메일, 카카오톡 채널 연결 정보, 휴대폰 번호(직접 입력한 경우)<br><b>목적</b> 새 소식·이벤트·혜택 등 광고성 정보 전송<br><b>보유 기간</b> 동의 철회 또는 탈퇴 시까지<br>동의하지 않아도 가입과 이용에는 아무 제한이 없어요. 언제든 내 계정에서 끌 수 있어요.",
+      mkt_detail: "<b>보내는 곳</b> {senders}<br><b>항목</b> 이메일, 카카오톡 채널 연결 정보, 휴대폰 번호(직접 입력한 경우)<br><b>목적</b> 새 소식·이벤트·혜택 등 광고성 정보 전송<br><b>보유 기간</b> 동의 철회 또는 탈퇴 시까지<br>동의하지 않아도 가입과 이용에는 아무 제한이 없어요. 언제든 내 계정에서 끌 수 있어요.",
       under14: "만 14세 미만은 가입할 수 없어요.",
       need: "필수 항목 3개에 동의해 주세요.",
       email_label: "이메일", pw_label: "비밀번호 (선택)", pw_hint: "비우면 로그인 링크를 메일로 보내 드려요.",
@@ -79,7 +79,7 @@
       mkt: "Use of personal data for marketing and receiving promotions", ch_email: "Email", ch_kakao: "KakaoTalk", ch_sms: "Text",
       night: "Promotions at night (9 pm to 8 am)", view: "View", hide: "Hide",
       privacy_detail: "<b>Data</b> email, name or nickname (if the social account shares it), social account ID, sign-up site and referral, access logs<br><b>Purpose</b> identifying you and signing you in, providing the service, support, abuse prevention<br><b>Kept</b> until you delete your account (records the law requires us to keep are held for that period)<br>You may refuse, but you cannot sign up without it.",
-      mkt_detail: "<b>Data</b> email, KakaoTalk channel link, phone number (if you enter one)<br><b>Purpose</b> news, events and offers<br><b>Kept</b> until you withdraw consent or delete your account<br>Saying no has no effect on your account. You can turn this off any time in Account.",
+      mkt_detail: "<b>From</b> {senders}<br><b>Data</b> email, KakaoTalk channel link, phone number (if you enter one)<br><b>Purpose</b> news, events and offers<br><b>Kept</b> until you withdraw consent or delete your account<br>Saying no has no effect on your account. You can turn this off any time in Account.",
       under14: "You must be 14 or older to sign up.",
       need: "Please agree to the 3 required items.",
       email_label: "Email", pw_label: "Password (optional)", pw_hint: "Leave it empty and we will email you a sign-in link.",
@@ -105,6 +105,8 @@
   var T = T0[LANG];
   var SITE_NAMES = { qurator: "QURATOR", perpline: "Perpline", luft: "LUFT", lifejunjun: LANG === "en" ? "Life Junjun" : "인생준준", chainbrief: LANG === "en" ? "CHAINBRIEF" : "체인브리프" };
   var BRAND = C.brand || SITE_NAMES[SITE] || SITE;
+  // 광고성 정보를 보내는 서비스 목록(동의 문구에 표시). 기본: 통합 회원을 쓰는 다섯 사이트, 이 사이트가 맨 앞
+  var SENDERS = (C.senders || [SITE].concat(["qurator", "luft", "lifejunjun", "perpline", "chainbrief"].filter(function (s) { return s !== SITE; }))).map(function (s) { return SITE_NAMES[s] || s; }).join(LANG === "en" ? ", " : "·");
 
   /* ---------- 작은 도구 ---------- */
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -326,7 +328,7 @@
       '<div class="det" id="sa-pd" hidden>' + T.privacy_detail + (LINKS.privacy ? ' <a href="' + esc(LINKS.privacy) + '" target="_blank" rel="noopener">' + esc(LANG === "en" ? "Privacy policy" : "개인정보처리방침") + "</a>" : "") + "</div>" +
       '<div class="row"><label><input type="checkbox" data-c="age" data-req><span><span class="tag req">[' + T.req + "]</span>" + esc(T.age) + "</span></label></div>" +
       '<div class="row"><label><input type="checkbox" data-c="mktall"><span><span class="tag">[' + T.opt + "]</span>" + esc(T.mkt) + '</span></label><button type="button" class="more" data-more="md" aria-expanded="false" aria-controls="sa-md">' + esc(T.view) + "</button></div>" +
-      '<div class="det" id="sa-md" hidden>' + T.mkt_detail + "</div>" + rowsMkt +
+      '<div class="det" id="sa-md" hidden>' + fmt(T.mkt_detail, { senders: esc(SENDERS) }) + "</div>" + rowsMkt +
       (C.night === false ? "" : '<div class="row"><label><input type="checkbox" data-c="night" disabled><span><span class="tag">[' + T.opt + "]</span>" + esc(T.night) + "</span></label></div>") +
       '<p class="hint" style="padding:0 14px 10px;margin:0">' + esc(T.under14) + "</p></fieldset>";
   }
