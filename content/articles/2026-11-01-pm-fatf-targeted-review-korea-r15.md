@@ -6,6 +6,8 @@ author: 스캇 박
 image: media/articles/2026-11-01-pm-fatf-targeted-review-korea-r15.jpg
 image_alt: 거래 장부 위의 돋보기 — 가상자산 자금세탁방지 점검을 표현한 이미지
 image_note: AI 생성 이미지(이해를 돕기 위한 연출)
+video: media/videos/2026-11-01-pm-fatf-targeted-review-korea-r15.mp4
+video_note: AI 제작 영상 · 체인브리프 (33초 요약)
 summary: 국제자금세탁방지기구(FATF)가 회원국의 가상자산 자금세탁방지 기준 이행을 따로 떼어 분석하기로 했다. 한국은 지난 상호평가에서 가상자산 부문을 평가받지 않아 이번 점검 대상에 들어갔고, 결과는 2027년 6월 총회에서 나온다. 북한 연계 조직이 바이낸스에서 63억달러를 빼낸 직후라 점검의 무게가 더 커졌다.
 ---
 

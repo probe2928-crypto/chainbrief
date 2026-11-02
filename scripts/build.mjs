@@ -317,7 +317,7 @@ const artImg = (name, eager) => eager
 const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${u(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
 const mediaBlock = (a, L = { img: "AI 생성 이미지", vid: "AI 제작 영상" }) => {
   const parts = [];
-  if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${u(a.image)}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
+  if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${hasMedia(a.video.replace(/\.mp4$/, ".jpg")) ? ` poster="${u(a.video.replace(/\.mp4$/, ".jpg"))}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
   if (a.image) parts.push(`<p class="a-credit">상단 이미지: ${esc(a.image_note || L.img)}</p>`);
   return parts.join("");
 };
