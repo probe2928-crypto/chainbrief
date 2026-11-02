@@ -20,6 +20,9 @@ const SITE_URL = (cfg.domain ? `https://${cfg.domain}` : (process.env.SITE_URL |
 const abs = (p) => SITE_URL + BASE + p.replace(/^\//, "");
 const u = (p = "") => BASE + p.replace(/^\//, "");
 const BUILD_ID = Date.now().toString(36);
+// 회원 로그인 (public/auth/auth.js) — site.config.json 의 auth.url·anonKey 가 채워졌을 때만 켜진다. 비어 있으면 HTML에 아무것도 넣지 않음.
+const AUTH_CFG = cfg.auth && cfg.auth.url && cfg.auth.anonKey ? { site: "chainbrief", lang: "ko", mount: "[data-auth-slot]", brand: "체인브리프", links: { terms: u("terms/"), privacy: u("privacy/") }, ...cfg.auth } : null;
+const AUTH_SNIPPET = AUTH_CFG ? `<script>window.SITE_AUTH=${JSON.stringify(AUTH_CFG).replace(/</g, "\\u003c")}</script><script src="${u("auth/auth.js")}?v=${BUILD_ID}" defer></script>` : "";
 const NOW = new Date();
 
 /* ---------- helpers ---------- */
@@ -139,7 +142,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "community/": "olive", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
-<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
+<div class="topline"><div class="wrap"><span class="tl-l"><span class="langs" aria-label="Language"><a href="${u(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:"")}" hreflang="ko" aria-current="true">KO</a><a href="${u("en/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="en">EN</a><a href="${u("zh/"+(["","flash/","listings/","surge/","news/","market/","returns/","contact/","search/"].includes(active)?active:""))}" hreflang="zh-Hans">中文</a></span><span class="tl-date">${esc(dayLabel(NOW))}</span></span><span class="tl-r">${CH ? CH.topline : ""}<a class="tl-search" href="${u("search/")}" aria-label="검색">${SEARCH_SVG}</a><span class="tl-auth" data-auth-slot hidden></span><button class="install" id="installBtn" type="button" hidden>App 설치</button><span class="live"><i></i>Live <span class="num" id="clock">${hhmm(NOW)}</span> KST</span></span></div></div>
 <header class="site-header">
   <div class="wrap brand">${topAd(ADS[0], "l")}<a class="wm" href="${u()}" aria-label="${esc(cfg.name)} 홈">${esc(cfg.nameEn)}</a>${topAd(ADS[1], "r")}</div>
   <nav class="top" aria-label="주 메뉴"><a class="nav-wm" href="${u()}" tabindex="-1" aria-hidden="true">${esc(cfg.nameEn)}</a>${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a class="nav-search" href="${u("search/")}"${active === "search/" ? ' aria-current="page"' : ""} aria-label="검색" title="검색 ( / )">${SEARCH_SVG}</a></nav>
@@ -171,7 +174,7 @@ ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener"
 <nav class="ns-links">${NAV.map(([p, l]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}>${l}</a>`).join("")}<a href="${u("search/")}">검색</a>${IG.all.length ? `<a href="${u("issue/")}"${navA === "issue/" ? ' aria-current="page"' : ""}>지금의 이슈</a>` : ""}</nav>
 <div class="ns-langs"><a href="${u()}" aria-current="true">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div></div></div>
 <script>window.CB=${JSON.stringify({ base: BASE, searchUrl: u("search/"), coins: cfg.coins, latest: flashes[0]?.id || "", sb: cfg.supabase || {}, boardCats: cfg.boardCategories || [] })}</script>
-<script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
+${AUTH_SNIPPET}<script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${u("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 <script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>

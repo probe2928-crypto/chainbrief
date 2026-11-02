@@ -114,6 +114,15 @@
     "url": "",
     "anonKey": ""
   },
+  "auth": {
+    "url": "",
+    "anonKey": "",
+    "providers": ["google", "kakao", "apple", "email"],
+    "naver": "hidden",
+    "channels": ["email", "kakao", "sms"],
+    "versions": { "terms": "2026-11-02", "privacy": "2026-11-02", "marketing": "2026-11-02" },
+    "theme": { "ink": "#0A0A0A", "paper": "#FFFFFF", "accent": "#0A0A0A", "muted": "#5A5A58", "line": "#E6E5E2", "radius": "6px" }
+  },
   "communitySources": [
     {
       "name": "디시 비트코인 갤러리",
