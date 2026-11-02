@@ -8,6 +8,7 @@ import { loadMacro, macroSection } from "./macro.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
 import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./issues.mjs";
+import { eventPage } from "./event.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -178,6 +179,7 @@ ${AUTH_SNIPPET}<script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${u("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 <script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>
+<script src="${u("event/event-config.js")}?v=${BUILD_ID}" defer></script>
 </body>
 </html>`;
 }
@@ -736,6 +738,13 @@ write("contact/index.html", layout({
 }));
 
 // 개인정보처리방침 (웹사이트·앱 공통, 스토어 등록용)
+// 회원가입 이벤트 규칙 페이지 (public/event/event-config.js 의 enabled 가 꺼져 있으면 '진행 중인 이벤트 없음'만 보인다)
+write("event/index.html", layout({
+  title: "회원가입 이벤트 · 매달 코인 추첨", active: "", canonical: null, float: false,
+  description: "체인브리프 회원이면 매달 한 번 무료로 응모하는 코인 추첨 이벤트 규칙",
+  body: eventPage({ esc, tg: TG }),
+}).replace('<html lang="ko">', '<html lang="ko" data-event-page data-event-hide>').replace("<head>", '<head>\n<meta name="robots" content="noindex">'));
+
 write("privacy/index.html", layout({
   title: "개인정보처리방침 · Privacy Policy", active: "", canonical: "privacy/", float: false,
   description: "체인브리프 웹사이트와 앱의 개인정보처리방침",
