@@ -318,7 +318,7 @@ const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src"
 const mediaBlock = (a, L = { img: "AI 생성 이미지", vid: "AI 제작 영상" }) => {
   const parts = [];
   if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${u(a.image)}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
-  else if (a.image) parts.push(`<figure class="a-media"><img src="${u(a.image)}" alt="${esc(a.image_alt || a.title)}" loading="lazy" decoding="async"><figcaption>${esc(a.image_note || L.img)}</figcaption></figure>`);
+  if (a.image) parts.push(`<p class="a-credit">상단 이미지: ${esc(a.image_note || L.img)}</p>`);
   return parts.join("");
 };
 function hero(slides, size = "lg", label = "주요 소식") {

@@ -338,8 +338,8 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${asset(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${asset(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${asset(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
   const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${asset(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
   const MT = L.code === "zh" ? { img: "AI 生成图片", vid: "AI 制作视频" } : { img: "AI-generated image", vid: "AI-produced video" };
-  const mediaBlock = (a) => a.video ? `<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${asset(a.image)}"` : ""} src="${asset(a.video)}"></video><figcaption>${esc(a.video_note || MT.vid)}</figcaption></figure>`
-    : a.image ? `<figure class="a-media"><img src="${asset(a.image)}" alt="${esc(a.image_alt || a.title)}" loading="lazy" decoding="async"><figcaption>${esc(a.image_note || MT.img)}</figcaption></figure>` : "";
+  const mediaBlock = (a) => (a.video ? `<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${asset(a.image)}"` : ""} src="${asset(a.video)}"></video><figcaption>${esc(a.video_note || MT.vid)}</figcaption></figure>` : "")
+    + (a.image ? `<p class="a-credit">${L.code === "zh" ? "头图：" : "Top image: "}${esc(a.image_note || MT.img)}</p>` : "");
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
     const used = new Set();
