@@ -25,6 +25,10 @@
 그 밖: EN·中文 발행, 라이브 속보, 광고 체크(Bitmedia·메타), 인생준준·여백의 지도, 긍정학개론, 영어 공부, BLOCKKEY 등 기존 작업 유지.
 정리: '이사 아침 브리핑 09:17'은 09:13·08:23과 겹쳐서 꺼둠(삭제 아님).
 
+## 세준 지시 장부 (2026-11-02 신설 — 필수)
+- 세준 지시·OK한 시안은 받은 세션이 즉시 ops/ORDERS.md에 한 줄 기록, 끝나면 '완료 (커밋)'로 변경.
+- 모든 직원은 시작 시 ORDERS.md를 읽고 자기 영역 미완료 건부터 처리. 세준에게 '그게 뭐였죠?' 묻기 전에 ORDERS.md·LOG.md·지난 채팅 검색 먼저.
+
 ## 도구 (2026-10-31 실무이사 추가)
 - Google Search Console(probe2928@gmail.com): chainbrief·perpline·qurator·luft·lifejunjun·yeobaek·blockkey·oriel 8개 사이트 소유 확인(파일 google73631224b8745f18.html — 지우지 말 것). 사이트맵 제출: chainbrief·perpline·blockkey·oriel.
 - Google Analytics 4: 계정 a190604910 / 속성 263527390(probe29) / 웹 스트림 CHAINBRIEF, 측정 ID G-8YQ1BGBDR7 — 위 8개 사이트 공용(페이지 경로로 사이트 구분). 웹사이트만, 앱·TWA·ko(Perpline) 제외, 유럽·영국·스위스는 쿠키 없이, 광고 기능 꺼짐. 개인정보처리방침에 안내 추가(oriel은 방침 섹션 없음).
