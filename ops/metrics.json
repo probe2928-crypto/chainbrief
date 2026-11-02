@@ -334,6 +334,406 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-11-01",
+   "tz_note": "GA4 속성 기준 일자",
+   "total": {
+    "users_all_property": 158,
+    "sessions": 160,
+    "views": 182,
+    "gsc_clicks": 0,
+    "gsc_impr": 1
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 62,
+     "sessions": 64,
+     "views": 69,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "split": {
+      "en": {
+       "users": 28,
+       "sessions": 28,
+       "views": 31
+      },
+      "zh": {
+       "users": 22,
+       "sessions": 24,
+       "views": 25
+      },
+      "ko": {
+       "views": 13,
+       "note": "전체-en-zh 차이로 계산(사용자 합산 불가)"
+      }
+     }
+    },
+    "perpline": {
+     "users": 37,
+     "sessions": 37,
+     "views": 42,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "luft": {
+     "users": 4,
+     "sessions": 4,
+     "views": 4,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음(0)"
+    },
+    "lifejunjun": {
+     "users": 53,
+     "sessions": 53,
+     "views": 60,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 3,
+     "sessions": 3,
+     "views": 3,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 1,
+     "gsc_position": 3
+    }
+   },
+   "gsc_note": "8개 사이트 클릭 0, 노출은 oriel 1건(평균 순위 3). 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "chainbrief": {
+      "followers": null,
+      "reach": 1023,
+      "impressions": 1147,
+      "engagement": 70
+     },
+     "lifejunjun": {
+      "followers": null,
+      "reach": 44,
+      "impressions": 48,
+      "engagement": 3
+     },
+     "oriel": {
+      "followers": null,
+      "reach": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "page_followers 0 반환 → 미확인. 체인브리프 페이지는 날짜범위 custom에서 FB 오류, yesterday(KST)로 재조회 성공(캐시 00:01Z)"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 180,
+      "reach": 1353,
+      "impressions": 1022,
+      "impressions_note": "profile_views",
+      "new_followers": 0
+     },
+     "note": "10-31 값이 재조회 시 reach 1626 · views 1294로 바뀜(전날 기록 661/452) — 메타 지연 집계"
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 0,
+      "impressions": 19,
+      "engagement": 3
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social 컬렉션에 metrics_<날짜> 문서 없음(posts_* 만 있음)"
+    }
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/chainbrief/en/ (clickID 포함 합산)",
+      "/chainbrief/zh/ (clickID 포함 합산)",
+      "/chainbrief/"
+     ],
+     "perpline": [
+      "/perpline/start.html",
+      "/perpline/returns.html",
+      "/perpline/"
+     ],
+     "luft": [
+      "/luft/"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/run.html"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "South Korea",
+      57
+     ],
+     [
+      "United States",
+      28
+     ],
+     [
+      "Singapore",
+      24
+     ],
+     [
+      "Malaysia",
+      14
+     ],
+     [
+      "Taiwan",
+      3
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "bitmedia / banner",
+      74
+     ],
+     [
+      "instagram / paid",
+      52
+     ],
+     [
+      "(direct) / (none)",
+      29
+     ],
+     [
+      "meta / paid",
+      2
+     ],
+     [
+      "facebook.com / referral",
+      2
+     ]
+    ],
+    "by_site": {
+     "lifejunjun": {
+      "countries": [
+       [
+        "South Korea",
+        50
+       ],
+       [
+        "Japan",
+        2
+       ],
+       [
+        "Singapore",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "instagram / paid",
+        52
+       ],
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     },
+     "chainbrief": {
+      "countries": [
+       [
+        "United States",
+        21
+       ],
+       [
+        "Singapore",
+        17
+       ],
+       [
+        "Malaysia",
+        12
+       ],
+       [
+        "South Korea",
+        4
+       ],
+       [
+        "Taiwan",
+        3
+       ]
+      ],
+      "sources": [
+       [
+        "bitmedia / banner",
+        41
+       ],
+       [
+        "(direct) / (none)",
+        19
+       ],
+       [
+        "meta / paid",
+        2
+       ],
+       [
+        "linkedin.com / referral",
+        1
+       ]
+      ]
+     },
+     "perpline": {
+      "countries": [
+       [
+        "United States",
+        5
+       ],
+       [
+        "Singapore",
+        2
+       ],
+       [
+        "Argentina",
+        2
+       ],
+       [
+        "Bangladesh",
+        2
+       ],
+       [
+        "Malaysia",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "bitmedia / banner",
+        33
+       ],
+       [
+        "(direct) / (none)",
+        2
+       ]
+      ]
+     },
+     "luft": {
+      "countries": [
+       [
+        "South Korea",
+        3
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        3
+       ]
+      ]
+     },
+     "blockkey": {
+      "countries": [
+       [
+        "Singapore",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        2
+       ]
+      ]
+     },
+     "oriel": {
+      "countries": [
+       [
+        "Singapore",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     },
+     "yeobaek": {
+      "countries": [
+       [
+        "United States",
+        2
+       ],
+       [
+        "Singapore",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "facebook.com / referral",
+        2
+       ],
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     }
+    }
+   },
+   "delta_vs_prev": {
+    "users_total": -49,
+    "by_site_users": {
+     "chainbrief": -96,
+     "perpline": 8,
+     "luft": 3,
+     "qurator": -1,
+     "lifejunjun": 33,
+     "yeobaek": 1,
+     "blockkey": 1,
+     "oriel": 1
+    },
+    "fb_chainbrief_reach": -1218,
+    "note": "chainbrief meta/paid 세션 122→2"
+   },
+   "openseo_weekly": {
+    "run": "2026-11-02 월",
+    "gsc_last7": "2026-10-24~10-30 검색어 행 0",
+    "audit": {
+     "id": "487c771e-ff8c-4465-8c89-c2dcdca3cf75",
+     "url": "https://probe2928-crypto.github.io/chainbrief/en/",
+     "pages": 50,
+     "critical": 0
+    },
+    "credits_before": 444
+   }
   }
  ]
 }
