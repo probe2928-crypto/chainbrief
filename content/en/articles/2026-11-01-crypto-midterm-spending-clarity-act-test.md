@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: Crypto-funded political groups have put somewhere between $176 million and more than $200 million into the U.S. midterms, depending on who is counting. Tuesday's results, led by an Ohio Senate race the industry has spent heavily to swing, will shape whether the stalled market structure bill gets another chance this year.
+image: media/articles/2026-11-01-crypto-midterm-spending-clarity-act-test.jpg
+image_alt: A wooden box beside a stack of blank cards and a laptop on a sunlit desk, evoking an election and policy decision
+image_note: AI-generated image (illustrative)
 ---
 
 U.S. voters finish casting ballots on Tuesday, Nov. 3, and the crypto industry has more riding on the result than almost any other single-issue lobby. Super PACs funded by exchanges and venture firms have spent heavily on House and Senate races, with the biggest sum aimed at one Senate seat in Ohio. The outcome will help decide whether the Clarity Act, the market structure bill that failed a key Senate vote in September, gets revived in the weeks after the election or has to start over with a new Congress in January.

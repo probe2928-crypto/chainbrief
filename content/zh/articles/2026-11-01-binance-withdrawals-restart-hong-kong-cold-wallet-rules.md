@@ -5,6 +5,9 @@ category: 交易所
 author: Scott Park
 region: 香港
 summary: 币安称63亿美元被盗资产已补足九成，计划11月1日起按币种分批恢复提币；美国联邦调查局同日把攻击归咎于朝鲜黑客组织TraderTraitor。热钱包审批环节被攻破，让香港持牌平台"98%冷存储"和强制赔偿安排的规则重新回到讨论中心。
+image: media/articles/2026-11-01-binance-withdrawals-restart-hong-kong-cold-wallet-rules.jpg
+image_alt: 昏暗房间里泛着蓝光的金库圆门与台座上的钥匙，象征交易所资产保管与冷钱包
+image_note: AI 生成图片（示意）
 ---
 
 币安（Binance）10月31日发布最新进展，称约63亿美元被盗资产已补足90%，高于前一日的约80%，提币服务仍按计划在11月1日（周日）起按币种分批恢复。同一天，美国联邦调查局（FBI）正式把这起案件归咎于朝鲜黑客组织TraderTraitor，并要求业界拦截与被盗资金相关的地址。提币一恢复，香港的问题也摆上了桌面：同样的攻击落在本地持牌平台身上，现行规则能挡住多少？
