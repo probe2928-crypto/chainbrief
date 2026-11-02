@@ -16,7 +16,7 @@
   const I = {
     ko: { html: "ko", locale: "ko-KR", code: "KO", tLive: "속보", tNews: "기사", tList: "상장", tMkt: "시세", tMore: "저장",
       live: "라이브 속보", news: "체인브리프 기사", list: "상장 소식", mkt: "실시간 시세", more: "저장한 기사",
-      all: "전체", imp: "중요", today: "오늘", yday: "어제", upd: "{t} 업데이트", offline: "오프라인 — 저장된 내용을 보여줘요", none: "아직 소식이 없어요.",
+      all: "전체", imp: "중요", today: "오늘", yday: "어제", upd: "{t} 업데이트", pxOff: "시세를 불러오지 못했어요. 연결되면 자동으로 다시 시도해요.", pxOld: "{t} 기준 · 다시 연결 중", offline: "오프라인 — 저장된 내용을 보여줘요", none: "아직 소식이 없어요.",
       by: "글", read: "읽기", saved: "저장했어요", unsaved: "저장을 취소했어요", copied: "링크를 복사했어요", noSaved: "저장한 기사가 없어요. 기사 화면 위쪽 책갈피를 누르면 여기에 모여요.",
       settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
       ty: { listing: "신규 상장", delisting: "거래 종료", caution: "유의 종목", "caution-cleared": "유의 해제" }, notice: "공지 보기",
@@ -26,7 +26,7 @@
       fine: "체인브리프의 정보는 투자 권유가 아니며, 투자 판단과 책임은 이용자 본인에게 있어요.", ver: "버전" },
     en: { html: "en", locale: "en-US", code: "EN", tLive: "Live", tNews: "News", tList: "Listings", tMkt: "Markets", tMore: "Saved",
       live: "Live Wire", news: "CHAINBRIEF Analysis", list: "Exchange Listings", mkt: "Markets", more: "Saved stories",
-      all: "All", imp: "Breaking", today: "Today", yday: "Yesterday", upd: "Updated {t}", offline: "Offline — showing saved content", none: "No stories yet.",
+      all: "All", imp: "Breaking", today: "Today", yday: "Yesterday", upd: "Updated {t}", pxOff: "Couldn't load prices. We'll retry automatically once you're online.", pxOld: "As of {t} · reconnecting", offline: "Offline — showing saved content", none: "No stories yet.",
       by: "By", read: "Read", saved: "Saved", unsaved: "Removed from saved", copied: "Link copied", noSaved: "Nothing saved yet. Tap the bookmark at the top of a story to keep it here.",
       settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", site: "Website", privacy: "Privacy policy", partners: "Partners",
       ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, notice: "Notice",
@@ -36,7 +36,7 @@
       fine: "CHAINBRIEF content is for information only and is not investment advice.", ver: "Version" },
     zh: { html: "zh-Hans", locale: "zh-CN", code: "中文", tLive: "快讯", tNews: "新闻", tList: "上币", tMkt: "行情", tMore: "收藏",
       live: "7×24 快讯", news: "链报分析", list: "交易所上币", mkt: "实时行情", more: "我的收藏",
-      all: "全部", imp: "重要", today: "今天", yday: "昨天", upd: "{t} 更新", offline: "离线 — 显示已保存内容", none: "暂无内容。",
+      all: "全部", imp: "重要", today: "今天", yday: "昨天", upd: "{t} 更新", pxOff: "无法加载行情，联网后会自动重试。", pxOld: "{t} 数据 · 正在重连", offline: "离线 — 显示已保存内容", none: "暂无内容。",
       by: "作者", read: "阅读", saved: "已收藏", unsaved: "已取消收藏", copied: "链接已复制", noSaved: "还没有收藏。点击文章顶部的书签即可保存到这里。",
       settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", site: "网站", privacy: "隐私政策", partners: "Partners",
       ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, notice: "公告",
@@ -85,6 +85,7 @@
   async function loadListings() { try { listings = await getJSON(SITE + "listings.json?t=" + Date.now()); store.set("ls", listings.slice(0, 120)); } catch {} }
   let glob = store.get("gls", null);
   async function loadGlobal() { try { glob = await getJSON(SITE + "global-listings.json?t=" + Date.now()); store.set("gls", glob); } catch {} }
+  let pxErr = false;
   async function loadPrices() {
     const coins = cfg?.coins || [];
     if (!coins.length) return;
@@ -96,8 +97,9 @@
       catch { try { for (const t of await getJSON(`https://api.bithumb.com/v1/ticker?markets=${mk}`)) up[t.market.slice(4)] = t.trade_price; } catch {} }
       const next = {};
       for (const c of coins) { const d = g[c.id]; if (!d) continue; const fx = d.krw && d.usd ? d.krw / d.usd : null; const k = up[c.symbol] ?? null; next[c.id] = { usd: d.usd, chg: d.usd_24h_change, krw: k, kimp: k && fx ? (k / (d.usd * fx) - 1) * 100 : null }; }
-      prices = next; store.set("px", prices);
-    } catch {}
+      next._at = Date.now(); if (prices._fng) next._fng = prices._fng;
+      prices = next; store.set("px", prices); pxErr = false;
+    } catch { pxErr = true; }
     try { const f = (await getJSON("https://api.alternative.me/fng/?limit=1")).data[0]; prices._fng = { v: +f.value, l: f.value_classification }; } catch {}
   }
 
@@ -178,7 +180,9 @@
   }
   function renderMarket() {
     const coins = cfg?.coins || [];
-    let out = head("Markets", T.mkt, `USD · ${T.krw}`);
+    const at = prices._at ? hhmm(new Date(prices._at)) : "";
+    let out = head("Markets", T.mkt, pxErr && at ? fm(T.pxOld, { t: at }) : at ? fm(T.upd, { t: at }) : `USD · ${T.krw}`);
+    if (pxErr && !at) out += `<p class="note" role="status">${T.pxOff}</p>`;
     out += coins.map((c) => { const d = prices[c.id] || {}; return `<div class="mk"><div class="s">${c.symbol}<small>${esc(lang === "ko" ? c.name : ({ binancecoin: "BNB Chain", ripple: "XRP Ledger", "avalanche-2": "Avalanche", "shiba-inu": "Shiba Inu" })[c.id] || c.id.replace(/-/g, " ").replace(/\b\w/g, (m) => m.toUpperCase()))}</small></div><div class="p">${usd(d.usd)}<small>${krw(d.krw)}${d.kimp != null ? ` · ${T.kimp} ${d.kimp >= 0 ? "+" : ""}${d.kimp.toFixed(2)}%` : ""}</small></div><div class="c">${pct(d.chg)}</div></div>`; }).join("");
     const f = prices._fng, btc = prices.bitcoin;
     out += `<div class="mood"><div><small>${T.fng}</small><strong>${f ? f.v : "—"}</strong><span>${f ? esc(T.fngL[f.l] || f.l) : ""}</span></div><div><small>BTC ${T.kimp}</small><strong>${btc?.kimp != null ? (btc.kimp >= 0 ? "+" : "") + btc.kimp.toFixed(2) + "%" : "—"}</strong><span>Upbit</span></div></div>`;
