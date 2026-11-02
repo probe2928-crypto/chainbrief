@@ -13,11 +13,21 @@
   "submit": true,
   "locales": {
     "ko": {
-      "name": "QURATOR — Daily Art",
-      "subtitle": "QR 도슨트 · 오늘의 명작과 영어 해설",
-      "description": "작품 옆 QR을 찍으면 해설이 텍스트와 음성으로 열립니다.\n매일 한 점의 명작을 영어 해설, 한국어 번역, 도슨트 음성으로 소개합니다.\n\n· QR 스캔: 전시장의 QURATOR QR을 앱으로 바로 읽기\n· 오늘의 작품: 매일 한 점, 영어 해설 + 한국어 번역 + 오늘의 영어 표현\n· 특집: 지금 미술계에서 화제인 작품을 미술사의 눈으로\n· 탐색: 시카고 미술관·클리블랜드 미술관 공개 소장품 검색\n· 지난 작품 모아 보기\n\nQURATOR의 나눔은 오리엘 재단을 통해 도움이 필요한 가정과 사랑스런 아이들에게 전해질 예정입니다(재단 등록 후 집행).",
-      "keywords": "미술,도슨트,QR,작품해설,미술관,전시,명화,영어공부,미술사,오디오가이드",
-      "promo": "작품 옆 QR 하나로 해설·음성·영어 표현까지. 매일 한 점, 명작과 친해지는 시간.",
+      "name": "QURATOR: 오늘의 명화·QR 도슨트",
+      "subtitle": "매일 한 점, 음성 해설과 영어 표현",
+      "description": "하루 한 점, 미술사가 고른 명작을 도슨트 음성으로 듣고 오늘의 영어 표현까지 익혀 보세요.\n전시장에서는 작품 옆 QURATOR QR을 찍으면 해설이 텍스트와 음성으로 바로 열립니다.\n회원가입 없이 바로 시작합니다.\n\n· QR 스캔: 전시장의 QURATOR QR을 앱으로 바로 읽기\n· 오늘의 작품: 매일 한 점, 영어 해설 + 한국어 번역 + 오늘의 영어 표현\n· 특집: 지금 미술계에서 화제인 작품을 미술사의 눈으로\n· 탐색: 시카고 미술관·클리블랜드 미술관 공개 소장품 검색\n· 지난 작품 모아 보기\n\nQURATOR의 나눔은 오리엘 재단을 통해 도움이 필요한 가정과 사랑스런 아이들에게 전해질 예정입니다(재단 등록 후 집행).",
+      "keywords": "미술,그림,미술관,전시,작품,오디오가이드,미술사,영어공부,교양,갤러리,화가,모네,김홍도,박물관,명작",
+      "promo": "작품 옆 QR 하나로 해설·음성·영어 표현까지. 하루 한 점, 명작과 친해지는 시간.",
+      "privacyUrl": "https://probe2928-crypto.github.io/qurator/#/policy/privacy",
+      "supportUrl": "https://probe2928-crypto.github.io/qurator/#/support",
+      "marketingUrl": "https://probe2928-crypto.github.io/qurator/"
+    },
+    "en-US": {
+      "name": "QURATOR: Daily Art & QR Guide",
+      "subtitle": "A masterpiece a day, narrated",
+      "keywords": "painting,museum,gallery,audio,docent,history,english,korean,culture,exhibition,artist,monet,learn",
+      "promo": "Scan the QR next to an artwork for its story in text and narrated audio. One masterpiece a day, in English and Korean.",
+      "description": "One masterpiece a day, chosen by art historians, with narrated commentary and an English expression of the day.\nAt galleries, scan the QURATOR QR code beside an artwork and its story opens in text and audio.\nNo account needed.\n\n· QR scan: read QURATOR codes at exhibitions straight from the app\n· Today's artwork: one public-domain masterpiece every day, English commentary + Korean translation + expression of the day\n· Features: artworks in the news, explained through art history\n· Explore: search the open collections of the Art Institute of Chicago and the Cleveland Museum of Art\n· Archive: catch up on recent daily artworks\n\nQURATOR's giving will go to families in need and their lovely children through the Oriel Foundation (after the foundation is registered).",
       "privacyUrl": "https://probe2928-crypto.github.io/qurator/#/policy/privacy",
       "supportUrl": "https://probe2928-crypto.github.io/qurator/#/support",
       "marketingUrl": "https://probe2928-crypto.github.io/qurator/"

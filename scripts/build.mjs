@@ -127,6 +127,7 @@ ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)
 ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${abs("og.png") + "?v=2"}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0A0A0A">
+<meta name="apple-itunes-app" content="app-id=6829091321">
 <link rel="manifest" href="${u("manifest.webmanifest")}">
 <link rel="icon" href="${u("icons/icon-192.png")}" type="image/png">
 <link rel="apple-touch-icon" href="${u("icons/apple-touch-icon.png")}">
@@ -173,6 +174,7 @@ ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener"
 <script src="${u("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
 <script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>
+<script src="https://probe2928-crypto.github.io/chainbrief/app-install.js" data-app="chainbrief" defer></script>
 </body>
 </html>`;
 }
