@@ -1,142 +1,132 @@
 {
- "at": "2026-11-01T18:40:00Z",
+ "at": "2026-11-02T18:25:00Z",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "2026-11-01T17:57:43Z 빌드 및 배포 success",
-   "failures": [],
-   "fixed": [],
-   "note": "24h 실패 2건(스토어 앱 03:12Z, 앱스토어 관리 03:30Z) 모두 이후 성공으로 해결. 빌드 및 배포 24h 성공 53회(15분 cron 지연), 마지막 성공 약 20분 전"
+   "lastRun": "빌드 및 배포 success 2026-11-02T17:37Z",
+   "failures": [
+    "기사 이미지·영상 가져오기 failure 00:20Z (07:48Z 재실행 성공 → 해결)"
+   ],
+   "fixed": []
   },
   {
    "repo": "blockkey",
-   "lastRun": "2026-10-31T03:29Z (24h 실행 없음)",
+   "lastRun": "빌드 및 배포 success 2026-11-02T01:34Z",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "pages build and deployment success (24h 3회)",
+   "lastRun": "pages build success 2026-11-02T08:02Z",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "(24h 실행 없음)",
+   "lastRun": "빌드 및 배포 success 2026-11-02T01:34Z",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "pages build and deployment success (24h 1회)",
+   "lastRun": "pages build success 2026-11-02T10:46Z",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "pages build and deployment success (24h 35회, cancelled 4 = 연속 push로 정상 취소)",
+   "lastRun": "pages build success 2026-11-02T15:57Z",
    "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "lifejunjun",
+   "lastRun": null,
+   "failures": [
+    "미확인 — 세션 GitHub 접근 범위 밖"
+   ],
+   "fixed": []
+  },
+  {
+   "repo": "yeobaek",
+   "lastRun": null,
+   "failures": [
+    "미확인 — 세션 GitHub 접근 범위 밖"
+   ],
    "fixed": []
   },
   {
    "repo": "firstbrick",
    "lastRun": null,
-   "failures": [],
-   "fixed": [],
-   "note": "numeric-ID 리다이렉트로 API 차단(이름 변경→oriel 추정)"
-  },
-  {
-   "repo": "lifejunjun",
-   "lastRun": null,
-   "failures": [],
-   "fixed": [],
-   "note": "이 세션에 저장소 접근 권한 없음 — Actions 미확인"
-  },
-  {
-   "repo": "yeobaek",
-   "lastRun": null,
-   "failures": [],
-   "fixed": [],
-   "note": "이 세션에 저장소 접근 권한 없음 — Actions 미확인"
+   "failures": [
+    "미확인 — API가 숫자 ID 경로로 리디렉트(이름 변경/이전 추정)"
+   ],
+   "fixed": []
   }
  ],
  "sites": [
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/",
-   "ok": true,
-   "note": "KO 최신 속보 11/2 01:30 KST(약 2시간 전)"
+   "ok": null,
+   "note": "main 최신 KO 속보 time 2026-11-03 01:48 KST(약 1.5시간 전), 빌드 17:37Z 성공. 라이브 fetch 불가(이번 세션 프록시가 github.io·lifejunjun.com 차단, WebFetch 권한 요청 무응답) — 배포 워크플로 성공·main 데이터로 대체 확인"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/en/",
-   "ok": true,
-   "note": "최신 속보 11/1 12:27 UTC(약 6시간 전, EN·ZH는 하루 2회 00:30·12:30 UTC 발행 주기 — 12시간 기준 이내)"
+   "ok": null,
+   "note": "main 최신 EN flash 2026-11-02 21:38 KST(약 6시간 전, 12시간 기준 이내)"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/zh/",
-   "ok": true,
-   "note": "최신 快讯 11/1 20:26 HKT(약 6시간 전, 같은 발행 주기)"
+   "ok": null,
+   "note": "main 최신 ZH flash 2026-11-02 21:36 KST(약 6시간 전)"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/api/en/feed.json",
-   "ok": true,
-   "note": "내용 있음(38KB)"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/perpline/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "직접 확인 못 함"
   },
   {
    "url": "https://probe2928-crypto.github.io/perpline/api/venues.json",
-   "ok": true,
-   "note": "3.5KB"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/luft/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "직접 확인 못 함, Pages 배포 성공"
   },
   {
    "url": "https://probe2928-crypto.github.io/luft/catalog.js",
-   "ok": true,
-   "note": "updated 2026-10-29, 21KB"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/qurator/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "직접 확인 못 함, Pages 배포 성공"
   },
   {
    "url": "https://probe2928-crypto.github.io/qurator/data/works.json",
-   "ok": true,
-   "note": "118KB"
+   "ok": null,
+   "note": "직접 확인 못 함, Pages 배포 성공"
   },
   {
    "url": "https://probe2928-crypto.github.io/oriel/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "직접 확인 못 함, 배포 성공"
   },
   {
    "url": "https://probe2928-crypto.github.io/blockkey/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "직접 확인 못 함, 배포 성공"
   },
   {
    "url": "https://probe2928-crypto.github.io/yeobaek/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "미확인"
   },
   {
    "url": "https://probe2928-crypto.github.io/lifejunjun/",
-   "ok": true,
-   "note": ""
+   "ok": null,
+   "note": "미확인"
   },
   {
    "url": "https://lifejunjun.com/",
    "ok": null,
-   "note": "외부 fetch 도구가 invalid_url 반환(도메인 미해석 추정) — 미확인"
+   "note": "미확인(프록시 차단)"
   }
  ],
  "failedTasks": [],
- "note": "라이브 점검은 TinyFish fetch로 수행(샌드박스 curl·WebFetch는 github.io 차단). 예약 작업 FAILED 0, device_absent 0"
+ "tasksChecked": 41,
+ "deviceAbsent": 0
 }

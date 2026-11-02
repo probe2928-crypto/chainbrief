@@ -1,5 +1,6 @@
 # 운영 일지 (최신이 위)
 
+2026-11-03 03:25 | 시스템 엔지니어 | 정상 6 · 장애 0 · 고침 0 | 체인브리프 이미지 가져오기 00:20Z 실패는 07:48Z 성공으로 해결 · 예약 작업 41개 FAILED 0 · 이번 세션은 github.io 라이브 fetch 차단·lifejunjun/yeobaek/firstbrick 접근 불가라 배포 성공·main 데이터로만 확인
 2026-11-02 23:45 | 실무이사 | 밤 보고(ops/reports/2026-11-02.md) — 성공 33 · 실패 0(마지막 실행 기준), 텔레그램 6 | 내일 1순위: 광고비 결정(메타 TG·Bitmedia $10.75) · QURATOR 갤러리 답장 대응 · LUFT 토스 인증
 2026-11-02 21:09 | 지시 장부 | 열린 30 · 새로 찾은 4 · 완료 처리 0 | 채팅 검색 도구 없어 회의록·DECISIONS·Gmail 초안으로 대신 찾음 → Peach 소재 업로드·메타 TG 광고 결정·도슨트 시안·피프스센스 답장 초안 4건 추가(전부 세준 대기) · Perpline 파스텔 main 반영 확인(index.html #FBF4EC) · Levi 답장 아직 없음
 2026-11-02 19:25 | 미팅 비서 | 새 답장 1 · 확정 0 · 리마인더 0 | CEDAR Fund(Pak-lum, 프로그램 책임자) 정중히 거절 → 감사 답장 1회, 소개받은 사람 없음 · beehiiv·Child's Dream·Friends-International·ECPAT 대만·Asian Hope·글로벌케어·인천아트쇼 답장 대기, 반송 없음
