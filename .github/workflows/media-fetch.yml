@@ -1,0 +1,43 @@
+name: 기사 이미지·영상 가져오기
+# AI 직원이 만든 이미지·영상(Canva·HeyGen 등)의 다운로드 주소를 받아 public/media/ 에 저장하고 커밋한다.
+# 수동: gh workflow run media-fetch.yml -f url=<주소> -f dest=media/articles/<기사id>.jpg
+on:
+  workflow_dispatch:
+    inputs:
+      url: { description: "다운로드 주소(https)", required: true }
+      dest: { description: "저장 경로 (media/articles/… 또는 media/videos/…)", required: true }
+permissions:
+  contents: write
+concurrency: { group: media-fetch, cancel-in-progress: false }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - name: 내려받기·변환
+        env: { URL: "${{ github.event.inputs.url }}", DEST: "${{ github.event.inputs.dest }}" }
+        run: |
+          set -e
+          case "$URL" in https://*) ;; *) echo "https 주소만"; exit 1;; esac
+          case "$DEST" in media/articles/*.jpg|media/videos/*.mp4|media/videos/*.jpg) ;; *) echo "경로는 media/articles/*.jpg 또는 media/videos/*.mp4|jpg"; exit 1;; esac
+          case "$DEST" in *..*) echo "잘못된 경로"; exit 1;; esac
+          mkdir -p "public/$(dirname "$DEST")"
+          curl -fsSL --max-time 300 --max-filesize 120000000 -o /tmp/in "$URL"
+          file /tmp/in
+          if [[ "$DEST" == *.jpg ]]; then
+            sudo apt-get -qq install -y imagemagick >/dev/null 2>&1 || true
+            convert /tmp/in -auto-orient -resize '1920x1920>' -strip -quality 84 "public/$DEST"
+          else
+            ffmpeg -loglevel error -y -i /tmp/in -c:v libx264 -preset veryfast -crf 24 -movflags +faststart -c:a aac -b:a 128k "public/$DEST"
+            ffmpeg -loglevel error -y -ss 1 -i "public/$DEST" -frames:v 1 -q:v 3 "public/${DEST%.mp4}.jpg"
+          fi
+          ls -la "public/$(dirname "$DEST")"
+      - name: 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/media
+          git diff --cached --quiet && exit 0
+          git commit -m "자동: 기사 미디어 ${{ github.event.inputs.dest }}"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && exit 0; sleep 5; done

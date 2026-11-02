@@ -24,6 +24,8 @@ const NOW = new Date();
 
 /* ---------- helpers ---------- */
 const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// 기사 이미지·영상은 public/ 아래에 실제 파일이 있을 때만 쓴다 (없으면 기존 아트로)
+const hasMedia = (p) => (p && /^media\//.test(p) && fs.existsSync(path.join(ROOT, "public", p)) ? p : "");
 function frontmatter(src) {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: src };
@@ -72,7 +74,7 @@ const flashes = readDir("content/flash")
   .filter((f) => !isNaN(f.date) && f.date <= new Date(Date.now() + 60_000))
   .sort((a, b) => b.date - a.date);
 const articles = readDir("content/articles")
-  .map((a) => ({ ...a, date: new Date(a.date) }))
+  .map((a) => ({ ...a, date: new Date(a.date), image: hasMedia(a.image), video: hasMedia(a.video) }))
   .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000))
   .sort((a, b) => b.date - a.date);
 const headlines = readJSON("data/headlines.json", { updatedAt: null, items: [] });
@@ -106,7 +108,7 @@ const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
-function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "" }) {
+function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "", ogImage = "" }) {
   const navA = active === "flash/" ? "" : active; // 속보 아카이브는 '속보' 메뉴로 표시
   const full = title ? `${title} | ${cfg.name}` : `${cfg.nameEn} ${cfg.name} — ${cfg.tagline}`;
   const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
@@ -124,7 +126,7 @@ ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)
 <meta property="og:site_name" content="${esc(cfg.name)}">
 <meta property="og:title" content="${esc(title || cfg.name)}">
 <meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${abs("og.png") + "?v=2"}">` : ""}
+${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta property="og:image" content="${ogImage ? abs(ogImage) : abs("og.png") + "?v=2"}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${u("manifest.webmanifest")}">
@@ -311,13 +313,21 @@ const ART_V = (() => { const d = path.join(ROOT, "public/art"); const h = crypto
 const artImg = (name, eager) => eager
   ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></picture>`
   : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${u(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
+// 기사 전용 이미지(AI 생성 등): frontmatter image: media/articles/<id>.jpg
+const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${u(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
+const mediaBlock = (a, L = { img: "AI 생성 이미지", vid: "AI 제작 영상" }) => {
+  const parts = [];
+  if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${u(a.image)}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
+  else if (a.image) parts.push(`<figure class="a-media"><img src="${u(a.image)}" alt="${esc(a.image_alt || a.title)}" loading="lazy" decoding="async"><figcaption>${esc(a.image_note || L.img)}</figcaption></figure>`);
+  return parts.join("");
+};
 function hero(slides, size = "lg", label = "주요 소식") {
   if (!slides.length) return "";
   const used = new Set();
   return `<section class="hero hero-${size}" data-hero aria-roledescription="carousel" aria-label="${esc(label)}">
   <div class="hero-track">${slides.map((sl, i) => `
     <article class="slide${i === 0 ? " is-active" : ""}" aria-roledescription="slide" aria-label="${i + 1} / ${slides.length}"${i ? ' aria-hidden="true"' : ""}>
-      ${artImg(pickArt(used, sl.art), i === 0)}
+      ${sl.img ? photoImg(sl.img, i === 0) : artImg(pickArt(used, sl.art), i === 0)}
       <div class="slide-shade"></div>
       <div class="wrap slide-body">
         <span class="slide-eye">${sl.eye}</span>
@@ -334,7 +344,7 @@ function hero(slides, size = "lg", label = "주요 소식") {
   </div>` : ""}
 </section>`;
 }
-const artSlide = (a, eye) => ({ art: ART[a.category], eye, title: a.title, dek: a.summary || plain(a.body).slice(0, 110), href: u(`articles/${a.id}/`), cta: "기사 읽기" });
+const artSlide = (a, eye) => ({ art: ART[a.category], img: a.image, eye, title: a.title, dek: a.summary || plain(a.body).slice(0, 110), href: u(`articles/${a.id}/`), cta: "기사 읽기" });
 const eyeOf = (a) => `${a.format ? esc(a.format) : a.author === cfg.author ? "오늘의 해설" : "기사"} · ${esc(a.author || "편집국")}`;
 
 // 홈 상단 컬러 필드: 시장 숫자 4칸 + 오늘의 기사
@@ -548,9 +558,9 @@ write("news/index.html", layout({
 articles.forEach((a, i) => {
   const more = articles.filter((x) => x !== a).slice(0, 4);
   write(`articles/${a.id}/index.html`, layout({
-    title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article",
+    title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
+    body: `<div class="cover" aria-hidden="true">${a.image ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
     <article class="doc">
       <div class="kicker">${catTag(a)}${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>
@@ -558,6 +568,7 @@ articles.forEach((a, i) => {
       ${coinsIn(a.title, a.summary).length ? `<p class="cc-line"><span class="cc-l">관련 코인</span>${chips(a.title, a.summary)}</p>` : ""}
       ${issueLink({ item: a, groups: IG, S: IS, u, esc, lang: "ko" })}
       <div class="byrow"><span class="byline">글 · ${REP[a.author] ? `<a href="${u(`authors/${REP[a.author].slug}/`)}"><b>${esc(a.author)}</b></a>${REP[a.author].desk ? ` · ${esc(REP[a.author].desk)}` : ""}` : `<b>${esc(a.author || "체인브리프 편집부")}</b>`}</span><span class="byend"><span class="readt">${readMin(a.body)}분 읽기</span><time class="byline">${fullDate(a.date)}</time></span></div>
+      ${mediaBlock(a)}
       <div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button>${TG ? `<a class="btn ghost" href="${TG}" target="_blank" rel="noopener">기사 제보</a>` : ""}</div>
       ${CH ? CH.card : ""}

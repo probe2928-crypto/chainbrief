@@ -1328,3 +1328,8 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
   .hero{margin-top:28px}
   .hero .wrap{padding-left:56px;padding-right:56px}
 }
+
+/* 기사 이미지·영상 (AI 생성 표기) */
+.a-media{margin:22px 0 30px}
+.a-media img,.a-media video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--line)}
+.a-media figcaption{margin-top:8px;font-size:var(--fs-meta);color:var(--mute)}

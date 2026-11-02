@@ -28,6 +28,8 @@ const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<
 // 中文 큰 제목: 한자↔영문·숫자 경계에 줄바꿈 기회(<wbr>) — keep-all이라 'Solan/a'처럼 영단어 중간이 잘리던 것 방지 (디자인 점검 10/31)
 const zt = (s = "", code = "") => code === "zh" ? esc(s).replace(/([\u3400-\u9fff])(?=[A-Za-z0-9$])|([A-Za-z0-9%])(?=[\u3400-\u9fff])/g, "$1$2<wbr>") : esc(s);
 const plain = (md) => md.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[#>*_`]/g, "").replace(/\s+/g, " ").trim();
+// 기사 이미지·영상은 public/ 아래에 실제 파일이 있을 때만 쓴다 (없으면 기존 아트로)
+const hasMedia = (p) => (p && /^media\//.test(p) && fs.existsSync(path.join(ROOT, "public", p)) ? p : "");
 function frontmatter(src) {
   const m = src.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   if (!m) return { data: {}, body: src };
@@ -246,7 +248,7 @@ for (const L of [ED.en, ED.zh]) {
 
   const flashes = readDir(`content/${L.code}/flash`).map((f) => ({ ...f, date: new Date(f.time), important: f.important === true }))
     .filter((f) => !isNaN(f.date) && f.date <= new Date(Date.now() + 60_000)).sort((a, b) => b.date - a.date);
-  const articles = readDir(`content/${L.code}/articles`).map((a) => ({ ...a, date: new Date(a.date) }))
+  const articles = readDir(`content/${L.code}/articles`).map((a) => ({ ...a, date: new Date(a.date), image: hasMedia(a.image), video: hasMedia(a.video) }))
     .filter((a) => !isNaN(a.date) && a.date <= new Date(Date.now() + 60_000)).sort((a, b) => b.date - a.date);
   // 지금의 이슈 (In Focus)
   const IG = issueGroups({ flashes, articles, lang: L.code, now: NOW, tz: L.tz });
@@ -269,7 +271,7 @@ for (const L of [ED.en, ED.zh]) {
   const adCard = (ad, cls = "") => `<a class="ad ${cls}" href="${esc(ad.url)}" target="_blank" rel="noopener sponsored"><span class="ad-eye"><span>Partner</span><span>AD</span></span><span class="ad-wm">${esc(ad.wordmark)}</span><span class="ad-t">${esc(ad.title)}</span><span class="ad-x">${esc(ad.text)}</span><span class="ad-cta">${esc(ad.cta)} <span aria-hidden="true">→</span></span>${ad.note ? `<span class="ad-n">${esc(ad.note)}</span>` : ""}</a>`;
   const adBand = ADS.length ? `<section class="adband" aria-label="${esc(L.partnersT)}"><div class="wrap"><div class="adband-head"><span class="label">${esc(L.partnersT)}</span><span class="label">${esc(L.partnersX)}</span></div><div class="ads">${ADS.map((a) => adCard(a)).join("")}</div></div></section>` : "";
 
-  function layout({ title, description = L.description, active = "", body, canonical = "", type = "website", extraScript = "", float = true }) {
+  function layout({ title, description = L.description, active = "", body, canonical = "", type = "website", extraScript = "", float = true, ogImage = "" }) {
     const navA = active === "flash/" ? "" : active; // 속보 아카이브는 Live 메뉴로 표시
     const full = title ? `${title} | ${L.name}` : `${L.name} — ${L.tagline}`;
     const tape = cfg.coins.slice(0, 6).map((c) => `<a href="${u("market/")}" data-tape="${c.id}"><span class="sym">${c.symbol}</span><span class="num p">—</span>&nbsp;<span class="num c"></span></a>`).join("");
@@ -286,7 +288,7 @@ ${gaSnippet(GA_HOSTS)}
 <meta name="description" content="${esc(description)}">
 ${canonical !== null && SITE_URL ? `<link rel="canonical" href="${abs(canonical)}">` : ""}${alt}
 <meta property="og:type" content="${type}"><meta property="og:site_name" content="${esc(L.name)}"><meta property="og:title" content="${esc(title || L.name)}"><meta property="og:description" content="${esc(description)}">
-${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(canonical)}">` : ""}<meta property="og:image" content="${SITE_URL}${asset("og.png")}?v=2">` : ""}
+${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(canonical)}">` : ""}<meta property="og:image" content="${ogImage ? SITE_URL + asset(ogImage) : `${SITE_URL}${asset("og.png")}?v=2`}">` : ""}
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0A0A0A">
 <link rel="manifest" href="${asset("manifest.webmanifest")}"><link rel="icon" href="${asset("icons/icon-192.png")}" type="image/png"><link rel="apple-touch-icon" href="${asset("icons/apple-touch-icon.png")}">
 <link rel="alternate" type="application/rss+xml" title="${esc(L.name)}" href="${u("rss.xml")}">
@@ -334,18 +336,22 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const artImg = (name, eager) => eager
     ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${asset(`art/${name}.jpg`)}?v=${ART_V}" srcset="${asset(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${asset(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></picture>`
     : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${asset(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${asset(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${asset(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
+  const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${asset(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
+  const MT = L.code === "zh" ? { img: "AI 生成图片", vid: "AI 制作视频" } : { img: "AI-generated image", vid: "AI-produced video" };
+  const mediaBlock = (a) => a.video ? `<figure class="a-media"><video controls playsinline preload="metadata"${a.image ? ` poster="${asset(a.image)}"` : ""} src="${asset(a.video)}"></video><figcaption>${esc(a.video_note || MT.vid)}</figcaption></figure>`
+    : a.image ? `<figure class="a-media"><img src="${asset(a.image)}" alt="${esc(a.image_alt || a.title)}" loading="lazy" decoding="async"><figcaption>${esc(a.image_note || MT.img)}</figcaption></figure>` : "";
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
     const used = new Set();
     const pick = (want) => { const a = [want, ...ART_POOL].filter(Boolean).find((x) => !used.has(x)) || ART_POOL[0]; used.add(a); return a; };
     const ext = (h) => /^https?:/.test(h) ? ' target="_blank" rel="noopener nofollow"' : "";
     return `<section class="hero hero-${size}" data-hero aria-roledescription="carousel">
-  <div class="hero-track">${slides.map((sl, i) => `<article class="slide${i ? "" : " is-active"}" aria-roledescription="slide"${i ? ' aria-hidden="true"' : ""}>${artImg(pick(sl.art), !i)}<div class="slide-shade"></div>
+  <div class="hero-track">${slides.map((sl, i) => `<article class="slide${i ? "" : " is-active"}" aria-roledescription="slide"${i ? ' aria-hidden="true"' : ""}>${sl.img ? photoImg(sl.img, !i) : artImg(pick(sl.art), !i)}<div class="slide-shade"></div>
     <div class="wrap slide-body"><span class="slide-eye">${sl.eye}</span><h2 class="slide-t"><a href="${esc(sl.href)}"${ext(sl.href)}>${zt(sl.title, L.code)}</a></h2>${sl.dek ? `<p class="slide-d">${esc(sl.dek)}</p>` : ""}<a class="slide-cta" href="${esc(sl.href)}"${ext(sl.href)} tabindex="-1">${esc(sl.cta)} <span aria-hidden="true">→</span></a></div></article>`).join("")}</div>
   ${slides.length > 1 ? `<div class="wrap hero-ui"><div class="hero-bars">${slides.map((_, i) => `<button type="button" class="hero-bar" aria-label="${i + 1}"><i></i></button>`).join("")}</div><span class="hero-count num"><b>01</b> / ${String(slides.length).padStart(2, "0")}</span><button type="button" class="hero-nav" data-dir="-1" aria-label="Previous">←</button><button type="button" class="hero-nav" data-dir="1" aria-label="Next">→</button></div>` : ""}
 </section>`;
   }
-  const artSlide = (a) => ({ art: ART[a.category], eye: `${esc(a.region || a.category || "")} · ${esc(a.author || L.name)}`, title: a.title, dek: a.summary || plain(a.body).slice(0, 140), href: u(`articles/${a.id}/`), cta: L.slideRead });
+  const artSlide = (a) => ({ art: ART[a.category], img: a.image, eye: `${esc(a.region || a.category || "")} · ${esc(a.author || L.name)}`, title: a.title, dek: a.summary || plain(a.body).slice(0, 140), href: u(`articles/${a.id}/`), cta: L.slideRead });
 
   // 파츠
   const chips = (t, b) => coinChips(coinsIn(t, b), { coins: cfg.coins, href: u("market/"), label: esc(L.ccAria) });
@@ -501,12 +507,12 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   articles.forEach((a, i) => {
     const more = articles.filter((x) => x !== a).slice(0, 4);
     write(`${P}articles/${a.id}/index.html`, layout({
-      title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article",
-      body: `<div class="cover" aria-hidden="true">${artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
+      title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
+      body: `<div class="cover" aria-hidden="true">${a.image ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${zt(a.title, L.code)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>
-      <div class="prose">${markdown(a.body)}</div>
+      ${mediaBlock(a)}<div class="prose">${markdown(a.body)}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button></div>
       ${CH ? CH.card : ""}
       ${ADS.length ? `<aside class="ad-inline"><span class="label">${esc(L.sponsored)}</span>${adCard(ADS[i % ADS.length], "wide")}</aside>` : ""}
