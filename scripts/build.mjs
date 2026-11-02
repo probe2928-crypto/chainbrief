@@ -157,7 +157,7 @@ ${adBand}
     <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
     <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
-    <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">편집국</a><a href="${u("privacy/")}">개인정보처리방침</a></div>
+    <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">편집국</a><a href="${u("privacy/")}">개인정보처리방침</a><a href="${u("terms/")}">이용약관</a></div>
   </div>
   ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
     ${cfg.footer.company ? `<span>${esc(cfg.footer.company)}</span>` : ""}
@@ -742,9 +742,9 @@ write("privacy/index.html", layout({
   body: `<div class="wrap"><main class="single">
   ${secHead("Privacy", "개인정보처리방침")}
   <div class="prose" style="margin-top:32px">
-  <p>체인브리프(CHAINBRIEF, 이하 "서비스")는 웹사이트와 iOS·안드로이드 앱에서 이용자의 개인정보를 최소한으로만 다룹니다. 시행일: 2026년 10월 26일 (2026년 10월 31일 방문 통계 항목 추가).</p>
+  <p>체인브리프(CHAINBRIEF, 이하 "서비스")는 웹사이트와 iOS·안드로이드 앱에서 이용자의 개인정보를 최소한으로만 다룹니다. 시행일: 2026년 10월 26일 (2026년 10월 31일 방문 통계 항목 추가, 회원 기능 공개일 회원 계정·광고성 정보 항목 추가). 이용 조건은 <a href="${u("terms/")}">이용약관</a>을 따릅니다.</p>
   <h2>수집하는 정보</h2>
-  <p>앱과 웹사이트는 회원가입이 없으며, 이름·연락처·위치·광고 식별자 등 개인을 알아볼 수 있는 정보를 수집하지 않습니다. 앱에서 고른 언어·화면 모드와 저장한 기사는 이용자의 기기 안에만 저장되고 서버로 전송되지 않습니다.</p>
+  <p>회원가입은 선택입니다. 가입하지 않고 이용하면 이름·연락처·위치·광고 식별자 등 개인을 알아볼 수 있는 정보를 수집하지 않습니다. 회원으로 가입할 때 받는 정보는 아래 '회원 계정' 항목에 적었습니다. 앱에서 고른 언어·화면 모드와 저장한 기사는 이용자의 기기 안에만 저장되고 서버로 전송되지 않습니다.</p>
   <h2>외부 서비스</h2>
   <p>시세와 지표를 보여주기 위해 앱과 웹사이트는 CoinGecko, 업비트, 빗썸, Alternative.me의 공개 API에 직접 접속합니다. 이 과정에서 해당 서비스가 일반적인 접속 기록(IP 주소 등)을 남길 수 있으며, 각 서비스의 정책을 따릅니다. 웹사이트는 GitHub Pages에서 제공되며 글꼴은 Google Fonts에서 불러옵니다.</p>
   <h2>커뮤니티 게시판 (웹사이트)</h2>
@@ -753,10 +753,54 @@ write("privacy/index.html", layout({
   <p>서비스에는 제휴사(BLOCKKEY, Perpline) 배너와 외부 기사 링크가 있습니다. 링크를 누르면 해당 사이트로 이동하며, 그 사이트의 개인정보 정책이 적용됩니다. 서비스는 광고 추적 도구를 쓰지 않습니다.</p>
   <h2>방문 통계 (웹사이트)</h2>
   <p>웹사이트는 방문 통계를 위해 Google 애널리틱스(GA4)를 사용합니다. 방문한 페이지, 기기·브라우저 종류, 대략적인 지역 같은 정보가 Google에 전송되며 개인을 식별하는 데 쓰지 않습니다. 광고 기능과 Google 신호는 꺼 두었고, 유럽(EEA)·영국·스위스에서는 쿠키 없이 동작합니다. 브라우저 설정이나 <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google 애널리틱스 차단 부가기능</a>으로 거부할 수 있습니다. iOS·안드로이드 앱에는 이 도구가 들어 있지 않습니다.</p>
+  <h2>회원 계정(로그인)</h2>
+  <p>회원가입은 선택이며, 가입하지 않아도 속보·기사·시세·커뮤니티를 지금처럼 모두 이용할 수 있습니다. 회원가입 때 [필수] 이메일 주소, 소셜 계정 식별값(Google·카카오·Apple 로그인 시), 이름 또는 닉네임(소셜 계정이 제공하는 경우), 가입한 사이트와 유입 경로(광고·링크 정보), 약관·개인정보 동의 기록(일시·버전), 접속 기록을 수집하고, [선택] 마케팅 수신 채널(이메일·카카오톡·문자)과 휴대폰 번호(직접 입력한 경우)를 수집합니다. 소셜 로그인은 이용자가 해당 서비스에서 제공에 동의한 정보만 받습니다. 목적은 회원 식별과 로그인, 서비스 제공, 문의 응대, 부정 이용 방지이며, 회원 탈퇴 시까지 보유합니다.</p>
+  <h2>통합 회원 계정</h2>
+  <p>운영자가 운영하는 QURATOR·LUFT·인생준준·Perpline·체인브리프는 하나의 로그인 시스템을 함께 씁니다. 같은 이메일·소셜 계정으로 여러 사이트에 가입할 수 있고, 사이트마다 따로 약관·개인정보 동의를 받으며 사이트별로 탈퇴할 수 있습니다. 가입하지 않은 사이트의 서비스 제공에는 회원 정보를 쓰지 않습니다. 광고성 정보는 아래 '광고성 정보 전송' 항목에 따라 동의한 채널로만, 동의 화면에 적힌 보내는 곳에서만 보냅니다.</p>
+  <h2>처리 위탁과 국외 이전(회원)</h2>
+  <p>회원 계정과 로그인 처리를 Supabase Inc.(미국)에 맡깁니다. 회원 정보는 대한민국 서울 리전(Amazon Web Services ap-northeast-2)에 저장되며, 운영·장애 대응을 위해 수탁사가 국외(미국 등)에서 접근할 수 있습니다. 이전 항목: 위 회원가입 수집 항목 / 이전 시기·방법: 가입·로그인할 때 암호화된 연결(HTTPS)로 전송 / 보유 기간: 회원 탈퇴 또는 위탁 계약 종료 시까지. 이는 서비스 제공 계약의 이행을 위한 처리 위탁·보관으로서 「개인정보 보호법」 제28조의8 제1항 제3호에 따라 이 방침으로 알립니다. 국외 이전을 원하지 않으면 회원가입을 하지 않고 비회원으로 이용할 수 있습니다. 이메일·카카오톡·문자 발송 업체: 추후 고지(발송을 시작하기 전에 업체명, 맡기는 일, 이전 국가를 이 항목에 적습니다).</p>
+  <h2>광고성 정보 전송</h2>
+  <p>광고성 정보는 회원가입 또는 내 계정 화면에서 채널(이메일·카카오톡·문자)별로 미리 동의한 분에게만 보냅니다. 오후 9시부터 다음 날 오전 8시까지는 야간 수신에 따로 동의한 경우에만 보냅니다. 보내는 광고성 정보에는 (광고) 표시, 전송자 명칭과 연락처, 무료 수신거부 방법을 적습니다. 수신 동의·거부·철회는 내 계정의 '마케팅 수신 설정'에서 언제든 바꿀 수 있고 즉시 반영되며, 처리 결과(전송자, 일시, 내용)를 화면으로 바로 알리고 14일 이내에 알립니다. 수신에 동의한 분에게는 2년마다 동의 여부를 다시 알립니다(「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제50조, 같은 법 시행령 제62조의2·제62조의3). 동의 기록(채널, 일시, 동의 문구 버전, 접속 IP·브라우저 정보의 해시값)은 동의 증빙을 위해 회원 탈퇴 시까지 보관합니다.</p>
+  <h2>만 14세 미만</h2>
+  <p>만 14세 미만은 회원가입을 받지 않습니다. 가입 화면에서 만 14세 이상임을 확인하며, 만 14세 미만의 개인정보가 수집된 사실을 알게 되면 즉시 삭제합니다.</p>
+  <h2>회원 탈퇴와 파기</h2>
+  <p>내 계정 → 회원 탈퇴에서 고객센터 연락 없이 바로 탈퇴할 수 있습니다. 이 사이트만 탈퇴하거나, 같은 계정으로 가입한 모든 사이트에서 탈퇴(계정 삭제)할 수 있으며, 남은 가입이 없으면 계정과 회원 정보(동의 기록 포함)를 즉시 삭제합니다. 다만 결제·계약 기록처럼 법령이 보관을 요구하는 정보는 회원 계정과 분리해 그 기간 동안만 보관합니다(「전자상거래 등에서의 소비자보호에 관한 법률」 시행령 제6조: 계약·청약철회·대금결제 기록 5년, 소비자 불만·분쟁 처리 기록 3년). 소셜 로그인 연결은 Google·카카오·Apple 계정 설정에서도 언제든 끊을 수 있습니다.</p>
   <h2>문의</h2>
   <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
   <h2>Privacy Policy (English)</h2>
-  <p>CHAINBRIEF's website and apps have no accounts and do not collect personal data such as names, contacts, location or advertising identifiers. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  <p>Accounts on CHAINBRIEF are optional. Without one, the website and apps do not collect personal data such as names, contacts, location or advertising identifiers; what an account collects (email, social login ID, sign-up site and referral, consent records, optional marketing channels) is described in the Korean sections above, which govern. Account data is stored by Supabase Inc. in the Seoul region and you can delete your account any time under Account. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  </div>
+  </main></div>`,
+}));
+
+// 이용약관 (회원 기능 공개일부터)
+write("terms/index.html", layout({
+  title: "이용약관", active: "", canonical: "terms/", float: false,
+  description: "체인브리프 웹사이트와 앱의 이용약관 — 회원 계정, 탈퇴, 통지",
+  body: `<div class="wrap"><main class="single">
+  ${secHead("Terms", "이용약관")}
+  <div class="prose" style="margin-top:32px">
+  <p>시행일: 회원 기능 공개일. 개인정보 처리는 <a href="${u("privacy/")}">개인정보처리방침</a>을 따릅니다.</p>
+  <h2>제1조 (목적)</h2>
+  <p>이 약관은 체인브리프(CHAINBRIEF, 이하 "서비스")의 웹사이트·앱 이용 조건과 회원 계정에 관한 사항을 정합니다.</p>
+  <h2>제2조 (정보의 성격)</h2>
+  <p>서비스가 제공하는 속보·기사·시세는 정보 제공 목적이며 투자 권유가 아닙니다. 투자 판단과 책임은 이용자 본인에게 있습니다.</p>
+  <h2>제3조 (회원가입)</h2>
+  <p>회원가입은 선택입니다. 이용자가 가입 화면에서 이 약관과 개인정보 수집·이용에 동의하고 만 14세 이상임을 확인한 뒤 Google·카카오·Apple·이메일 중 한 방법으로 인증하면 가입이 성립합니다. 만 14세 미만은 가입할 수 없습니다. 마케팅 정보 수신 동의는 선택이며 동의하지 않아도 가입과 이용에 제한이 없습니다.</p>
+  <h2>제4조 (계정 관리)</h2>
+  <p>회원은 자신의 로그인 수단(이메일, 비밀번호, 소셜 계정)을 직접 관리하며 타인에게 양도·대여할 수 없습니다. 계정이 도용된 사실을 알게 되면 바로 고객센터에 알려 주세요. 회원 정보는 개인정보처리방침에 따라 처리합니다.</p>
+  <h2>제5조 (통합 회원 계정)</h2>
+  <p>운영자의 QURATOR·LUFT·인생준준·Perpline·체인브리프는 하나의 로그인 시스템을 씁니다. 사이트별 이용 조건은 각 사이트의 약관을 따르며, 사이트별로 가입·탈퇴할 수 있습니다.</p>
+  <h2>제6조 (회원 탈퇴와 자격 제한)</h2>
+  <p>회원은 언제든 내 계정 → 회원 탈퇴에서 즉시 탈퇴할 수 있습니다. 유료 구독이 있는 경우 탈퇴만으로 결제가 해지되지 않을 수 있으니 해지 절차(앱스토어 결제는 각 스토어의 구독 관리)를 먼저 진행해 주세요. 타인의 정보를 도용하거나 서비스 운영을 고의로 방해한 경우 사전 통지 후 회원 자격을 제한할 수 있습니다.</p>
+  <h2>제7조 (회원에 대한 통지)</h2>
+  <p>회원에 대한 통지는 회원이 등록한 이메일이나 서비스 화면으로 합니다. 약관 변경, 보안 알림처럼 서비스 이용에 필요한 안내는 광고성 정보가 아니며 수신 동의와 관계없이 보낼 수 있습니다.</p>
+  <h2>제8조 (커뮤니티)</h2>
+  <p>커뮤니티 게시판 글의 책임은 작성자에게 있으며, 법령 위반·광고·도배 글은 사전 통지 없이 숨길 수 있습니다.</p>
+  <h2>제9조 (약관의 변경)</h2>
+  <p>약관을 바꾸면 적용일 7일 전부터 이 페이지에 알리고, 이용자에게 불리한 변경은 30일 전부터 알립니다.</p>
+  <h2>제10조 (준거법)</h2>
+  <p>이 약관은 대한민국 법률에 따릅니다.</p>
   </div>
   </main></div>`,
 }));
@@ -820,7 +864,7 @@ write("rss.xml", `<?xml version="1.0" encoding="UTF-8"?>
 ${rssItems.map((i) => `<item><title>${esc(i.t)}</title><link>${i.l}</link><guid>${i.l}</guid><pubDate>${i.d.toUTCString()}</pubDate><description>${esc(i.s)}</description></item>`).join("\n")}
 </channel></rss>`);
 if (SITE_URL) {
-  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "returns/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
+  const urls = ["", "flash/", "listings/", "surge/", "news/", "community/", "market/", "returns/", "contact/", "authors/", ...(cfg.reporters || []).map((r) => `authors/${r.slug}/`), "privacy/", "terms/", "projects/", ...projects.map((p) => `projects/${p.slug}/`), ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 500).map((f) => `flash/${f.id}/`)];
   write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((p) => `<url><loc>${abs(p)}</loc></url>`).join("")}</urlset>`);
   write("robots.txt", `User-agent: *\nAllow: /\nDisallow: ${u("community/write/")}\nSitemap: ${abs("sitemap.xml")}\n`);
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
