@@ -34,7 +34,8 @@
         en: ['The QR docent, as an app', 'Scan with your camera · free']
       },
       cta: { ko: '받기', en: 'Get' },
-      skip: /#\/(checkout|pricing|pay)\b/   // keep the web subscription flow clean
+      skip: /#\/(checkout|pricing|pay)\b/,  // keep the web subscription flow clean
+      skipIf: function () { try { return localStorage.getItem('q_member') === 'true'; } catch (e) { return false; } }  // web members keep using the web app (the iOS app has no member unlock)
     },
     luft: {
       ios: '6829093001', android: 'kr.luft.store', name: 'LUFT', bg: '#141210', fg: '#F4EFE8', accent: '#F1C7A6',
@@ -97,7 +98,7 @@
     try { if (window.gtag) window.gtag('event', 'app_install_' + action, { app: ID, platform: platform, in_app_browser: inApp }); } catch (e) {}
   }
 
-  function skipNow() { return A.skip && A.skip.test(location.href); }
+  function skipNow() { return (A.skip && A.skip.test(location.href)) || (A.skipIf && A.skipIf()); }
 
   // sit above the site's own fixed bottom UI (tab bars, chat / Telegram buttons) instead of covering it
   function clearance() {
