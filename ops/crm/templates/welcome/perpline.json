@@ -1,0 +1,30 @@
+{
+  "site": "perpline",
+  "_note": "English only. No fee/rebate numbers in copy (site pages are the source of truth). Not available to residents of South Korea or the United States. EU sign-ups: send step 1+ only after double opt-in confirmation (PLAN.md §4).",
+  "steps": [
+    {
+      "step": 0, "days": 0, "kind": "info", "label": "WELCOME · 01",
+      "subject": "Your Perpline account is ready",
+      "preheader": "Compare exchanges side by side before you sign up anywhere.",
+      "headline": "Welcome to Perpline",
+      "body": "<p>Your account is set up. Perpline lists centralized exchanges and perp DEXs side by side so you can compare trading fees and referral terms before you open an account.</p><p>Perpline is not available to residents of South Korea or the United States.</p><p>You can manage your account and email preferences at any time.</p>",
+      "cta_text": "Open Perpline", "cta_url": "account"
+    },
+    {
+      "step": 1, "days": 3, "kind": "ad", "label": "GUIDE · 02",
+      "subject": "How fee rebates actually work",
+      "preheader": "A short explainer before you pick an exchange.",
+      "headline": "Where a rebate<br>comes from",
+      "body": "<p>When you sign up through a referral link, the exchange shares part of the trading fee it charges you. Some programs pass a portion back to you as a rebate or a fee discount.</p><p>Terms differ by exchange and can change, so always check the current terms on the exchange itself before you trade.</p><p style=\"color:#5E5B55;font-size:14px;\">Futures and perpetual contracts are high-risk products and you can lose more than your initial margin.</p>",
+      "cta_text": "Compare exchanges", "cta_url": "compare"
+    },
+    {
+      "step": 2, "days": 7, "kind": "ad", "label": "GUIDE · 03",
+      "subject": "CEX or perp DEX? A two-minute checklist",
+      "preheader": "Custody, KYC, liquidity and fees — what to weigh.",
+      "headline": "CEX or perp DEX?",
+      "body": "<p>Four questions worth asking before you choose:</p><p><b>Custody.</b> Do you want the exchange to hold your funds, or keep them in your own wallet?<br><b>Verification.</b> Are you comfortable with KYC?<br><b>Liquidity.</b> Is the order book deep enough for your size?<br><b>Fees.</b> What do you pay as maker and as taker?</p><p>Perpline keeps both lists on one page so you can check each answer quickly.</p><p style=\"color:#5E5B55;font-size:14px;\">Not investment advice. Futures trading carries a high risk of loss.</p>",
+      "cta_text": "See the lists", "cta_url": "compare"
+    }
+  ]
+}

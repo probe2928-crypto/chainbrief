@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>수신거부 · Unsubscribe</title>
+<style>
+  :root { --paper:#F4EEE6; --card:#FFFFFF; --ink:#141414; --muted:#6B655D; --line:#E2DBD1; --ok:#1F6B3A; --bad:#A8201A; color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper:#151412; --card:#1E1C1A; --ink:#F2EEE8; --muted:#A39C92; --line:#34302B; --ok:#7BC896; --bad:#F08A80; color-scheme: dark; } }
+  :root[data-theme="dark"] { --paper:#151412; --card:#1E1C1A; --ink:#F2EEE8; --muted:#A39C92; --line:#34302B; --ok:#7BC896; --bad:#F08A80; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font: 16px/1.65 -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Helvetica, Arial, sans-serif; min-height: 100vh; word-break: keep-all; overflow-wrap: anywhere; display: grid; place-items: center; padding: 32px 16px; }
+  body[hidden] { display: none; }
+  main { width: 100%; max-width: 480px; }
+  .top { display: flex; justify-content: space-between; align-items: baseline; margin: 0 4px 18px; }
+  .mark { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+  .tag { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 32px 28px; }
+  h1 { font-size: 26px; line-height: 1.3; margin: 0 0 12px; letter-spacing: -0.01em; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .who { font-weight: 700; word-break: break-all; }
+  label.all { display: flex; gap: 10px; align-items: flex-start; margin: 18px 0 22px; font-size: 15px; cursor: pointer; }
+  label.all input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--ink); }
+  button { appearance: none; border: 0; border-radius: 999px; background: var(--ink); color: var(--card); font: inherit; font-weight: 700; padding: 14px 24px; width: 100%; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: progress; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .state-ok h1 { color: var(--ok); }
+  .state-bad h1 { color: var(--bad); }
+  .lang { margin: 16px 4px 0; text-align: right; font-size: 13px; }
+  .lang a { color: var(--muted); }
+  [data-v] { display: none; }
+  [data-v].on { display: block; }
+</style>
+<script src="config.js"></script>
+<script>
+  // 설정이 꺼져 있으면 아무것도 그리지 않고 홈으로 (링크도 어디에도 걸지 않음 — 메일 안 링크로만 들어오는 페이지)
+  (function () {
+    var C = window.CRM_PUBLIC || {};
+    if (!C.enabled || !C.functionsUrl) { document.documentElement.style.display = "none"; location.replace("../"); }
+  })();
+</script>
+</head>
+<body hidden>
+<main>
+  <div class="top"><span class="mark" id="brand">—</span><span class="tag" id="tag">Unsubscribe</span></div>
+  <section class="card" aria-live="polite">
+    <div data-v="loading"><p class="muted" id="t-loading"></p></div>
+
+    <div data-v="ready">
+      <h1 id="t-title"></h1>
+      <p id="t-lead"></p>
+      <p class="who" id="who"></p>
+      <label class="all"><input type="checkbox" id="all"><span id="t-all"></span></label>
+      <button type="button" id="go"></button>
+      <p class="muted" style="margin-top:14px" id="t-free"></p>
+    </div>
+
+    <div data-v="done" class="state-ok">
+      <h1 id="t-done"></h1>
+      <p id="t-done-lead"></p>
+      <p class="muted" id="t-done-at"></p>
+    </div>
+
+    <div data-v="error" class="state-bad">
+      <h1 id="t-err"></h1>
+      <p id="t-err-lead"></p>
+    </div>
+  </section>
+  <p class="lang"><a href="#" id="switch"></a></p>
+</main>
+<script>
+(function () {
+  var C = window.CRM_PUBLIC || {};
+  if (!C.enabled || !C.functionsUrl) return;
+  var qs = new URLSearchParams(location.search);
+  var token = qs.get("t") || "";
+  var lang = (qs.get("lang") || navigator.language || "ko").slice(0, 2) === "en" ? "en" : "ko";
+  var info = null;
+
+  var T = {
+    ko: {
+      loading: "확인하고 있어요…", title: "광고성 정보 수신거부", lead: "아래 주소로 보내던 {brand} 광고 메일을 더 이상 보내지 않을게요.",
+      all: "같은 계정으로 가입한 다른 서비스의 광고 메일도 모두 받지 않기", go: "수신거부", busy: "처리 중…",
+      free: "로그인 없이 무료로 바로 처리돼요. 주문·예약 등 거래 안내 메일은 계속 받을 수 있어요.",
+      done: "수신거부가 처리됐어요", doneLead: "{brand} 광고 메일 발송 목록에서 제외했어요. 처리 결과는 메일로도 알려 드려요.",
+      doneAll: "모든 서비스의 광고 메일 발송 목록에서 제외했어요. 처리 결과는 메일로도 알려 드려요.",
+      doneAt: "처리 일시 {at}", already: "이미 처리된 요청이에요", alreadyLead: "{brand} 광고 메일은 더 이상 보내지 않아요.",
+      err: "링크를 확인할 수 없어요", errLead: "링크가 만료됐거나 잘못됐어요. 해당 사이트에 로그인한 뒤 내 계정 > 마케팅 수신 설정에서 끌 수 있어요.",
+      fail: "잠시 문제가 생겼어요", failLead: "잠시 뒤 다시 시도해 주세요. 계속 안 되면 메일에 회신해 주시면 바로 처리해 드릴게요.",
+      sw: "English", tag: "수신거부"
+    },
+    en: {
+      loading: "Checking…", title: "Unsubscribe", lead: "We'll stop sending {brand} promotional emails to:",
+      all: "Also unsubscribe from promotional emails of every other service I joined with this account", go: "Unsubscribe", busy: "Working…",
+      free: "Free, instant, no login needed. You'll still get emails about your orders or bookings.",
+      done: "You're unsubscribed", doneLead: "We removed you from {brand} promotional emails. We'll email you a confirmation.",
+      doneAll: "We removed you from promotional emails of all our services. We'll email you a confirmation.",
+      doneAt: "Processed {at}", already: "Already processed", alreadyLead: "You won't receive {brand} promotional emails anymore.",
+      err: "We couldn't verify this link", errLead: "It may have expired. Sign in to the site and turn it off under Account > Marketing preferences.",
+      fail: "Something went wrong", failLead: "Please try again in a moment, or reply to the email and we'll take care of it.",
+      sw: "한국어", tag: "Unsubscribe"
+    }
+  };
+  function $(id) { return document.getElementById(id); }
+  function fmt(s) { return s.replace("{brand}", (info && info.brand) || "").replace("{at}", new Date().toLocaleString(lang === "en" ? "en-US" : "ko-KR")); }
+  function show(v) { document.querySelectorAll("[data-v]").forEach(function (el) { el.classList.toggle("on", el.getAttribute("data-v") === v); }); }
+  function paint() {
+    var t = T[lang]; document.documentElement.lang = lang;
+    $("t-loading").textContent = t.loading; $("t-title").textContent = t.title; $("t-lead").textContent = fmt(t.lead);
+    $("t-all").textContent = t.all; $("go").textContent = t.go; $("t-free").textContent = t.free;
+    $("t-err").textContent = t.err; $("t-err-lead").textContent = t.errLead; $("switch").textContent = t.sw; $("tag").textContent = t.tag;
+    if (info) { $("brand").textContent = info.brand; $("who").textContent = info.masked || ""; }
+  }
+  function fail(kind) {
+    var t = T[lang];
+    $("t-err").textContent = kind === "net" ? t.fail : t.err;
+    $("t-err-lead").textContent = kind === "net" ? t.failLead : t.errLead;
+    show("error");
+  }
+  function done(all, already) {
+    var t = T[lang];
+    $("t-done").textContent = already ? t.already : t.done;
+    $("t-done-lead").textContent = fmt(already ? t.alreadyLead : (all ? t.doneAll : t.doneLead));
+    $("t-done-at").textContent = already ? "" : fmt(t.doneAt);
+    show("done");
+  }
+  $("switch").addEventListener("click", function (e) { e.preventDefault(); lang = lang === "en" ? "ko" : "en"; paint(); });
+  $("go").addEventListener("click", function () {
+    var b = $("go"); b.disabled = true; b.textContent = T[lang].busy;
+    fetch(C.functionsUrl + "/unsubscribe?t=" + encodeURIComponent(token), {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ scope: $("all").checked ? "all" : "site" })
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (x) { if (x.ok && x.d.ok) done(x.d.scope === "all"); else fail("bad"); })
+      .catch(function () { b.disabled = false; b.textContent = T[lang].go; fail("net"); });
+  });
+
+  document.body.hidden = false; paint(); show("loading");
+  if (!token) { fail("bad"); return; }
+  fetch(C.functionsUrl + "/unsubscribe?t=" + encodeURIComponent(token))
+    .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+    .then(function (x) {
+      if (!x.ok || !x.d.ok) return fail("bad");
+      info = x.d; if (!qs.get("lang") && info.lang) lang = info.lang === "en" ? "en" : "ko";
+      paint(); if (info.used) done(false, true); else show("ready");
+    }).catch(function () { fail("net"); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "_note": "사이트별 메일 톤 토큰. 색은 각 사이트 style.css / PRODUCT.md 기준. urls 는 CTA 링크(UTM 은 발송 시 자동 부착).",
+  "qurator": {
+    "lang": "ko", "wordmark": "QURATOR", "paper": "#F4EEE6", "card": "#FFFFFF", "ink": "#141414", "accent": "#141414", "muted": "#6B655D", "line": "#E2DBD1",
+    "head_font": "Georgia, 'Times New Roman', serif",
+    "urls": { "home": "https://probe2928-crypto.github.io/qurator/", "account": "https://probe2928-crypto.github.io/qurator/#/account", "plans": "https://probe2928-crypto.github.io/qurator/#/daily" }
+  },
+  "perpline": {
+    "lang": "en", "wordmark": "PERPLINE", "paper": "#F1EEE8", "card": "#FFFFFF", "ink": "#0D0D0E", "accent": "#0D0D0E", "muted": "#5E5B55", "line": "#E1DCD2",
+    "head_font": "Helvetica, Arial, sans-serif",
+    "urls": { "home": "https://probe2928-crypto.github.io/perpline/", "account": "https://probe2928-crypto.github.io/perpline/", "compare": "https://probe2928-crypto.github.io/perpline/" }
+  },
+  "luft": {
+    "lang": "ko", "wordmark": "LUFT", "paper": "#F1C7A6", "card": "#FFF8F2", "ink": "#1A1A1A", "accent": "#1A1A1A", "muted": "#6E5A4C", "line": "#E8CDB8",
+    "head_font": "Helvetica, Arial, sans-serif",
+    "urls": { "home": "https://probe2928-crypto.github.io/luft/", "account": "https://probe2928-crypto.github.io/luft/", "shop": "https://probe2928-crypto.github.io/luft/" }
+  },
+  "lifejunjun": {
+    "lang": "ko", "wordmark": "인생준준", "paper": "#F3F4F1", "card": "#FFFFFF", "ink": "#131313", "accent": "#C8261C", "muted": "#4A4B47", "line": "#D5D6D1",
+    "head_font": "Georgia, 'Times New Roman', serif",
+    "urls": { "home": "https://probe2928-crypto.github.io/lifejunjun/", "account": "https://probe2928-crypto.github.io/lifejunjun/", "trips": "https://probe2928-crypto.github.io/lifejunjun/#trips", "run": "https://probe2928-crypto.github.io/lifejunjun/run.html" }
+  },
+  "chainbrief": {
+    "lang": "ko", "wordmark": "CHAINBRIEF", "paper": "#F6F6F4", "card": "#FFFFFF", "ink": "#0A0A0A", "accent": "#A8201A", "muted": "#62605B", "line": "#E6E5E2",
+    "head_font": "Helvetica, Arial, sans-serif",
+    "urls": { "home": "https://probe2928-crypto.github.io/chainbrief/", "account": "https://probe2928-crypto.github.io/chainbrief/", "app": "https://probe2928-crypto.github.io/chainbrief/", "telegram": "https://t.me/btcbullit" }
+  }
+}

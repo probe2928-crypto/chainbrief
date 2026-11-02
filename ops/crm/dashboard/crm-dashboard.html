@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRM 발송 현황</title>
+<style>
+  :root {
+    --paper:#F3E6D8; --card:#FBF6F0; --ink:#121212; --muted:#6F655B; --line:#E2D3C3; --soft:#EADBCB;
+    --c1:#121212; --c2:#B4552D; --c3:#8C7B6B; --ok:#2F6B45; --warn:#A8201A;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --paper:#17140F; --card:#211D18; --ink:#F3ECE3; --muted:#A99D90; --line:#3A332B; --soft:#2C2620; --c1:#F3ECE3; --c2:#E08A5F; --c3:#9C8D7E; --ok:#7CC496; --warn:#F08A80; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --paper:#17140F; --card:#211D18; --ink:#F3ECE3; --muted:#A99D90; --line:#3A332B; --soft:#2C2620; --c1:#F3ECE3; --c2:#E08A5F; --c3:#9C8D7E; --ok:#7CC496; --warn:#F08A80; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--paper); color: var(--ink); }
+  body { font: 15px/1.55 -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Helvetica, Arial, sans-serif; padding: 28px 16px 48px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 26px; }
+  .mark { font-size: clamp(34px, 6vw, 56px); font-weight: 900; letter-spacing: -0.04em; line-height: .95; }
+  .spec { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .pill { display: inline-block; border: 1px solid var(--ink); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+  .pill.off { border-color: var(--warn); color: var(--warn); }
+  .demo { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(12, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+  .s12 { grid-column: span 12; } .s8 { grid-column: span 8; } .s6 { grid-column: span 6; } .s4 { grid-column: span 4; } .s3 { grid-column: span 3; }
+  @media (max-width: 900px) { .s8, .s6, .s4 { grid-column: span 12; } .s3 { grid-column: span 6; } }
+  @media (max-width: 520px) { .s3 { grid-column: span 12; } }
+  h2 { font-size: 15px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
+  .kpi .v { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .kpi .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .kpi .d { font-size: 12px; margin-top: 8px; color: var(--ok); }
+  .bars { display: grid; gap: 10px; }
+  .bar { display: grid; grid-template-columns: 92px 1fr 56px; align-items: center; gap: 10px; font-size: 13px; }
+  .track { height: 10px; background: var(--soft); border-radius: 3px; overflow: hidden; }
+  .fill { height: 100%; background: var(--c1); border-radius: 3px; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 9px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .scroll { overflow-x: auto; }
+  .stack { display: flex; height: 10px; border-radius: 3px; overflow: hidden; background: var(--soft); min-width: 80px; }
+  .stack i { display: block; height: 100%; }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-bottom: 12px; flex-wrap: wrap; }
+  .legend b { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .rule { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .rule:last-child { border-bottom: 0; }
+  .rule .st { font-weight: 700; }
+  .rule .st.ok { color: var(--ok); } .rule .st.off { color: var(--warn); }
+  .tagk { font-size: 11px; padding: 2px 6px; border-radius: 3px; border: 1px solid var(--line); color: var(--muted); }
+  footer { margin-top: 22px; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="spec">Marketing · CRM · 통합 회원</div>
+      <div class="mark">CRM 발송 현황</div>
+      <div class="demo">시안 — 모든 숫자는 예시(더미)입니다. 실데이터 연결 예정 · 개인정보 원문은 표시하지 않음</div>
+    </div>
+    <div style="text-align:right">
+      <span class="pill off">발송 스위치 OFF</span>
+      <div class="spec" style="margin-top:8px">기준 2026-11-02 · KST</div>
+    </div>
+  </header>
+
+  <section class="grid">
+    <div class="card s3 kpi"><div class="v">1,710</div><div class="l">통합 회원(사람 수)</div><div class="d">사이트 가입 2,085건 · 중복 375</div></div>
+    <div class="card s3 kpi"><div class="v">41%</div><div class="l">이메일 광고 동의율</div><div class="d">동의 702명</div></div>
+    <div class="card s3 kpi"><div class="v">18%</div><div class="l">카카오 채널 친구 + 동의</div><div class="d">브랜드 메시지 F타입 대상</div></div>
+    <div class="card s3 kpi"><div class="v">0</div><div class="l">이번 주 광고 발송</div><div class="d" style="color:var(--muted)">주 2회 상한 · 야간 차단</div></div>
+
+    <div class="card s6">
+      <h2>사이트별 가입자</h2>
+      <p class="sub">memberships 기준 · 한 사람이 여러 사이트에 가입하면 각각 집계</p>
+      <div class="bars" id="members"></div>
+    </div>
+
+    <div class="card s6">
+      <h2>채널별 광고 수신 동의율</h2>
+      <p class="sub">사이트별 최신 동의 상태(crm_consent_latest) ÷ 가입자</p>
+      <div class="legend"><span><b style="background:var(--c1)"></b>이메일</span><span><b style="background:var(--c2)"></b>카카오톡</span><span><b style="background:var(--c3)"></b>문자</span></div>
+      <div class="scroll"><table id="consent"><thead><tr><th>사이트</th><th class="n">이메일</th><th class="n">카카오</th><th class="n">문자</th><th>분포</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="card s8">
+      <h2>세그먼트 크기</h2>
+      <p class="sub">동의자만 집계(crm_segment_base) · 발송 시 수신거부·빈도 상한으로 더 줄어듦</p>
+      <div class="scroll"><table id="segments"><thead><tr><th>세그먼트</th><th>조건</th><th>채널</th><th class="n">인원</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="card s4">
+      <h2>발송 규칙 상태</h2>
+      <p class="sub">법정·운영 가드</p>
+      <div class="rule"><span>전체 발송 스위치</span><span class="st off">OFF</span></div>
+      <div class="rule"><span>광고 제목 (광고) 자동 삽입</span><span class="st ok">ON</span></div>
+      <div class="rule"><span>야간 차단 20:50–08:00</span><span class="st ok">ON</span></div>
+      <div class="rule"><span>미동의자 자동 제외</span><span class="st ok">ON</span></div>
+      <div class="rule"><span>빈도 상한 1일 1 · 주 2</span><span class="st ok">ON</span></div>
+      <div class="rule"><span>2년 확인 안내 대기</span><span class="st">0명</span></div>
+      <div class="rule"><span>처리결과 통지 대기(14일)</span><span class="st">0건</span></div>
+      <div class="rule"><span>수신거부·반송 제외목록</span><span class="st">12</span></div>
+    </div>
+
+    <div class="card s12">
+      <h2>캠페인 성과</h2>
+      <p class="sub">웰컴 시퀀스(가입 직후 / 3일 / 7일) — 발송 전이라 모든 값 예시</p>
+      <div class="scroll"><table id="campaigns"><thead><tr><th>캠페인</th><th>사이트</th><th>유형</th><th class="n">대상</th><th class="n">발송</th><th class="n">제외</th><th class="n">오픈율</th><th class="n">클릭율</th><th class="n">수신거부</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+  <footer>데이터 연결: Supabase RPC <code>crm_dashboard_stats()</code>(관리자만, 숫자만 반환). 원문 이메일·전화번호는 이 화면에 오지 않습니다.</footer>
+</div>
+<script>
+  // 더미 데이터 — 실데이터 연결 시 crm_dashboard_stats() 응답으로 교체
+  var members = [["체인브리프", 1240], ["LUFT", 380], ["QURATOR", 210], ["인생준준", 160], ["Perpline", 95]];
+  var consent = [["체인브리프", 38, 12, 6], ["LUFT", 52, 31, 14], ["QURATOR", 47, 18, 5], ["인생준준", 44, 35, 9], ["Perpline", 29, 0, 0]];
+  var segments = [
+    ["LUFT 미구매 동의자", "site=luft · has_purchase=false", "이메일", 141],
+    ["QURATOR 체험 중", "site=qurator · is_subscriber=false · event_entries≥1", "이메일", 38],
+    ["Perpline 아시아", "site=perpline · country∈SG,MY,TH,VN,ID,PH", "이메일", 17],
+    ["인생준준 최근 30일 가입", "site=lifejunjun · joined_after=D-30", "이메일·카카오", 52],
+    ["체인브리프 앱 미설치 추정", "site=chainbrief · source≠app", "이메일", 288]
+  ];
+  var camps = [
+    ["웰컴 01 가입 완료", "LUFT", "정보성", 380, 380, 0, "68%", "21%", "—"],
+    ["웰컴 02 문양 이야기", "LUFT", "광고", 380, 198, 182, "44%", "9%", "1.0%"],
+    ["웰컴 03 선물 고르기", "LUFT", "광고", 380, 191, 189, "39%", "7%", "0.5%"],
+    ["웰컴 02 Daily Art", "QURATOR", "광고", 210, 99, 111, "51%", "12%", "0.0%"],
+    ["Welcome 02 Rebates", "Perpline", "광고", 95, 28, 67, "36%", "8%", "3.6%"]
+  ];
+  var max = Math.max.apply(null, members.map(function (m) { return m[1]; }));
+  document.getElementById("members").innerHTML = members.map(function (m) {
+    return '<div class="bar"><span>' + m[0] + '</span><span class="track"><span class="fill" style="display:block;width:' + (m[1] / max * 100).toFixed(1) + '%"></span></span><span class="num">' + m[1].toLocaleString() + '</span></div>';
+  }).join("");
+  document.querySelector("#consent tbody").innerHTML = consent.map(function (c) {
+    var t = c[1] + c[2] + c[3] || 1;
+    return "<tr><td>" + c[0] + '</td><td class="n">' + c[1] + '%</td><td class="n">' + (c[2] ? c[2] + "%" : "—") + '</td><td class="n">' + (c[3] ? c[3] + "%" : "—") + "</td>" +
+      '<td><span class="stack" title="동의율 비교"><i style="width:' + c[1] / t * 100 + '%;background:var(--c1)"></i><i style="width:' + c[2] / t * 100 + '%;background:var(--c2)"></i><i style="width:' + c[3] / t * 100 + '%;background:var(--c3)"></i></span></td></tr>';
+  }).join("");
+  document.querySelector("#segments tbody").innerHTML = segments.map(function (s) {
+    return "<tr><td><b>" + s[0] + '</b></td><td><span class="tagk">' + s[1] + "</span></td><td>" + s[2] + '</td><td class="n">' + s[3].toLocaleString() + "</td></tr>";
+  }).join("");
+  document.querySelector("#campaigns tbody").innerHTML = camps.map(function (c) {
+    return "<tr><td><b>" + c[0] + "</b></td><td>" + c[1] + "</td><td>" + c[2] + '</td><td class="n">' + c[3] + '</td><td class="n">' + c[4] + '</td><td class="n">' + c[5] + '</td><td class="n">' + c[6] + '</td><td class="n">' + c[7] + '</td><td class="n">' + c[8] + "</td></tr>";
+  }).join("");
+</script>
+</body>
+</html>
