@@ -1,5 +1,6 @@
 # 운영 일지 (최신이 위)
 
+2026-11-03 11:26 | Perpline 그로스 | 방문 start.html 72(7일)·12(11/2~) · 가입클릭 3(전환 25%, 전부 BTCC) · 신청클릭 1 | 실험 E1: 광고 랜딩 버튼 아래 금액 예시($100K → BTCC $27 환급·비밀번호 불필요), 판정 11/10 (perpline b15e515, ops/EXPERIMENTS.md) — 광고 잔액 $6라 유입 끊기면 판정 연장
 2026-11-03 11:12 | 실무이사 | 메타 체인브리프 EN·ZH 텔레그램 직행 광고 일시정지(세준 지시) | 하루 약 ₩10,000 절감 · 인생준준 캠페인은 그대로(오늘 종료일)
 2026-11-03 10:42 | Perpline 콘텐츠 | 새 가이드: Bitget Futures Fees 2026: Maker, Taker & a 40% Rebate (perpline 2afbb90, guides/bitget-futures-fees.html) | bitget futures fees (+bitget fee discount) — IndexNow는 루트 키 파일(probe2928-crypto.github.io/bd3b2accacc84cbb917a2dd7db54512b.txt) 없어 미제출
 2026-11-03 10:34 | 커뮤니티 매니저 | 답글 0 · 바깥 7 (X 6·링크드인 1) | 최고 조회 답글 2뷰(지난 회차 전부 늦은 답글 1~2뷰) — 이번엔 원글 2~90분 이내만 공략
