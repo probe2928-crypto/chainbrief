@@ -5,6 +5,9 @@ category: 政策
 author: Scott Park
 region: 香港
 summary: 金管局11月2日宣布，EnsembleTX已可用代币化央行货币为银行间代币化存款做7×24小时结算，代币化外汇基金票据也完成二级市场试验交易，下一步把试验扩至受监管稳定币。许正宇同日宣布银行同业代币化黄金项目，但两项新试验都没有给出日期。
+image: media/articles/2026-11-03-hkma-ensembletx-24-7-settlement-stablecoin-trial-next.jpg
+image_alt: 深夜的数据中心走廊，两侧机柜亮着蓝光，蓝色与橙色光线在中间交汇，象征不间断的银行间结算
+image_note: AI 生成图片（示意）
 ---
 
 过去一年，香港银行之间结算代币化存款，还得等港元即时支付结算系统（RTGS）营业。11月2日起，这个时间限制拿掉了：金管局在金融科技周开幕当天宣布，Ensemble项目的试行平台EnsembleTX已能用代币化央行货币，为银行间的代币化存款交易做7×24小时结算。
