@@ -38,3 +38,10 @@
 
 ## 산출물 위치
 - `ops/trot/marketing/YYYY-MM-DD.md`, `ops/trot/sales/leads.md`, `ops/trot/ads/PLAN.md`, `ops/trot/meetings/YYYY-MM-DD.md`, `ops/trot/LOG.md`
+
+## 채널·SNS 주소 (11/04)
+- 유튜브: https://www.youtube.com/channel/UCSGdo49CXDqhatXulT5yo9w
+- 인스타: @trotstage_kr (크리에이터, AI 생성 프로필 라벨)
+- 네이버 밴드: https://band.us/band/104995766 (공개 팬밴드)
+- 페이스북 페이지: https://www.facebook.com/profile.php?id=61596061627297
+- 할 일: 세 곳 프로필·커버 이미지(연화·봄비·한결 단체), 새 영상 올라올 때마다 밴드·페북·인스타에 공유(AI 제작 표시 필수)
