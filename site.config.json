@@ -117,8 +117,8 @@
   "auth": {
     "url": "https://szsvihpghadpxhavdhqt.supabase.co",
     "anonKey": "sb_publishable_mRoGWPlaCUl-Z8vdR3NMDg_bXDinag1",
-    "providers": ["email"],
-    "providersPending": ["google", "kakao", "apple"],
+    "providers": ["google", "email"],
+    "providersPending": ["kakao", "apple"],
     "naver": "hidden",
     "channels": ["email", "kakao", "sms"],
     "versions": { "terms": "2026-11-02", "privacy": "2026-11-02", "marketing": "2026-11-02" },
