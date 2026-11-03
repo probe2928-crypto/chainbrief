@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden}
+.card{width:1080px;height:1350px;position:relative;overflow:hidden;font-family:"Noto Sans CJK KR",sans-serif}
+/* 연화 */
+.yh{background:radial-gradient(ellipse 70% 55% at 50% 38%,#c0293f 0%,#9E1B32 40%,#4a0c18 100%);color:#fff}
+.yh .frame{position:absolute;inset:40px;border:3px solid #C9A24A;border-radius:6px}
+.yh .frame:after{content:"";position:absolute;inset:14px;border:1px solid rgba(201,162,74,.55)}
+.yh .top{position:absolute;top:140px;left:0;right:0;text-align:center;font-size:36px;font-weight:700;letter-spacing:.2em;color:#C9A24A}
+.yh .hanja{position:absolute;top:205px;left:0;right:0;text-align:center;font-family:"Noto Serif CJK KR",serif;font-weight:900;font-size:330px;line-height:1;color:#C9A24A;text-shadow:0 8px 0 #4a0c18,0 0 60px rgba(201,162,74,.35)}
+.yh .name{position:absolute;top:560px;left:0;right:0;text-align:center;font-family:"Noto Serif CJK KR",serif;font-weight:900;font-size:150px;letter-spacing:.12em;color:#fff}
+.yh .tag{position:absolute;top:760px;left:0;right:0;text-align:center;font-size:54px;font-weight:700;color:#fff}
+.yh .tag b{background:#C9A24A;color:#4a0c18;padding:4px 22px;border-radius:6px}
+.yh ul{position:absolute;top:880px;left:130px;right:130px;list-style:none}
+.yh li{font-size:46px;font-weight:700;padding:16px 0;border-bottom:2px solid rgba(201,162,74,.5);display:flex;gap:28px}
+.yh li span{color:#C9A24A;min-width:150px}
+.foot{position:absolute;bottom:78px;left:0;right:0;text-align:center;font-size:30px;font-weight:500;opacity:.92}
+.ai{position:absolute;top:70px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:26px;font-weight:700;padding:8px 18px;border-radius:40px}
+.yh .ai{background:#4a0c18;color:#C9A24A;border:2px solid #C9A24A}
+/* 봄비 */
+.bb{background:linear-gradient(160deg,#FF5C8A 0%,#ff7fa2 45%,#ffd1de 100%);color:#2b0a17}
+.bb .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.55) 3px,transparent 4px);background-size:44px 44px;opacity:.6}
+.bb .band{position:absolute;left:-60px;right:-60px;top:250px;height:250px;background:#3ED6B5;transform:rotate(-5deg)}
+.bb .top{position:absolute;top:140px;left:0;right:0;text-align:center;font-size:42px;font-weight:900;letter-spacing:.25em;color:#fff}
+.bb .name{position:absolute;top:220px;left:0;right:0;text-align:center;font-weight:900;font-size:300px;line-height:1;color:#fff;-webkit-text-stroke:10px #2b0a17;paint-order:stroke fill;text-shadow:14px 14px 0 #2b0a17}
+.bb .tag{position:absolute;top:610px;left:0;right:0;text-align:center;font-size:60px;font-weight:900;color:#2b0a17}
+.bb .tag b{background:#fff;padding:4px 24px;border-radius:14px;box-shadow:6px 6px 0 #2b0a17}
+.bb ul{position:absolute;top:760px;left:110px;right:110px;list-style:none;background:#fff;border:5px solid #2b0a17;border-radius:30px;padding:26px 44px;box-shadow:12px 12px 0 #2b0a17}
+.bb li{font-size:46px;font-weight:700;padding:14px 0;display:flex;gap:28px;border-bottom:3px dashed #ffb3c7}
+.bb li:last-child{border:none}
+.bb li span{color:#FF5C8A;min-width:150px;font-weight:900}
+.bb .ai{background:#2b0a17;color:#3ED6B5}
+.bb .foot{color:#2b0a17;font-weight:700}
+</style></head><body>
+<div class="card yh" id="yh">
+  <div class="frame"></div><div class="ai">AI 가상 가수</div>
+  <div class="top">트롯스테이지 · 첫 번째 가수</div>
+  <div class="hanja">蓮花</div>
+  <div class="name">연화</div>
+  <div class="tag"><b>애절한 정통 트로트</b></div>
+  <ul>
+    <li><span>고향</span>항구마을 국밥집 딸</li>
+    <li><span>노래</span>이별 · 고향 · 어머니</li>
+    <li><span>첫곡</span>「울지 마라 정거장아」</li>
+  </ul>
+  <div class="foot">연화는 AI로 제작한 가상 가수입니다 · 유튜브 트롯스테이지</div>
+</div>
+<div class="card bb" id="bb">
+  <div class="dots"></div><div class="band"></div><div class="ai">AI 가상 가수</div>
+  <div class="top">트롯스테이지 · 막내 가수</div>
+  <div class="name">봄비</div>
+  <div class="tag"><b>흥 터지는 댄스 트로트</b></div>
+  <ul>
+    <li><span>꿈</span>축제 무대 '행사의 여왕'</li>
+    <li><span>노래</span>설렘 · 흥 · 응원</li>
+    <li><span>매력</span>하이 포니테일 + 핑크</li>
+  </ul>
+  <div class="foot">봄비는 AI로 제작한 가상 가수입니다 · 유튜브 트롯스테이지</div>
+</div>
+</body></html>
