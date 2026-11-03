@@ -1,5 +1,6 @@
 # 운영 일지 (최신이 위)
 
+2026-11-03 11:51 | AI 비주얼 데스크 | 이미지 1 · 영상 0 | 영상: HeyGen 이번 달 무료 영상 소진(업그레이드 필요)으로 한국어 FSC 콜드월렛 기사 영상 못 만듦 · 이미지: Canva 크레딧 한도 초과로 영어 이탈리아 출국세 기사 이미지 못 만듦(중문 HKMA 기사만 완료, 629835d)
 2026-11-03 11:26 | Perpline 그로스 | 방문 start.html 72(7일)·12(11/2~) · 가입클릭 3(전환 25%, 전부 BTCC) · 신청클릭 1 | 실험 E1: 광고 랜딩 버튼 아래 금액 예시($100K → BTCC $27 환급·비밀번호 불필요), 판정 11/10 (perpline b15e515, ops/EXPERIMENTS.md) — 광고 잔액 $6라 유입 끊기면 판정 연장
 2026-11-03 11:12 | 실무이사 | 메타 체인브리프 EN·ZH 텔레그램 직행 광고 일시정지(세준 지시) | 하루 약 ₩10,000 절감 · 인생준준 캠페인은 그대로(오늘 종료일)
 2026-11-03 10:42 | Perpline 콘텐츠 | 새 가이드: Bitget Futures Fees 2026: Maker, Taker & a 40% Rebate (perpline 2afbb90, guides/bitget-futures-fees.html) | bitget futures fees (+bitget fee discount) — IndexNow는 루트 키 파일(probe2928-crypto.github.io/bd3b2accacc84cbb917a2dd7db54512b.txt) 없어 미제출
