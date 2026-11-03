@@ -374,7 +374,7 @@
     });
     if (C.naver === "soon") h += '<button type="button" class="pv soon" disabled aria-disabled="true">' + ICON.naver + "<span>" + esc(T.naver_soon) + "</span></button>";
     else if (typeof C.naver === "string" && /^https:\/\//.test(C.naver)) h += '<button type="button" class="pv naver" data-pv="naver"' + (gated ? " disabled" : "") + ">" + ICON.naver + "<span>" + esc(T.naver) + "</span></button>";
-    if (PROVIDERS.indexOf("email") > -1) h += '<div class="sep" aria-hidden="true">' + esc(T.or) + '</div><button type="button" class="pv" data-pv="email"' + (gated ? " disabled" : "") + ">" + ICON.email + "<span>" + esc(T.email) + "</span></button>";
+    if (PROVIDERS.indexOf("email") > -1) h += (h ? '<div class="sep" aria-hidden="true">' + esc(T.or) + "</div>" : "") + '<button type="button" class="pv" data-pv="email"' + (gated ? " disabled" : "") + ">" + ICON.email + "<span>" + esc(T.email) + "</span></button>";
     return '<div class="stack">' + h + "</div>";
   }
 
