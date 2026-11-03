@@ -25,3 +25,4 @@
 | 11/04 01:37 | eomma_1 | ✅ 영상 업로드+AI 활용 표시 | ✅ 글+채널 링크+AI 레이블 | ✅ 15초 릴스+AI 레이블 (02:05) | 첫 수동 시험, 3채널 성공 |
 | 11/04 03:21 | dangsin_1 | ✅ 30초 영상+AI 활용 표시 https://band.us/band/104995766/post/8 | ✅ 15초 영상 직접 업로드(릴스로 게시)+AI 레이블+숏츠 링크 https://www.facebook.com/reel/2222383718357364/ | ✅ 15초 릴스+AI 레이블 https://www.instagram.com/trotstage_kr/reel/DfShfKwK8NO/ | 예약 회차. 고도화 변수: 페북 링크글→영상 직접 업로드 |
 | 11/04 05:20 | ttak_1 | ✅ 30초 영상+AI 활용 표시 https://band.us/band/104995766/post/9 | ✅ 15초 영상 직접 업로드(릴스)+AI 레이블+숏츠 링크 https://www.facebook.com/reel/1432614449042783/ | ✅ 15초 릴스+AI 레이블 https://www.instagram.com/trotstage_kr/reel/DfSvHAhqGsi/ | 예약 회차. 고도화 변수: 인스타 해시태그 #AI가수 추가 |
+| 11/04 07:20 | eomma_2 | ✅ 30초 영상+AI 활용 표시 https://band.us/band/104995766/post/10 | ✅ 15초 영상 직접 업로드(릴스)+AI 레이블+숏츠 링크 https://www.facebook.com/reel/1129032029485321/ | ✅ 15초 릴스+AI 레이블 https://www.instagram.com/trotstage_kr/reel/DfS8wWGqmUV/ | 예약 회차. 고도화 변수: 밴드·페북 캡션에 #AI가수 추가 |
