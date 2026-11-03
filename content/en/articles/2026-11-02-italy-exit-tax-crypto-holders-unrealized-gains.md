@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: EU
 summary: Article 17 of Italy's draft 2027 budget would tax unrealized gains of long-term residents who move abroad with €800,000 or more in assets. The headline rate is 26%, but crypto media are reading it as 33% for tokens, and the government has not said which applies.
+image: media/articles/2026-11-02-italy-exit-tax-crypto-holders-unrealized-gains.jpg
+image_alt: An open leather briefcase holding a few gold coins and a small black case, resting on a marble floor by a sunlit window
+image_note: AI-generated image (illustrative)
 ---
 
 Picture a Milan software engineer who bought bitcoin years ago, now holds €1 million worth of it, and plans to move to Lisbon in 2027. Under a clause tucked into Italy's draft budget, she could owe tax on the gain before she has sold a single coin. Article 17 of the 2027 budget bill would make long-term residents who leave the country pay tax on the paper profits they built up while living there, as long as their assets reach €800,000.
