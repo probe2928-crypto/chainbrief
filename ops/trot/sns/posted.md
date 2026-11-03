@@ -8,6 +8,13 @@
 | 11/04 01:00 | 페북 | 봄비 프로필 카드 (메타 AI 레이블 켬) | https://www.facebook.com/photo/?fbid=122100885891535387 |
 | 11/04 01:01 | 인스타 | 연화 프로필 카드 (원본 4:5, AI 레이블 켬) | https://www.instagram.com/trotstage_kr/p/DfSRDn7KqUg/ |
 | 11/04 01:03 | 인스타 | 봄비 프로필 카드 (원본 4:5, AI 레이블 켬) | https://www.instagram.com/trotstage_kr/p/DfSRSvOqlMq/ |
+| 11/04 01:10 | 밴드 | 연화 「엄마의 바다」 숏츠 링크(조회 1,300·1위) | https://band.us/band/104995766/post/4 |
+| 11/04 01:12 | 밴드 | 한결 「당신이라서」 숏츠 링크(조회 1,206·2위) | https://band.us/band/104995766/post/5 |
+| 11/04 01:16 | 밴드 | 세 가수 소개 카드(assets/20261104-trio-intro.jpg) + 메들리 11/6 18:30 예고 | https://band.us/band/104995766/post/6 |
+| 11/04 01:18 | 페북 | 세 가수 소개 카드 (AI 레이블) | https://www.facebook.com/photo/?fbid=122100893337535387 |
+| 11/04 01:20 | 페북 | 연화 「엄마의 바다」 숏츠 링크(미리보기 카드) | https://www.facebook.com/permalink.php?story_fbid=pfbid02va8KHwNWj3AuBDNAekEWtEBkH5Q9tdWBeHcwcQFjnhhy7UX5bJHupEwvHRLeZAgil&id=61596061627297 |
+| 11/04 01:22 | 페북 | 한결 「당신이라서」 숏츠 링크(미리보기 카드) | https://www.facebook.com/permalink.php?story_fbid=pfbid02FCYTQvDxgQGjfqb2mKYGe5iAxB693K4vyoxojs5yHeHGbFSRTSd5G3B1KueW6owXl&id=61596061627297 |
+| 11/04 01:15 | 인스타 | 세 가수 소개 카드 (원본 4:5, AI 레이블) | https://www.instagram.com/trotstage_kr/p/DfSSUNUKT42/ |
 
-- 아직 안 올린 것: 한결(서월?) 프로필 카드 — BRIEF엔 세 번째 가수가 '서월'(#1C2340/#B9A6E0), 밴드 공지·SNS 소개엔 '한결(과수원집 효자)'. 이름·컬러 확정 후 제작.
-- 유튜브 스튜디오 11/04 01시 기준 업로드·예약 영상 0개 → 영상 링크 게시물 없음.
+- 세 번째 가수: 채널 실제 숏츠는 '한결'(경북 사과 과수원집 장남). BRIEF의 '서월'은 옛 기획 → 한결 컬러는 임시로 #2F5D3A/#F2E6C9(사과밭 초록·크림) 사용, 확정되면 BRIEF 갱신 필요.
+- 정정: 01시 '영상 0개'는 스튜디오 '동영상' 탭만 본 착오. Shorts 탭에 공개 숏츠 9편(11/03 게시) 있음. 상위: 연화 엄마의 바다 S4RDav7b4fs 1,300 / 한결 당신이라서 i7yFQ9LxWQ0 1,206 / 봄비 딱 내 스타일 Vbt0OXEc568 25. 아직 SNS 미게시: 봄비 숏츠들, 연화 국밥 한 그릇, 한결 누님, 봄비 떨이요 떨이.
