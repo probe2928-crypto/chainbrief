@@ -25,9 +25,13 @@
 그 밖: EN·中文 발행, 라이브 속보, 광고 체크(Bitmedia·메타), 인생준준·여백의 지도, 긍정학개론, 영어 공부, BLOCKKEY 등 기존 작업 유지.
 정리: '이사 아침 브리핑 09:17'은 09:13·08:23과 겹쳐서 꺼둠(삭제 아님).
 
+## 언어 규칙 (2026-11-03 세준 지시 — 필수, 전 직원)
+- 세준에게 보내는 보고·메시지·알림, 회의록·로그·장부(ORDERS.md 등) 기록, 커밋 메시지는 모두 한국어로 쓴다.
+- 영어는 외국인 대상 사이트(Perpline·Oriel 등) 콘텐츠와 외국 업체에 보내는 대외 메시지에만 쓴다.
+
 ## 세준 지시 장부 (2026-11-02 신설 — 필수)
 - 세준 지시·OK한 시안은 받은 세션이 즉시 ops/ORDERS.md에 한 줄 기록, 끝나면 '완료 (커밋)'로 변경.
-- 모든 직원은 시작 시 ORDERS.md를 읽고 자기 영역 미완료 건부터 처리. 세준에게 '그게 뭐였죠?' 묻기 전에 ORDERS.md·LOG.md·지난 채팅 검색 먼저.
+- 모든 직원은 시작 시 이 TEAM.md의 언어 규칙과 ORDERS.md를 읽고 자기 영역 미완료 건부터 처리. 세준에게 '그게 뭐였죠?' 묻기 전에 ORDERS.md·LOG.md·지난 채팅 검색 먼저.
 
 ## 도구 (2026-10-31 실무이사 추가)
 - Google Search Console(probe2928@gmail.com): chainbrief·perpline·qurator·luft·lifejunjun·yeobaek·blockkey·oriel 8개 사이트 소유 확인(파일 google73631224b8745f18.html — 지우지 말 것). 사이트맵 제출: chainbrief·perpline·blockkey·oriel.
