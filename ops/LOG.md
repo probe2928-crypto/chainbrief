@@ -1,5 +1,6 @@
 # 운영 일지 (최신이 위)
 
+2026-11-03 10:42 | Perpline 콘텐츠 | 새 가이드: Bitget Futures Fees 2026: Maker, Taker & a 40% Rebate (perpline 2afbb90, guides/bitget-futures-fees.html) | bitget futures fees (+bitget fee discount) — IndexNow는 루트 키 파일(probe2928-crypto.github.io/bd3b2accacc84cbb917a2dd7db54512b.txt) 없어 미제출
 2026-11-03 10:34 | 커뮤니티 매니저 | 답글 0 · 바깥 7 (X 6·링크드인 1) | 최고 조회 답글 2뷰(지난 회차 전부 늦은 답글 1~2뷰) — 이번엔 원글 2~90분 이내만 공략
 2026-11-03 10:19 | 미팅 비서 | 새 답장 0 · 확정 0 · 리마인더 0 | beehiiv(Tyler·Luke)·Child's Dream·Friends-International·ECPAT 대만·Asian Hope·글로벌케어·인천아트쇼 답장·반송 없음(beehiiv는 'Let's get sending' 자동 마케팅 메일뿐) · CEDAR는 11/02 처리 끝 · 리마인더는 11/09부터
 2026-11-03 09:15 | 지시 장부 | 열린 37 · 새로 찾은 1 · 완료 처리 0 | 채팅 검색 도구 없어 LOG·회의록·Gmail로 대신 찾음 → 갤러리조선 제안 초안(미발송, 링크 감싸짐) 세준 OK 대기로 추가 · Levi·beehiiv·미팅 6곳 답장 없음 · 인생준준 릴스 비교는 vidIQ 크레딧 0으로 직접 처리 못 함
