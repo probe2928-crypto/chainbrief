@@ -1,49 +1,55 @@
 {
- "at": "2026-11-02T18:25:00Z",
+ "at": "2026-11-03T18:35:00Z",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "빌드 및 배포 success 2026-11-02T17:37Z",
-   "failures": [
-    "기사 이미지·영상 가져오기 failure 00:20Z (07:48Z 재실행 성공 → 해결)"
-   ],
-   "fixed": []
-  },
-  {
-   "repo": "blockkey",
-   "lastRun": "빌드 및 배포 success 2026-11-02T01:34Z",
+   "lastRun": "2026-11-03T17:32:07Z success (빌드 및 배포)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "pages build success 2026-11-02T08:02Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "oriel",
-   "lastRun": "빌드 및 배포 success 2026-11-02T01:34Z",
+   "lastRun": "2026-11-03T14:36:18Z success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "pages build success 2026-11-02T10:46Z",
+   "lastRun": "2026-11-03T14:36:20Z success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "pages build success 2026-11-02T15:57Z",
+   "lastRun": "2026-11-03T14:36:15Z success",
    "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "oriel",
+   "lastRun": "2026-11-02T01:34:30Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "blockkey",
+   "lastRun": "2026-11-02T01:34:26Z success",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": null,
+   "failures": [
+    "API 확인 불가(프록시가 numeric-ID 경로로 리다이렉트 — 이름 변경/이전 가능성)"
+   ],
    "fixed": []
   },
   {
    "repo": "lifejunjun",
    "lastRun": null,
    "failures": [
-    "미확인 — 세션 GitHub 접근 범위 밖"
+    "세션 접근 범위 밖"
    ],
    "fixed": []
   },
@@ -51,15 +57,7 @@
    "repo": "yeobaek",
    "lastRun": null,
    "failures": [
-    "미확인 — 세션 GitHub 접근 범위 밖"
-   ],
-   "fixed": []
-  },
-  {
-   "repo": "firstbrick",
-   "lastRun": null,
-   "failures": [
-    "미확인 — API가 숫자 ID 경로로 리디렉트(이름 변경/이전 추정)"
+    "세션 접근 범위 밖"
    ],
    "fixed": []
   }
@@ -68,47 +66,47 @@
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/",
    "ok": null,
-   "note": "main 최신 KO 속보 time 2026-11-03 01:48 KST(약 1.5시간 전), 빌드 17:37Z 성공. 라이브 fetch 불가(이번 세션 프록시가 github.io·lifejunjun.com 차단, WebFetch 권한 요청 무응답) — 배포 워크플로 성공·main 데이터로 대체 확인"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체; KO 최신 속보 2026-11-04 01:30 KST(약 2시간 전)"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/en/",
    "ok": null,
-   "note": "main 최신 EN flash 2026-11-02 21:38 KST(약 6시간 전, 12시간 기준 이내)"
+   "note": "EN 최신 flash 2026-11-03 21:25 KST(약 6시간 전, 12시간 기준 이내)"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/zh/",
    "ok": null,
-   "note": "main 최신 ZH flash 2026-11-02 21:36 KST(약 6시간 전)"
+   "note": "ZH 최신 flash 2026-11-03 21:26 KST(약 6시간 전)"
   },
   {
    "url": "https://probe2928-crypto.github.io/chainbrief/api/en/feed.json",
    "ok": null,
-   "note": "직접 확인 못 함"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/perpline/api/venues.json",
    "ok": null,
-   "note": "직접 확인 못 함, Pages 배포 성공"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/luft/catalog.js",
    "ok": null,
-   "note": "직접 확인 못 함, Pages 배포 성공"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/qurator/data/works.json",
    "ok": null,
-   "note": "직접 확인 못 함, Pages 배포 성공"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/oriel/",
    "ok": null,
-   "note": "직접 확인 못 함, 배포 성공"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/blockkey/",
    "ok": null,
-   "note": "직접 확인 못 함, 배포 성공"
+   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
   },
   {
    "url": "https://probe2928-crypto.github.io/yeobaek/",
@@ -127,6 +125,9 @@
   }
  ],
  "failedTasks": [],
- "tasksChecked": 41,
+ "stuckTasks": [
+  "체인브리프 기사 발행 (오전·오후·저녁): ABANDONED (11-03 03:44Z 실행)",
+  "LUFT 주간 케이스 디자인: PENDING 10시간+ (11-03 07:38Z 실행)"
+ ],
  "deviceAbsent": 0
 }
