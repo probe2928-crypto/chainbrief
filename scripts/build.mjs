@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
+import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
 import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./issues.mjs";
@@ -297,7 +298,8 @@ const contactRail = TG ? `<section class="block slot">
   <a class="btn ghost" href="${TG}" target="_blank" rel="noopener">텔레그램 열기</a>
 </section>` : "";
 const chRail = CH ? CH.rail : "";
-const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${chRail}${extra}${partner}${contactRail}</aside>`;
+const calR = calRail("ko", { esc, href: u("market/#calendar"), now: NOW });
+const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${calR}${chRail}${extra}${partner}${contactRail}</aside>`;
 
 /* ---------- pages ---------- */
 fs.rmSync(OUT, { recursive: true, force: true });
@@ -633,13 +635,14 @@ write("market/index.html", layout({
   body: `${hero([
     { art: "gold-silk", eye: "Markets · 실시간", title: "달러와 원화, 한 번에", dek: "주요 코인의 글로벌 시세와 업비트 원화 가격을 1분마다 비교해요.", href: "#mkt", cta: "시세 보기" },
     { art: "smoke", eye: "Global Markets", title: "증시와 선물, 같은 화면에서", dek: "나스닥·S&P·코스피, CME 비트코인 선물, 금·원유, 코인베이스·스트래티지까지.", href: "#global", cta: "글로벌 마켓 보기" },
+    { art: "contour", eye: "Macro Calendar", title: "금리와 물가, 발표 날짜부터", dek: "FOMC 금리 결정과 미국 소비자물가(CPI) 발표를 한국시간으로 미리 짚어 둬요.", href: "#calendar", cta: "경제 일정 보기" },
   ], "sm", "시세 안내")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", "실시간 시세", '<span id="mktUpdated">불러오는 중…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr><th>코인</th><th>USD</th><th>업비트 KRW</th><th>24H</th><th>거래대금</th></tr></thead><tbody>
     ${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span><span class="name">${esc(c.name)}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}
     </tbody></table></div>
     <p class="note">1분마다 갱신.</p>
-  </section><a class="rt-link" href="${u("returns/")}"><b>코인 수익률 히트맵</b><span>월별·연도별 역대 수익률과 계절성 →</span></a>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
+  </section>${calSection("ko", { esc, secHead, now: NOW })}<a class="rt-link" href="${u("returns/")}"><b>코인 수익률 히트맵</b><span>월별·연도별 역대 수익률과 계절성 →</span></a>${macroSection("ko", MACRO_DATA, { esc, secHead })}</div>
   <aside class="rail">${sentiment}${chRail}${partner}${contactRail}</aside></main></div>`,
 }));
 

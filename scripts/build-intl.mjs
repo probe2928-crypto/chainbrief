@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
+import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
 import { writeProjects, projectNav } from "./projects.mjs";
 
@@ -105,7 +106,7 @@ const ED = {
     slideRead: "Read the story", slideListings: "This week across 6 exchanges: {n} new listings", slideListingsCta: "See listings", slideSurge: "The coins moving fastest right now", slideSurgeX: "5-minute spikes, volume surges, 52-week highs and new-listing performance on one screen.", slideSurgeCta: "Open the radar",
     cf: ["Bitcoin · USD", "", "Market mood", "Listings · 7d", "Analysis"], cfBasis: "Upbit BTC",
     surgeHero: [["5-minute spikes", "The coins that rose most in the last five minutes, tracked on 1-minute candles."], ["Volume surges", "Coins trading at 1.5× or more their normal five-minute volume."], ["52-week highs · New listings", "Coins near their highs, and how the last 30 days of listings are doing."]],
-    marketHero: [["Dollars and won, side by side", "Global prices next to Upbit's KRW prices, updated every minute."]],
+    marketHero: [["Dollars and won, side by side", "Global prices next to Upbit's KRW prices, updated every minute."], ["Rates and inflation, dated", "FOMC decisions and US CPI releases, in Eastern time, before they move the market."]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "Volume", volAll: "All", vol10: "₩1B+", vol100: "₩10B+", q: "Search coins (BTC, XRP…)", grp: [["Right Now", "Short-term signals"], ["24 Hours", "Today's movers"], ["Momentum", "Highs · New listings"]],
       boards: { rkShort: ["5 Min", "5-minute spikes", "Last 5 minutes · 1-minute candles"], rkSpike: ["Volume Spike", "Volume surges", "Last 5-min volume ÷ normal 5-min average"], rkUp: ["Top Gainers", "Top gainers"], rkDown: ["Top Losers", "Top losers"], rkVol: ["Volume", "Top volume"], rkGap: ["Upbit vs Bithumb", "Exchange gap", "Same coin, Upbit vs Bithumb KRW price"], rkHigh: ["52-Week High", "Near 52-week highs", "Current price vs 52-week high"], rkList: ["New Listings", "New-listing scorecard", "Listings in the last 30 days · vs first-day open"] },
       note: "KRW markets. 24h change is vs the previous close; short-term signals use 1-minute candles. Tap a row to open the exchange chart. For reference only, not investment advice." },
@@ -156,7 +157,7 @@ const ED = {
     slideRead: "阅读全文", slideListings: "本周 6 家交易所新上币 {n} 个", slideListingsCta: "查看上币", slideSurge: "此刻涨得最快的币", slideSurgeX: "5 分钟急涨、成交放量、52 周新高与新币表现，一屏看全。", slideSurgeCta: "打开雷达",
     cf: ["比特币 · 美元", "", "市场情绪", "新上币 · 7 天", "分析"], cfBasis: "Upbit BTC",
     surgeHero: [["5 分钟急涨", "以 1 分钟 K 线追踪过去 5 分钟涨幅最大的币。"], ["成交放量", "成交额达到平时 5 分钟均值 1.5 倍以上的币。"], ["52 周新高 · 新币成绩单", "接近高点的币，以及近 30 天新上币的表现。"]],
-    marketHero: [["美元与韩元，一目了然", "全球价格与 Upbit 韩元价格并列，每分钟更新。"]],
+    marketHero: [["美元与韩元，一目了然", "全球价格与 Upbit 韩元价格并列，每分钟更新。"], ["利率与通胀，先看日期", "美联储利率决议与美国CPI发布时间，按香港/北京时间提前列出。"]],
     surgeUI: { exUp: "Upbit", exBt: "Bithumb", vol: "成交额", volAll: "全部", vol10: "10亿韩元+", vol100: "100亿韩元+", q: "搜索币种（BTC、XRP…）", grp: [["Right Now", "短线信号"], ["24 Hours", "今日涨跌"], ["Momentum", "新高 · 新币"]],
       boards: { rkShort: ["5 Min", "5 分钟急涨", "最近 5 分钟 · 1 分钟 K 线"], rkSpike: ["Volume Spike", "成交放量", "最近 5 分钟成交额 ÷ 平时 5 分钟均值"], rkUp: ["Top Gainers", "涨幅榜"], rkDown: ["Top Losers", "跌幅榜"], rkVol: ["Volume", "成交额榜"], rkGap: ["Upbit vs Bithumb", "交易所价差", "同一币种在 Upbit 与 Bithumb 的韩元价差"], rkHigh: ["52-Week High", "接近 52 周新高", "现价 vs 52 周最高价"], rkList: ["New Listings", "新币成绩单", "近 30 天上币 · 相对首日开盘价"] },
       note: "韩元市场。24 小时涨跌相对前一日收盘，短线指标基于 1 分钟 K 线。点击可跳转交易所图表。仅供参考，不构成投资建议。" },
@@ -378,7 +379,8 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const hlRail = `<section class="block"><div class="block-head"><h2>${esc(L.headlinesT)}</h2><span class="label">Global</span></div>${headlineList(hl.slice(0, 6))}<a class="more" href="${u("news/")}">${esc(L.more)}</a></section>`;
   const IM = cfg.impact && cfg.impact[L.code];
   const impactRail = IM ? `<section class="block slot impact"><span class="label">Impact</span><strong>${esc(IM.title)}</strong><span>${esc(IM.text)}</span><a class="btn ghost" href="${cfg.impact.url}${IM.path}" target="_blank" rel="noopener">${esc(IM.cta)}</a></section>` : "";
-  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${chRail}${extra}${impactRail}${contactRail}</aside>`;
+  const calR = calRail(L.code === "zh" ? "zh" : "en", { esc, href: u("market/#calendar"), now: NOW });
+  const rail = (extra = "") => `<aside class="rail">${marketRail}${sentiment}${calR}${chRail}${extra}${impactRail}${contactRail}</aside>`;
   const CAT_SLUG = { Policy: "policy", Markets: "markets", Industry: "industry", Exchanges: "exchanges", Technology: "tech", Global: "global", 政策: "policy", 市场: "markets", 产业: "industry", 交易所: "exchanges", 技术: "tech", 海外: "global" };
   const catSlug = (c) => CAT_SLUG[c] || encodeURIComponent(String(c || "etc").toLowerCase().replace(/\s+/g, "-"));
   const catList = [...articles.reduce((m, a) => (a.category && m.set(a.category, (m.get(a.category) || 0) + 1), m), new Map()).entries()].sort((a, b) => b[1] - a[1]);
@@ -570,10 +572,10 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   // 시세
   write(`${P}market/index.html`, layout({
     title: L.marketTitle, active: "market/", canonical: "market/", description: L.marketDesc,
-    body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "rose-dusk"][k], eye: ["Markets", "Kimchi Premium"][k], title: t, dek: d, href: "#mkt", cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
+    body: `${hero(L.marketHero.map(([t, d], k) => ({ art: ["gold-silk", "contour"][k], eye: ["Markets", "Macro Calendar"][k], title: t, dek: d, href: ["#mkt", "#calendar"][k], cta: L.code === "zh" ? "查看" : "View" })), "sm")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Markets", esc(L.marketTitle), '<span id="mktUpdated">…</span>')}
     <div class="wide" id="mkt"><table class="mkt-full"><thead><tr>${L.th.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${cfg.coins.map((c) => `<tr data-row="${c.id}"><td><span class="sym">${c.symbol}</span></td><td class="num p">—</td><td class="num krw">—</td><td class="num c"></td><td class="num vol">—</td></tr>`).join("")}</tbody></table></div>
-    <p class="note">${esc(L.kimpNote)}</p></section><a class="rt-link" href="${u("returns/")}"><b>${L.code === "zh" ? "加密货币收益率热力图" : "Crypto Returns Heatmap"}</b><span>${L.code === "zh" ? "月度·年度历史收益与季节性 →" : "Monthly and yearly history, seasonality →"}</span></a>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
+    <p class="note">${esc(L.kimpNote)}</p></section>${calSection(L.code === "zh" ? "zh" : "en", { esc, secHead, now: NOW })}<a class="rt-link" href="${u("returns/")}"><b>${L.code === "zh" ? "加密货币收益率热力图" : "Crypto Returns Heatmap"}</b><span>${L.code === "zh" ? "月度·年度历史收益与季节性 →" : "Monthly and yearly history, seasonality →"}</span></a>${macroSection(L.code === "zh" ? "zh" : "en", MACRO_DATA, { esc, secHead })}</div><aside class="rail">${sentiment}${chRail}${contactRail}</aside></main></div>`,
   }));
 
   // 문의

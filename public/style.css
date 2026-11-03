@@ -1081,6 +1081,8 @@ html.ns-open .cbx-tab,html.adclean .cbx-tab{display:none}
 @media (max-width:959px){.also{margin-top:8px}.also-l{padding-right:9px;margin-right:9px}}
 /* 中文 큰 제목: 띄어쓰기·문장부호를 구절 경계로 존중 ('遭盗 多 / 方冻结'처럼 구절이 갈라지지 않게), 한 구절이 줄보다 길면 그때만 아무 데서나 */
 html[lang="zh-Hans"] :is(.slide-t,.doc h1,.lead-art h2,.cf-title){word-break:keep-all;overflow-wrap:anywhere}
+/* 목록·속보 제목(h3)도 같은 원칙 — 폰에서 '结算 下 / 一步'처럼 단어 중간에서 갈라지던 것 (QA 11/03) */
+html[lang="zh-Hans"] body :is(h3,.cal-t,.cal-s){word-break:keep-all;overflow-wrap:anywhere}
 
 /* 속보 보기 전환: 요약까지 ↔ 제목만 (2026-10-30 저녁) — 지면 색인처럼 시각·제목만 촘촘히 */
 .viewsw{display:flex;align-items:center;justify-content:flex-end;gap:16px;padding:10px 0 0;font-family:var(--f-sans);font-size:13px}
@@ -1336,3 +1338,31 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
 .a-credit{margin:10px 0 22px;font-size:var(--fs-meta);color:var(--mute)}
 .a-media video{aspect-ratio:9/16;width:auto;max-width:100%;height:min(78vh,640px);margin:0 auto;object-fit:contain;background:#0B0B0B;border-radius:2px}
 .a-media figcaption{text-align:center}
+
+/* 경제 일정 (Macro Calendar, 2026-11-03) — 탁상 달력처럼: 뉴스리더 날짜 숫자 + 월·요일, 명조 일정 이름, 오른쪽 D-day.
+   점도표(SEP) 회의는 중요 속보와 같은 빨간 점으로만 절제해 표시 */
+.cal{list-style:none;margin:0;padding:0}
+.cal-i{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.cal-i:last-child{border-bottom:0}
+.cal-d{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding-right:12px;border-right:1px solid var(--line)}
+.cal-n{font-family:var(--f-num);font-weight:600;font-size:30px;line-height:.9;letter-spacing:-.02em;font-variant-numeric:lining-nums}
+.cal-m{font-family:var(--f-label);font-size:12px;letter-spacing:.06em;color:var(--mute);white-space:nowrap}
+.cal-m.cjk{font-family:var(--f-sans);font-size:13px;letter-spacing:0}
+.cal-b{min-width:0;display:flex;flex-direction:column;gap:3px}
+.cal-t{font-family:var(--f-serif);font-size:16px;font-weight:700;line-height:1.4;letter-spacing:-.01em}
+.cal-k{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--signal);margin-left:7px;vertical-align:.3em}
+.cal-s{font-size:var(--fs-meta);color:var(--mute);line-height:1.5}
+.cal-s .num{color:var(--ink)}
+.cal-s a{border-bottom:1px solid var(--line);transition:border-color .2s}
+.cal-s a:hover,.cal-s a:focus-visible{border-color:var(--ink)}
+.cal-dd{font-family:var(--f-label);font-weight:500;font-size:13px;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--mute);white-space:nowrap}
+.cal-dd.soon{color:var(--signal)}
+html:is([lang="ko"],[lang="zh-Hans"]) .cal-dd.soon{font-family:var(--f-sans)}
+.cal-sec{margin-top:56px}
+.wide-cal .cal-i{grid-template-columns:72px minmax(0,1fr) auto;gap:20px;padding:18px 0}
+.wide-cal .cal-n{font-size:38px}
+.wide-cal .cal-t{font-size:18px}
+.wide-cal .cal-dd{font-size:14px;border:1px solid var(--line);padding:4px 10px;min-width:64px;text-align:center}
+.wide-cal .cal-dd.soon{border-color:currentColor}
+.cal-sec .cal{border-top:1px solid var(--line)}
+@media (max-width:640px){.wide-cal .cal-i{grid-template-columns:64px minmax(0,1fr) auto;gap:14px}.wide-cal .cal-n{font-size:32px}.wide-cal .cal-t{font-size:16.5px}.wide-cal .cal-dd{padding:3px 6px;font-size:13px;min-width:54px}}

@@ -490,3 +490,26 @@
   addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } }, { passive: true });
   fab.addEventListener("focus", () => set(false));
 })();
+
+// 경제 일정: 빌드 뒤 날짜가 넘어가도 D-day가 맞게 (에디션 시간대 기준 달력 날짜 차이)
+(() => {
+  const lists = document.querySelectorAll(".cal[data-tz]");
+  if (!lists.length) return;
+  const dayNo = (t, tz) => { const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: tz, year: "numeric", month: "numeric", day: "numeric" }).formatToParts(new Date(t)).map((x) => [x.type, x.value])); return Date.UTC(+p.year, +p.month - 1, +p.day) / 864e5; };
+  const run = () => {
+    const now = Date.now();
+    lists.forEach((ol) => {
+      const tz = ol.dataset.tz;
+      ol.querySelectorAll(".cal-i[data-at]").forEach((li) => {
+        const at = +li.dataset.at;
+        if (now > at + 3 * 36e5) { li.hidden = true; return; }
+        const n = dayNo(at, tz) - dayNo(now, tz);
+        const el = li.querySelector(".cal-dd");
+        if (!el) return;
+        el.textContent = n <= 0 ? ol.dataset.today : n === 1 ? ol.dataset.tmr : "D-" + n;
+        el.classList.toggle("soon", n <= 1);
+      });
+    });
+  };
+  try { run(); setInterval(run, 6e4); } catch (e) {}
+})();
