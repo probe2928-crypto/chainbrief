@@ -734,6 +734,409 @@
     },
     "credits_before": 444
    }
+  },
+  {
+   "date": "2026-11-02",
+   "tz_note": "GA4 속성 기준 일자(KST 어제)",
+   "total": {
+    "users_all_property": 103,
+    "sessions": 116,
+    "views": 242,
+    "gsc_clicks": 0,
+    "gsc_impr": 2
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 50,
+     "sessions": 57,
+     "views": 160,
+     "split": {
+      "en": {
+       "users": 28,
+       "sessions": 28,
+       "views": 45
+      },
+      "zh": {
+       "users": 7,
+       "sessions": 9,
+       "views": 14
+      },
+      "ko": {
+       "views": 101,
+       "note": "전체-en-zh 차이로 계산(사용자 합산 불가)"
+      }
+     },
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "perpline": {
+     "users": 11,
+     "sessions": 17,
+     "views": 21,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "luft": {
+     "users": 1,
+     "sessions": 3,
+     "views": 5,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 4,
+     "sessions": 5,
+     "views": 5,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 41,
+     "sessions": 41,
+     "views": 45,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 2,
+     "sessions": 2,
+     "views": 4,
+     "gsc_clicks": 0,
+     "gsc_impr": 2,
+     "gsc_position": 2.5
+    }
+   },
+   "gsc_note": "11-02 서치콘솔 8개 모두 0(집계 지연 가능) → 가장 최근 값 11-01 기준 기록: 클릭 0, 노출 oriel 2(평균 2.5). 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "chainbrief": {
+      "followers": null,
+      "reach": 628,
+      "impressions": 793,
+      "engagement": 35
+     },
+     "lifejunjun": {
+      "followers": null,
+      "reach": 3,
+      "impressions": 3,
+      "engagement": 3
+     },
+     "oriel": {
+      "followers": null,
+      "reach": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "page_followers 0 반환 → 미확인. reach=page_total_media_view_unique, impressions=page_media_view"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 180,
+      "reach": 513,
+      "impressions": 179,
+      "impressions_note": "profile_views",
+      "new_followers": 0
+     },
+     "note": "11-01 재조회 reach 1756·views 1209(전날 기록 1353/1022, 메타 지연 집계)"
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 0,
+      "impressions": 14,
+      "engagement": 2
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 1,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social 컬렉션에 metrics_<날짜> 문서 없음(posts_* 만 있음)"
+    }
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/chainbrief/ (19세션·38뷰)",
+      "/chainbrief/en/ (24세션·29뷰)",
+      "/chainbrief/zh/ (9세션·14뷰)"
+     ],
+     "perpline": [
+      "/perpline/ (9세션·10뷰)",
+      "/perpline/start.html (7세션·9뷰)",
+      "/perpline/index.html (1·2)"
+     ],
+     "luft": [
+      "/luft/ (3세션·5뷰)"
+     ],
+     "qurator": [
+      "/qurator/ (5세션·5뷰)"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/run.html (40·43)",
+      "/lifejunjun/ (1)",
+      "/lifejunjun/index.html (1)"
+     ],
+     "oriel": [
+      "/oriel/",
+      "/oriel/get-involved/"
+     ],
+     "yeobaek": [
+      "/yeobaek/go/oman/"
+     ],
+     "blockkey": [
+      "/blockkey/en/"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "South Korea",
+      66
+     ],
+     [
+      "United States",
+      25
+     ],
+     [
+      "Malaysia",
+      6
+     ],
+     [
+      "Russia",
+      4
+     ],
+     [
+      "Singapore",
+      4
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "instagram / paid",
+      40
+     ],
+     [
+      "(direct) / (none)",
+      36
+     ],
+     [
+      "bitmedia / banner",
+      36
+     ],
+     [
+      "telegram / channel",
+      2
+     ],
+     [
+      "google / organic",
+      1
+     ]
+    ],
+    "by_site": {
+     "lifejunjun": {
+      "countries": [
+       [
+        "South Korea",
+        40
+       ],
+       [
+        "Panama",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "instagram / paid",
+        40
+       ],
+       [
+        "(direct) / (none)",
+        1
+       ]
+      ]
+     },
+     "chainbrief": {
+      "countries": [
+       [
+        "United States",
+        21
+       ],
+       [
+        "South Korea",
+        18
+       ],
+       [
+        "Malaysia",
+        6
+       ],
+       [
+        "Canada",
+        2
+       ],
+       [
+        "Iran",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "bitmedia / banner",
+        29
+       ],
+       [
+        "(direct) / (none)",
+        24
+       ],
+       [
+        "telegram / channel",
+        1
+       ]
+      ]
+     },
+     "perpline": {
+      "countries": [
+       [
+        "South Korea",
+        3
+       ],
+       [
+        "Russia",
+        3
+       ],
+       [
+        "Cambodia",
+        1
+       ],
+       [
+        "Iran",
+        1
+       ],
+       [
+        "Panama",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "bitmedia / banner",
+        7
+       ],
+       [
+        "(direct) / (none)",
+        3
+       ]
+      ]
+     },
+     "luft": {
+      "countries": [
+       [
+        "South Korea",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        2
+       ]
+      ]
+     },
+     "qurator": {
+      "countries": [
+       [
+        "United States",
+        2
+       ],
+       [
+        "South Korea",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        2
+       ],
+       [
+        "google / organic",
+        1
+       ]
+      ]
+     },
+     "(not set)": {
+      "countries": [
+       [
+        "South Korea",
+        2
+       ],
+       [
+        "Japan",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        2
+       ],
+       [
+        "telegram / channel",
+        1
+       ]
+      ]
+     },
+     "oriel": {
+      "countries": [
+       [
+        "Singapore",
+        2
+       ]
+      ],
+      "sources": [
+       [
+        "(direct) / (none)",
+        2
+       ]
+      ]
+     },
+     "yeobaek": {
+      "countries": [
+       [
+        "United States",
+        1
+       ]
+      ],
+      "sources": [
+       [
+        "m.facebook.com / referral",
+        1
+       ]
+      ]
+     }
+    },
+    "note": "국가·소스는 랜딩 페이지 기준 세션"
+   }
   }
  ]
 }
