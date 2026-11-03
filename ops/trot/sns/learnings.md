@@ -10,3 +10,8 @@
 - 11/04 막힌 단계③ 밴드 공백 타이핑이 커서 위치(해시태그 중간)에 들어가 '#연 화'가 됨 → 공백 치기 전 JS로 커서를 맨 끝 텍스트 노드로 옮길 것.
 - 11/04 페북 링크 게시물: 붙여넣은 글에 유튜브 주소가 있으면 3초 안에 미리보기 카드 자동 생성 — 따로 할 일 없음. 링크 게시물엔 AI 레이블 생략(글에 AI 표시 있음).
 - 11/04 인스타 웹은 게시 직후 '완료' 대신 다른 곳 클릭하면 전체 새로고침될 때가 있어 중계해 둔 이미지(window 변수)가 사라짐 → 게시물마다 밴드 탭 해시 중계를 다시 할 것.
+- 11/04 (제작 채팅) 인스타 **릴스 영상** 성공: 밴드 탭에서 `ig/<id>.mp4`(≤1MB) fetch→base64(32KB씩 String.fromCharCode)→`location.href='https://www.instagram.com/trotstage_kr/#trot='+encodeURIComponent('이름.mp4:'+b64)` (URL 1.37MB OK) → 도착 탭에서 navigation 해시→File(video/mp4). 만들기(+)→게시물→`[role=dialog]`의 마지막 input[type=file]에 DataTransfer → '릴스로 공유' 안내 확인 → '다음' 2번(JS로 innerText==='다음' 클릭) → 캡션 contenteditable에 paste 이벤트 → 'AI 레이블 추가' 줄의 input[type=checkbox] click → '공유하기' 클릭 → 약 30초 뒤 '릴스가 공유되었습니다'.
+- 11/04 내장 브라우저 창이 좁으면 인스타 대화상자가 잘림 → resize_window 1280x860 후 작업, 끝나면 preset desktop으로 복구.
+- 11/04 밴드 동영상: fetch(raw)→DataTransfer→`input[accept^="video"]` change → '동영상 올리기' 창의 'AI 활용' 토글 켜고 첨부하기. 영상 들어간 뒤 영상 위 빈 줄 클릭→ctrl+Home→캡션 타이핑 OK.
+- 11/04 페북: 같은 해시 중계로 ig 파일을 페북 탭에 넣으면 영상 게시도 가능(시험 전). 링크 글은 '게시물 설정'에 '예약 옵션'이 있어 미리 예약 게시 가능.
+- 11/04 내장 브라우저는 localhost/127.0.0.1 접속 불가(로컬 서버 릴레이 X), window.open 불가, 네이티브 파일창 안 뜸.
