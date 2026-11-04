@@ -140,6 +140,7 @@ ${SITE_URL ? `<meta property="og:url" content="${abs(canonical || "")}"><meta pr
 <link rel="alternate" type="application/rss+xml" title="${esc(cfg.name)}" href="${u("rss.xml")}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,500..600&family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap">
 <link rel="stylesheet" href="${u("style.css")}?v=${BUILD_ID}">
 ${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ""}
 </head>
@@ -169,6 +170,7 @@ ${adBand}
   </div>` : ""}
   <p class="ft-legal">${esc(cfg.name)}가 제공하는 정보는 투자 권유가 아니며 투자 판단과 책임은 이용자 본인에게 있습니다. 외부 헤드라인과 커뮤니티 글의 저작권은 각 매체와 작성자에게 있습니다. 시세 <span class="nw">CoinGecko·업비트·빗썸</span>, <span class="nw">공포·탐욕 지수</span> Alternative.me.</p>
   <div class="ft-base"><span>© ${NOW.getFullYear()} ${esc(cfg.nameEn)}</span><span>Seoul · Hong Kong · Singapore</span></div>
+  <p class="seren-line" style="margin:-20px 0 0;font:12px/1.6 'Tenor Sans',sans-serif;color:var(--faint)"><span style="letter-spacing:.2em">SEREN</span> <span style="color:#8C8478">/</span> CHAINBRIEF</p>
 </div></footer>
 ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="텔레그램 문의">${TG_SVG}<span>문의</span></a>` : ""}
 <nav class="tabs" aria-label="하단 메뉴">${TABS.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${TABS.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>메뉴</button></nav>

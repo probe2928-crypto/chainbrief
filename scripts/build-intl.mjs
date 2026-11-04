@@ -295,6 +295,7 @@ ${SITE_URL ? `${canonical !== null ? `<meta property="og:url" content="${abs(can
 <link rel="alternate" type="application/rss+xml" title="${esc(L.name)}" href="${u("rss.xml")}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?${L.fonts}&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap">
 <link rel="stylesheet" href="${asset("style.css")}?v=${BUILD_ID}">
 </head>
 <body data-hue="${({ "": "klein", "listings/": "butter", "surge/": "coral", "news/": "lavender", "market/": "klein", "contact/": "coral" })[active] || "klein"}">
@@ -317,6 +318,7 @@ ${adBand}
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
   <div class="ft-base"><span>© ${NOW.getFullYear()} CHAINBRIEF</span><span>Seoul · Hong Kong · Singapore</span></div>
+  <p class="seren-line" style="margin:-20px 0 0;font:12px/1.6 'Tenor Sans',sans-serif;color:var(--faint)"><span style="letter-spacing:.2em">SEREN</span> <span style="color:#8C8478">/</span> CHAINBRIEF</p>
 </div></footer>
 ${float && (CH || TG) ? (CH ? `<a class="tg-float tg-join" href="${CH.href}" target="_blank" rel="noopener" aria-label="${L.code === "zh" ? "加入链报 Telegram 频道" : "Join CHAINBRIEF on Telegram"}">${TG_SVG}<span>${L.code === "zh" ? "免费快讯" : "Free alerts"}</span></a>` : `<a class="tg-float" href="${TG}" target="_blank" rel="noopener" aria-label="Telegram">${TG_SVG}<span>${L.code === "zh" ? "联系" : "Contact"}</span></a>`) : ""}
 <nav class="tabs">${L.tabs.map(([p, l, ic]) => `<a href="${u(p)}"${navA === p ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON[ic]}</svg>${l}</a>`).join("")}<button type="button" class="tab-menu" data-navsheet aria-expanded="false" aria-controls="navsheet"${L.tabs.some(([p]) => p === navA) ? "" : ' aria-current="page"'}><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.menu}</svg>${esc(L.menuL)}</button></nav>
