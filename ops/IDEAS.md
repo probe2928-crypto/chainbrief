@@ -1,5 +1,10 @@
 # 새 수익 아이디어 (전략기획 · 최신이 위 · 같은 아이디어 반복 금지)
 
+## 2026-11-04 전략기획
+1. **[1위] QURATOR 'Seoul Museum Stories' — 외국인용 영어 박물관 셀프 가이드(1회권)** — 강점: 전시 기획·역사. 근거: 국립중앙박물관 유료 자유여행 상품 판매(https://tinggly.com/experience/ancient-treasures-and-hidden-stories-national-museum-of-korea/5601959P2), 서울 셀프 오디오 투어 판매(https://pelago.com/activity/p8sc2zm01-seoul-self-guided-audio-tour-seoul). 위험: 박물관 공식 오디오 가이드 앱 무료(https://apps.apple.com/us/app/-/id6478134880) → '사람·사건 이야기 + 60분 동선'으로 차별화 못 하면 접음. 2주 검증: 샘플 2점 → 끝까지 듣기 30%↑·알림 등록 10명↑. 첫걸음(완료): qurator idea/seoul-museum-stories 4637867 — 12점 동선·가격 가정 시트.
+2. **Perpline 영어 '페이백 계산기' 페이지** — 강점: 거래소 7년. 근거: 수수료·캐시백 계산기 수요 사례(https://flashnet.xyz/tools/fee-comparison-calculator, https://trade-reclaim.com/calculate-your-cashback). 경쟁 많음·새 매출원이라기보다 Perpline 전환 장치 → 그로스 실험 후보로 넘김. 2주 검증: 계산기 변형 가입 클릭률 > start.html 21%.
+3. **역사 테마 미식 클래스(요식업+역사)** — 근거: 클래스101 흑자 전환 보도(https://www.asiae.co.kr/en/article/2025031710114158681) — 호스트 조건·수수료 미확인. 2주 검증: 입점 조건 확인 후 기획안 1장.
+
 ## 2026-11-02 전략기획
 1. **[1위] QURATOR 기업·단체 명화 도슨트 워크숍** — 강점: 전시 기획·역사학. 근거: Sotheby's Institute가 기업·기관 대상 맞춤 문화교육을 판매(https://sothebysinstitute.com/continuing-education/custom-programs/), 국내 기업교육 플랫폼 인비원이 도슨트 미술 강좌를 기업체 임직원 대상 40,000원에 판매(https://www.invione.com/course/all/1002/000000006829). 2주 검증: 지인 HR·복지 담당 등 15곳에 1장 제안 → 회신 3건 또는 유료 일정 문의 1건이면 통과. 첫걸음(완료): qurator 브랜치 idea/corporate-docent — 상품 가안·제안서 초안·가격 가정표. 앱 심사·결제 막힘 없이 바로 시작 가능해서 1위.
 2. **LUFT 문화유산 굿즈 카페·식당 위탁판매(B2B)** — 강점: 요식업·역사. 근거: 국립박물관 문화상품 '뮷즈' 매출 첫 400억원 돌파 보도(https://www.heraldk.com/article/2025122918252962211, 제목 확인 수준). 2주 검증: 지인 카페·식당 5곳에 샘플 제안 → 입점 의향 2곳. 첫걸음: 위탁 조건 시트(마진·재고). 막힘: 사업자·통신판매업·방향제 업체 결정(11/3).
