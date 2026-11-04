@@ -1,133 +1,71 @@
 {
- "at": "2026-11-03T18:35:00Z",
+ "at": "2026-11-05T03:27+09:00",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "2026-11-03T17:32:07Z success (빌드 및 배포)",
+   "lastRun": "2026-11-05 02:44 KST 빌드 및 배포 success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "2026-11-03T14:36:18Z success",
+   "lastRun": "2026-11-05 01:53 KST success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "2026-11-03T14:36:20Z success",
+   "lastRun": "2026-11-04 14:48 KST success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "2026-11-03T14:36:15Z success",
+   "lastRun": "2026-11-04 23:27 KST success",
+   "failures": [],
+   "fixed": [
+    "10:56Z failure → 이후 성공으로 해결"
+   ]
+  },
+  {
+   "repo": "blockkey",
+   "lastRun": "2026-11-04 14:48 KST success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "2026-11-02T01:34:30Z success",
+   "lastRun": "2026-11-04 14:48 KST success",
    "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "blockkey",
-   "lastRun": "2026-11-02T01:34:26Z success",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "firstbrick",
-   "lastRun": null,
-   "failures": [
-    "API 확인 불가(프록시가 numeric-ID 경로로 리다이렉트 — 이름 변경/이전 가능성)"
-   ],
-   "fixed": []
-  },
-  {
-   "repo": "lifejunjun",
-   "lastRun": null,
-   "failures": [
-    "세션 접근 범위 밖"
-   ],
-   "fixed": []
-  },
-  {
-   "repo": "yeobaek",
-   "lastRun": null,
-   "failures": [
-    "세션 접근 범위 밖"
-   ],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "https://probe2928-crypto.github.io/chainbrief/",
+   "url": "all github.io/lifejunjun.com",
    "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체; KO 최신 속보 2026-11-04 01:30 KST(약 2시간 전)"
+   "note": "프록시 차단으로 라이브 fetch 불가, Actions·main 데이터로 대체"
   },
   {
-   "url": "https://probe2928-crypto.github.io/chainbrief/en/",
-   "ok": null,
-   "note": "EN 최신 flash 2026-11-03 21:25 KST(약 6시간 전, 12시간 기준 이내)"
+   "url": "chainbrief KO flash",
+   "ok": true,
+   "note": "최신 2026-11-05 01:38 KST"
   },
   {
-   "url": "https://probe2928-crypto.github.io/chainbrief/zh/",
-   "ok": null,
-   "note": "ZH 최신 flash 2026-11-03 21:26 KST(약 6시간 전)"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/chainbrief/api/en/feed.json",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/perpline/api/venues.json",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/luft/catalog.js",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/qurator/data/works.json",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/oriel/",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/blockkey/",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시·WebFetch 권한 무응답) — 배포 성공·main 데이터로 대체"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/yeobaek/",
-   "ok": null,
-   "note": "미확인"
-  },
-  {
-   "url": "https://probe2928-crypto.github.io/lifejunjun/",
-   "ok": null,
-   "note": "미확인"
-  },
-  {
-   "url": "https://lifejunjun.com/",
-   "ok": null,
-   "note": "미확인(프록시 차단)"
+   "url": "chainbrief EN/ZH flash",
+   "ok": false,
+   "note": "EN 11/03 21:25 · ZH 11/03 21:26 KST 이후 새 속보·기사 없음(12시간 초과)"
   }
  ],
  "failedTasks": [],
- "stuckTasks": [
-  "체인브리프 기사 발행 (오전·오후·저녁): ABANDONED (11-03 03:44Z 실행)",
-  "LUFT 주간 케이스 디자인: PENDING 10시간+ (11-03 07:38Z 실행)"
+ "abandoned": [
+  "QURATOR 아침 운영·QA팀",
+  "LUFT 주간 케이스 디자인"
  ],
- "deviceAbsent": 0
+ "pending_stale": [
+  "미팅 비서",
+  "LUFT 쇼핑몰 매일 고도화",
+  "체인브리프 EN·中文 발행"
+ ],
+ "device_absent": 0
 }
