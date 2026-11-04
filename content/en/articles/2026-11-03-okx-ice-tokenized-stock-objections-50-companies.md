@@ -5,6 +5,9 @@ category: Markets
 author: Scott Park
 region: US
 summary: Nvidia, Costco and Nike are among 50 issuers that have barred their shares from a planned 24/7 tokenized stock venue run by OKX and NYSE owner ICE. The first 30-day objection window under the SEC's new exemption runs out around today.
+image: media/articles/2026-11-03-okx-ice-tokenized-stock-objections-50-companies.png
+image_alt: Bar chart of issuers objecting to OKXICE tokenized trading: 9 on Oct. 15, 38 on Oct. 28, 50 on Oct. 30, against 62 on the original list
+image_note: AI-made graphic (article data)
 ---
 
 Sixty-two companies were on the list when OKX and Intercontinental Exchange unveiled their plan to trade blockchain versions of U.S. stocks around the clock. Four weeks later, 43 of them have formally told the venue to leave their shares alone.

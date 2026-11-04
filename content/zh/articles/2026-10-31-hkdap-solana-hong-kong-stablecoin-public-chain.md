@@ -5,6 +5,9 @@ category: 产业
 author: Scott Park
 region: 香港
 summary: 渣打系持牌发行人Anchorpoint 10月30日宣布与Solana基金会达成战略合作，计划让港元稳定币HKDAP在Solana上原生铸造和赎回。一周前汇丰RedCoin选择在自家账本上封闭运行，香港两张首批稳定币牌照由此走出两条明显不同的路线。
+image: media/articles/2026-10-31-hkdap-solana-hong-kong-stablecoin-public-chain.png
+image_alt: 数据图卡：HKDAP流通量约1610万枚（约200万美元），Solana链上稳定币约141亿美元
+image_note: AI 制作图卡（文章数据整理）
 ---
 
 香港首批两家持牌稳定币发行人之一的Anchorpoint（碇点金融科技）10月30日宣布，与Solana基金会达成战略合作，计划把港元稳定币HKDAP带到Solana网络，并支持合资格参与者在链上直接铸造和赎回。双方都把这次合作描述为探索阶段，暂未公布上线日期、合约地址或面向散户的时间表。这是Anchorpoint首次与公链基金会建立正式合作关系。
