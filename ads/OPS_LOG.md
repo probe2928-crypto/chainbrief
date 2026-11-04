@@ -1,5 +1,9 @@
 # 운영 점검 기록 (최신이 위)
 
+## 2026-11-05 새벽 점검
+- 장애 1 — 체인브리프 EN·ZH 마지막 속보/기사가 11/03 21:25~26 KST(약 30시간 전)로 멈춤. 'EN·中文 발행' 예약 작업 11/04 21:24 실행이 PENDING으로 안 끝남. 한국어 속보는 11/05 01:38 정상.
+- Actions 6개 저장소 24시간 미해결 실패 0(QURATOR 11/04 19:56 KST 실패는 이후 성공), 빌드 및 배포 마지막 성공 02:44 KST, 예약 작업 FAILED 0 (device_absent 0, ABANDONED 2·PENDING 4).
+- 라이브 페이지는 접속 차단돼 main 데이터로 대신 확인. lifejunjun·yeobaek·firstbrick는 접근 범위 밖이라 미확인.
 ## 2026-11-04 새벽 점검
 - 이상 없음 — Actions 6개 저장소 24시간 실패 0, 빌드 및 배포 마지막 성공 02:32 KST, 예약 작업 48개 실패 0 (device_absent 0). 멈춤 2건(기사 발행 ABANDONED·LUFT 케이스 PENDING)은 기록만.
 - 라이브 페이지는 이 실행 환경에서 접속 차단돼 배포 성공·main 데이터로 대신 확인(속보 KO 01:30 · EN 21:25 · ZH 21:26 KST). lifejunjun·yeobaek·firstbrick 저장소는 이번 세션 접근 범위 밖이라 미확인.
