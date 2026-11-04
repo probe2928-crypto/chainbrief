@@ -23,6 +23,11 @@
 - 페북: `caption_fb`(곡 풀버전 링크 + 채널 링크) 사용 → 링크 미리보기는 풀버전 영상으로.
 - 밴드: 기존 `caption` + 영상 아래 풀버전 링크 한 줄 추가(`yt_full`).
 
+## 현황판 갱신 (매 회차 마지막, 11/4 추가)
+- 현황판: https://claude.ai/artifact/NgUcusWE3DS5eBrMnGGh9L (Dashboard). 데이터 파일 `sns`(채널별 오늘 게시 수·메모)와 `kpi`의 'SNS 게시(오늘)'·'구독자' 값을 이번 회차 결과로 고친다.
+- 방법: Artifact `read`로 현재 파일을 받아 값만 바꾼 JSON을 `asset: true`로 업로드 → ArtifactData `update` datasets/sns(또는 kpi)의 `source.url`, `updated:{at,by}`, `edit:{via:"claude",at}` (if_version은 읽은 버전). 페이지(index.html)는 건드리지 않는다.
+- 구독자 수는 스튜디오/채널 페이지에서 보이는 숫자만. 모르면 그대로 둔다.
+
 ## 규칙
 - 모든 게시물에 'AI로 제작한 가상 가수' 표시 + 플랫폼 AI 레이블. 실존 가수 이름 언급 금지.
 - 같은 소재 재게시 금지. 결제·유료 기능·광고/게시물 홍보(부스트) 금지. 계정·페이지 설정 변경 금지. 댓글 답글 안 함(별도 지시 전까지).
