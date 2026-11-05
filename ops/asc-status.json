@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-04T22:02:32.443Z",
+  "at": "2026-11-05T22:03:16.315Z",
   "cmd": "status",
   "apps": [
     {
@@ -10,6 +10,14 @@
       "name": "CHAINBRIEF",
       "primaryLocale": "en-US",
       "builds": [
+        {
+          "id": "40f63cd1-ad04-4bfc-afab-5dcb084c2419",
+          "build": "19",
+          "version": "1.3.0",
+          "state": "VALID",
+          "uploaded": "2026-11-04T21:05:02-08:00",
+          "expired": false
+        },
         {
           "id": "37841857-675a-4a30-a22d-406086a9cc9e",
           "build": "18",
@@ -36,11 +44,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "37841857-675a-4a30-a22d-406086a9cc9e",
-        "build": "18",
+        "id": "40f63cd1-ad04-4bfc-afab-5dcb084c2419",
+        "build": "19",
         "version": "1.3.0",
         "state": "VALID",
-        "uploaded": "2026-11-01T20:27:00-08:00",
+        "uploaded": "2026-11-04T21:05:02-08:00",
         "expired": false
       },
       "versions": [
@@ -61,6 +69,12 @@
           "state": "WAITING_FOR_REVIEW",
           "submitted": "2026-11-01T03:30:37.651Z"
         }
+      ]
+    },
+    {
+      "app": "lifejunjun",
+      "errors": [
+        "앱 레코드 없음: kr.lifejunjun.app"
       ]
     },
     {
@@ -200,18 +214,20 @@
         {
           "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
           "version": "1.0.0",
-          "state": "WAITING_FOR_REVIEW",
-          "storeState": "WAITING_FOR_REVIEW",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
       "reviewSubmissions": [
         {
-          "state": "WAITING_FOR_REVIEW",
+          "state": "COMPLETE",
           "submitted": "2026-11-01T04:32:25.281Z"
         }
       ]
     }
   ],
-  "log": []
+  "log": [
+    "[lifejunjun] ✗ 앱 레코드 없음: kr.lifejunjun.app"
+  ]
 }
