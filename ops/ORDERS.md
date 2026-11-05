@@ -68,3 +68,4 @@
 | 11/05 | 트롯스테이지 SNS | 네이버 밴드(band.us/band/104995766) 로그아웃 상태 — 11/04 11시부터 밴드 게시 중단(비밀번호 입력은 세준만). 세준이 SNS 담당 브라우저에서 밴드 재로그인 필요. 이미 해결됐으면 완료 처리 | 세준 | 세준 대기 |
 | 11/05 | Perpline·체인브리프·SNS | AlphaX 가입 링크 전부 https://www.alphax.com/partner/7lxP6X 로 교체 (구 user/invite/7lxP6X 쓰지 말 것) | 실무이사 | 완료 11/05 11:20 — Perpline 3391e70, 체인브리프 기사 3110d34, 텔레그램 EN 48·52 / 中文 42·47 수정(봇 tg-admin fix-alphax), 페북 1:50 글 수정, X는 수정 불가라 원글에 새 링크 답글. 링크드인엔 직접 링크 글 없음 |
 | 11/05 | Perpline | AlphaX 유료 테스트 150달러 — Telega.io 텔레그램 채널 광고 | 실무이사 | 후보 정리 완료(perpline ops/ALPHAX_PAID_TEST.md, 추천 CAR $120 + Scalp $24). 세준 충전 알림 → 채널·가격 보고 → OK 후 주문 |
+| 11/05 | Perpline | AlphaX Telega 1차 주문 완료 #2561026 (Crypto Asset Report $115.80, tg1 링크) | 실무이사 | 게시 대기 → 7일 후 성과 확인 후 2차 결정 |
