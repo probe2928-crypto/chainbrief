@@ -72,3 +72,4 @@
 | 11/05 | Perpline | AlphaX Telega 광고 3시간마다 점검·보고 (예약 작업 trig_01ABMSqdDF6uoFnKQBrXCXWR, 매 3시간 :59) | AI 직원 | 진행 중 — 게시 7일 후 최종 요약하고 끌지 세준에게 확인 |
 | 11/05 | 트롯스테이지 영업 | 제휴 제안 메일 2건 발송 OK 여부 — ① 청송사과축제(청송군 관광정책과) 2027 'AI 가수 홍보대사'·홍보곡 제안(Gmail 초안, 수신 주소는 11/10 이후 통화로 확보) ② 오케이에듀투어(ok@okedutour.com) 시니어 여행 숏츠 협업(Gmail 초안) + 해외 유통 DistroKid 가입 결제 결정(가수 3명=Ultimate $89.99~/년, Suno 유료 생성곡인지 확인). 상세 ops/trot/sales/leads.md | 세준 | 세준 대기 |
 | 11/05 | Perpline·체인브리프·SNS | AlphaX 가입 링크를 https://www.alphax.com/en-us/register?invite_code=7lxP6X 로 재교체 (partner/·user/invite/ 이제 쓰지 말 것) | 실무이사 | 완료 11/05 17:15 — Perpline b4d0213(사이트·go/ax-* 추적 링크 → Telega 광고도 자동 반영), 체인브리프 0da2f30, 텔레그램 EN 48·52 / 中文 42·47, 페북 글 수정. X는 수정 불가 |
+| 11/05 | Perpline | AlphaX 제휴 트래커 아티팩트 https://claude.ai/artifact/9kS8iSvmmGnZPruAiTnET4 (db: snaps, status/ad, status/affiliate) — 3시간 점검 작업이 갱신 | 실무이사 | 완료 17:35. 확인 필요: AlphaX 제휴 화면 "내 커미션 0% / 유저 10%" → 세준이 AlphaX에 확인 |
