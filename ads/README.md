@@ -14,5 +14,5 @@
 - 중국어는 홍콩·대만·싱가포르·말레이시아 독자 기준 "24小时" 사용
 
 ## 랜딩
-- EN: https://probe2928-crypto.github.io/chainbrief/en/?utm_source=bitmedia&utm_medium=banner&utm_campaign=cb_en
-- ZH: https://probe2928-crypto.github.io/chainbrief/zh/?utm_source=bitmedia&utm_medium=banner&utm_campaign=cb_zh
+- EN: https://chainbrief.app/en/?utm_source=bitmedia&utm_medium=banner&utm_campaign=cb_en
+- ZH: https://chainbrief.app/zh/?utm_source=bitmedia&utm_medium=banner&utm_campaign=cb_zh

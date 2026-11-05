@@ -1,5 +1,5 @@
 /* site-auth v1 — 모든 사이트가 같이 쓰는 회원 로그인 (Supabase Auth)
-   주소: https://probe2928-crypto.github.io/chainbrief/auth/auth.js
+   주소: https://chainbrief.app/auth/auth.js
    각 사이트는 자기 저장소의 auth-config.js 에서 window.SITE_AUTH 를 정하고, url·anonKey 가 채워졌을 때만 이 파일을 불러온다.
    설정이 없거나 비어 있으면 아무것도 하지 않는다(화면 변화 0).
 

@@ -1,7 +1,7 @@
 // CHAINBRIEF app — native shell over the site's JSON feeds (api/<lang>/feed.json)
 (() => {
   const qs = new URLSearchParams(location.search);
-  const SITE = (qs.get("api") || "https://probe2928-crypto.github.io/chainbrief/").replace(/\/?$/, "/");
+  const SITE = (qs.get("api") || "https://chainbrief.app/").replace(/\/?$/, "/");
   const P = (window.Capacitor && window.Capacitor.Plugins) || {};
   const native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
   const $ = (s, el = document) => el.querySelector(s);
