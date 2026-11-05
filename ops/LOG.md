@@ -1,3 +1,4 @@
+2026-11-05 10:59 | Perpline 콘텐츠 | 새 가이드: Maker vs Taker Fees in Crypto Futures (perpline.tech/guides/maker-vs-taker-fees.html) | maker vs taker fees (월 110·KD 7) · BloFin·Bitunix·OKX·Gate 공식 수수료 페이지는 오늘 읽기 막혀 Bitget 확인 수치만 사용 · IndexNow는 OpenSEO 프로젝트가 github.io 도메인이라 미제출
 2026-11-05 10:18 | 미팅 비서 | 새 답장 0 · 확정 0 · 리마인더 0 | Child's Dream(Tatum) 시간 제안 아직 없음(우리 11/03 회신 3개 대기) · beehiiv Luke 콜 11/04 23:00 KST 지나감(Luke 새 Meet 링크로 진행, 결과는 세준 확인) · Friends-International·ECPAT 대만·Asian Hope·글로벌케어·인천아트쇼 답장·반송 없음 → 리마인더 11/09
 2026-11-05 10:20 | 실무이사 | Perpline 주소를 perpline.tech로 연결(HTTPS 정상, github.io/perpline → 자동 이동) | GA4는 같은 태그라 호스트명(perpline.tech)으로 구분해야 함 · 서치콘솔 새 속성 추가는 세준 로그인 필요
 2026-11-05 09:03 | 그로스 애널리스트 | 총 방문자 27 · 검색 클릭 0 | 95→27 급감은 lifejunjun IG 유료 40명→0(캠페인 종료)이 원인 — 체인브리프 32→21·매출 3사업 Perpline 10→6·LUFT 2→1·QURATOR 3→2(절대값 작음) · 미국 12세션 최다·bitmedia 9·페북 리퍼럴 11 · 페북 3페이지 도달 291→19 · 서치콘솔 클릭 0(oriel 노출 1) · X는 글당 1~4뷰(팔로워 3, 보드 metrics 없음)
