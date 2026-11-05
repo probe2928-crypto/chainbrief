@@ -57,6 +57,22 @@ function frontmatter(src) {
 if (!TOKEN) { console.log("TELEGRAM_BOT_TOKEN 없음 — 건너뜀"); process.exit(0); }
 const state = readJ(STATE, {});
 
+// 일회성: AlphaX 가입 링크 교체 (2026-11-05, 세준 지시 — partner/7lxP6X)
+if (cmd === "fix-alphax") {
+  const R = "https://www.alphax.com/partner/7lxP6X";
+  const P = "https://perpline.tech/promos/alphax.html";
+  const edits = [
+    ["@chainbrief_global", 52, `AlphaX · 0% maker / 0% taker\nSign up: ${R}\nReferral code: 7lxP6X`],
+    ["@chainbrief_cn", 47, `AlphaX · 挂单 0% / 吃单 0%\n注册：${R}\n邀请码：7lxP6X`],
+    ["@chainbrief_cn", 42, `🔔 合作推广 · AlphaX 专题\n\n• 限时 0% 挂单 / 0% 吃单手续费（仅限符合条件的地区）\n• 新用户最高可获 15,000+ USDT 欢迎奖励，以交易/仓位体验券形式发放（非现金）\n• 新用户任务（注册后 14 天内）：注册 200 · 首次充值 50 USDT 以上 → 50 · 首笔合约交易 200 · 关注 X 100（USDT 体验券）\n\n注册：${R}\n详细说明（英文）：${P}\n\n广告 · 推荐链接，我们可能获得佣金。不适用于韩国及美国居民。杠杆交易可能亏损全部保证金。`],
+  ];
+  for (const [chat_id, message_id, text] of edits) {
+    try { await tg("editMessageText", { chat_id, message_id, text, link_preview_options: { url: R } }); console.log("수정됨", chat_id, message_id); }
+    catch (e) { console.log("실패", chat_id, message_id, e.message); }
+  }
+  process.exit(0);
+}
+
 if (cmd === "count") {
   const hist = readJ(MEMBERS, { days: [] });
   const today = new Date().toISOString().slice(0, 10);
