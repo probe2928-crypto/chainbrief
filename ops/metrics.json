@@ -1579,6 +1579,242 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-11-04",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-05 09:00 KST 수집)",
+   "total": {
+    "users_all_property": 27,
+    "sessions": 31,
+    "views": 41,
+    "gsc_clicks": 0,
+    "gsc_impr": 1
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 21,
+     "sessions": 23,
+     "views": 25,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "split": {
+      "en": {
+       "users": 14,
+       "sessions": 14,
+       "views": 15
+      },
+      "zh": {
+       "users": 2,
+       "sessions": 2,
+       "views": 2
+      },
+      "ko": {
+       "views": 8,
+       "note": "전체-en-zh 차이로 계산(사용자 합산 불가)"
+      }
+     }
+    },
+    "perpline": {
+     "users": 6,
+     "sessions": 7,
+     "views": 12,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "luft": {
+     "users": 1,
+     "sessions": 1,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음 — IG 유료 캠페인 종료(11/3) 영향"
+    },
+    "yeobaek": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음(0)"
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 1,
+     "gsc_position": 98
+    }
+   },
+   "gsc_note": "8개 사이트 클릭 0. 노출은 oriel 1건(평균 98위)뿐. 체인브리프·Perpline 검색어 행 없음. 사이트별 합은 사이트 간 이동 방문 때문에 전체보다 큼",
+   "social": {
+    "fb": {
+     "chainbrief": {
+      "followers": null,
+      "reach": 1,
+      "impressions": null,
+      "engagement": 0
+     },
+     "lifejunjun": {
+      "followers": null,
+      "reach": 18,
+      "impressions": null,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": null,
+      "reach": 0,
+      "impressions": null,
+      "engagement": 0
+     },
+     "note": "page_followers 0 반환 → 미확인. impressions 이번 회차 미조회(미확인). reach=page_total_media_view_unique. 3개 합 reach 19·참여 0 (11/3: 291·4 — 광고 종료 영향 추정)"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 181,
+      "reach": 15,
+      "impressions": 33,
+      "impressions_note": "profile_views",
+      "new_followers": 0
+     },
+     "note": "11-04 값은 메타 지연 집계로 나중에 올라갈 수 있음(11-03 reach 385→497 재조회)"
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 3,
+      "impressions": 2,
+      "engagement": 0
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "LI 11-04 지연 집계 가능(11-03 체인브리프 50)"
+    },
+    "x": {
+     "status": "부분 확인",
+     "followers": 3,
+     "following": 14,
+     "post_views": "글당 1~4뷰",
+     "note": "보드 social에 metrics_<날짜> 문서 없음 — playbook 11/04 21:47·posts_20261104 기록값만 사용"
+    }
+   },
+   "prev_day_ref": {
+    "fb_chainbrief_reach_11_03": 7,
+    "fb_total_reach_11_03": 291,
+    "ig_reach_11_03": 497,
+    "li_chainbrief_impr_11_03": 50
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/chainbrief/en/articles/2026-11-03-okx-ice-tokenized-stock-objections-50-companies/ (7세션)",
+      "/chainbrief/ (4세션)",
+      "/chainbrief/en/flash/2026-11-03-2125-liquid-network-full-bitcoin-backing-restored/ (3세션)"
+     ],
+     "perpline": [
+      "/perpline/start.html (5세션·6뷰)",
+      "/perpline/ (2세션·3뷰)",
+      "/perpline/projects.html (1세션·2뷰)"
+     ],
+     "luft": [
+      "/luft/ (1세션·0뷰)"
+     ],
+     "qurator": [
+      "/qurator/ (2세션·2뷰)"
+     ],
+     "yeobaek": [
+      "/yeobaek/ (1)",
+      "/yeobaek/go/uzbekistan/ (1)"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "United States",
+      12
+     ],
+     [
+      "South Korea",
+      7
+     ],
+     [
+      "Malaysia",
+      3
+     ],
+     [
+      "Ireland",
+      2
+     ],
+     [
+      "Japan",
+      2
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      9
+     ],
+     [
+      "bitmedia / banner",
+      9
+     ],
+     [
+      "facebook.com / referral",
+      8
+     ],
+     [
+      "m.facebook.com / referral",
+      3
+     ],
+     [
+      "kauth.kakao.com / referral",
+      1
+     ]
+    ],
+    "note": "국가·소스는 속성 전체 기준(사이트별 분리 안 함)"
+   },
+   "delta_vs_prev": {
+    "users_total": -68,
+    "by_site_users": {
+     "chainbrief": -11,
+     "perpline": -4,
+     "luft": -1,
+     "qurator": -1,
+     "lifejunjun": -40,
+     "yeobaek": -6,
+     "blockkey": -2,
+     "oriel": -3
+    },
+    "note": "전체 95→27은 lifejunjun IG 유료 40명→0(캠페인 종료)이 최대 요인 · 매출 3사업 Perpline 10→6·LUFT 2→1·QURATOR 3→2(절대값 작음)"
+   }
   }
  ]
 }
