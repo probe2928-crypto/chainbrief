@@ -34,7 +34,9 @@ jobs:
         run: |
           V="$(node -p "require('./package.json').version")"
           sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"$V\"/" android/app/build.gradle
-          grep -E "versionCode|versionName" android/app/build.gradle
+          # Google Play package: app.chainbrief (com.chainbrief.app is already taken on Android by earlier test APKs; iOS bundle ID stays com.chainbrief.app)
+          sed -i 's/applicationId "com.chainbrief.app"/applicationId "app.chainbrief"/' android/app/build.gradle
+          grep -E "applicationId|versionCode|versionName" android/app/build.gradle
       - run: npx cap sync android
       - name: 테스트용 고정 서명 키 (업데이트 시 재설치 불필요)
         run: mkdir -p ~/.android && cp debug.keystore ~/.android/debug.keystore
