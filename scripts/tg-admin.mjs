@@ -62,11 +62,12 @@ if (cmd === "fix-alphax") {
   const R = "https://www.alphax.com/partner/7lxP6X";
   const P = "https://perpline.tech/promos/alphax.html";
   const edits = [
+    ["@chainbrief_global", 48, `🔔 Partner offer · AlphaX special\n\n• 0% maker / 0% taker fees, limited time, eligible regions\n• Up to 15,000+ USDT in welcome rewards for new users, paid as trading/position vouchers (not cash)\n• New-user tasks within 14 days: sign-up 200 · first deposit 50+ USDT → 50 · first futures trade 200 · follow on X 100 (USDT vouchers)\n\nSign up: ${R}\nFull breakdown: ${P}\n\nSponsored · referral link, we may earn a commission. Not for residents of Korea or the US. Leveraged trading can lose all of your margin.`],
     ["@chainbrief_global", 52, `AlphaX · 0% maker / 0% taker\nSign up: ${R}\nReferral code: 7lxP6X`],
     ["@chainbrief_cn", 47, `AlphaX · 挂单 0% / 吃单 0%\n注册：${R}\n邀请码：7lxP6X`],
     ["@chainbrief_cn", 42, `🔔 合作推广 · AlphaX 专题\n\n• 限时 0% 挂单 / 0% 吃单手续费（仅限符合条件的地区）\n• 新用户最高可获 15,000+ USDT 欢迎奖励，以交易/仓位体验券形式发放（非现金）\n• 新用户任务（注册后 14 天内）：注册 200 · 首次充值 50 USDT 以上 → 50 · 首笔合约交易 200 · 关注 X 100（USDT 体验券）\n\n注册：${R}\n详细说明（英文）：${P}\n\n广告 · 推荐链接，我们可能获得佣金。不适用于韩国及美国居民。杠杆交易可能亏损全部保证金。`],
   ];
-  for (const [chat_id, message_id, text] of edits) {
+  for (const [chat_id, message_id, text] of edits.filter(e => !arg || String(e[1]) === arg)) {
     try { await tg("editMessageText", { chat_id, message_id, text, link_preview_options: { url: R } }); console.log("수정됨", chat_id, message_id); }
     catch (e) { console.log("실패", chat_id, message_id, e.message); }
   }
