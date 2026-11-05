@@ -5,6 +5,9 @@ category: 海外
 author: Scott Park
 region: 海外
 summary: 11月3日美国中期选举，民主党同时拿下参众两院。卡在参议院的加密市场结构法案CLARITY若不能在明年1月3日新一届国会开幕前通过，就得从头再来；预测市场Kalshi给出的年内成法概率只有6%。
+image: media/articles/2026-11-05-democrats-win-congress-clarity-act-january-deadline.png
+image_alt: 数据图卡：Kalshi显示CLARITY法案2027年1月1日前成法概率6%、2027年底前26%；参议院9月程序表决49:50，门槛60票
+image_note: AI 制作图卡（文章数据整理）
 ---
 
 加密行业在过去两个选举周期里砸进美国政坛的钱超过3亿美元，路透社统计两党大致各占一半。11月3日的中期选举结果出来后，这笔钱换来的局面并不理想：民主党同时拿下众议院和参议院，特朗普接下来两年要面对一个由对手控制的国会。
