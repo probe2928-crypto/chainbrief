@@ -43,6 +43,12 @@ jobs:
           cd android && chmod +x gradlew
           ./gradlew assembleDebug --no-daemon -q
           cp app/build/outputs/apk/debug/app-debug.apk ../chainbrief-android.apk
+      - name: 플레이용 AAB (서명 전) 빌드 — 업로드 키 서명은 저장소 밖에서
+        if: env.HAS_KEY != 'true'
+        run: |
+          cd android
+          ./gradlew bundleRelease --no-daemon -q
+          cp app/build/outputs/bundle/release/app-release.aab ../chainbrief-playstore-unsigned.aab
       - name: 출시용 APK·AAB 빌드 (서명 키가 Secrets에 있을 때)
         if: env.HAS_KEY == 'true'
         env:
@@ -64,6 +70,7 @@ jobs:
           path: |
             app/chainbrief-android*.apk
             app/chainbrief-playstore.aab
+            app/chainbrief-playstore-unsigned.aab
           if-no-files-found: ignore
       - name: Releases에 올리기
         env:
@@ -71,6 +78,7 @@ jobs:
         run: |
           FILES="chainbrief-android.apk"
           [ -f chainbrief-android-release.apk ] && FILES="chainbrief-android-release.apk chainbrief-playstore.aab $FILES"
+          [ -f chainbrief-playstore-unsigned.aab ] && FILES="chainbrief-playstore-unsigned.aab $FILES"
           gh release delete android-latest -y --cleanup-tag || true
           gh release create android-latest $FILES \
             --title "체인브리프 안드로이드 앱 v$(node -p "require('./package.json').version") (빌드 ${{ github.run_number }})" --prerelease \
