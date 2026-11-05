@@ -11,7 +11,7 @@ on:
         required: true
         default: status
       apps:
-        description: "chainbrief,qurator,luft (비우면 전부)"
+        description: "chainbrief,qurator,luft,lifejunjun (비우면 전부)"
         required: false
         default: ""
   schedule:
@@ -33,11 +33,12 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with: { node-version: 22 }
-      - name: 스크린샷 가져오기 (LUFT · QURATOR)
+      - name: 스크린샷 가져오기 (LUFT · QURATOR · 인생준준)
         run: |
           git clone -q --depth 1 https://github.com/probe2928-crypto/luft /tmp/luft && mkdir -p _luft_store && cp /tmp/luft/app/store/ios-*.png _luft_store/ || true
           git clone -q --depth 1 --branch android-build https://github.com/probe2928-crypto/qurator /tmp/qurator && mkdir -p _qurator_store && cp /tmp/qurator/store/ios-*.png _qurator_store/ || true
-          ls _luft_store _qurator_store app/store | head -40
+          git clone -q --depth 1 https://github.com/probe2928-crypto/lifejunjun /tmp/lifejunjun && mkdir -p _lifejunjun_store && cp /tmp/lifejunjun/app/store/ios-*.png _lifejunjun_store/ || true
+          ls _luft_store _qurator_store _lifejunjun_store app/store | head -50
       - name: 실행
         run: node scripts/asc.mjs "${{ github.event.inputs.cmd || 'status' }}" "${{ github.event.inputs.apps }}"
       - name: 결과 올리기 (ops-status 브랜치)

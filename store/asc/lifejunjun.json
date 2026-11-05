@@ -1,0 +1,33 @@
+{
+  "bundle": "kr.lifejunjun.app",
+  "category": "TRAVEL",
+  "category2": "EDUCATION",
+  "copyright": "2026 Sejun Park",
+  "contentRights": "USES_THIRD_PARTY_CONTENT",
+  "territories": {
+    "only": [
+      "KOR"
+    ]
+  },
+  "screenshots": "_lifejunjun_store",
+  "submit": false,
+  "locales": {
+    "ko": {
+      "name": "인생준준 — 함께 가는 역사 여행",
+      "subtitle": "소규모 역사 여행 · 나라별 여행 카드",
+      "description": "혼자 떠나긴 조금 무섭고, 40명 단체 패키지는 싫다면.\n인생준준은 먼저 공부해 온 길동무와 3~10명이 함께 걷는 작은 역사 여행이에요. 유적은 깊게, 박물관은 천천히, 밥은 현지 사람들이 줄 서는 곳에서.\n\n· 탑승: 다음 여행(타이난·오만·우즈베키스탄)을 탑승권으로 보고, 30초 만에 관심 신청 — 결제가 아니에요\n· 여행 카드: 싱가포르 호커센터 쟁반 반납, 껌 금지, 코피 주문법, 튀르키예 11월 10일 9시 5분, 우즈베키스탄 빵 매너까지. 가기 전에 알면 덜 당황하는 나라별 카드, 인터넷 없이도 열려요\n· 내 여권: 다녀온 나라를 눌러 여권 도장을 찍고, 가고 싶은 곳을 모아요\n· 라운지: 카카오톡 공지방·인스타그램·유튜브로 새 여행 소식을 먼저\n\n3명이 모이면 출발하고, 혼자 신청해도 괜찮아요.",
+      "keywords": "역사여행,소규모여행,동행,혼자여행,여행카드,여행매너,싱가포르,우즈베키스탄,오만,타이난",
+      "promo": "3~10명이 함께 걷는 역사 여행. 다음 여행을 탑승권으로 보고, 나라별 여행 카드로 미리 준비해요.",
+      "privacyUrl": "https://probe2928-crypto.github.io/lifejunjun/app/privacy.html",
+      "supportUrl": "https://probe2928-crypto.github.io/lifejunjun/app/support.html",
+      "marketingUrl": "https://probe2928-crypto.github.io/yeobaek/"
+    }
+  },
+  "review": {
+    "firstName": "Sejun",
+    "lastName": "Park",
+    "phone": "+82 10-5529-5086",
+    "email": "probe2928@gmail.com",
+    "notes": "소규모 역사 여행(3~10명) 소개 앱입니다. 앱 안에서 결제나 예약은 없고, '관심 신청'은 이름과 연락처만 받아 운영자 메일로 전달하는 문의 양식입니다. 회원가입·로그인이 없어 테스트 계정이 필요 없습니다. 여행 카드와 내 여권은 기기 안에서만 동작합니다.\nThis app introduces small-group (3-10 people) history trips. There is no payment or booking in the app; 'interest request' is a contact form (name + email/KakaoTalk ID) sent to the operator's email. No account or login is required. Travel cards and the passport stamps work fully offline on the device."
+  }
+}
