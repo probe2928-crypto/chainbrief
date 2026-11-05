@@ -64,3 +64,4 @@
 | 11/04 | 트롯스테이지 광고 | 구글 애즈 계정(트롯스테이지용) 만들고 Adspirer에 연결 + 유튜브 채널 연결, Adspirer 이달 사용량 15/15 소진(갱신 대기 or 업그레이드 결정) — 연결돼야 일시정지 캠페인 생성 가능(설계 완료: ops/trot/ads/PLAN.md, 1단계 ₩10,000/일×7일, 11/11 오가닉 7일 판정 후 켜기 제안) | 세준 | 세준 대기 |
 | 11/05 | Perpline·체인브리프 | AlphaX 특집 대대적 홍보 (레퍼럴 7lxP6X, 0% maker/taker, 웰컴 리워드는 바우처) | 실무이사 | 완료 11/05 02:00 — Perpline promos/alphax.html + 홈/스타트 띠(3de3bba)·alphax.html 문구 정정(8516617), 링크드인 박세준·CHAINBRIEF, X @chainbrief_hq, 페북 체인브리프(홍보 OFF), 텔레그램 EN·中文 채널 게시 / Bitmedia 소재 ads/alphax/ 준비 — 켜기·충전 세준 |
 | 11/05 | Perpline | AlphaX 페이지 2개 중복(다른 세션 alphax.html EN/中文 + promos/alphax.html) — 하나로 합칠지 | 세준 | 세준 결정 대기 |
+| 11/05 | 인생준준 앱 | 세준 "이것도 아이폰 앱 만들어 출시해, 구글플레이도 해놓자" — 인생준준(lifejunjun.com) iOS 앱(기존 3앱과 같은 방식, ASC API) + 안드로이드 TWA. 여행업 사업자등록 이번 주~다음 주 완료 예정 → 빌드·스토어 문구·스크린샷은 지금 준비, 심사 제출은 등록 완료 후(판매자 정보에 여행업 번호 반영) | 앱 전담 · 앱스토어 매니저 | 미착수 |
