@@ -35,7 +35,7 @@
     blockkey: { g: 'web3', bg: '#1F2A44', fg: '#F2F0EA', mark: 'BLOCKKEY', font: 'sans', url: 'blockkey/', urlEn: 'blockkey/en/',
       cat: { ko: 'AI · 블록체인 개발', en: 'AI · Blockchain build', zh: 'AI · 区块链开发' },
       line: { ko: 'AI 마케팅, AI 개발, 블록체인 연동', en: 'AI marketing, AI development, chain integration', zh: 'AI 营销、AI 开发、区块链对接' } },
-    perpline: { g: 'web3', bg: '#E8E2D6', fg: '#111111', mark: 'Perpline', font: 'sans', url: 'perpline/', noKR: true,
+    perpline: { g: 'web3', bg: '#E8E2D6', fg: '#111111', mark: 'Perpline', font: 'sans', url: 'https://perpline.tech/', noKR: true,
       cat: { ko: '선물 수수료 페이백', en: 'Futures fee rebate', zh: '合约返佣' },
       line: { ko: '거래소 수수료 최대 60% 페이백 · 한국 거주자 제외', en: 'Up to 60% back on futures fees', zh: '合约手续费最高返还 60%' } },
     lifejunjun: { g: 'life', bg: '#2E3B2F', fg: '#EFE8DA', mark: '인생준준', font: 'serifko', url: 'lifejunjun/',
@@ -81,7 +81,7 @@
     var s = SITES[id], u = s.url;
     if (lang === 'en' && s.urlEn) u = s.urlEn;
     if (lang === 'zh') u = s.urlZh || s.urlEn || s.url;
-    return B + u + '?ref=network&from=' + encodeURIComponent(SELF || 'unknown');
+    return (/^https?:/.test(u) ? u : B + u) + '?ref=network&from=' + encodeURIComponent(SELF || 'unknown');
   }
   function line(id) {
     var c = CTX[SELF] && CTX[SELF][id];

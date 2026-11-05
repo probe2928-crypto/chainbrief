@@ -7,7 +7,7 @@
   try { if (H.classList.contains("adclean")) return; } catch (e) {}
   if (/bot|crawl|spider|lighthouse/i.test(navigator.userAgent)) return;
 
-  var FEED = "https://probe2928-crypto.github.io/perpline/api/venues.json";
+  var FEED = "https://perpline.tech/api/venues.json";
   var COOL_H = 3, KEY = "cbx-last", SHOW = 6;
   var lang = (H.lang || "ko").slice(0, 2); if (lang !== "ko" && lang !== "zh") lang = "en";
   var T = {
