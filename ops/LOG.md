@@ -77,3 +77,4 @@
 - 운영/컴플라이언스: 투자 권유 아님 문구, 출처 표기. Perpline 한국어판은 ko/ 오너 전용(noindex, GA·Bitmedia 없음) 유지. 레퍼럴·페이백·제한지역 문구 변경 없음.
 - 마케팅: 텔레그램 데일리 브리프·SNS에 "이번 달 BTC 역대 중앙값" 같은 한 줄 카드로 재활용 검토(다음 주 회의).
 - 배포: 체인브리프 /returns/ (KO·EN·ZH), Perpline returns.html (EN·中文 전환), 시세 페이지·Perpline 메뉴에 링크.
+- 11/05 11:20 AlphaX 가입 링크 partner/7lxP6X 로 전면 교체(사이트 2곳·텔레그램 4개·페북 1개·X 답글). 앞으로 AlphaX 링크는 partner/7lxP6X만.
