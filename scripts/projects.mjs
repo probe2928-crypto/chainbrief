@@ -83,7 +83,7 @@ export function writeProjects({ root, lang, prefix = "", write, layout, u, asset
       [S.f.x, [ext(p.x, "@" + (p.x || "").split("/").filter(Boolean).pop()), ext(p.x2, "@" + (p.x2 || "").split("/").filter(Boolean).pop())].filter(Boolean).join(" · ")],
       [S.f.tg, ext(p.telegram, (p.telegram || "").replace(/^https?:\/\//, ""))], [S.f.contact, esc(p.contact || "")]].filter(([, v]) => v);
     write(`${prefix}projects/${p.slug}/index.html`, layout({
-      title: p.title, description: p.summary || p.tagline, active: "projects/", canonical: `projects/${p.slug}/`, type: "article",
+      title: p.title, description: p.summary || p.tagline, active: "projects/", canonical: `projects/${p.slug}/`, type: "article", ogImage: `projects/${p.cover || p.slug}/cover.jpg`,
       body: `<div class="cover pj-cover"><picture><source media="(max-width:700px)" srcset="${img(p, "cover-m.jpg")}"><img src="${img(p, "cover.jpg")}" alt="${esc(p.project || "")}" fetchpriority="high" decoding="async"></picture></div>
 <div class="wrap"><p class="crumbs"><a href="${u("projects/")}">${esc(S.kicker)}</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(p.project || "")}</span></p>
 <main class="pj-doc"><article class="doc">
