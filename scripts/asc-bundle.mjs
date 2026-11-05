@@ -2,7 +2,9 @@
 // 사용: node scripts/asc-bundle.mjs <번들ID> "<이름>"
 // 비밀값은 환경변수로만: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (원문 또는 base64). 출력에 비밀값 없음.
 import crypto from "node:crypto";
-const [bundle, name = bundle] = process.argv.slice(2);
+const [bundle, rawName = ""] = process.argv.slice(2);
+// 애플은 App ID 이름에 영문·숫자·공백만 받음 → 한글 이름이면 번들 ID에서 만든 이름을 씀
+const name = /^[A-Za-z0-9 ]+$/.test(rawName) ? rawName : bundle.split(".").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
 if (!bundle) { console.error("번들 ID가 필요해요"); process.exit(2); }
 const raw = process.env.ASC_KEY_P8 || "";
 const pem = raw.includes("BEGIN PRIVATE KEY") ? raw : Buffer.from(raw, "base64").toString("utf8");
