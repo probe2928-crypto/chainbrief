@@ -1,3 +1,4 @@
+2026-11-05 18:10 | 실무이사 | LUFT 폰케이스 3단 가격 승인 기록(2.9/3.9/5.9만) · Supabase 리디렉트 URL에 chainbrief.app·perpline.tech 추가 · perpline Enforce HTTPS 켬 · 사용량 절약으로 11/8 0시까지 예약 작업 대부분 일시정지 | 서치콘솔 등록은 11/8
 2026-11-05 17:10 | AlphaX TG광고 점검(추가) | 윈도우 크롬은 Telega 로그아웃 상태 → 세준 로그인 필요(비번 입력 안 함) · t.me는 크롬 확장 읽기 권한 거부로 조회 미확인
 2026-11-05 16:52 | AI 비주얼 데스크 | 이미지 3 · 영상 1 | 무료 도구(HTML→Playwright PNG·프레임→ffmpeg): KO 美 민주당 SEC 법안·ZH CLARITY 2개월 데이터 카드(1200x630+1080x1350, chainbrief main d892fba) · Perpline 메이커/테이커 가이드 전용 og 카드(perpline main 08c1b4b) · KO SEC 법안 15초 세로 영상 · 16:06 커밋에서 지워진 LOG.md 이전 기록 80줄 복구
 2026-11-05 16:00 | AlphaX TG광고 점검 | Telega #2561026 상태 미확인 · 조회 미확인 · 클릭(tg1) 미확인 | 크롬 2대(맥·윈도우) 연결돼 있어 브라우저 선택 필요(무인 실행이라 선택 못 함) · t.me/s 읽기 권한 응답 없음 · GA4 오늘치 OpenSEO 미집계·Adspirer 한도 소진(11/24 리셋)
