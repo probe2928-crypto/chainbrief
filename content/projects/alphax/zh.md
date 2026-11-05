@@ -8,6 +8,7 @@ period: Monthly
 sponsored: true
 cover: alphax
 website: https://www.alphax.com/user/invite/7lxP6X
+contact: 邀请码 7lxP6X
 summary: AlphaX 对加密永续、加密现货以及 USDT 本位的传统金融永续合约收取 0% 挂单费和 0% 吃单费。按常见 0.05% 吃单费率，一笔 10 万美元的交易每一边可省下 50 美元。
 ---
 多数交易所靠返佣和 VIP 等级竞争。AlphaX 直接把手续费设为零：挂单 0%，吃单 0%。公司表示，零手续费覆盖加密永续、加密现货，以及以 USDT 作保证金的传统金融永续合约。
@@ -32,4 +33,4 @@ summary: AlphaX 对加密永续、加密现货以及 USDT 本位的传统金融�
 
 ## 开始使用
 
-通过资料卡中的链接注册，大约一分钟即可完成。AlphaX 称零手续费为面向合格地区的限时计划，条款以官方为准。杠杆衍生品可能导致保证金全部亏损，杠杆越高越快。受限司法辖区（包括韩国和美国）不可使用。
+注册链接：[alphax.com/user/invite/7lxP6X](https://www.alphax.com/user/invite/7lxP6X)（邀请码 **7lxP6X**），大约一分钟即可完成。AlphaX 称零手续费为面向合格地区的限时计划，条款以官方为准。杠杆衍生品可能导致保证金全部亏损，杠杆越高越快。受限司法辖区（包括韩国和美国）不可使用。

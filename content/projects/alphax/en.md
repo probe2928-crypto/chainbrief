@@ -8,6 +8,7 @@ period: Monthly
 sponsored: true
 cover: alphax
 website: https://www.alphax.com/user/invite/7lxP6X
+contact: Referral code 7lxP6X
 summary: AlphaX charges 0% maker and 0% taker fees on crypto perpetuals, crypto spot and USDT-margined TradFi perpetuals. On a $100,000 trade at the common 0.05% taker rate, that is $50 a side you no longer pay.
 ---
 Most exchanges compete on rebates and VIP tiers. AlphaX skipped the ladder and set the fee to zero. Makers pay 0%. Takers pay 0%. The company says the zero-fee schedule covers crypto perpetuals, crypto spot and its TradFi perpetuals, which are margined in USDT.
@@ -32,4 +33,4 @@ High-frequency and scalping traders feel it first, because they pay fees many ti
 
 ## Try it
 
-Opening an account takes about a minute through the link in the fact sheet. AlphaX describes the zero-fee schedule as a limited-time programme for eligible regions and sets its own terms. Leveraged derivatives can wipe out your whole margin, and higher leverage gets you there faster. Not available in restricted jurisdictions, including South Korea and the United States.
+Sign up here: [alphax.com/user/invite/7lxP6X](https://www.alphax.com/user/invite/7lxP6X) (referral code **7lxP6X**). It takes about a minute. AlphaX describes the zero-fee schedule as a limited-time programme for eligible regions and sets its own terms. Leveraged derivatives can wipe out your whole margin, and higher leverage gets you there faster. Not available in restricted jurisdictions, including South Korea and the United States.
