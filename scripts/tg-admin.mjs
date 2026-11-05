@@ -11,7 +11,7 @@ const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "site.config.json"), "utf
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
 const [cmd = "count", arg = ""] = process.argv.slice(2);
 const CH = cfg.tgChannels || {};
-const SITE = (cfg.domain ? `https://${cfg.domain}/` : "https://probe2928-crypto.github.io/chainbrief/").replace(/\/?$/, "/");
+const SITE = (cfg.domain ? `https://${cfg.domain}/` : "https://chainbrief.app/").replace(/\/?$/, "/");
 const STATE = path.join(ROOT, "data/tg-admin.json");
 const MEMBERS = path.join(ROOT, "data/tg-members.json");
 const link = (h) => `https://t.me/${String(h).replace(/^@/, "")}`;

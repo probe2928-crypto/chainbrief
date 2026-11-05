@@ -181,7 +181,7 @@ ${float && TG ? `<a class="tg-float" href="${TG}" target="_blank" rel="noopener"
 ${AUTH_SNIPPET}<script src="${u("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${u("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${u(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
-<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>
+<script src="https://chainbrief.app/network.js" data-site="chainbrief" defer></script>
 <script src="${u("event/event-config.js")}?v=${BUILD_ID}" defer></script>
 </body>
 </html>`;

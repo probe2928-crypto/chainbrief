@@ -3,7 +3,7 @@
   "nameEn": "CHAINBRIEF",
   "tagline": "가장 빠른 코인 속보와 시세",
   "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세를 한곳에서.",
-  "domain": "",
+  "domain": "chainbrief.app",
   "lang": "ko",
   "social": { "x": "https://x.com/chainbrief_hq", "linkedin": "https://www.linkedin.com/company/chainbrief/", "facebook": "https://www.facebook.com/profile.php?id=61596044395440" },
   "tgChannels": { "ko": "@chainbrief_kr", "en": "@chainbrief_global", "zh": "@chainbrief_cn" },

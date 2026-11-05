@@ -329,7 +329,7 @@ ${float && (CH || TG) ? (CH ? `<a class="tg-float tg-join" href="${CH.href}" tar
 <script src="${asset("app.js")}?v=${BUILD_ID}" defer></script>
 <script src="${asset("xsheet.js")}?v=${BUILD_ID}" defer></script>
 ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></script>` : ""}
-<script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="chainbrief" defer></script>
+<script src="https://chainbrief.app/network.js" data-site="chainbrief" defer></script>
 </body>
 </html>`;
   }

@@ -1,5 +1,5 @@
 /* Network band — one file shared by every site.
-   Each site loads: <script src="https://probe2928-crypto.github.io/chainbrief/network.js" data-site="<id>" defer></script>
+   Each site loads: <script src="https://chainbrief.app/network.js" data-site="<id>" defer></script>
    It inserts a band just above the site's footer. Rules:
    - Web3 sites (chainbrief, blockkey, perpline) show the digital row large, the life row small.
    - Life sites (lifejunjun, yeobaek, qurator, luft) show the life row large, a short digital line
