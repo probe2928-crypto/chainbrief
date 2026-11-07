@@ -1,13 +1,11 @@
 {
-  "at": "2026-11-07T15:34:00.678Z",
+  "at": "2026-11-07T15:39:23.225Z",
   "cmd": "submit",
   "apps": [
     {
       "app": "qurator",
       "bundle": "kr.qurator.dailyart",
-      "errors": [
-        "심사 제출: POST /v1/reviewSubmissionItems → 409: STATE_ERROR.ENTITY_STATE_INVALID This resource cannot be reviewed, please check associated errors to see why."
-      ],
+      "errors": [],
       "appId": "6829093287",
       "name": "QURATOR — Daily Art",
       "primaryLocale": "ko",
@@ -97,8 +95,8 @@
         {
           "id": "5dbab6aa-8055-4551-af4b-07c038cc0605",
           "version": "1.0.1",
-          "state": "DEVELOPER_REJECTED",
-          "storeState": "DEVELOPER_REJECTED",
+          "state": "WAITING_FOR_REVIEW",
+          "storeState": "WAITING_FOR_REVIEW",
           "created": "2026-11-07T07:26:49-08:00"
         },
         {
@@ -114,8 +112,8 @@
       "availability": "174개국",
       "reviewSubmissions": [
         {
-          "state": "READY_FOR_REVIEW",
-          "submitted": null
+          "state": "WAITING_FOR_REVIEW",
+          "submitted": "2026-11-07T15:39:33.392Z"
         },
         {
           "state": "COMPLETE",
@@ -129,7 +127,6 @@
     }
   ],
   "log": [
-    "[qurator] 스크린샷 6장 업로드 (_qurator_store)",
-    "[qurator] ✗ 심사 제출: POST /v1/reviewSubmissionItems → 409: STATE_ERROR.ENTITY_STATE_INVALID This resource cannot be reviewed, please check associated errors to see why."
+    "[qurator] 심사 제출 완료"
   ]
 }
