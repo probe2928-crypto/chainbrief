@@ -1,5 +1,9 @@
 # 운영 점검 기록 (최신이 위)
 
+## 2026-11-08 새벽 점검
+- Actions 6개 저장소 24시간 미해결 실패 0 (빌드 및 배포 실패 2·luft pages 1은 이후 성공으로 해소), 고침 0.
+- 라이브 사이트는 접속 차단으로 확인 못 함. lifejunjun·yeobaek·firstbrick는 범위 밖.
+- 예약 작업 FAILED 2: 고객경험(CX)팀 · 미팅 비서 (둘 다 USAGE_LIMIT_REACHED).
 ## 2026-11-05 새벽 점검
 - 장애 1 — 체인브리프 EN·ZH 마지막 속보/기사가 11/03 21:25~26 KST(약 30시간 전)로 멈춤. 'EN·中文 발행' 예약 작업 11/04 21:24 실행이 PENDING으로 안 끝남. 한국어 속보는 11/05 01:38 정상.
 - Actions 6개 저장소 24시간 미해결 실패 0(QURATOR 11/04 19:56 KST 실패는 이후 성공), 빌드 및 배포 마지막 성공 02:44 KST, 예약 작업 FAILED 0 (device_absent 0, ABANDONED 2·PENDING 4).
