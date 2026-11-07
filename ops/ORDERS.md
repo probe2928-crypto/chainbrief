@@ -75,3 +75,4 @@
 | 11/05 | Perpline | AlphaX 제휴 트래커 아티팩트 https://claude.ai/artifact/9kS8iSvmmGnZPruAiTnET4 (db: snaps, status/ad, status/affiliate) — 3시간 점검 작업이 갱신 | 실무이사 | 완료 17:35. 확인 필요: AlphaX 제휴 화면 "내 커미션 0% / 유저 10%" → 세준이 AlphaX에 확인 |
 | 11/08 | Perpline·체인브리프·SNS | AlphaX 링크를 공식 추천 링크 https://www.alphax.com/partner/7lxP6X 로 되돌림 (register 링크는 해외에서 코드 칸이 비어 보임). 앞으로 AlphaX 링크는 partner/ 만 | 실무이사 | 완료 11/08 00:30 — Perpline b4a1748, 체인브리프 427a2cd, 텔레그램 EN 48·52 / 中文 42·47, 페북 글. 라이브 확인 완료 |
 | 11/08 | 체인브리프 SNS | SNS 활동 더 열심히 해서 구독자 늘리기 | 커뮤니티 매니저·텔레그램 그로스 매니저 | 진행 (두 직원 재가동 11/08) |
+| 11/08 | 체인브리프 X | X Premium(@chainbrief_hq 인증, 월 약 8달러) — 세준: "내년에 하자" | 세준 | 보류 (2027년에 다시 제안) |
