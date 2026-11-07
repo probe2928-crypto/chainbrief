@@ -263,7 +263,7 @@ async function runApp(name, cfg) {
       await step("버전 정보", () => api("PATCH", `/v1/appStoreVersions/${vId}`, { data: { type: "appStoreVersions", id: vId, attributes: { copyright: cfg.copyright, releaseType: "AFTER_APPROVAL" } } }));
       for (const [loc, t] of Object.entries(cfg.locales)) {
         const locId = await step(`설명 ${loc}`, () => upsertLocalized("appStoreVersionLocalizations", "appStoreVersion", vId, `/v1/appStoreVersions/${vId}/appStoreVersionLocalizations`, loc,
-          { description: t.description, keywords: t.keywords, promotionalText: t.promo, supportUrl: t.supportUrl, marketingUrl: t.marketingUrl }, name));
+          { description: t.description, keywords: t.keywords, promotionalText: t.promo, supportUrl: t.supportUrl, marketingUrl: t.marketingUrl, ...(t.whatsNew && (latest?.version || "1.0.0") !== "1.0.0" ? { whatsNew: t.whatsNew } : {}) }, name));
         if (locId && cfg.screenshots) await step(`스크린샷 ${loc}`, () => screenshots(locId, path.join(ROOT, cfg.screenshots), name));
       }
       await step("심사 정보", () => reviewDetail(vId, cfg, name));
