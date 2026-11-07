@@ -1,71 +1,58 @@
 {
- "at": "2026-11-05T03:27+09:00",
+ "at": "2026-11-08T03:30:00+09:00",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "2026-11-05 02:44 KST 빌드 및 배포 success",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "2026-11-05 01:53 KST success",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "2026-11-04 14:48 KST success",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "2026-11-04 23:27 KST success",
+   "lastRun": "success",
    "failures": [],
-   "fixed": [
-    "10:56Z failure → 이후 성공으로 해결"
-   ]
+   "fixed": []
   },
   {
    "repo": "blockkey",
-   "lastRun": "2026-11-04 14:48 KST success",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "2026-11-04 14:48 KST success",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "all github.io/lifejunjun.com",
+   "url": "전체",
    "ok": null,
-   "note": "프록시 차단으로 라이브 fetch 불가, Actions·main 데이터로 대체"
-  },
-  {
-   "url": "chainbrief KO flash",
-   "ok": true,
-   "note": "최신 2026-11-05 01:38 KST"
-  },
-  {
-   "url": "chainbrief EN/ZH flash",
-   "ok": false,
-   "note": "EN 11/03 21:25 · ZH 11/03 21:26 KST 이후 새 속보·기사 없음(12시간 초과)"
+   "note": "프록시/권한 차단으로 라이브 확인 불가"
   }
  ],
- "failedTasks": [],
- "abandoned": [
-  "QURATOR 아침 운영·QA팀",
-  "LUFT 주간 케이스 디자인"
- ],
- "pending_stale": [
-  "미팅 비서",
-  "LUFT 쇼핑몰 매일 고도화",
-  "체인브리프 EN·中文 발행"
- ],
- "device_absent": 0
+ "failedTasks": [
+  {
+   "name": "고객경험(CX)팀 · 문의 통합",
+   "failure_reason": "USAGE_LIMIT_REACHED"
+  },
+  {
+   "name": "미팅 비서 · 제안 메일 답장 확인·미팅 확정",
+   "failure_reason": "USAGE_LIMIT_REACHED"
+  }
+ ]
 }
