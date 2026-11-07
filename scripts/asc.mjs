@@ -204,6 +204,7 @@ async function screenshots(locId, dir, app, displayType = "APP_IPHONE_67") {
   const got = done.map((s) => s.attributes.sourceFileChecksum || "").sort().join();
   // still processing on Apple's side (checksum not readable yet) → leave alone, check again next run
   if (done.length >= files.length && (want === got || done.some((s) => s.attributes.assetDeliveryState?.state !== "COMPLETE"))) return done.length;
+  note(app, `스크린샷 교체: 기존 ${done.length}장 [${done.map((s) => (s.attributes.sourceFileChecksum || "-").slice(0, 6) + "/" + (s.attributes.assetDeliveryState?.state || "-")).join(" ")}] → 새 ${files.length}장`);
   for (const s of have) await api("DELETE", `/v1/appScreenshots/${s.id}`).catch(() => {});
   for (const f of files) {
     const buf = fs.readFileSync(path.join(dir, f));
