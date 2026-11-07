@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       cmd:
-        description: "status / sync / submit"
+        description: "status / sync / submit / withdraw"
         required: true
         default: status
       apps:

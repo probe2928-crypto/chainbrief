@@ -199,7 +199,10 @@ async function screenshots(locId, dir, app, displayType = "APP_IPHONE_67") {
   if (!set) set = (await api("POST", "/v1/appScreenshotSets", { data: { type: "appScreenshotSets", attributes: { screenshotDisplayType: displayType }, relationships: { appStoreVersionLocalization: { data: { type: "appStoreVersionLocalizations", id: locId } } } } })).data;
   const have = await getAll(`/v1/appScreenshotSets/${set.id}/appScreenshots`);
   const done = have.filter((s) => s.attributes.assetDeliveryState?.state !== "FAILED");
-  if (done.length >= files.length) return done.length;
+  // Same pictures already there (by MD5) → keep. Different (e.g. screenshots carried over from the previous version) → replace.
+  const want = files.map((f) => crypto.createHash("md5").update(fs.readFileSync(path.join(dir, f))).digest("hex")).sort().join();
+  const got = done.map((s) => s.attributes.sourceFileChecksum || "").sort().join();
+  if (done.length >= files.length && want === got) return done.length;
   for (const s of have) await api("DELETE", `/v1/appScreenshots/${s.id}`).catch(() => {});
   for (const f of files) {
     const buf = fs.readFileSync(path.join(dir, f));
@@ -226,6 +229,13 @@ async function runApp(name, cfg) {
   r.latestValidBuild = latest;
   let { all, editable } = await editableVersion(app.id);
   r.versions = all;
+
+  // withdraw: pull a waiting submission back out of review (to change screenshots etc.), then run submit again
+  if (cmd === "withdraw") {
+    const subs = await getAll(`/v1/reviewSubmissions?filter[app]=${app.id}&filter[platform]=IOS`);
+    for (const s of subs.filter((x) => ["WAITING_FOR_REVIEW", "READY_FOR_REVIEW"].includes(x.attributes.state)))
+      await step("심사 취소", () => api("PATCH", `/v1/reviewSubmissions/${s.id}`, { data: { type: "reviewSubmissions", id: s.id, attributes: { canceled: true } } }).then(() => note(name, `제출 취소 (${s.attributes.state})`)));
+  }
 
   if (cmd === "sync" || cmd === "submit") {
     const info = await step("앱 정보", () => appInfo(app.id));
