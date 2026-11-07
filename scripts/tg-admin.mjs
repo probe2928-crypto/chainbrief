@@ -59,7 +59,7 @@ const state = readJ(STATE, {});
 
 // 일회성: AlphaX 가입 링크 교체 (2026-11-05, 세준 지시 — 11/05 17:09 register?invite_code=7lxP6X로 재교체)
 if (cmd === "fix-alphax") {
-  const R = "https://www.alphax.com/en-us/register?invite_code=7lxP6X";
+  const R = "https://www.alphax.com/partner/7lxP6X";
   const P = "https://perpline.tech/promos/alphax.html";
   const edits = [
     ["@chainbrief_global", 48, `🔔 Partner offer · AlphaX special\n\n• 0% maker / 0% taker fees, limited time, eligible regions\n• Up to 15,000+ USDT in welcome rewards for new users, paid as trading/position vouchers (not cash)\n• New-user tasks within 14 days: sign-up 200 · first deposit 50+ USDT → 50 · first futures trade 200 · follow on X 100 (USDT vouchers)\n\nSign up: ${R}\nFull breakdown: ${P}\n\nSponsored · referral link, we may earn a commission. Not for residents of Korea or the US. Leveraged trading can lose all of your margin.`],
