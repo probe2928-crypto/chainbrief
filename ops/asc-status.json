@@ -1,11 +1,13 @@
 {
-  "at": "2026-11-07T15:28:37.172Z",
-  "cmd": "withdraw",
+  "at": "2026-11-07T15:29:43.955Z",
+  "cmd": "submit",
   "apps": [
     {
       "app": "qurator",
       "bundle": "kr.qurator.dailyart",
-      "errors": [],
+      "errors": [
+        "심사 제출: POST /v1/reviewSubmissionItems → 409: STATE_ERROR.ENTITY_STATE_INVALID This resource cannot be reviewed, please check associated errors to see why."
+      ],
       "appId": "6829093287",
       "name": "QURATOR — Daily Art",
       "primaryLocale": "ko",
@@ -95,8 +97,8 @@
         {
           "id": "5dbab6aa-8055-4551-af4b-07c038cc0605",
           "version": "1.0.1",
-          "state": "WAITING_FOR_REVIEW",
-          "storeState": "WAITING_FOR_REVIEW",
+          "state": "DEVELOPER_REJECTED",
+          "storeState": "DEVELOPER_REJECTED",
           "created": "2026-11-07T07:26:49-08:00"
         },
         {
@@ -107,9 +109,16 @@
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
+      "ageRating": "설정됨",
+      "price": "설정됨",
+      "availability": "174개국",
       "reviewSubmissions": [
         {
-          "state": "CANCELING",
+          "state": "READY_FOR_REVIEW",
+          "submitted": null
+        },
+        {
+          "state": "COMPLETE",
           "submitted": "2026-11-07T15:27:02.338Z"
         },
         {
@@ -120,6 +129,7 @@
     }
   ],
   "log": [
-    "[qurator] 제출 취소 (WAITING_FOR_REVIEW)"
+    "[qurator] 스크린샷 6장 업로드 (_qurator_store)",
+    "[qurator] ✗ 심사 제출: POST /v1/reviewSubmissionItems → 409: STATE_ERROR.ENTITY_STATE_INVALID This resource cannot be reviewed, please check associated errors to see why."
   ]
 }
