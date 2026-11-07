@@ -1,3 +1,4 @@
+2026-11-08 01:00 | AlphaX TG광고 점검 | Telega #4355532 '완료'(11/05 14:09 KST 게시, 상단 8시간25분·피드 31시간, 현재 채널에서 삭제됨) · 조회 6,802 · 클릭 6(고유 5, CTR 0.09%, CPC $19.30) · 가입 미확인 | AlphaX 제휴 화면 접속 불가(한국 차단, VPN 필요) · GA4 pl_signup_alphax 조회 불가(Adspirer 한도 소진·OpenSEO 속성 불일치)
 2026-11-06 10:19 | 미팅 비서 | 새 답장 1 · 확정 0 · 리마인더 0 | beehiiv Luke 콜 리캡 수신(11/04 콜 완료, 답장 불필요) · Child's Dream 오늘 18:00 KST 확정 상태 확인(11/05 수락·캘린더 등록됨, 장부 반영) · Friends-International·ECPAT 대만·Asian Hope·글로벌케어·인천아트쇼 답장·반송 없음 → 리마인더 11/09
 2026-11-05 18:10 | 실무이사 | LUFT 폰케이스 3단 가격 승인 기록(2.9/3.9/5.9만) · Supabase 리디렉트 URL에 chainbrief.app·perpline.tech 추가 · perpline Enforce HTTPS 켬 · 사용량 절약으로 11/8 0시까지 예약 작업 대부분 일시정지 | 서치콘솔 등록은 11/8
 2026-11-05 17:10 | AlphaX TG광고 점검(추가) | 윈도우 크롬은 Telega 로그아웃 상태 → 세준 로그인 필요(비번 입력 안 함) · t.me는 크롬 확장 읽기 권한 거부로 조회 미확인
