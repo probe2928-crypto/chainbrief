@@ -202,7 +202,8 @@ async function screenshots(locId, dir, app, displayType = "APP_IPHONE_67") {
   // Same pictures already there (by MD5) → keep. Different (e.g. screenshots carried over from the previous version) → replace.
   const want = files.map((f) => crypto.createHash("md5").update(fs.readFileSync(path.join(dir, f))).digest("hex")).sort().join();
   const got = done.map((s) => s.attributes.sourceFileChecksum || "").sort().join();
-  if (done.length >= files.length && want === got) return done.length;
+  // still processing on Apple's side (checksum not readable yet) → leave alone, check again next run
+  if (done.length >= files.length && (want === got || done.some((s) => s.attributes.assetDeliveryState?.state !== "COMPLETE"))) return done.length;
   for (const s of have) await api("DELETE", `/v1/appScreenshots/${s.id}`).catch(() => {});
   for (const f of files) {
     const buf = fs.readFileSync(path.join(dir, f));
