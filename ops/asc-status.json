@@ -1,13 +1,11 @@
 {
-  "at": "2026-11-07T15:26:46.858Z",
-  "cmd": "submit",
+  "at": "2026-11-07T15:28:37.172Z",
+  "cmd": "withdraw",
   "apps": [
     {
       "app": "qurator",
       "bundle": "kr.qurator.dailyart",
-      "errors": [
-        "카테고리: PATCH /v1/appInfos/918d0942-9bd3-4296-a188-03bec8a2f023 → 409: ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/primaryCategory) | ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/secondaryCategory)"
-      ],
+      "errors": [],
       "appId": "6829093287",
       "name": "QURATOR — Daily Art",
       "primaryLocale": "ko",
@@ -109,12 +107,9 @@
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
-      "ageRating": "설정됨",
-      "price": "설정됨",
-      "availability": "174개국",
       "reviewSubmissions": [
         {
-          "state": "WAITING_FOR_REVIEW",
+          "state": "CANCELING",
           "submitted": "2026-11-07T15:27:02.338Z"
         },
         {
@@ -125,9 +120,6 @@
     }
   ],
   "log": [
-    "[qurator] ✗ 카테고리: PATCH /v1/appInfos/918d0942-9bd3-4296-a188-03bec8a2f023 → 409: ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/primaryCategory) | ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/secondaryCategory)",
-    "[qurator] appStoreVersionLocalizations ko 갱신: promotionalText, whatsNew",
-    "[qurator] 빌드 1.0.1 (20) 연결",
-    "[qurator] 심사 제출 완료"
+    "[qurator] 제출 취소 (WAITING_FOR_REVIEW)"
   ]
 }
