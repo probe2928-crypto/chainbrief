@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-06T21:56:28.685Z",
+  "at": "2026-11-07T15:10:34.773Z",
   "cmd": "status",
   "apps": [
     {
@@ -69,12 +69,6 @@
           "state": "WAITING_FOR_REVIEW",
           "submitted": "2026-11-01T03:30:37.651Z"
         }
-      ]
-    },
-    {
-      "app": "lifejunjun",
-      "errors": [
-        "앱 레코드 없음: kr.lifejunjun.app"
       ]
     },
     {
@@ -227,7 +221,5 @@
       ]
     }
   ],
-  "log": [
-    "[lifejunjun] ✗ 앱 레코드 없음: kr.lifejunjun.app"
-  ]
+  "log": []
 }
