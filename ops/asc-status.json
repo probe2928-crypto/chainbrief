@@ -1,11 +1,13 @@
 {
-  "at": "2026-11-07T15:24:54.304Z",
-  "cmd": "status",
+  "at": "2026-11-07T15:26:46.858Z",
+  "cmd": "submit",
   "apps": [
     {
       "app": "qurator",
       "bundle": "kr.qurator.dailyart",
-      "errors": [],
+      "errors": [
+        "카테고리: PATCH /v1/appInfos/918d0942-9bd3-4296-a188-03bec8a2f023 → 409: ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/primaryCategory) | ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/secondaryCategory)"
+      ],
       "appId": "6829093287",
       "name": "QURATOR — Daily Art",
       "primaryLocale": "ko",
@@ -93,6 +95,13 @@
       },
       "versions": [
         {
+          "id": "5dbab6aa-8055-4551-af4b-07c038cc0605",
+          "version": "1.0.1",
+          "state": "WAITING_FOR_REVIEW",
+          "storeState": "WAITING_FOR_REVIEW",
+          "created": "2026-11-07T07:26:49-08:00"
+        },
+        {
           "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
           "version": "1.0.0",
           "state": "READY_FOR_DISTRIBUTION",
@@ -100,7 +109,14 @@
           "created": "2026-10-30T18:14:07-07:00"
         }
       ],
+      "ageRating": "설정됨",
+      "price": "설정됨",
+      "availability": "174개국",
       "reviewSubmissions": [
+        {
+          "state": "WAITING_FOR_REVIEW",
+          "submitted": "2026-11-07T15:27:02.338Z"
+        },
         {
           "state": "COMPLETE",
           "submitted": "2026-11-01T04:32:25.281Z"
@@ -108,5 +124,10 @@
       ]
     }
   ],
-  "log": []
+  "log": [
+    "[qurator] ✗ 카테고리: PATCH /v1/appInfos/918d0942-9bd3-4296-a188-03bec8a2f023 → 409: ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/primaryCategory) | ENTITY_ERROR.RELATIONSHIP.INVALID_STATE A relationship value is not acceptable for the current resource state. (/data/relationships/secondaryCategory)",
+    "[qurator] appStoreVersionLocalizations ko 갱신: promotionalText, whatsNew",
+    "[qurator] 빌드 1.0.1 (20) 연결",
+    "[qurator] 심사 제출 완료"
+  ]
 }
