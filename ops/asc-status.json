@@ -1,132 +1,41 @@
 {
-  "at": "2026-11-07T15:39:23.225Z",
-  "cmd": "submit",
+  "at": "2026-11-07T16:22:40.749Z",
+  "cmd": "sync",
   "apps": [
     {
-      "app": "qurator",
-      "bundle": "kr.qurator.dailyart",
-      "errors": [],
-      "appId": "6829093287",
-      "name": "QURATOR — Daily Art",
-      "primaryLocale": "ko",
-      "builds": [
-        {
-          "id": "73200026-97e4-4a83-9891-2a6e433e7082",
-          "build": "20",
-          "version": "1.0.1",
-          "state": "VALID",
-          "uploaded": "2026-11-07T07:21:07-08:00",
-          "expired": false
-        },
-        {
-          "id": "00a2b924-addb-4e2c-8f17-4081ee3c18a8",
-          "build": "16",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-11-01T11:25:23-08:00",
-          "expired": false
-        },
-        {
-          "id": "4e740326-f999-496d-afcd-c303a209f923",
-          "build": "15",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-31T20:53:03-07:00",
-          "expired": false
-        },
-        {
-          "id": "7afee45c-cf4c-4d8b-a118-7f97bc36b56a",
-          "build": "14",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-31T20:39:46-07:00",
-          "expired": false
-        },
-        {
-          "id": "2632dd29-3ee3-4eb4-a372-9df373ea1eb7",
-          "build": "13",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-31T20:24:59-07:00",
-          "expired": false
-        },
-        {
-          "id": "12e5d9f6-32ed-43de-8718-dc9186008017",
-          "build": "12",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-31T20:18:48-07:00",
-          "expired": false
-        },
-        {
-          "id": "76eb5326-20e6-479c-9416-c9692a555c23",
-          "build": "11",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-31T20:16:57-07:00",
-          "expired": false
-        },
-        {
-          "id": "9fa69b54-4230-4ad1-bd81-0472461ec958",
-          "build": "10",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-30T19:00:45-07:00",
-          "expired": false
-        },
-        {
-          "id": "02792c4f-f25a-498a-ba46-957e5b4baa98",
-          "build": "9",
-          "version": "1.0.0",
-          "state": "VALID",
-          "uploaded": "2026-10-30T18:59:06-07:00",
-          "expired": false
-        }
+      "app": "lifejunjun",
+      "bundle": "kr.lifejunjun.app",
+      "errors": [
+        "처리 완료된(VALID) 빌드가 아직 없음"
       ],
-      "latestValidBuild": {
-        "id": "73200026-97e4-4a83-9891-2a6e433e7082",
-        "build": "20",
-        "version": "1.0.1",
-        "state": "VALID",
-        "uploaded": "2026-11-07T07:21:07-08:00",
-        "expired": false
-      },
+      "appId": "6832018313",
+      "name": "인생준준 — 함께 가는 역사 여행",
+      "primaryLocale": "ko",
+      "builds": [],
+      "latestValidBuild": null,
       "versions": [
         {
-          "id": "5dbab6aa-8055-4551-af4b-07c038cc0605",
-          "version": "1.0.1",
-          "state": "WAITING_FOR_REVIEW",
-          "storeState": "WAITING_FOR_REVIEW",
-          "created": "2026-11-07T07:26:49-08:00"
-        },
-        {
-          "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
-          "version": "1.0.0",
-          "state": "READY_FOR_DISTRIBUTION",
-          "storeState": "READY_FOR_SALE",
-          "created": "2026-10-30T18:14:07-07:00"
+          "id": "4c6e2d24-e05e-4c53-a2b7-00489db150ee",
+          "version": "1.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-11-07T08:18:38-08:00"
         }
       ],
-      "ageRating": "설정됨",
-      "price": "설정됨",
-      "availability": "174개국",
-      "reviewSubmissions": [
-        {
-          "state": "WAITING_FOR_REVIEW",
-          "submitted": "2026-11-07T15:39:33.392Z"
-        },
-        {
-          "state": "COMPLETE",
-          "submitted": "2026-11-07T15:27:02.338Z"
-        },
-        {
-          "state": "COMPLETE",
-          "submitted": "2026-11-01T04:32:25.281Z"
-        }
-      ]
+      "ageRating": "저장함",
+      "price": "무료로 설정함",
+      "availability": "1개국",
+      "reviewSubmissions": []
     }
   ],
   "log": [
-    "[qurator] 심사 제출 완료"
+    "[lifejunjun] appInfoLocalizations ko 갱신: subtitle, privacyPolicyUrl",
+    "[lifejunjun] 연령 등급 저장 (24항목)",
+    "[lifejunjun] 가격: 무료로 설정",
+    "[lifejunjun] 판매 국가 설정: 1개국",
+    "[lifejunjun] appStoreVersionLocalizations ko 갱신: description, keywords, promotionalText, supportUrl, marketingUrl",
+    "[lifejunjun] 스크린샷 교체: 기존 0장 [] → 새 5장",
+    "[lifejunjun] 스크린샷 5장 업로드 (_lifejunjun_store)",
+    "[lifejunjun] 심사 정보 생성"
   ]
 }
