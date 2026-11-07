@@ -88,3 +88,4 @@
 - 배포: 체인브리프 /returns/ (KO·EN·ZH), Perpline returns.html (EN·中文 전환), 시세 페이지·Perpline 메뉴에 링크.
 - 11/05 11:20 AlphaX 가입 링크 partner/7lxP6X 로 전면 교체(사이트 2곳·텔레그램 4개·페북 1개·X 답글). 앞으로 AlphaX 링크는 partner/7lxP6X만.
 - 2026-11-08 04:00 KST | AlphaX TG1 점검 | 광고 종료(11/05 게시, 31h 노출) | 조회 6,802 | 클릭 6 | 가입 확인불가(AlphaX 한국 차단, GA4 한도 소진)
+- 2026-11-08 07:00 KST | AlphaX TG1 점검 | 광고 종료 | 조회 6,802 | 클릭 6 | 가입 확인불가(AlphaX 접속 불가·한국 차단, GA4 미조회) | 변화 없음
