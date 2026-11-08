@@ -1,5 +1,9 @@
 # 운영 점검 기록 (최신이 위)
 
+## 2026-11-09 새벽 점검
+- Actions 6개 저장소 24시간 미해결 실패 0, chainbrief 빌드 및 배포 1시간 내 성공, 고침 0.
+- 라이브 사이트 12곳은 이 환경 프록시 차단(CONNECT 403)으로 확인 못 함. firstbrick Actions는 403으로 미확인, lifejunjun·yeobaek는 저장소 권한 없음.
+- 예약 작업 FAILED 1: 미팅 비서 (USAGE_LIMIT_REACHED). 중단(ABANDONED) 2: 그로스 애널리스트(11-07), LUFT 주간 케이스 디자인(11-03).
 ## 2026-11-08 새벽 점검
 - Actions 6개 저장소 24시간 미해결 실패 0 (빌드 및 배포 실패 2·luft pages 1은 이후 성공으로 해소), 고침 0.
 - 라이브 사이트는 접속 차단으로 확인 못 함. lifejunjun·yeobaek·firstbrick는 범위 밖.
