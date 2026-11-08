@@ -1,5 +1,5 @@
 {
- "at": "2026-11-08T03:30:00+09:00",
+ "at": "2026-11-09T03:26:00+09:00",
  "repos": [
   {
    "repo": "chainbrief",
@@ -36,22 +36,24 @@
    "lastRun": "success",
    "failures": [],
    "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": "미확인(프록시 403)",
+   "failures": [],
+   "fixed": []
   }
  ],
  "sites": [
   {
    "url": "전체",
    "ok": null,
-   "note": "프록시/권한 차단으로 라이브 확인 불가"
+   "note": "라이브 확인 불가(프록시 CONNECT 403)"
   }
  ],
  "failedTasks": [
   {
-   "name": "고객경험(CX)팀 · 문의 통합",
-   "failure_reason": "USAGE_LIMIT_REACHED"
-  },
-  {
-   "name": "미팅 비서 · 제안 메일 답장 확인·미팅 확정",
+   "name": "미팅 비서",
    "failure_reason": "USAGE_LIMIT_REACHED"
   }
  ]
