@@ -10,8 +10,31 @@
 3. **큰 숫자는 독자 단위로 한 번 더.** 달러는 원화로(63억달러 → 약 9조원), bp는 %포인트로, 비율은 "열 곳 중 여덟 곳"처럼. 과거 사례 하나를 옆에 세워 크기를 가늠하게 한다(예: 바이비트 15억달러). 변하는 숫자는 진행형으로 보여 준다(80% → 90% → 95%).
 4. **확신도를 문장에 드러낸다.** 공식 발표(FBI·FIU)와 민간 분석(체이널리시스·TRM)을 구분해 쓰고, 추정치는 범위로. 출처마다 숫자가 다르면 하나만 고르지 말고 나란히 적어 차이를 인정한다. 출처 없는 "~하는 시각이 있다/业内人士认为"는 쓰지 않는다. 독자가 헷갈릴 숫자는 "혼동하지 말라"고 훈계하지 말고 각 숫자가 무엇을 가리키는지만 쓴다.
 5. **끝 문단은 다음 날짜·숫자로, 또는 독자가 오해하기 쉬운 지점을 짚는 한 문장으로.** 체크리스트 나열("Things to watch:")이나 교훈으로 끝내지 않는다.
+6. **긴 문단 뒤에 한 줄짜리 문장·문단으로 요점을 착지시킨다.** 숫자·출처가 몰린 문단 다음에 "그래서 이번 주 바뀌는 것은 없다" 같은 짧은 문장을 두면 호흡이 생긴다. (Cointelegraph 11/4 기사의 단문단 리듬에서 배움 — 문장은 옮기지 않고 기법만)
 
 ## 날짜별 기록
+
+### 2026-11-10 (영어 — 화요일 회차, KST 기준)
+
+**읽은 기사: 1편** (WebFetch가 CoinDesk는 권한 응답 대기 초과로 막히고 FXStreet은 오류, The Block·Decrypt는 검색 결과가 제목뿐이라 읽지 못함. 우회 수집은 하지 않았고, 3편 채우려고 읽지 않은 기사를 적지 않는다. 필요한 도움: WebFetch 도메인 허용 — coindesk.com·theblock.co·decrypt.co 등)
+1. Cointelegraph · Helen Partz · "Bitcoin ETFs lose $1.16B as Bitwise calls selling 'short-term'" (11/4, 48시간보다 오래됨) · https://cointelegraph.com/markets/bitcoin-etf-shed-1-16-billion-bitwise-short-term-risk-off
+   - 배운 기법: 소제목이 라벨이 아니라 "기관은 버티고 있다"처럼 주장 한 줄. 숫자는 요일별(금·월·화)로 나란히 세워 유출이 둔해지는 흐름을 보여 주고 누적 합계로 마무리.
+   - 단문단·인용 한 줄로 끝내 요약 문단이 없다(기법만 참고, 문장은 옮기지 않음).
+
+**우리 기사 점수 (지난 24시간 영어, 10점 만점)**
+
+| 기사 | 자연스러움 | 구체성 | 리드 | 소제목 | 상투어(개수) | 종합 |
+|---|---|---|---|---|---|---|
+| EN 11-09 Coinbase OCC 신탁은행 최종 승인 | 8 | 9 | 8 | 7 | 0 (em dash 0) | **8.0** |
+| EN 11-08 Bitcoin ETFs 2026 negative | 8 | 9 | 9 | 8 | 0 (em dash 0) | **8.5** |
+
+평균 8.3점(11/8 8.4점 대비 -0.1, 사실상 유지). 약점: Coinbase 기사의 "The crypto charter queue"가 라벨형이고, "Politics shift in January" 첫 문단이 한 문단에 정치·법·일정을 다 담아 길다. 한국어·중국어 신규 기사는 오늘 회차 범위가 아니라 점수 매기지 않음.
+
+**연습 (오늘 배운 기법 적용 — 파일은 고치지 않음)**
+- 소제목 전: The crypto charter queue → 후: Circle in July, Ripple in October, now Coinbase (날짜순으로 세운 주장형 소제목. 본문의 사실 그대로)
+- 딱딱한 문단 전: "The approval lands a week after Democrats won both chambers of Congress in the midterm elections. That does not reach the OCC directly; the Comptroller is an executive branch appointee and the charters are agency decisions. It does change who runs the hearings." → 후: "The OCC doesn't answer to Congress's majority, so the charters stand. But who runs the hearings changes in January, and that is where the questions to Gould will come from." (세미콜론 문장을 끊고 '그래서 뭐가 바뀌나'를 한 줄로. 사실 변경 없음)
+
+**다듬은 파일**: 없음 (7점 미만 기사 없음)
 
 ### 2026-11-08 재실행 (한국어·영어·중국어 — 일요일 회차)
 
