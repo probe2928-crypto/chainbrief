@@ -1,60 +1,106 @@
 {
- "at": "2026-11-09T03:26:00+09:00",
+ "at": "2026-11-10T03:25:00+09:00",
  "repos": [
   {
-   "repo": "chainbrief",
-   "lastRun": "success",
+   "repo": "blockkey",
+   "lastRun": "성공",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "success",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "luft",
-   "lastRun": "success",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "qurator",
-   "lastRun": "success",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "blockkey",
-   "lastRun": "success",
+   "lastRun": "성공",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "success",
+   "lastRun": "성공",
    "failures": [],
    "fixed": []
   },
   {
+   "repo": "luft",
+   "lastRun": "성공",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
+   "lastRun": "성공",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "chainbrief",
+   "lastRun": "성공 2026-11-09T17:50:39Z",
+   "failures": [
+    "빌드 및 배포 deploy-pages 실패 2026-11-09T16:55Z (run 42659646153)"
+   ],
+   "fixed": [
+    "다음 실행 성공으로 자체 복구, 재실행 불필요"
+   ]
+  },
+  {
    "repo": "firstbrick",
-   "lastRun": "미확인(프록시 403)",
+   "lastRun": "미확인(403)",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "lifejunjun",
+   "lastRun": "미확인(저장소 권한 없음)",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "yeobaek",
+   "lastRun": "미확인(저장소 권한 없음)",
    "failures": [],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "전체",
+   "url": "chainbrief",
    "ok": null,
-   "note": "라이브 확인 불가(프록시 CONNECT 403)"
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "perpline",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "luft",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "qurator",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "oriel",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "blockkey",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "yeobaek",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+  },
+  {
+   "url": "lifejunjun.com",
+   "ok": null,
+   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
   }
  ],
- "failedTasks": [
-  {
-   "name": "미팅 비서",
-   "failure_reason": "USAGE_LIMIT_REACHED"
-  }
- ]
+ "failedTasks": []
 }
