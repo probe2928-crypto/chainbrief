@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-08T21:53:34.084Z",
+  "at": "2026-11-09T22:02:46.372Z",
   "cmd": "status",
   "apps": [
     {
@@ -284,8 +284,8 @@
         {
           "id": "17e64d61-5355-4c5b-a853-351bcd56b6a0",
           "version": "1.0.2",
-          "state": "IN_REVIEW",
-          "storeState": "IN_REVIEW",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
           "created": "2026-11-07T20:32:43-08:00"
         },
         {
@@ -305,7 +305,7 @@
       ],
       "reviewSubmissions": [
         {
-          "state": "IN_REVIEW",
+          "state": "COMPLETE",
           "submitted": "2026-11-08T04:32:55.628Z"
         },
         {
