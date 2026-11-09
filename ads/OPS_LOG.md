@@ -1,5 +1,9 @@
 # 운영 점검 기록 (최신이 위)
 
+## 2026-11-10 새벽 점검
+- Actions 저장소 6곳 24시간 미해결 실패 0. chainbrief 11-09 16:55Z 배포 실패 1건은 17:50Z 성공으로 자체 복구, 고침 0.
+- 라이브 사이트는 이 환경 fetch 차단으로 확인 못 함. firstbrick Actions 403, lifejunjun·yeobaek 권한 없음 미확인.
+- 예약 작업 FAILED 0 (끝까지 확인).
 ## 2026-11-09 새벽 점검
 - Actions 6개 저장소 24시간 미해결 실패 0, chainbrief 빌드 및 배포 1시간 내 성공, 고침 0.
 - 라이브 사이트 12곳은 이 환경 프록시 차단(CONNECT 403)으로 확인 못 함. firstbrick Actions는 403으로 미확인, lifejunjun·yeobaek는 저장소 권한 없음.
