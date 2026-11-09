@@ -1,5 +1,10 @@
 # 새 수익 아이디어 (전략기획 · 최신이 위 · 같은 아이디어 반복 금지)
 
+## 2026-11-09 전략기획
+1. **[1위] 식당 '이야기 메뉴' QR (요식업+역사)** — 번역이 아니라 음식의 이야기·고증·먹는 법을 QR 한 장으로. 근거: 종로구 청계 관광특구 식당 60곳 다국어 QR 메뉴 번역 도입(https://www.asiae.co.kr/en/article/2024110809060065215), 종로 전통시장 QR 메뉴(https://www.twig24.com/news/2025/12/31/20251231500119), 크몽 '다국어 QR 메뉴 페이지 제작' 상품(https://kmong.com/gig/834103, 가격 미확인), 경쟁 Flitto Place. 위험: 번역은 지자체 무료 → '이야기'에 돈을 낼지가 핵심 가설. 2주 검증: 지인 식당 5곳에 샘플 → 유료 의향 2곳 또는 가격 문의 1건. 첫걸음(완료): qurator idea/story-menu b5b49e71 — 샘플 3장(설렁탕·신선로·빈대떡, '전해지는 이야기' 표기)·가격 가정.
+2. **개인전 준비 키트(작가·소규모 갤러리용 체크리스트·예산표·설치 일정)** — 강점: 전시 기획. 근거: Gumroad 'Artist Gallery Planner' $5 판매(https://diyartcareer.gumroad.com/l/VoUD, 상품명·가격만 확인). 매출 작음 → 단독 상품보다 QURATOR 갤러리 영업 자료로. 2주 검증: 갤러리 리드 5곳 중 사용 의사 3곳.
+3. **미술품 조각투자 '구조·리스크 읽는 법' 교육 글** — 강점: 미술+거래소. 근거: PwC 조각투자·STO 이슈 브리프(https://www.pwc.com/kr/ko/insights/issue-brief/understanding-fractional-investment-and-sto.html), 장외거래소 인가 보도(https://www.blockmedia.co.kr/archives/1003094). 위험 큼: 투자 권유 금지·유사투자자문 규제 → 법무 확인 전 보류.
+
 ## 2026-11-04 전략기획
 1. **[1위] QURATOR 'Seoul Museum Stories' — 외국인용 영어 박물관 셀프 가이드(1회권)** — 강점: 전시 기획·역사. 근거: 국립중앙박물관 유료 자유여행 상품 판매(https://tinggly.com/experience/ancient-treasures-and-hidden-stories-national-museum-of-korea/5601959P2), 서울 셀프 오디오 투어 판매(https://pelago.com/activity/p8sc2zm01-seoul-self-guided-audio-tour-seoul). 위험: 박물관 공식 오디오 가이드 앱 무료(https://apps.apple.com/us/app/-/id6478134880) → '사람·사건 이야기 + 60분 동선'으로 차별화 못 하면 접음. 2주 검증: 샘플 2점 → 끝까지 듣기 30%↑·알림 등록 10명↑. 첫걸음(완료): qurator idea/seoul-museum-stories 4637867 — 12점 동선·가격 가정 시트.
 2. **Perpline 영어 '페이백 계산기' 페이지** — 강점: 거래소 7년. 근거: 수수료·캐시백 계산기 수요 사례(https://flashnet.xyz/tools/fee-comparison-calculator, https://trade-reclaim.com/calculate-your-cashback). 경쟁 많음·새 매출원이라기보다 Perpline 전환 장치 → 그로스 실험 후보로 넘김. 2주 검증: 계산기 변형 가입 클릭률 > start.html 21%.
