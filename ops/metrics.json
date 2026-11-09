@@ -1815,6 +1815,208 @@
     },
     "note": "전체 95→27은 lifejunjun IG 유료 40명→0(캠페인 종료)이 최대 요인 · 매출 3사업 Perpline 10→6·LUFT 2→1·QURATOR 3→2(절대값 작음)"
    }
+  },
+  {
+   "date": "2026-11-08",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-09 09:00 KST 수집). 11-05~07은 수집 기록 없음(직원 일시정지 기간) — 전일 대비는 11-07 직접 조회 값 사용",
+   "total": {
+    "users_all_property": 129,
+    "sessions": 133,
+    "views": 153,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 108,
+     "sessions": 108,
+     "views": 116,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "호스트 chainbrief.app 전체(경로 접두 없음)"
+    },
+    "perpline": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음(광고 소진)"
+    },
+    "luft": {
+     "users": 7,
+     "sessions": 8,
+     "views": 20,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 3,
+     "sessions": 3,
+     "views": 3,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 11,
+     "sessions": 11,
+     "views": 10,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 4,
+     "sessions": 4,
+     "views": 3,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 2,
+     "sessions": 2,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    }
+   },
+   "gsc_note": "서치콘솔 11-02~11-08 8개 사이트 클릭 0. 노출은 블록키 11-03 1건(순위 3)·오리엘 11-03 3건(순위 2)·11-04 2건(순위 99)뿐, 11-08은 전부 0. 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "3페이지합": {
+      "followers": null,
+      "reach": 0,
+      "engagement": 0
+     },
+     "note": "page_followers 0 반환 → 미확인. 3개 페이지 합산 1행(reach=page_total_media_view_unique 0·참여 0). 페이지별 분리·impressions 이번 회차 미조회. 보드 playbook엔 11/08 페북 게시 3건 있음 — 메타 지연 집계 가능"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 180,
+      "reach": 28,
+      "impressions": 88,
+      "impressions_note": "profile_views(계정 전체 콘텐츠 조회)"
+     }
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 4,
+      "impressions": 15,
+      "engagement": 2
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "부분 확인",
+     "followers": 3,
+     "following": 14,
+     "post_views": "글당 1뷰(11/8 08:58·17:51·21:53 글 각 1뷰)",
+     "note": "보드 social에 metrics_<날짜> 문서 없음 — playbook·posts_20261108 기록값만 사용"
+    }
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/ (8명)",
+      "/en/ (4명)",
+      "/market/ (2명)"
+     ],
+     "luft": [
+      "/luft/ (4명·5세션·17뷰)"
+     ],
+     "qurator": [
+      "/qurator/ (2명)"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/ 하위 10개 페이지 각 1명"
+     ],
+     "yeobaek": [
+      "/yeobaek/ 하위 각 1명"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "Singapore",
+      100
+     ],
+     [
+      "United States",
+      19
+     ],
+     [
+      "South Korea",
+      13
+     ],
+     [
+      "Thailand",
+      1
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      118
+     ],
+     [
+      "facebook.com / referral",
+      5
+     ],
+     [
+      "m.facebook.com / referral",
+      4
+     ],
+     [
+      "kauth.kakao.com / referral",
+      2
+     ],
+     [
+      "l.instagram.com / referral",
+      1
+     ]
+    ],
+    "note": "국가·소스는 속성 전체 기준. 싱가포르 100세션이 거의 전부 direct — 이전 회차에서도 보인 크롤러·봇 의심 패턴, 실사용자 수는 과대일 수 있음. 홈(/) 페이지가 사용자 8로 최다"
+   },
+   "delta_vs_prev": {
+    "ref_day": "2026-11-07",
+    "users_total": -24,
+    "by_site_users": {
+     "luft": 4,
+     "qurator": -3,
+     "perpline": 0
+    },
+    "note": "11-07 전체 153→11-08 129. 사이트별 전일값은 매출 3사업(LUFT 3→7·QURATOR 6→3·Perpline 0→0)만 조회, 나머지는 미확인. 11-04 이후 호스트 구성: 11-07 chainbrief.app 81·github.io 72 → 11-08 chainbrief.app 108·github.io 21"
+   },
+   "openseo_weekly": {
+    "run": "2026-11-09 월",
+    "gsc_last7": "2026-10-10~11-06 체인브리프 검색어 행 0",
+    "audit": {
+     "id": "2e336e60-940c-459b-977f-7e3edbe599ea",
+     "url": "https://chainbrief.app/en/",
+     "pages": 50,
+     "critical": 0,
+     "status": "완료",
+     "warning": 2,
+     "info": 60,
+     "note": "경고 2=홈(/)·/news/ 메타 설명 중복, 정보 60=메타 설명 짧음 31·제목 단계 건너뜀 24·너무 긺 4·canonical 1 (기록만, 수정은 고도화 몫)"
+    },
+    "credits_before": 318
+   }
   }
  ]
 }
