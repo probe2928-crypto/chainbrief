@@ -1374,3 +1374,10 @@ html:is([lang="ko"],[lang="zh-Hans"]) .cal-dd.soon{font-family:var(--f-sans)}
 .soc-a:hover,.soc-a:focus-visible{border-color:currentColor}
 .soc-a svg{width:14px;height:14px;fill:currentColor;flex:none}
 .tl-x svg{width:12px;height:12px}
+
+/* 2026-11-09 텔레오 · 폰 EN·ZH: 텔레그램 버튼을 아이콘만 있는 원 → 'Free alerts / 免费快讯' 글자 알약으로 (광고 유입 첫 화면에서 무엇인지 보이게). KO 문의 버튼은 그대로 */
+@media (max-width:959px){
+  .tg-float.tg-join{width:auto;height:44px;padding:0 16px 0 14px;gap:8px;border-radius:22px}
+  .tg-float.tg-join span{display:inline;font-size:12px}
+  .tg-float.tg-join svg{width:16px;height:16px}
+}
