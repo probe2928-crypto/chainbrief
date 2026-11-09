@@ -23,10 +23,13 @@
 | X | @BitbullTrading | 속보 계정(독일어·중형) | 11/08 27분 뒤 답글(3.8천뷰, 바이낸스 CFO) |
 | X | @Web3Niels | 해설 계정(소형) | 11/08 17분 뒤 답글(494뷰, 알트코인 약세) |
 | X | @blackchankripto | 속보 계정(터키어·소형) | 11/08 10분 뒤 사실 정정 답글(MEXC '동결' 공포 글) |
+| X | @laurashin | 기자·팟캐스트(중형) | 11/09 1시간 뒤 답글(2천뷰, 트래블룰 철회) |
+| X | @lookonchain | 온체인 분석(대형) | 11/09 58분 뒤 답글(3.3만뷰, 고래 ETH 매수) |
 | LinkedIn | Cointelegraph | 매체 | 반응 확인 중 |
 | LinkedIn | CoinDesk | 매체 | 반응 적음(글당 1~5). 댓글 주체 'CHAINBRIEF' 전환은 아바타 ▾ → 선택 → 저장 |
 
 ## 배운 점
+- 11/09 22:3x (댓글이): 오전 10:3x 답글 4개 1뷰 이하(CoinDesk 1개는 뷰 표시 안 됨) — 1,000뷰 답글 여전히 0, 미인증 답글 강등 병목 그대로(세준 'X Premium' 결정 대기). 이번 회차 X 7개(원글 6분~2시간50분 뒤, 오늘 우리 기사 사실: Coinbase OCC 칼럼·ETH 청산·트래블룰 철회·Strategy 원가·바이낸스 준비금). 우리 글 새 댓글 0(X 멘션 0·링크드인 반응 1·페북 새 댓글 0), 링크드인 바깥은 CoinDesk 최근 글이 후원 리서치뿐이라 건너뜀, 페북 바깥 미탐색.
 - 11/09 10:3x (댓글이): 어젯밤 22:3x 답글 5개(원글 10~28분·최대 9.2만뷰 @saylor) 전부 1뷰 이하 — 1,000뷰 답글 여전히 0. 대형 원글·빠른 시점과 무관, 미인증 답글 강등 병목 그대로(세준 'X Premium' 결정 대기). 이번 회차 X 4개(원글 33~93분 뒤, 블루멘탈 서한·해킹 후속 주제), 우리 글 새 댓글 0, 링크드인·페북 바깥은 우리 사실과 맞는 새 글 없어 건너뜀.
 - 11/08 22:3x (댓글이): 오전 10:2x 답글 4개 전부 1뷰(BusinessTimes 원글은 641뷰까지 성장) — 1,000뷰 답글 여전히 0. 이번 회차 X 5개(원글 10~28분 뒤, 최대 9.2만뷰 @saylor). 링크드인은 24시간 안 새 매체 글이 우리 사실과 안 맞아 건너뜀, 페북 바깥 대상 미탐색, 우리 글 새 댓글 0(X 멘션 0·링크드인 반응 1). 병목은 여전히 미인증 답글 강등 — 세준 'X Premium' 결정 대기.
 - 11/08 10:3x: 11/04 Cointelegraph 답글 1뷰 확인 — 1,000뷰 답글 여전히 0. 이번 회차 X 4개(원글 12~51분 뒤)·페북 우리 글 댓글 답글 1개. 링크드인은 확인된 사실로 보탤 신규 글 없어 건너뜀, 페북 바깥 대상 없음.
@@ -39,10 +42,17 @@
 (11/03부터 행 형식: 시각 | 플랫폼 | 종류 | 대상 글 | 우리 댓글 URL | 요약 | 반응)
 | 시각(KST) | 플랫폼 | 종류 | 대상 계정·글 URL | 우리 댓글 요약 | 이후 반응 |
 |---|---|---|---|---|---|
-| 2026-11-09 10:33 | X | 바깥 | @wublockchain12 https://x.com/wublockchain12/status/2119580728417562877 (93분, 2.2천뷰, 중문 CZ '직원 보안절차 미준수') | https://x.com/chainbrief_hq/status/2119603339583442951 | (간체) 善后: Arkham 공격자 연관 지갑 ~18,385 BTC(토요일), HYPE·APT 출금 재개·나머지 보안 검토 중 | (다음 회차) |
-| 2026-11-09 10:32 | X | 바깥 | @CoinDesk https://x.com/CoinDesk/status/2119588316777505237 (62분, 1.4만뷰, '규제로 바이낸스 해킹 막을 수 있었나' tayvano) | https://x.com/chainbrief_hq/status/2119603148935618745 | 해킹 이후가 더 어려움: Elliptic — ~$175M 알트→~2,300 BTC(THORChain·코인조인), 16개 체인 2만+ 지갑 | (다음 회차) |
-| 2026-11-09 10:32 | X | 바깥 | @WuBlockchain https://x.com/WuBlockchain/status/2119594728371151301 (37분, 1만뷰, 블루멘탈 서한 바이낸스·테더·트럼프 일가) | https://x.com/chainbrief_hq/status/2119603041938936224 | 같은 주 재무부도: FinCEN 9714조 MEXC 미국 은행 송금 금지(혐의 $16B, 2021.5~2026.5), 동결 아님·관보 게재 30일 후 발효 | (다음 회차) |
-| 2026-11-09 10:31 | X | 바깥 | @WatcherGuru https://x.com/WatcherGuru/status/2119595540627280285 (33분, 12만뷰, 블루멘탈 1/4 기록 제출 시한) | https://x.com/chainbrief_hq/status/2119602899533898067 | 바이낸스엔 직전 시한도: 스페인·프랑스·폴란드 계정 12/31 종료(MiCA 미인가), 11/29부터 잔고 수수료 — 워싱턴·브뤼셀 동시 압박 | (다음 회차) |
+| 2026-11-09 22:38 | X | 바깥 | @laurashin https://x.com/laurashin/status/2119765702609694785 (1시간, 2천뷰, FinCEN·연준 트래블룰 재검토) | https://x.com/chainbrief_hq/status/2119786286374662540 | 실무 결론: 2020년 $3,000→$250 하향안 오늘 관보 게재로 철회, $3,000 유지, 의견 ~3천 건·GENIUS법 언급 | (다음 회차) |
+| 2026-11-09 22:36 | X | 바깥 | @AshCrypto https://x.com/AshCrypto/status/2119743550560825766 (2시간50분, 8만뷰, 코인베이스 연방 신탁은행 최종 승인) | https://x.com/chainbrief_hq/status/2119786087984087245 | 할 수 없는 것: 예금·대출 불가, 연준 마스터계좌 별도 — 실제 변화는 커스터디 감독 NYDFS→OCC, ~3년 이전 | (다음 회차) |
+| 2026-11-09 22:36 | X | 바깥 | @lookonchain https://x.com/lookonchain/status/2119771624471957635 (58분, 3.3만뷰, 고래 ETH 4,312개 $2,106 매수) | https://x.com/chainbrief_hq/status/2119785988818120839 | 급락 매수: ETH $2,100 하회(8월 이후 최저), 24h 청산 $1B+(롱 ~$913M, ETH ~$450M), ETH ETF 지난주 -$365M | (다음 회차) |
+| 2026-11-09 22:35 | X | 바깥 | @CoinDesk https://x.com/CoinDesk/status/2119774260721774634 (47분, 1.6만뷰, 블루멘탈 1/4 시한) | https://x.com/chainbrief_hq/status/2119785887227847151 | 해킹 여파 속 서한: CryptoQuant — 바이낸스 ETH 기반 스테이블 ~$41B→~$32B, BTC 준비금 ~5.6만 감소 ~67.37만 | (다음 회차) |
+| 2026-11-09 22:35 | X | 바깥 | @WatcherGuru https://x.com/WatcherGuru/status/2119776347266703413 (38분, 14만뷰, Strategy 1,037 BTC 매수) | https://x.com/chainbrief_hq/status/2119785786187059625 | 85만 BTC 돌파(11/1 849,327, 평단 ~$75,451), BTC ~$74.5K로 손익분기 근처, MSCI 11/11 명단 | (다음 회차) |
+| 2026-11-09 22:34 | X | 바깥 | @EleanorTerrett https://x.com/EleanorTerrett/status/2119780288280592469 (22분, 1.1만뷰, 토큰화 주식 거래소·코인베이스 OCC) | https://x.com/chainbrief_hq/status/2119785677344911502 | ICBA 10/2 소송은 OCC 3월 규칙·Protego 대상, 코인베이스·서클·리플 직접 아님 — 규칙 무효시 다음 차터 불확실 | (다음 회차) |
+| 2026-11-09 22:34 | X | 바깥 | @Cointelegraph https://x.com/Cointelegraph/status/2119784783139963388 (6분, 1.3만뷰, NYSE 토큰화 주식 아발란체 결제) | https://x.com/chainbrief_hq/status/2119785566405615806 | ICE의 OKX 합작 24/7 토큰화 주식 거래소는 10/30까지 50개 발행사 거부(엔비디아·코스트코·나이키) — NYSE는 발행사 승인 종목만? (질문) | (다음 회차) |
+| 2026-11-09 10:33 | X | 바깥 | @wublockchain12 https://x.com/wublockchain12/status/2119580728417562877 (93분, 2.2천뷰, 중문 CZ '직원 보안절차 미준수') | https://x.com/chainbrief_hq/status/2119603339583442951 | (간체) 善后: Arkham 공격자 연관 지갑 ~18,385 BTC(토요일), HYPE·APT 출금 재개·나머지 보안 검토 중 | 1뷰(11/09 22:3x 확인) |
+| 2026-11-09 10:32 | X | 바깥 | @CoinDesk https://x.com/CoinDesk/status/2119588316777505237 (62분, 1.4만뷰, '규제로 바이낸스 해킹 막을 수 있었나' tayvano) | https://x.com/chainbrief_hq/status/2119603148935618745 | 해킹 이후가 더 어려움: Elliptic — ~$175M 알트→~2,300 BTC(THORChain·코인조인), 16개 체인 2만+ 지갑 | 뷰 표시 안 됨(11/09 22:3x 확인) |
+| 2026-11-09 10:32 | X | 바깥 | @WuBlockchain https://x.com/WuBlockchain/status/2119594728371151301 (37분, 1만뷰, 블루멘탈 서한 바이낸스·테더·트럼프 일가) | https://x.com/chainbrief_hq/status/2119603041938936224 | 같은 주 재무부도: FinCEN 9714조 MEXC 미국 은행 송금 금지(혐의 $16B, 2021.5~2026.5), 동결 아님·관보 게재 30일 후 발효 | 1뷰(11/09 22:3x 확인) |
+| 2026-11-09 10:31 | X | 바깥 | @WatcherGuru https://x.com/WatcherGuru/status/2119595540627280285 (33분, 12만뷰, 블루멘탈 1/4 기록 제출 시한) | https://x.com/chainbrief_hq/status/2119602899533898067 | 바이낸스엔 직전 시한도: 스페인·프랑스·폴란드 계정 12/31 종료(MiCA 미인가), 11/29부터 잔고 수수료 — 워싱턴·브뤼셀 동시 압박 | 1뷰(11/09 22:3x 확인) |
 | 2026-11-08 22:33 | X | 바깥 | @AshCrypto https://x.com/AshCrypto/status/2119415335048925635 (25분, 3.3만뷰, 세일러 매수 힌트) | https://x.com/chainbrief_hq/status/2119422218811986374 | 금요일 BTC 장중 $74,722(75K 하회), 지난주 ETF 순매도의 ~94%가 IBIT(24/7 Wall St.) | 조회수 미표시(11/09 10:2x 확인) |
 | 2026-11-08 22:32 | X | 바깥 | @saylor https://x.com/saylor/status/2119414787134083540 (28분, 9.2만뷰, 'Connecting the dots') | https://x.com/chainbrief_hq/status/2119422063576547743 | 월요일 매수 공시가 나와도 월가 흐름은 반대: 현물 BTC ETF 지난주 -$1.28B, 연초 대비 -$914M(SoSoValue·Farside) | 1뷰(11/09 10:2x 확인) |
 | 2026-11-08 22:31 | X | 바깥 | @Web3Niels https://x.com/Web3Niels/status/2119416847774675101 (17분, 494뷰, 알트코인 약세) | https://x.com/chainbrief_hq/status/2119421833279893632 | ETF도 같은 흐름: SOL ETF 5주 연속 유출(~$26.3M), XRP 펀드 11/3~6 유입 0, ETH ETF 연초 대비 -$405.6M | 1뷰(11/09 10:2x 확인) |
