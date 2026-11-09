@@ -5,6 +5,11 @@ category: Markets
 author: Scott Park
 region: US
 summary: U.S. spot bitcoin funds lost $1.28 billion in the first week of November, their worst run since June, and are now net sellers for the year. BlackRock's IBIT accounted for most of the money that left.
+image: media/articles/2026-11-08-bitcoin-etfs-negative-for-2026-outflow-week.png
+image_alt: Bar chart of U.S. spot bitcoin ETF daily net flows Nov 2 to 6: Mon -$398.6M, Tue -$115.6M, Wed +$74.6M, Thu -$430.2M, Fri -$411.9M
+image_note: AI-made graphic (data from SoSoValue and Farside via The Block)
+video: media/videos/2026-11-08-bitcoin-etfs-negative-for-2026-outflow-week.mp4
+video_note: AI-made video · ChainBrief
 ---
 
 On Monday morning, U.S. spot bitcoin ETFs were still up about $368 million for 2026. By Friday's close they were down $914 million. Five trading days, one week after the midterm elections, erased every dollar the funds had gathered since January and then some.
