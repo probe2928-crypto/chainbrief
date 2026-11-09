@@ -16,6 +16,7 @@
 | X | @lookonchain | 온체인 분석(대형) | 10분에 1.8만뷰. 11/03 10분 뒤 답글(ETF 수치) |
 | X | @crypto_banter | 매체/방송(중형) | 11/03 1시간 뒤 답글 |
 | X | @BusinessTimes | 매체(싱가포르) | 11/08 12분 뒤 답글(원글 148뷰, 작음) |
+| X | @WatcherGuru | 속보 계정(대형) | 11/09 33분 뒤 답글(12만뷰, 블루멘탈 서한) |
 | X | @EleanorTerrett | 기자(규제) | 18분에 1만뷰 — 규제 사실 있을 때 후보 |
 | X | @saylor | 인물(초대형) | 11/08 28분 뒤 답글(9.2만뷰 'Connecting the dots') — 일요일 밤 힌트 글 정례 |
 | X | @AshCrypto | 속보 계정(대형) | 11/08 25분 뒤 답글(3.3만뷰, 세일러 힌트 인용) |
@@ -26,6 +27,7 @@
 | LinkedIn | CoinDesk | 매체 | 반응 적음(글당 1~5). 댓글 주체 'CHAINBRIEF' 전환은 아바타 ▾ → 선택 → 저장 |
 
 ## 배운 점
+- 11/09 10:3x (댓글이): 어젯밤 22:3x 답글 5개(원글 10~28분·최대 9.2만뷰 @saylor) 전부 1뷰 이하 — 1,000뷰 답글 여전히 0. 대형 원글·빠른 시점과 무관, 미인증 답글 강등 병목 그대로(세준 'X Premium' 결정 대기). 이번 회차 X 4개(원글 33~93분 뒤, 블루멘탈 서한·해킹 후속 주제), 우리 글 새 댓글 0, 링크드인·페북 바깥은 우리 사실과 맞는 새 글 없어 건너뜀.
 - 11/08 22:3x (댓글이): 오전 10:2x 답글 4개 전부 1뷰(BusinessTimes 원글은 641뷰까지 성장) — 1,000뷰 답글 여전히 0. 이번 회차 X 5개(원글 10~28분 뒤, 최대 9.2만뷰 @saylor). 링크드인은 24시간 안 새 매체 글이 우리 사실과 안 맞아 건너뜀, 페북 바깥 대상 미탐색, 우리 글 새 댓글 0(X 멘션 0·링크드인 반응 1). 병목은 여전히 미인증 답글 강등 — 세준 'X Premium' 결정 대기.
 - 11/08 10:3x: 11/04 Cointelegraph 답글 1뷰 확인 — 1,000뷰 답글 여전히 0. 이번 회차 X 4개(원글 12~51분 뒤)·페북 우리 글 댓글 답글 1개. 링크드인은 확인된 사실로 보탤 신규 글 없어 건너뜀, 페북 바깥 대상 없음.
 - 11/04 10:4x: 어젯밤 22:2x 답글 4개 0~5뷰(원글 10~60분·1만~91만뷰). 1,000뷰 답글 여전히 0 — 미인증 답글 강등 병목 재확인. 이번 회차 X 7개(6~69분 뒤)·링크드인 1개. 페북 바깥 댓글은 대상 미탐색으로 건너뜀.
@@ -37,11 +39,15 @@
 (11/03부터 행 형식: 시각 | 플랫폼 | 종류 | 대상 글 | 우리 댓글 URL | 요약 | 반응)
 | 시각(KST) | 플랫폼 | 종류 | 대상 계정·글 URL | 우리 댓글 요약 | 이후 반응 |
 |---|---|---|---|---|---|
-| 2026-11-08 22:33 | X | 바깥 | @AshCrypto https://x.com/AshCrypto/status/2119415335048925635 (25분, 3.3만뷰, 세일러 매수 힌트) | https://x.com/chainbrief_hq/status/2119422218811986374 | 금요일 BTC 장중 $74,722(75K 하회), 지난주 ETF 순매도의 ~94%가 IBIT(24/7 Wall St.) | (다음 회차) |
-| 2026-11-08 22:32 | X | 바깥 | @saylor https://x.com/saylor/status/2119414787134083540 (28분, 9.2만뷰, 'Connecting the dots') | https://x.com/chainbrief_hq/status/2119422063576547743 | 월요일 매수 공시가 나와도 월가 흐름은 반대: 현물 BTC ETF 지난주 -$1.28B, 연초 대비 -$914M(SoSoValue·Farside) | (다음 회차) |
-| 2026-11-08 22:31 | X | 바깥 | @Web3Niels https://x.com/Web3Niels/status/2119416847774675101 (17분, 494뷰, 알트코인 약세) | https://x.com/chainbrief_hq/status/2119421833279893632 | ETF도 같은 흐름: SOL ETF 5주 연속 유출(~$26.3M), XRP 펀드 11/3~6 유입 0, ETH ETF 연초 대비 -$405.6M | (다음 회차) |
-| 2026-11-08 22:31 | X | 바깥 | @blackchankripto https://x.com/blackchankripto/status/2119418573072597271 (10분, 600뷰, 'MEXC 연결 지갑 동결' 공포 글) | https://x.com/chainbrief_hq/status/2119421696814018842 | 사실 정리: FinCEN 9714조 명령은 미국 금융기관의 MEXC 송금 금지, 연방관보 게재 30일 후 발효, 자산 동결 아님, MEXC 정상 운영 | (다음 회차) |
-| 2026-11-08 22:30 | X | 바깥 | @BitbullTrading https://x.com/BitbullTrading/status/2119414328508207298 (27분, 3.8천뷰, 바이낸스 CFO 교체) | https://x.com/chainbrief_hq/status/2119421547123499444 | 해킹 진행: Elliptic — 공격자 SOL·XRP·TRX 등 ~$175M을 ~2,300 BTC로 교환(THORChain·코인조인), 16개 체인 2만+ 지갑 | (다음 회차) |
+| 2026-11-09 10:33 | X | 바깥 | @wublockchain12 https://x.com/wublockchain12/status/2119580728417562877 (93분, 2.2천뷰, 중문 CZ '직원 보안절차 미준수') | https://x.com/chainbrief_hq/status/2119603339583442951 | (간체) 善后: Arkham 공격자 연관 지갑 ~18,385 BTC(토요일), HYPE·APT 출금 재개·나머지 보안 검토 중 | (다음 회차) |
+| 2026-11-09 10:32 | X | 바깥 | @CoinDesk https://x.com/CoinDesk/status/2119588316777505237 (62분, 1.4만뷰, '규제로 바이낸스 해킹 막을 수 있었나' tayvano) | https://x.com/chainbrief_hq/status/2119603148935618745 | 해킹 이후가 더 어려움: Elliptic — ~$175M 알트→~2,300 BTC(THORChain·코인조인), 16개 체인 2만+ 지갑 | (다음 회차) |
+| 2026-11-09 10:32 | X | 바깥 | @WuBlockchain https://x.com/WuBlockchain/status/2119594728371151301 (37분, 1만뷰, 블루멘탈 서한 바이낸스·테더·트럼프 일가) | https://x.com/chainbrief_hq/status/2119603041938936224 | 같은 주 재무부도: FinCEN 9714조 MEXC 미국 은행 송금 금지(혐의 $16B, 2021.5~2026.5), 동결 아님·관보 게재 30일 후 발효 | (다음 회차) |
+| 2026-11-09 10:31 | X | 바깥 | @WatcherGuru https://x.com/WatcherGuru/status/2119595540627280285 (33분, 12만뷰, 블루멘탈 1/4 기록 제출 시한) | https://x.com/chainbrief_hq/status/2119602899533898067 | 바이낸스엔 직전 시한도: 스페인·프랑스·폴란드 계정 12/31 종료(MiCA 미인가), 11/29부터 잔고 수수료 — 워싱턴·브뤼셀 동시 압박 | (다음 회차) |
+| 2026-11-08 22:33 | X | 바깥 | @AshCrypto https://x.com/AshCrypto/status/2119415335048925635 (25분, 3.3만뷰, 세일러 매수 힌트) | https://x.com/chainbrief_hq/status/2119422218811986374 | 금요일 BTC 장중 $74,722(75K 하회), 지난주 ETF 순매도의 ~94%가 IBIT(24/7 Wall St.) | 조회수 미표시(11/09 10:2x 확인) |
+| 2026-11-08 22:32 | X | 바깥 | @saylor https://x.com/saylor/status/2119414787134083540 (28분, 9.2만뷰, 'Connecting the dots') | https://x.com/chainbrief_hq/status/2119422063576547743 | 월요일 매수 공시가 나와도 월가 흐름은 반대: 현물 BTC ETF 지난주 -$1.28B, 연초 대비 -$914M(SoSoValue·Farside) | 1뷰(11/09 10:2x 확인) |
+| 2026-11-08 22:31 | X | 바깥 | @Web3Niels https://x.com/Web3Niels/status/2119416847774675101 (17분, 494뷰, 알트코인 약세) | https://x.com/chainbrief_hq/status/2119421833279893632 | ETF도 같은 흐름: SOL ETF 5주 연속 유출(~$26.3M), XRP 펀드 11/3~6 유입 0, ETH ETF 연초 대비 -$405.6M | 1뷰(11/09 10:2x 확인) |
+| 2026-11-08 22:31 | X | 바깥 | @blackchankripto https://x.com/blackchankripto/status/2119418573072597271 (10분, 600뷰, 'MEXC 연결 지갑 동결' 공포 글) | https://x.com/chainbrief_hq/status/2119421696814018842 | 사실 정리: FinCEN 9714조 명령은 미국 금융기관의 MEXC 송금 금지, 연방관보 게재 30일 후 발효, 자산 동결 아님, MEXC 정상 운영 | 1뷰(11/09 10:2x 확인) |
+| 2026-11-08 22:30 | X | 바깥 | @BitbullTrading https://x.com/BitbullTrading/status/2119414328508207298 (27분, 3.8천뷰, 바이낸스 CFO 교체) | https://x.com/chainbrief_hq/status/2119421547123499444 | 해킹 진행: Elliptic — 공격자 SOL·XRP·TRX 등 ~$175M을 ~2,300 BTC로 교환(THORChain·코인조인), 16개 체인 2만+ 지갑 | 1뷰(11/09 10:2x 확인) |
 | 2026-11-08 10:35 | Facebook | 답글 | 우리 글 '이탈리아 출국세'(11/03) · Dane Carlson 댓글(외국인은 해당 없음) | (페이지 이름으로 답글, URL 미수집) | 6/10년 거주·€800K 요건이라 많은 외국인 제외, 12월 말 표결 전 17조 수정 가능 | (다음 회차) |
 | 2026-11-08 10:27 | X | 바깥 | @BusinessTimes https://x.com/BusinessTimes/status/2119237267399000467 (12분, 148뷰, 바이낸스 CFO 교체) | https://x.com/chainbrief_hq/status/2119240458845208918 | 해킹 현황: 7차 업데이트 ~98% 자체자금 보충·남은 2% 시장/OTC 매수, 티앙 동결·차단 ~$2.85B | 1뷰(11/08 22:2x 확인) |
 | 2026-11-08 10:27 | X | 바깥 | @wublockchain12 https://x.com/wublockchain12/status/2119227429944435117 (51분, 1천뷰, 블룸버그 '민주당 장악·크립토 정책') | https://x.com/chainbrief_hq/status/2119240313936265317 | 기관 트랙: CFTC 자발 등록안 12월 중순 의견 마감, SEC 토큰 발행 규칙 10/20 마감 — 의회 없이 진행되나 뒤집힐 수 있음 | 1뷰(11/08 22:2x 확인) |
