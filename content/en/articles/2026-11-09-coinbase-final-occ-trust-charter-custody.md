@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The Office of the Comptroller of the Currency has given final approval to Coinbase National Trust Company, putting the largest U.S. exchange's custody arm under a federal bank regulator. It will not take deposits or make loans, and community banks are still in court trying to stop charters like it.
+image: media/articles/2026-11-09-coinbase-final-occ-trust-charter-custody.png
+image_alt: Timeline of Coinbase National Trust Company: applied Oct 2025, conditional approval Apr 2, charter process final Nov 6, announced Nov 9; what the charter covers and the ICBA lawsuit filed Oct 2
+image_note: AI-made graphic (ChainBrief summary of reporting)
 ---
 
 For eight years, the bitcoin that Wall Street firms parked with Coinbase sat in a trust company supervised by New York State. On Monday, Coinbase said that arrangement is moving to Washington. The Office of the Comptroller of the Currency, the Treasury bureau that charters national banks, has signed off on Coinbase National Trust Company, the last step in a process that began with an application in October 2025.
