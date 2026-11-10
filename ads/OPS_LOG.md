@@ -1,5 +1,10 @@
 # 운영 점검 기록 (최신이 위)
 
+## 2026-11-11 새벽 점검
+- Actions 6곳 24시간 미해결 실패 0. chainbrief deploy-pages 일시 실패 3건·qurator 1건은 이후 성공으로 자체 복구, 고침 0. 마지막 빌드 성공 03:10 KST.
+- 속보 신선도(저장소 기준): KO 01:35 KST, EN/ZH 21:4x KST — 12시간 이내. 예약 작업 FAILED 0, device_absent 0.
+- 라이브 사이트는 프록시 차단으로 확인 못 함. firstbrick Actions 403, lifejunjun·yeobaek 권한 없음 미확인.
+
 ## 2026-11-10 새벽 점검
 - Actions 저장소 6곳 24시간 미해결 실패 0. chainbrief 11-09 16:55Z 배포 실패 1건은 17:50Z 성공으로 자체 복구, 고침 0.
 - 라이브 사이트는 이 환경 fetch 차단으로 확인 못 함. firstbrick Actions 403, lifejunjun·yeobaek 권한 없음 미확인.
