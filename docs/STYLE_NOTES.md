@@ -7,12 +7,37 @@
 ## 이번 주 적용할 것
 1. **리드는 '기관이 ~하기로 했다'로 열지 않는다.** 독자에게 닿는 결과·숫자·사람으로 연다. (예: "FATF가 집중 분석하기로 했다" → "한국 거래소들이 2022년부터 해 온 트래블룰이 처음으로 국제 시험대에 오른다")
 2. **소제목·문단 첫머리는 그 기사만의 질문·숫자·주체로.** "무슨 일이 있었나/논점/시사점", "What happened/The debate", "发生了什么/争议焦点/影响与展望"는 0개. 주장+숫자 조합(예: "## 2027년 6월까지 남은 숙제")이나 독자가 실제로 물을 질문(예: "票据试了多少？金管局没说")이 잘 읽힌다 — 질문형이면 그 아래 첫 문장에서 바로 답한다. 문단을 "첫째/第一件是/第二份作业是/First" 번호로 열지 말고 시간·주체로 연다(예: "第二件是代币化基金" → "三天后轮到代币化基金").
-3. **큰 숫자는 독자 단위로 한 번 더.** 달러는 원화로(63억달러 → 약 9조원), bp는 %포인트로, 비율은 "열 곳 중 여덟 곳"처럼. 과거 사례 하나를 옆에 세워 크기를 가늠하게 한다(예: 바이비트 15억달러). 변하는 숫자는 진행형으로 보여 준다(80% → 90% → 95%).
+3. **큰 숫자는 독자 단위로 한 번 더.** 달러는 원화로(63억달러 → 약 9조원), bp는 %포인트로, 비율은 "열 곳 중 여덟 곳"처럼. 과거 사례 하나를 옆에 세워 크기를 가늠하게 한다(예: 바이비트 15억달러). 변하는 숫자는 진행형으로 보여 준다(80% → 90% → 95%). 숫자는 예상치·직전 값과 한 문장에 나란히 세우고, 합계는 구성 요소(매수 청산 vs 매도 청산, 펀드별 몫)로 쪼갠다. (CoinDesk 11/10·The Block 11/9·Decrypt 11/6 기사에서 배움 — 기법만)
 4. **확신도를 문장에 드러낸다.** 공식 발표(FBI·FIU)와 민간 분석(체이널리시스·TRM)을 구분해 쓰고, 추정치는 범위로. 출처마다 숫자가 다르면 하나만 고르지 말고 나란히 적어 차이를 인정한다. 출처 없는 "~하는 시각이 있다/业内人士认为"는 쓰지 않는다. 독자가 헷갈릴 숫자는 "혼동하지 말라"고 훈계하지 말고 각 숫자가 무엇을 가리키는지만 쓴다.
-5. **끝 문단은 다음 날짜·숫자로, 또는 독자가 오해하기 쉬운 지점을 짚는 한 문장으로.** 체크리스트 나열("Things to watch:")이나 교훈으로 끝내지 않는다.
-6. **긴 문단 뒤에 한 줄짜리 문장·문단으로 요점을 착지시킨다.** 숫자·출처가 몰린 문단 다음에 "그래서 이번 주 바뀌는 것은 없다" 같은 짧은 문장을 두면 호흡이 생긴다. (Cointelegraph 11/4 기사의 단문단 리듬에서 배움 — 문장은 옮기지 않고 기법만)
+5. **끝은 다음 날짜·숫자, 오해하기 쉬운 지점, 또는 '이 숫자가 재지 못하는 것' 한 문장으로. 긴 문단 뒤엔 한 줄짜리 문장으로 착지한다.** 체크리스트 나열("Things to watch:")이나 교훈으로 끝내지 않는다. 숫자·출처가 몰린 문단 다음에 "그래서 이번 주 바뀌는 것은 없다" 같은 짧은 문장을 두면 호흡이 생긴다. 분석가 인용을 마지막 줄로 넘길 땐 누구의 전망인지 밝히고 조건을 붙인다. (Decrypt의 데이터 한계 문단·The Block의 조건부 전망 마무리에서 배움)
 
 ## 날짜별 기록
+
+### 2026-11-10 재실행 (영어 — 화요일 회차)
+
+**읽은 기사: 3편** (이번엔 WebFetch가 열렸다. 기법만 요약, 원문 문장 옮기지 않음. 지시한 48시간 기준에서 Decrypt는 11/6 기사라 범위 밖이지만 3편 중 설명 기법이 가장 좋아 읽은 그대로 적는다)
+1. CoinDesk · Omkar Godbole · "Bitcoin faces U.S. CPI test as analysts warn inflation relief may not be enough" (11/9 밤 ET, URL 11/10) · https://www.coindesk.com/markets/2026/11/10/bitcoin-faces-u-s-cpi-test-as-analysts-warn-inflation-relief-may-not-be-enough
+   - 배운 기법: 리드 한 문장에 가격과 예정된 이벤트를 같이 넣고 둘째 문장에 걸린 것(연말 순풍이냐 매도냐)을 둔다. 지표는 예상치·직전 달 값과 한 문장에서 비교하고, 용어는 괄호나 동격 절로 한 번만 풀어 준다. 끝은 결론 없이 앞으로의 지표 발표 일정.
+2. The Block · James Hunt · "Bitcoin loses 50-week moving average as 24-hour crypto long liquidations top $1 billion" (11/9) · https://www.theblock.co/news/markets/2026-11-09-bitcoin-loses-50-week-moving-average-as-24-hour-crypto-long-liquidations-top-1-billion-436102
+   - 배운 기법: 기술 지표를 정의하지 않고 그 선을 과거에 넘은 이력으로 설명한다. 청산 합계를 매수·매도, 코인별로 쪼개고 "데이터가 불완전하다"는 단서를 숫자 바로 옆에 붙인다. 끝은 조건부 분석가 견해(확정적 전망 아님).
+3. Decrypt · Jose Antonio Lanz · "Bitcoin ETFs Bleed $430 Million as Tech Rout Tests Wall Street Buyers" (11/6) · https://decrypt.co/382733/bitcoin-etfs-bleed-430-million-tech-rout-tests-wall-street
+   - 배운 기법: 펀드 이름과 몫(두 곳이 약 71%)을 같이 보여 주고, ETF 구조를 평이한 말로 풀어 준다. 문단은 1~2문장. 마지막 문단은 순유출입 데이터가 무엇을 재고 무엇을 못 재는지 한계로 끝낸다.
+
+**우리 기사 점수 (지난 24시간 영어, 10점 만점)**
+
+| 기사 | 자연스러움 | 구체성 | 리드 | 소제목 | 상투어(개수) | 종합 |
+|---|---|---|---|---|---|---|
+| EN 11-10 NYSE·Avalanche 토큰화 주식 결제 | 7 | 9 | 8 | 8 | 0 (em dash 0) | **8.0** |
+| EN 11-09 Coinbase OCC 신탁은행 최종 승인 | 8 | 9 | 8 | 7 | 0 (em dash 0) | **8.0** |
+
+평균 8.0점(11/10 오전 회차 8.3점 대비 -0.3). 약점: NYSE 기사는 "A year of tests…" 문단에 파트너사·수치·출처가 한 덩어리로 몰려 읽는 속도가 느려진다. 소제목 "A year of tests, then a quiet confirmation"은 괜찮지만 그 아래 첫 문장이 일정 나열로 시작한다.
+
+**연습 (파일은 고치지 않음, 7점 미만 기사 없음)**
+- 문단 전: "The pieces around the ledger were filled in over the summer and autumn. In August, ICE signed up tZERO as a design partner, a deal that crypto.news says also covered patent licensing and an investment. Securitize was already on board. The week before Monday's news, the venue added Broadridge, Computershare, Equiniti and Superstate to handle issuer-sponsored tokenized shares and transfer-agent work."
+- 후: "Around the ledger, the pieces arrived one at a time. tZERO joined as a design partner in August, in a deal that crypto.news says also covered patent licensing and an investment. Securitize was already in. Last week came Broadridge, Computershare, Equiniti and Superstate, who will handle transfer-agent work. A transfer agent keeps a company's official shareholder register, which is what has to move when a share becomes a token." (Decrypt식 짧은 문장+기능 설명 한 줄. 사실·출처 그대로)
+- 소제목 전: A year of tests, then a quiet confirmation → 후: NYSE tested Avalanche for a year before saying so (누가 무엇을 했는지가 들어간 주장형. 본문 사실 그대로)
+
+**다듬은 파일**: 없음 (7점 미만 기사 없음)
 
 ### 2026-11-10 (영어 — 화요일 회차, KST 기준)
 
