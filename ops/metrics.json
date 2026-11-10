@@ -2017,6 +2017,254 @@
     },
     "credits_before": 318
    }
+  },
+  {
+   "date": "2026-11-09",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-10 09:00 KST 수집)",
+   "total": {
+    "users_all_property": 71,
+    "sessions": 71,
+    "views": 76,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 33,
+     "sessions": 33,
+     "views": 33,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "split": {
+      "en": {
+       "users": 13,
+       "sessions": 13,
+       "views": 13
+      },
+      "zh": {
+       "users": 5,
+       "sessions": 5,
+       "views": 5
+      },
+      "ko_other": {
+       "users": 15,
+       "sessions": 15,
+       "views": 15,
+       "note": "/en/·/zh/ 외 경로 합(한국어·루트·flash 등)"
+      }
+     },
+     "note": "호스트 chainbrief.app 전체(경로 접두 없음). 사이트별 사용자·세션은 페이지 행 합산이라 근사"
+    },
+    "perpline": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "perpline.tech 1행(11/9 GA 복구 후 첫 집계) · github.io/perpline 경로는 0"
+    },
+    "luft": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 5,
+     "sessions": 5,
+     "views": 5,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 14,
+     "sessions": 14,
+     "views": 14,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 8,
+     "sessions": 8,
+     "views": 8,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 12,
+     "sessions": 12,
+     "views": 13,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    }
+   },
+   "gsc_note": "11-09 8개 사이트 클릭·노출 0(집계 지연 가능). 11-08은 oriel 클릭 1·노출 2(평균 4위)로 소급 반영됨 — 이전 기록의 0은 지연 집계. 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "chainbrief": {
+      "followers": null,
+      "reach": 4,
+      "impressions": 4,
+      "engagement": 0
+     },
+     "lifejunjun": {
+      "followers": null,
+      "reach": 18,
+      "impressions": 21,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": null,
+      "reach": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "followers 필드가 이번 조회 필드 목록에 없어 미확인. reach=page_total_media_view_unique, impressions=page_media_view, engagement=page_post_engagements"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 180,
+      "reach": 137,
+      "impressions": null,
+      "impressions_note": "profile_views 값이 null로 와서 미확인"
+     }
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 4,
+      "impressions": 1,
+      "engagement": 0
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "부분 확인",
+     "followers": 3,
+     "following": 14,
+     "post_views": "11/9 글 1~2뷰(08:50 1·17:50 칼럼 2·21:53 1)",
+     "note": "보드 social에 metrics_<날짜> 문서 없음 — playbook·posts_20261109~10 기록값만 사용"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-08",
+    "users_total": 129,
+    "chainbrief": 108,
+    "luft": 7,
+    "qurator": 3,
+    "perpline": 0,
+    "fb_3pages_reach": 0,
+    "ig_reach": 28,
+    "li_chainbrief_impr": 15
+   },
+   "delta_vs_prev": {
+    "users_total": -58,
+    "by_site_users": {
+     "chainbrief": -75,
+     "perpline": 1,
+     "luft": -6,
+     "qurator": -2,
+     "lifejunjun": -6,
+     "yeobaek": 10,
+     "blockkey": 6,
+     "oriel": 12
+    },
+    "note": "전체 129→71. 체인브리프 108→33은 11-08 싱가포르 direct 100세션(봇 의심)이 46세션으로 줄어든 영향이 큼. 매출 3사업은 절대값 작음(LUFT 7→1·QURATOR 3→1·Perpline 0→1; 11-08 Perpline 0은 GA 꺼짐 구간). 11-08 사이트별 값이 호스트 기준이라 사이트 간 비교는 근사"
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/ (9명)",
+      "/en/ (2명)",
+      "/community/ (1명)"
+     ],
+     "oriel": [
+      "/oriel/ (3명)",
+      "/oriel/get-involved/ (1명·2뷰)",
+      "/oriel/transparency/ (1명)"
+     ],
+     "yeobaek": [
+      "/yeobaek/run.html?id=… 12개 각 1명",
+      "/yeobaek/ (1명)"
+     ],
+     "blockkey": [
+      "/blockkey/ 하위 8개 각 1명"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/ 하위 5개 각 1명"
+     ],
+     "perpline": [
+      "perpline.tech/ (1명)"
+     ],
+     "luft": [
+      "/luft/ (1명)"
+     ],
+     "qurator": [
+      "/qurator/ (1명)"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "Singapore",
+      46
+     ],
+     [
+      "United States",
+      17
+     ],
+     [
+      "South Korea",
+      4
+     ],
+     [
+      "Sweden",
+      2
+     ],
+     [
+      "Canada",
+      1
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      61
+     ],
+     [
+      "facebook.com / referral",
+      4
+     ],
+     [
+      "m.facebook.com / referral",
+      4
+     ],
+     [
+      "google / organic",
+      1
+     ],
+     [
+      "l.instagram.com / referral",
+      1
+     ]
+    ],
+    "note": "국가·소스는 속성 전체 기준. 싱가포르 46세션 중 direct 61세션 규모 — 봇·크롤러 의심 패턴 지속, 실사용자 과대 가능. 11-08 국가 Singapore 100·US 19·KR 13"
+   }
   }
  ]
 }
