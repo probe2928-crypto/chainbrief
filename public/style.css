@@ -1379,5 +1379,14 @@ html:is([lang="ko"],[lang="zh-Hans"]) .cal-dd.soon{font-family:var(--f-sans)}
 @media (max-width:959px){
   .tg-float.tg-join{width:auto;height:44px;padding:0 16px 0 14px;gap:8px;border-radius:22px}
   .tg-float.tg-join span{display:inline;font-size:12px}
+  .tg-float.tg-join span.cjk{font-size:13px;letter-spacing:0}
   .tg-float.tg-join svg{width:16px;height:16px}
 }
+/* 속보 항목별 공유 — 메타 줄 끝, 헤어라인 밑줄 텍스트 버튼. PC는 항목에 올렸을 때만 진하게 */
+.sh-b{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:4px 0 3px;background:none;border:0;border-bottom:1px solid transparent;color:var(--mute);font-family:var(--f-sans);font-size:13px;letter-spacing:0;line-height:1.2;cursor:pointer;transition:color .2s,border-color .2s,opacity .2s}
+.sh-b svg{width:11px;height:11px;flex:none;transform:translateY(-1px)}
+.sh-b:hover,.sh-b.done{color:var(--ink);border-bottom-color:var(--line)}
+.sh-b:focus-visible{outline:2px solid var(--ink);outline-offset:3px;opacity:1}
+@media (hover:hover) and (pointer:fine){#feed .item .sh-b{opacity:0}#feed .item:hover .sh-b,#feed .item:focus-within .sh-b,#feed .sh-b.done{opacity:1}}
+@media (max-width:640px){#feed .sh-b+.more-b{margin-left:18px}}
+@media (prefers-reduced-motion:reduce){.sh-b{transition:none}}

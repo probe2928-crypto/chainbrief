@@ -4,7 +4,7 @@
   const T = Object.assign({
     locale: "ko-KR", tz: "Asia/Seoul", now: "방금", min: "분 전", hr: "시간 전", day: "일 전", yday: "어제 ",
     newN: "새 속보 {n}건 보기", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
-    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", expand: "펼쳐 읽기", collapse: "접기", view: "보기", vFull: "요약까지", vTitle: "제목만",
+    priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", share: "공유", shareL: "이 속보 공유하기", expand: "펼쳐 읽기", collapse: "접기", view: "보기", vFull: "요약까지", vTitle: "제목만",
     fng: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
   }, CB.t || {});
   const $ = (s, el = document) => el.querySelector(s);
@@ -173,6 +173,29 @@
       $$(".day", feed).forEach((d) => { let n = d.nextElementSibling, any = false; while (n && !n.classList.contains("day")) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
       const nm = $("#noMatch"); if (nm) nm.hidden = shown > 0 || !$(".item", feed);
     };
+    // 속보 한 건씩 공유: 폰은 기기 공유 시트, PC는 '제목 + 링크' 복사 (코인니스 피드의 항목별 공유에서 착안)
+    $$(".item", feed).forEach((it) => {
+      const a = $("h3 a", it), m = $(".meta", it);
+      if (!a || !m || $(".sh-b", it)) return;
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "sh-b"; btn.setAttribute("aria-label", T.shareL);
+      btn.innerHTML = `<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 8V1.5M3.2 4.2 6 1.4l2.8 2.8M2 6.5v4h8v-4" fill="none" stroke="currentColor" stroke-width="1"/></svg><span>${esc(T.share)}</span>`;
+      btn.addEventListener("click", async () => {
+        const title = a.textContent.trim(), url = a.href;
+        if (navigator.share && matchMedia("(pointer:coarse)").matches) { try { await navigator.share({ title, url }); } catch {} return; }
+        const sp = $("span", btn), label = sp.textContent;
+        const text = title + "\n" + url;
+        let ok = false;
+        try { await navigator.clipboard.writeText(text); ok = true; } catch {
+          const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0;top:0";
+          document.body.append(ta); ta.select(); try { ok = document.execCommand("copy"); } catch {} ta.remove();
+        }
+        if (!ok) { location.href = url; return; }
+        sp.textContent = T.copied;
+        btn.classList.add("done"); setTimeout(() => { sp.textContent = label; btn.classList.remove("done"); }, 1800);
+      });
+      m.append(btn);
+    });
     // 모바일: 속보 본문은 3줄로 접고 '펼쳐 읽기' — 넘치는 항목에만 버튼을 붙인다
     const narrow = matchMedia("(max-width:640px)");
     const clamp = () => {
