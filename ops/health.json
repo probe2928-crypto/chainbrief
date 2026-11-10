@@ -1,20 +1,24 @@
 {
- "at": "2026-11-10T03:25:00+09:00",
+ "at": "2026-11-11T03:40:00+09:00",
  "repos": [
   {
-   "repo": "blockkey",
+   "repo": "chainbrief",
+   "lastRun": "성공 (빌드 및 배포 최근 성공 11/11 03:10 KST)",
+   "failures": [
+    "빌드 및 배포 3건(deploy-pages 단계, 11/10 03:26·07:27·11/10 03:26 KST 전후) — 이후 계속 성공해 해결됨"
+   ],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
    "lastRun": "성공",
-   "failures": [],
+   "failures": [
+    "pages build and deployment 1건(11/10 04:50 KST) — 이후 성공으로 해결"
+   ],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "성공",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "oriel",
    "lastRun": "성공",
    "failures": [],
    "fixed": []
@@ -26,81 +30,48 @@
    "fixed": []
   },
   {
-   "repo": "qurator",
+   "repo": "oriel",
    "lastRun": "성공",
    "failures": [],
    "fixed": []
   },
   {
-   "repo": "chainbrief",
-   "lastRun": "성공 2026-11-09T17:50:39Z",
-   "failures": [
-    "빌드 및 배포 deploy-pages 실패 2026-11-09T16:55Z (run 42659646153)"
-   ],
-   "fixed": [
-    "다음 실행 성공으로 자체 복구, 재실행 불필요"
-   ]
+   "repo": "blockkey",
+   "lastRun": "성공",
+   "failures": [],
+   "fixed": []
   },
   {
    "repo": "firstbrick",
-   "lastRun": "미확인(403)",
+   "lastRun": "미확인(API 접근 거부)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "lifejunjun",
-   "lastRun": "미확인(저장소 권한 없음)",
+   "lastRun": "미확인(이 세션 접근 권한 없음)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "yeobaek",
-   "lastRun": "미확인(저장소 권한 없음)",
+   "lastRun": "미확인(이 세션 접근 권한 없음)",
    "failures": [],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "chainbrief",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+   "url": "chainbrief 피드(저장소 기준)",
+   "ok": true,
+   "note": "KO 속보 11/11 01:35 KST, EN/ZH 11/10 21:4x KST — 12시간 이내"
   },
   {
-   "url": "perpline",
+   "url": "github.io 및 커스텀 도메인 전체",
    "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "luft",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "qurator",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "oriel",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "blockkey",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "yeobaek",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
-  },
-  {
-   "url": "lifejunjun.com",
-   "ok": null,
-   "note": "확인 불가: 프록시 CONNECT 403, WebFetch 차단"
+   "note": "이 세션 egress 프록시가 차단(connect_rejected) — 라이브 200 확인 불가, 미확인"
   }
  ],
- "failedTasks": []
+ "failedTasks": [],
+ "notes": "예약 작업 enabled 전체 확인: FAILED 0건, ABANDONED 1건(금고지기 11/09 월 회차). device_absent 0건"
 }
