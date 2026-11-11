@@ -1,19 +1,11 @@
 {
- "at": "2026-11-11T03:40:00+09:00",
+ "at": "2026-11-12T03:40:00+09:00",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "성공 (빌드 및 배포 최근 성공 11/11 03:10 KST)",
+   "lastRun": "성공 (11/12 02:27 KST 부근)",
    "failures": [
-    "빌드 및 배포 3건(deploy-pages 단계, 11/10 03:26·07:27·11/10 03:26 KST 전후) — 이후 계속 성공해 해결됨"
-   ],
-   "fixed": []
-  },
-  {
-   "repo": "qurator",
-   "lastRun": "성공",
-   "failures": [
-    "pages build and deployment 1건(11/10 04:50 KST) — 이후 성공으로 해결"
+    "빌드 및 배포 1건(11/12 01:34 KST) — 이후 성공으로 해결"
    ],
    "fixed": []
   },
@@ -25,6 +17,12 @@
   },
   {
    "repo": "luft",
+   "lastRun": "성공",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
    "lastRun": "성공",
    "failures": [],
    "fixed": []
@@ -43,35 +41,29 @@
   },
   {
    "repo": "firstbrick",
-   "lastRun": "미확인(API 접근 거부)",
+   "lastRun": "미확인(저장소 경로 오류)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "lifejunjun",
-   "lastRun": "미확인(이 세션 접근 권한 없음)",
+   "lastRun": "미확인(접근 권한 없음)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "yeobaek",
-   "lastRun": "미확인(이 세션 접근 권한 없음)",
+   "lastRun": "미확인(접근 권한 없음)",
    "failures": [],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "chainbrief 피드(저장소 기준)",
-   "ok": true,
-   "note": "KO 속보 11/11 01:35 KST, EN/ZH 11/10 21:4x KST — 12시간 이내"
-  },
-  {
-   "url": "github.io 및 커스텀 도메인 전체",
+   "url": "전체 사이트",
    "ok": null,
-   "note": "이 세션 egress 프록시가 차단(connect_rejected) — 라이브 200 확인 불가, 미확인"
+   "note": "프록시 차단으로 라이브 점검 미확인"
   }
  ],
- "failedTasks": [],
- "notes": "예약 작업 enabled 전체 확인: FAILED 0건, ABANDONED 1건(금고지기 11/09 월 회차). device_absent 0건"
+ "failedTasks": []
 }
