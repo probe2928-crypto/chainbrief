@@ -11,3 +11,5 @@
 | 2026-11-02 | Asian Hope (info@asianhope.org) | 캄보디아 | — (11/02 미팅 요청 메일) | 발송 · 11/09 리마인더 |
 | 2026-11-02 | 글로벌케어 (gcare@globalcare.or.kr) | 한국 | — (11/02 미팅 요청 메일) | 발송 · 11/09 리마인더 |
 | 2026-11-09 | Room to Read 아시아태평양(홍콩) (asia.pacific@roomtoread.org) | 홍콩·아시아 | https://www.roomtoread.org/connect/ · https://www.roomtoread.org/regional-offices/hong-kong/ | 초안(발송 대기) — 자동 발송이 권한 분류기에 막힘, Gmail 임시보관함에 저장 |
+| 2026-11-11 | Pencils of Promise 라오스 (laos@pencilsofpromise.org) | 라오스 | https://pencilsofpromise.org/contact/ | 초안(발송 대기) — 자동 발송 권한 분류기 차단(11/09와 동일), Gmail 임시보관함 저장 · 제안: 학교 지원 파일럿(등록 후) |
+| 2026-11-11 | Sipar (sipar.france@sipar.org) | 캄보디아(프랑스 사무소) | https://sipar.org/en/association-cambodge-sipar/nous-soutenir/partenaire-sipar-mecenat/ | 초안(발송 대기) — 자동 발송 차단, Gmail 임시보관함 저장 · 제안: 현장 프로그램 소개 기사 · 같은 페이지 개인 주소(emmylou.drys@)는 사용 안 함 |
