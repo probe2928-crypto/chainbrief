@@ -1,5 +1,10 @@
 # 새 수익 아이디어 (전략기획 · 최신이 위 · 같은 아이디어 반복 금지)
 
+## 2026-11-11 전략기획
+1. **[1위] 칠순·팔순 '가족 연대기 미니 전시' (전시 기획+역사)** — 잔치 현장에 세울 패널 6~8장+연표, 시대 맥락 한 줄씩. 근거: 크몽 부모님 자서전·회고록 제작 상품 다수(https://kmong.com/gig/560812, https://kmong.com/gig/774882, https://kmong.com/gig/808147), '부모님 인생 뮤직비디오' 상품(https://kmong.com/gig/836824) — 상품 존재 확인 수준, 가격·판매량 미확인. 위험: 인쇄 실비·개인정보(가족 사진) 동의. 2주 검증: 지인 5~10명에게 시안 → 유료 의향 2명 또는 일정 문의 1건. 첫걸음(완료): qurator idea/family-chronicle 26a996af — 가상 가족 4장면 시안·가격 가설.
+2. **크립토 기업 컨퍼런스 부스·사이드이벤트 전시 기획 대행 (거래소 7년+전시 기획)** — 근거: KBW 2026 9/29~10/1 서울, 업비트 메인 스폰서(https://thedefiant.io/news/press-releases/kbw-2026-returns-to-seoul-september-29-october-1-upbit-joins-as-main-sponsor), 스폰서 목록(https://koreablockchainweek.com/sponsors), KBW 기간 사이드이벤트(https://luma.com/dblx9nwo) — 제목 확인 수준. 위험: 다음 KBW까지 10개월, 체인브리프 한국 홍보와 분리, 투자 권유 없음. 2주 검증: 지인 거래소·프로젝트 마케팅 담당 3명 30분 통화 → 유료 의향 1건.
+3. **식당·카페 '이야기 있는 그림' 렌탈 큐레이션 (미술+요식업)** — 근거: 오픈갤러리 그림 렌탈 앱(https://apps.apple.com/kr/app/%EC%98%A4%ED%94%88%EA%B0%A4%EB%9F%AC%EB%A6%AC-no-1-%EA%B7%B8%EB%A6%BC%EB%A0%8C%ED%83%88/id1279173559), 그림대여 서비스 보도(https://biz.sbs.co.kr/amp/article/10000843632) — 요금 미확인. 차별점: 작품 옆 QR 해설(QURATOR). 위험: 작품 확보·보험. 2주 검증: 이야기 메뉴 QR 지인 식당 5곳에 함께 물어보기(추가 비용 0).
+
 ## 2026-11-09 전략기획
 1. **[1위] 식당 '이야기 메뉴' QR (요식업+역사)** — 번역이 아니라 음식의 이야기·고증·먹는 법을 QR 한 장으로. 근거: 종로구 청계 관광특구 식당 60곳 다국어 QR 메뉴 번역 도입(https://www.asiae.co.kr/en/article/2024110809060065215), 종로 전통시장 QR 메뉴(https://www.twig24.com/news/2025/12/31/20251231500119), 크몽 '다국어 QR 메뉴 페이지 제작' 상품(https://kmong.com/gig/834103, 가격 미확인), 경쟁 Flitto Place. 위험: 번역은 지자체 무료 → '이야기'에 돈을 낼지가 핵심 가설. 2주 검증: 지인 식당 5곳에 샘플 → 유료 의향 2곳 또는 가격 문의 1건. 첫걸음(완료): qurator idea/story-menu b5b49e71 — 샘플 3장(설렁탕·신선로·빈대떡, '전해지는 이야기' 표기)·가격 가정.
 2. **개인전 준비 키트(작가·소규모 갤러리용 체크리스트·예산표·설치 일정)** — 강점: 전시 기획. 근거: Gumroad 'Artist Gallery Planner' $5 판매(https://diyartcareer.gumroad.com/l/VoUD, 상품명·가격만 확인). 매출 작음 → 단독 상품보다 QURATOR 갤러리 영업 자료로. 2주 검증: 갤러리 리드 5곳 중 사용 의사 3곳.
