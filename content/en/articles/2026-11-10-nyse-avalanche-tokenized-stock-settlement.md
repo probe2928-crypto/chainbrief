@@ -5,6 +5,9 @@ category: Industry
 author: Scott Park
 region: US
 summary: Ava Labs says Avalanche will be the ledger behind the clearing firm for the NYSE-affiliated tokenized securities venue, after about a year of testing. The venue still needs regulatory approval, and the clearing firm itself has not been named.
+image: media/articles/2026-11-10-nyse-avalanche-tokenized-stock-settlement.png
+image_alt: Flow of the planned NYSE tokenized venue: broker-dealers, NYSE Pillar matching engine, Avalanche ledger for clearing and settlement (clearing firm not named), stablecoins and tokenized deposits; timeline Jan 19 venue unveiled, March SEC Nasdaq pilot, Sep 17 SEC innovation exemption, Nov 9 Avalanche named, Q4 launch target pending approval
+image_note: AI-made graphic (summary of article)
 ---
 
 For most of this year, people building on public blockchains have asked one question about the New York Stock Exchange: which chain? On Monday, Ava Labs answered it. Avalanche will serve as the core ledger for clearing and settlement at the planned NYSE-affiliated venue for tokenized securities, the company said in a statement on Nov. 9, confirmed in coverage by The Block, crypto.news and Disruption Banking.
