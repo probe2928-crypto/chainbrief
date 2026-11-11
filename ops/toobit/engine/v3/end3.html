@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+#leak{position:absolute;left:-300px;right:-300px;top:560px;height:640px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,225,77,.18),transparent 70%);filter:blur(40px)}
+#wipe{position:absolute;left:-400px;top:-200px;width:700px;height:2400px;background:#ffe14d;transform:skewX(-14deg);z-index:30}
+.lab{position:absolute;left:0;right:0;text-align:center;font-family:'DejaVu Sans Mono',monospace;color:#8b93a3}
+#pre{top:740px;font-size:26px;letter-spacing:10px}
+#mk{position:absolute;left:0;right:0;top:800px;text-align:center;font-weight:800;font-size:200px;letter-spacing:-11px;line-height:1}
+.ech{position:absolute;left:0;right:0;top:800px;text-align:center;font-weight:800;font-size:200px;letter-spacing:-11px;line-height:1;color:transparent}
+#ln{position:absolute;left:50%;top:1040px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#ffe14d,#fff,#ffe14d,transparent);box-shadow:0 0 18px #ffe14d}
+#sub{top:1075px;font-size:26px;letter-spacing:8px;color:#c9cfda}
+#disc{top:1640px;font-size:20px;letter-spacing:3px;color:#5d6472}
+#grain{position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;z-index:40}
+#black{position:absolute;inset:0;background:#000;z-index:50}
+#corner{position:absolute;top:120px;left:70px;right:70px;display:flex;justify-content:space-between;font-family:'DejaVu Sans Mono',monospace;font-size:22px;letter-spacing:4px;color:#5d6472}
+</style></head><body>
+<div id="world">
+ <div id="leak"></div>
+ <div id="corner"><span>● REC</span><span>2026 / SHORTS</span></div>
+ <div class="lab" id="pre">PRESENTED BY</div>
+ <div id="echo"></div>
+ <div id="mk"></div>
+ <div id="ln"></div>
+ <div class="lab" id="sub">CONTENT <span style="color:#ffe14d">/</span> STUDIO <span style="color:#ffe14d">/</span> MCN</div>
+ <div class="lab" id="disc">SPONSORED · CRYPTO TRADING INVOLVES RISK</div>
+</div>
+<div id="wipe"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="black"></div>
+<script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const NAME='your mcn';
+$('mk').innerHTML=[...NAME].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="ml" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#ffe14d 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch===' '?'&nbsp;':ch}</span></span>`).join('');
+$('echo').innerHTML=[1,2,3].map(i=>`<div class="ech" style="-webkit-text-stroke:2px rgba(255,225,77,${.5/i})">${NAME}</div>`).join('');
+const L=[...document.querySelectorAll('.ml')],E=[...document.querySelectorAll('.ech')];const gr=$('grain').getContext('2d');
+window.seek=function(t){
+  // yellow slash wipe across at start
+  const w=eio(p(t,0,.45));$('wipe').style.transform=`translateX(${-200+w*2600}px) skewX(-14deg)`;$('wipe').style.opacity=t<.5?1:0;
+  $('world').style.transform=`scale(${1.08-0.08*eo5(p(t,.2,1.2))+0.01*t})`;
+  L.forEach((e,i)=>{const k=eo5(p(t,.3+i*.03,.65+i*.03));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(t,.85,1.6))*100}% 0`;});
+  E.forEach((e,i)=>{const k=eo5(p(t,.5,1.3));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.07*k})`;});
+  $('ln').style.width=(eo5(p(t,.6,1.1))*620)+'px';
+  const pr=eo5(p(t,.35,.75));$('pre').style.opacity=pr;$('pre').style.letterSpacing=(18-8*pr)+'px';
+  const sb=eo5(p(t,.8,1.2));$('sub').style.opacity=sb;$('sub').style.letterSpacing=(16-8*sb)+'px';
+  $('disc').style.opacity=eo5(p(t,1.2,1.6));$('corner').style.opacity=eo5(p(t,.5,1))*(Math.floor(t*2)%2?1:.6);
+  $('leak').style.opacity=.7+.3*Math.sin(t*4);
+  $('black').style.opacity=Math.max(0,ei3(p(t,3.0,3.5)));
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+11);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>

@@ -1,0 +1,132 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'Inter';font-feature-settings:'tnum'}
+#cap{position:absolute;left:40px;right:40px;top:1240px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;background:#fff;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
+.lbl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:10px;color:#8b93a3;font-size:34px}
+.flag{position:absolute;left:50%;width:150px;height:150px;margin-left:-75px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+.stamp{position:absolute;left:50%;top:880px;transform:translateX(-50%) rotate(-8deg);border:10px solid #ff3d5a;color:#ff3d5a;font-weight:900;font-size:110px;padding:10px 40px;border-radius:18px;letter-spacing:4px;white-space:nowrap}
+.phone{position:absolute;left:50%;top:300px;width:500px;height:820px;margin-left:-250px;border-radius:70px;background:#05070c;border:3px solid #2a3140;box-shadow:0 60px 140px rgba(0,0,0,.7),0 0 0 14px #11151d}
+.row{display:flex;justify-content:space-between;align-items:center;padding:30px 40px;border-bottom:1px solid #1a202b;font-weight:800;font-size:38px}
+.row small{display:block;font-size:22px;color:#6f7888;font-weight:600}
+.pill{font-size:30px;padding:10px 18px;border-radius:12px}
+.wm{position:absolute;left:0;right:0;text-align:center;font-weight:900;font-size:230px;letter-spacing:-10px}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+ <!-- V1 hook counter -->
+ <div class="v" id="v1"><div class="lbl" style="top:470px">CRYPTO MARKET · 4H</div>
+   <div class="big mono" id="cnt" style="top:560px;font-size:250px;color:#ff3d5a;text-shadow:0 0 90px rgba(255,61,90,.55)">-$0B</div>
+   <div class="big" style="top:860px;font-size:70px;letter-spacing:0;color:#fff;opacity:.9" id="clock">⏱ 00:00</div></div>
+ <div class="v" id="v2"><div class="big" id="why" style="top:600px;font-size:290px;color:transparent;-webkit-text-stroke:6px #ffe14d">WHY?</div></div>
+ <div class="v" id="v3"><div class="lbl" style="top:420px">BREAKING</div>
+   <div class="big" style="top:500px;font-size:190px;letter-spacing:-6px">AI<br><span style="color:#ff3d5a">BUBBLE</span></div>
+   <div class="big mono" id="nas" style="top:930px;font-size:64px;letter-spacing:2px;color:#ff3d5a">TECH STOCKS ▼▼▼</div></div>
+ <div class="v" id="v4"><div class="flag" style="top:360px;background:#fff"><div style="position:absolute;left:35px;top:35px;width:80px;height:80px;border-radius:50%;background:#bc002d"></div></div>
+   <div class="lbl" style="top:560px">NIKKEI 225</div><div class="big mono" id="nk" style="top:620px;font-size:300px;color:#ff3d5a">-0.0%</div></div>
+ <div class="v" id="v5"><div class="flag" style="top:300px;background:#fff"><div style="position:absolute;left:30px;top:30px;width:90px;height:90px;border-radius:50%;background:linear-gradient(180deg,#cd2e3a 50%,#0047a0 50%)"></div></div>
+   <div class="lbl" style="top:490px">KOSPI</div><div class="big mono" id="ks" style="top:550px;font-size:300px;color:#ff3d5a">-0.0%</div>
+   <div class="stamp" id="halt">거래 중단</div></div>
+ <div class="v" id="v6"><canvas id="crash" width="1080" height="1920"></canvas>
+   <div id="coin" style="position:absolute;left:50%;top:380px;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd27a,#f7931a 55%,#b86a0c);box-shadow:0 0 120px rgba(247,147,26,.55);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:200px;color:#fff6e5">₿</div>
+   <div class="big mono" id="lvl" style="top:760px;font-size:96px;letter-spacing:0;color:#fff">$76,000</div></div>
+ <div class="v" id="v7"><svg width="1080" height="1920" style="position:absolute;inset:0"><path id="pa" d="M80 520 C220 470 330 640 470 700 S700 960 820 1010 S960 1120 1000 1160" stroke="#8ab4ff" stroke-width="12" fill="none" stroke-linecap="round"/><path id="pb" d="M80 600 C220 540 330 720 470 780 S700 1030 820 1080 S960 1180 1000 1230" stroke="#f7931a" stroke-width="12" fill="none" stroke-linecap="round"/></svg>
+   <div class="lbl" style="top:380px;letter-spacing:4px"><span style="color:#8ab4ff">● NASDAQ</span> &nbsp; <span style="color:#f7931a">● BTC</span></div></div>
+ <div class="v" id="v8"><div class="phone" id="ph"><div style="padding:70px 40px 20px;font-weight:900;font-size:44px">Watchlist</div>
+   <div class="row"><div>BTC<small>Crypto</small></div><span class="pill" style="background:#0f2a22;color:#33f0b0">USDT</span></div>
+   <div class="row"><div>ETH<small>Crypto</small></div><span class="pill" style="background:#0f2a22;color:#33f0b0">USDT</span></div>
+   <div class="row"><div>NVDA<small>US Stock</small></div><span class="pill" style="background:#1a2236;color:#8ab4ff">USDT</span></div>
+   <div class="row"><div>TSLA<small>US Stock</small></div><span class="pill" style="background:#1a2236;color:#8ab4ff">USDT</span></div>
+   <div class="row"><div>GOLD<small>Commodity</small></div><span class="pill" style="background:#2a2410;color:#ffe14d">USDT</span></div></div></div>
+<div class="v" id="v9">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:8px;color:#9fb3ad">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+ </div>
+ <div class="v" id="v10"><div class="big" style="top:520px;font-size:150px;letter-spacing:-4px">NASDAQ</div><div class="big" id="arr" style="top:700px;font-size:150px;color:#ffe14d">↓</div><div class="big" style="top:880px;font-size:150px;color:#f7931a;letter-spacing:-4px">BITCOIN</div>
+   <div style="position:absolute;bottom:200px;left:0;right:0;text-align:center;font-size:24px;color:#6f7888">투자 권유 아님 · 출처: ForkLog, U.Today, Fortune (2026.11.5~9)</div></div>
+</div>
+<div id="vig"></div>
+<div id="tag"><i></i>MARKET BRIEF <span>2026.11</span></div>
+<div id="cap"></div><div id="prog"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS; const TOTAL=31.9;
+// scenes: [id,start]
+const S=[['v1',0],['v2',4.1],['v3',5.62],['v4',8.36],['v5',11.0],['v6',15.24],['v7',21.08],['v8',24.2],['v9',28.0],['v10',29.24]];
+// caption chunks: break on punctuation or every 2 words
+const chunks=[];let cur=[];
+W.forEach((w,i)=>{cur.push(w);const end=/[.,?!]$/.test(w[0])||cur.length>=2;if(end){chunks.push(cur);cur=[]}});if(cur.length)chunks.push(cur);
+const hot=/(\d|%|증발|폭락|급락|붕괴|중단|투비트|비트코인|나스닥)/;
+function cls(t){if(/투비트/.test(t))return'g';if(/(마이너스|폭락|급락|붕괴|증발|중단)/.test(t))return'r';if(hot.test(t))return'y';return''}
+const bg=$('bg').getContext('2d'),cr=$('crash').getContext('2d'),gr=$('grain').getContext('2d');
+const candles=makeCandles(120,5);const bk=makeBokeh(30,8,1080,1920);
+const pa=$('pa'),pb=$('pb');[pa,pb].forEach(l=>{l.L=l.getTotalLength();l.style.strokeDasharray=l.L});
+window.seek=function(t){
+  // scene
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const ls=t-S[si][1];
+  // punch zoom + shake on cut
+  const pz=1+0.12*Math.exp(-ls*7)+0.025*ls/4;
+  const r=rng(Math.floor(t*30));const sh=Math.exp(-ls*9)*22;
+  $('world').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${pz})`;
+  $('flash').style.opacity=Math.max(0,.75-ls*6)*(si>0?1:0);
+  // bg
+  const hue={v1:'#2a0710',v4:'#1a0710',v5:'#1a0710',v6:'#1d1006',v8:'#06140f',v9:'#06140f'}[S[si][0]]||'#0a0e17';
+  const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  bg.save();bg.globalAlpha=.5;drawChart(bg,1080,1920,t,candles,{alpha:.16,speed:120,y0:1650,scale:9});bg.restore();
+  drawBokeh(bg,1080,1920,t,bk,'255,255,255');
+  // scene-specific
+  if(si===0){const k=eo3(p(t,.2,3.4));$('cnt').textContent='-$'+Math.round(140*k)+'B';$('clock').textContent='⏱ 0'+Math.min(4,Math.floor(k*4))+':00';}
+  if(si===1){$('why').style.transform=`scale(${1.4-0.4*eo5(p(ls,0,.4))})`;}
+  if(si===2){$('nas').style.opacity=.5+.5*Math.sin(t*20)}
+  if(si===3){$('nk').textContent='-'+(7*eo3(p(t,9.3,10.5))).toFixed(1)+'%'}
+  if(si===4){$('ks').textContent='-'+(9*eo3(p(t,12.0,13.2))).toFixed(1)+'%';const k=p(t,13.65,13.9);$('halt').style.opacity=k>0?1:0;$('halt').style.transform=`translateX(-50%) rotate(-8deg) scale(${k>0?1+2*(1-eo5(k)):0})`;}
+  if(si===5){cr.clearRect(0,0,1080,1920);const n=Math.floor(40+ls*12);let v=1100;cr.lineWidth=10;cr.strokeStyle='#ff3d5a';cr.shadowColor='#ff3d5a';cr.shadowBlur=30;cr.beginPath();
+     const rr=rng(3);for(let i=0;i<n;i++){const x=i*22-Math.max(0,n*22-1000);v+= (i>38? 14:-3)+(rr()-.5)*30; i?cr.lineTo(x,v):cr.moveTo(x,v)}cr.stroke();
+     cr.shadowBlur=0;cr.strokeStyle='rgba(255,255,255,.5)';cr.setLineDash([16,14]);cr.lineWidth=3;cr.beginPath();cr.moveTo(0,1180);cr.lineTo(1080,1180);cr.stroke();cr.setLineDash([]);
+     $('coin').style.transform=`translateY(${ei3(p(t,16.6,21))*420}px) rotate(${ls*40}deg)`;
+     const br=t>20.16;$('lvl').style.color=br?'#ff3d5a':'#fff';$('lvl').style.textDecoration=br?'line-through':'none';}
+  if(si===6){const k=eio(p(ls,0,2.6));pa.style.strokeDashoffset=pa.L*(1-k);pb.style.strokeDashoffset=pb.L*(1-k);}
+  if(si===7){$('ph').style.transform=`translateY(${(1-eo5(p(ls,0,.6)))*500}px) rotate(${(1-eo5(p(ls,0,.6)))*8}deg)`;}
+  if(si===8){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*560)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(16-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);
+  }
+  if(si===9){$('arr').style.transform=`translateY(${Math.sin(t*8)*16}px)`}
+  // captions
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});
+  const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&t<c[c.length-1][2]+0.5&&t<TOTAL&&si!==8){const txt=c.map(w=>w[0]).join(' ');cap.style.fontSize=(txt.length>9?96:118)+'px';cap.innerHTML=c.map(w=>`<span class="${cls(w[0])}">${w[0].replace(/[.,]$/,'')}</span>`).join(' ');
+    const k=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.25-0.25*back(k)}) rotate(${(ci%2?-1:1)*1.2}deg)`;cap.style.opacity=1;}
+  else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  // grain
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
