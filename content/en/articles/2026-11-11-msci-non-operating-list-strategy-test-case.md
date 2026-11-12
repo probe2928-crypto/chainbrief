@@ -5,6 +5,9 @@ category: Markets
 author: Scott Park
 region: US
 summary: MSCI is set to name the companies that fail its new test for businesses that mostly hold assets rather than run operations. Strategy accounted for about 87% of the market value flagged in MSCI's own trial run, and any removal takes effect at the close of Nov. 30.
+image: media/articles/2026-11-11-msci-non-operating-list-strategy-test-case.png
+image_alt: MSCI trial run of its non-operating company test, May 2026 data: deletion group free-float market value Strategy $23.9B, Yellow Cake $1.8B, Metaplanet $654M; watchlist SharpLink, Center Laboratories, Lydia Holding; about $27.5B flagged across six companies; JPMorgan estimates about $2.8B of index-fund selling; timeline Oct 15 rule adopted, Nov 11 list due, Nov 30 removal effective at the close
+image_note: AI-made graphic (summary of article)
 ---
 
 In MSCI's trial run of its new rule, six companies were flagged. Their combined free-float market value came to about $27.5 billion, and one of them, Strategy, made up nearly $24 billion of it. On Wednesday, Nov. 11, the index provider is scheduled to publish the real list, the one that decides which of those names leave its global benchmarks at the close of Nov. 30.
