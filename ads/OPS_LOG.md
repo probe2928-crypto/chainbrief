@@ -1,3 +1,8 @@
+## 2026-11-13 새벽 점검
+- 밤새봄: Actions 6개 저장소 24시간 점검, 체인브리프 빌드 및 배포 1시간 내 성공. 장애 1 — asc.yml(App Store Connect) 11/11 22:18Z 실행이 약 15분 뒤 취소되어 실패, 이후 재실행 없음(원인 미확인, 재실행은 하지 않음).
+- 라이브 사이트는 프록시 차단으로 확인 못 함(미확인). firstbrick·lifejunjun·yeobaek Actions도 미확인.
+- 예약 작업 전 페이지 FAILED 0건, 금고지기(CFO)만 11/9 중단(ABANDONED).
+
 ## 2026-11-12 새벽 점검
 - 밤새봄: Actions 확인한 6개 저장소 정상(chainbrief 01:34 KST 배포 실패 1건은 이후 성공으로 해결, 재실행 불필요).
 - 라이브 사이트 점검은 프록시 차단으로 못 함(미확인). firstbrick·lifejunjun·yeobaek Actions도 미확인.
