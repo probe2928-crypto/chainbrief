@@ -2503,6 +2503,238 @@
     ],
     "note": "국가·소스는 속성 전체 기준"
    }
+  },
+  {
+   "date": "2026-11-11",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-12 09:00 KST 수집)",
+   "total": {
+    "users_all_property": 32,
+    "sessions": 32,
+    "views": 38,
+    "gsc_clicks": 0,
+    "gsc_impr": 1
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 18,
+     "sessions": 18,
+     "views": 20,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "split": {
+      "en": {
+       "users": 2,
+       "sessions": 2,
+       "views": 2
+      },
+      "zh": {
+       "users": 0,
+       "sessions": 0,
+       "views": 0
+      },
+      "ko_other": {
+       "users": 16,
+       "sessions": 16,
+       "views": 18,
+       "note": "/en/·/zh/ 외 경로 합(루트·issue·market 등)"
+      }
+     },
+     "note": "호스트 chainbrief.app 기준(http·https 합). 사이트별 사용자·세션은 페이지 행 합산이라 근사"
+    },
+    "perpline": {
+     "users": 9,
+     "sessions": 9,
+     "views": 7,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "perpline.tech 7행 + github.io/perpline 2행(뷰 0). bitmedia 배너 클릭 1건 포함"
+    },
+    "luft": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 3,
+     "sessions": 3,
+     "views": 3,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    },
+    "blockkey": {
+     "users": 4,
+     "sessions": 4,
+     "views": 4,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    }
+   },
+   "gsc_note": "11-11 8개 합계 클릭 0·노출 1(평균 67위, 어느 사이트인지는 미확인 — 체인브리프·Perpline·오리엘은 0). 체인브리프·Perpline 검색어 행 없음. 11-08~11 조회: 11-08 클릭 1·노출 2, 11-09 노출 1(26위), 11-10 노출 1(2위)",
+   "social": {
+    "fb": {
+     "3페이지합": {
+      "followers": null,
+      "reach": 0,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "3개 페이지 합산 1행, 전부 0 — 11-11 지연 집계 가능. page_followers 0 반환은 미확인(보드엔 11/10 페북 게시 있음)"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 179,
+      "reach": 3,
+      "impressions": 5,
+      "impressions_note": "profile_views(계정 전체 콘텐츠 조회)",
+      "new_followers": null
+     },
+     "note": "팔로워 180→179. 당일 값은 메타 지연 집계로 올라갈 수 있음"
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 4,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "부분 확인",
+     "followers": 3,
+     "following": 14,
+     "post_views": "글당 1~2뷰(11/10 08:50 EBA-USDC 글 조회 미기록)",
+     "note": "보드 social에 metrics_<날짜> 문서 없음 — playbook·posts_20261110 기록값만 사용(마지막 갱신 11/10 08:47)"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-10",
+    "users_total": 23,
+    "chainbrief": 8,
+    "perpline": 1,
+    "luft": 2,
+    "qurator": 3,
+    "ig_reach": 6,
+    "li_chainbrief_impr": 4
+   },
+   "delta_vs_prev": {
+    "users_total": 9,
+    "by_site_users": {
+     "chainbrief": 10,
+     "perpline": 8,
+     "luft": 0,
+     "qurator": 0,
+     "lifejunjun": -3,
+     "yeobaek": -2,
+     "blockkey": 3,
+     "oriel": -1
+    },
+    "note": "23→32. 체인브리프 8→18은 홈(/) 12뷰·기사 페이지 각 1명. 매출 3사업은 Perpline 1→9(github.io/perpline 2명은 뷰 0, perpline.tech 7명·bitmedia 배너 1세션), LUFT 2→2, QURATOR 3→3 — 절대값 작아 즉시 판단 사항 아님"
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/ (10명·12뷰)",
+      "/en/articles/2026-11-10-nyse-avalanche-tokenized-stock-settlement/ (1명)",
+      "/en/articles/2026-11-09-coinbase-final-occ-trust-charter-custody/ (1명)"
+     ],
+     "perpline": [
+      "perpline.tech/ (5명)",
+      "perpline.tech/index.html (1명)",
+      "perpline.tech/start.html (1명·bitmedia banner)"
+     ],
+     "luft": [
+      "/luft/ (2명)"
+     ],
+     "qurator": [
+      "/qurator/ (3명)"
+     ],
+     "lifejunjun": [
+      "/lifejunjun/index.html?trip=… 2개 각 1명"
+     ],
+     "blockkey": [
+      "/blockkey/en/insights/ 4개 각 1명"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "South Korea",
+      12
+     ],
+     [
+      "Singapore",
+      7
+     ],
+     [
+      "United States",
+      5
+     ],
+     [
+      "Canada",
+      2
+     ],
+     [
+      "Japan",
+      2
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      27
+     ],
+     [
+      "google / organic",
+      2
+     ],
+     [
+      "bitmedia / banner",
+      1
+     ],
+     [
+      "dataindex.pro / referral",
+      1
+     ],
+     [
+      "telegram / channel",
+      1
+     ]
+    ],
+    "note": "국가·소스는 속성 전체 기준. 싱가포르 세션 11→7로 감소(봇 의심 패턴 약화)"
+   }
   }
  ]
 }
