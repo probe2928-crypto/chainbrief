@@ -10,8 +10,35 @@
 3. **큰 숫자는 독자 단위로 한 번 더.** 달러는 원화로(63억달러 → 약 9조원), bp는 %포인트로, 비율은 "열 곳 중 여덟 곳"처럼. 과거 사례 하나를 옆에 세워 크기를 가늠하게 한다(예: 바이비트 15억달러). 변하는 숫자는 진행형으로 보여 준다(80% → 90% → 95%). 숫자는 예상치·직전 값과 한 문장에 나란히 세우고, 합계는 구성 요소(매수 청산 vs 매도 청산, 펀드별 몫)로 쪼갠다. (CoinDesk 11/10·The Block 11/9·Decrypt 11/6 기사에서 배움 — 기법만)
 4. **확신도를 문장에 드러낸다.** 공식 발표(FBI·FIU)와 민간 분석(체이널리시스·TRM)을 구분해 쓰고, 추정치는 범위로. 출처마다 숫자가 다르면 하나만 고르지 말고 나란히 적어 차이를 인정한다. 출처 없는 "~하는 시각이 있다/业内人士认为"는 쓰지 않는다. 독자가 헷갈릴 숫자는 "혼동하지 말라"고 훈계하지 말고 각 숫자가 무엇을 가리키는지만 쓴다.
 5. **끝은 다음 날짜·숫자, 오해하기 쉬운 지점, 또는 '이 숫자가 재지 못하는 것' 한 문장으로. 긴 문단 뒤엔 한 줄짜리 문장으로 착지한다.** 체크리스트 나열("Things to watch:")이나 교훈으로 끝내지 않는다. 숫자·출처가 몰린 문단 다음에 "그래서 이번 주 바뀌는 것은 없다" 같은 짧은 문장을 두면 호흡이 생긴다. 분석가 인용을 마지막 줄로 넘길 땐 누구의 전망인지 밝히고 조건을 붙인다. (Decrypt의 데이터 한계 문단·The Block의 조건부 전망 마무리에서 배움)
+6. **나열은 '개수 한 문장 → 항목별 한 줄 → 짧은 착지'로.** 비율 다섯 개, 파트너사 네 곳처럼 항목이 많을 땐 한 문장에 다 욱여넣지 말고 "다섯 가지로 점수를 매긴다"로 개수를 먼저 말하고, 쉬운 말로 몇 개씩 묶어 두 문장으로 나눈다. 묶음 끝에는 "넷 이상 걸리면 탈락이다" 같은 짧은 문장을 둔다. 용어가 많은 문단 뒤엔 짧은 문장 하나. (The Block 기사들은 용어를 링크로 넘기지만 우리 기사는 본문에서 한 번 풀어 준다)
 
 ## 날짜별 기록
+
+### 2026-11-13 (영어 — 금요일 회차, KST 기준)
+
+**읽은 기사: 3편** (모두 The Block, 11/12. 웹 가져오기 서브에이전트로 읽음. 기법만 요약, 원문 문장 옮기지 않음)
+1. The Block · James Hunt · "DTCC plans to bring tokenized securities to Solana in second half of 2027" · https://www.theblock.co/news/business/2026-11-12-dtcc-plans-bring-tokenized-securities-solana-second-half-of-2027-438559
+   - 배운 기법: 첫 문장에 누가·무엇을·언제를 모두 넣고 배경은 둘째 문단으로 미룬다. 소제목은 기사 전체에 하나, 시간 순서를 알려 주는 명사구. 끝은 전망 없이 규모 숫자 한 줄.
+2. The Block · Jason Shubnell · "Bitcoin falls to 12-week low as Jensen Huang's exit from Nvidia rattles markets" · https://www.theblock.co/news/markets/2026-11-12-bitcoin-12-week-low-jensen-huang-exit-nvidia-438992
+   - 배운 기법: 가격 움직임 먼저, 원인은 바로 뒤. 청산 합계를 전체와 롱 몫으로 쪼개 숫자를 비율로 읽히게 하고, 짧은 시세 문장 사이에 인용을 끼워 리듬을 바꾼다. 끝은 업계 인물의 발언.
+3. The Block · Brian Danga · "Visa adds Western Union's USDPT stablecoin to its settlement network in Anchorage tie-up" · https://www.theblock.co/news/business/2026-11-12-visa-adds-western-unions-usdpt-stablecoin-to-its-settlement-network-in-anchorage-tie-up-438520
+   - 배운 기법: 시장 크기를 시점 비교(3월 대비)와 배수(전년 대비)로 두 번 보여 준다. 끝은 결론 없이 새로 연결된 네트워크 목록. (용어 풀이는 약해서 따라 하지 않음)
+
+**우리 기사 점수 (지난 24시간 영어, 10점 만점)**
+
+| 기사 | 자연스러움 | 구체성 | 리드 | 소제목 | 상투어(개수) | 종합 |
+|---|---|---|---|---|---|---|
+| EN 11-12 MSCI, Strategy 퇴출 확정 | 8 | 9 | 8 | 8 | 0 (em dash 0) | **8.3** |
+| EN 11-11 MSCI 비운영 기업 목록·Strategy | 8 | 9 | 8 | 7 | 0 (em dash 0) | **8.0** |
+
+평균 8.2점(11/10 영어 회차 8.0점 대비 +0.2). 약점: 11-11 기사의 "A test built around the balance sheet"가 라벨형에 가깝고, 그 아래 다섯 비율 설명이 한 문장에 몰려 있다. 11-12 기사 소제목 "What happens before Nov. 30"도 시간 라벨에 가깝다. 한국어·중국어 신규 기사는 오늘 회차 범위가 아니라 점수 매기지 않음.
+
+**연습 (파일은 고치지 않음, 7점 미만 기사 없음)**
+- 문단 전(11-11): "If not, MSCI runs five ratios, according to its August consultation paper. They measure how much of the balance sheet is tied to operations, how much the company spends running itself, whether operating cash flow is negative, how much of its results come from changes in the fair value of non-operating holdings, and how much of its money comes from raising capital to buy more assets. Trip four of the five and the company is ineligible."
+- 후: "If not, MSCI scores it on five ratios, according to its August consultation paper. Three look at the balance sheet and the cost of running the company: how much of the assets are tied to operations, how much it spends on itself, and whether operating cash flow is negative. The other two follow the money: how much of its results come from changes in the value of the assets it holds, and how much it raises to buy more of them. Trip four and the company is ineligible." (개수 → 묶음 두 문장 → 짧은 착지. 사실·순서 그대로)
+- 소제목 전: A test built around the balance sheet → 후: Four red flags out of five, and a company is out (주장+숫자형. 본문 사실 그대로)
+
+**다듬은 파일**: 없음 (7점 미만 기사 없음)
 
 ### 2026-11-11 (중국어 — 수요일 회차)
 
