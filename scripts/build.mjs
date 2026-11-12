@@ -111,6 +111,8 @@ const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["retur
 const TABS = [["", "속보", "live"], ["news/", "뉴스", "news"], ["market/", "시세", "mkt"], ["surge/", "급등", "surge"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
+// 구글 플레이 뉴스 정책: 웹·앱에 이메일(또는 전화) 문의처 필수 — site.config.json footer.email 에 넣으면 문의 페이지·푸터·앱 설정에 표시
+const CONTACT_EMAIL = (cfg.footer && cfg.footer.email) || "";
 const TG_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.6 2.9 10.8c-1.3.5-1.3 1.2-.2 1.6l4.8 1.5 1.8 5.6c.2.6.1.9.8.9.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.6.2 1.8-.8l3.2-15.2c.3-1.3-.5-1.9-1.4-1.6zM8.6 13.6l9.6-6c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4z"/></svg>';
 
 function layout({ title, description = cfg.description, active = "", body, canonical = "", type = "website", jsonld = "", float = true, extraScript = "", ogImage = "" }) {
@@ -159,7 +161,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">${esc(cfg.nameEn)}</a><p>${esc(cfg.tagline || "")}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}${CONTACT_EMAIL ? `<a href="mailto:${esc(CONTACT_EMAIL)}">${esc(CONTACT_EMAIL)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">편집국</a><a href="${u("privacy/")}">개인정보처리방침</a><a href="${u("terms/")}">이용약관</a></div>
   </div>
   ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
@@ -733,6 +735,7 @@ write("contact/index.html", layout({
   body: `<div class="wrap"><main class="single">
   ${secHead("Contact", "제보 · 광고 · 제휴 문의")}
   <div class="contact">
+    ${CONTACT_EMAIL ? `<div><span class="label">이메일 · Email</span><div class="handle"><a href="mailto:${esc(CONTACT_EMAIL)}">${esc(CONTACT_EMAIL)}</a></div></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
@@ -884,7 +887,7 @@ if (SITE_URL) {
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
 const PUBLIC_ORIGIN = SITE_URL || "https://probe2928-crypto.github.io";
 writeAppFeed({ write, lang: "ko", flashes, articles, markdown, now: NOW, link: (p) => PUBLIC_ORIGIN + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
-write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
+write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, contactEmail: CONTACT_EMAIL || undefined, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
 write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
 write("global-listings.json", JSON.stringify({ updatedAt: globalLs?.updatedAt || null, items: (globalLs?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 80) }));
 write("manifest.webmanifest", JSON.stringify({

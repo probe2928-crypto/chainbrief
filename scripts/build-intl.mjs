@@ -584,6 +584,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   write(`${P}contact/index.html`, layout({
     title: L.contactT, active: "contact/", canonical: "contact/", float: false,
     body: `<div class="wrap"><main class="single">${secHead("Contact", esc(L.contactPage))}<div class="contact">
+    ${cfg.footer && cfg.footer.email ? `<div><span class="label">Email</span><div class="handle"><a href="mailto:${esc(cfg.footer.email)}">${esc(cfg.footer.email)}</a></div></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>

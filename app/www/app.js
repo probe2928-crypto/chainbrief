@@ -197,6 +197,7 @@
     out += `<div class="group"><span class="label">${T.settings}</span>
       <div class="row"><span>${T.lang}</span><span class="seg" id="langSeg">${["ko", "en", "zh"].map((l) => `<button type="button" data-l="${l}" aria-pressed="${l === lang}">${I[l].code}</button>`).join("")}</span></div>
       <div class="row"><span>${T.theme}</span><span class="seg" id="themeSeg">${[["system", T.sys], ["light", T.light], ["dark", T.dark]].map(([k, l]) => `<button type="button" data-th="${k}" aria-pressed="${k === th}">${l}</button>`).join("")}</span></div>
+      ${cfg?.contactEmail ? `<a class="row" href="mailto:${esc(cfg.contactEmail)}"><span>Email</span><small>${esc(cfg.contactEmail)}</small></a>` : ""}
       <button type="button" class="row" data-url="https://t.me/${esc(cfg?.telegram || "btcbullit")}"><span>${T.contact}</span><small>Telegram @${esc(cfg?.telegram || "btcbullit")}</small></button>
       <button type="button" class="row" data-url="${SITE}${lang === "ko" ? "" : lang + "/"}"><span>${T.site}</span><small>chainbrief</small></button>
       <button type="button" class="row" data-url="${SITE}privacy/"><span>${T.privacy}</span><small>→</small></button></div>`;
