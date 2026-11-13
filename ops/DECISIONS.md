@@ -2,6 +2,13 @@
 
 | 날짜 | 팀 | 결정 | 상태 |
 |---|---|---|---|
+| 2026-11-13 | 개발·디자인 | Perpline 화면 노출 AlphaX 레퍼럴 코드 문구 4곳 제거(FEEDBACK 10/29 규칙, 링크 유지) | 완료 perpline cb265d1 · 텔레그램 EN#52·ZH#47 본문은 세준 OK 대기 |
+| 2026-11-13 | 디자인 | 홈 히어로 동안 SUPPORT 버튼 아이콘화(슬라이드 화살표 가림 해소) | 완료 perpline cb265d1 |
+| 2026-11-13 | 개발 | 홈·가이드→거래소 상세 클릭 pl_venue_click + Savri /_evt/venue_click 계측 | 완료 perpline cb265d1 · 11/16 수집 확인 |
+| 2026-11-13 | 마케팅·디자인 | 인스타 카루셀 5장·캡션 3종(How fee rebates work, UTM) | 초안 완료 cb265d1 · 게시 세준 OK 대기 |
+| 2026-11-13 | 운영 | Supermetrics 만료 대비 GA 대체 경로(OpenSEO, 크레딧 0) 11/12 값 일치 확인 → 숫자봄에 제안 | 완료(제안) |
+| 2026-11-13 | 전략기획 | 1위 아이디어 '사옥 로비 분기 로테이션 전시' 시안(qurator idea/lobby-rotation) | 시안 완료 fbcaa4be · 세준 진행/보류 대기 |
+| 2026-11-13 | 전략기획 | 충전 0원 유지(실가입≥1·CAC 통과 시에만 Perpline $50) | 세준 숫자 대기 |
 | 2026-11-11 | 개발 | Perpline sitemap lastmod를 실제 수정일로(src/lastmod.json, 매 빌드 '오늘' 중단) | 완료 perpline efb16c3 |
 | 2026-11-11 | 디자인 | Perpline OG 이미지 정정(아이보리·60%·10월 프랑스어 줄 제거) + 가이드 3편 전용 OG | 완료 perpline efb16c3 |
 | 2026-11-11 | 마케팅 | 가이드 3편 X 스레드·모션 광고 캡션 초안(UTM) | 초안 완료 efb16c3 · 게시 세준 OK 대기 |
