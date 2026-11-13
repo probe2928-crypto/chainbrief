@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-12T22:03:33.910Z",
+  "at": "2026-11-13T22:01:40.057Z",
   "cmd": "status",
   "apps": [
     {
@@ -80,6 +80,14 @@
       "primaryLocale": "ko",
       "builds": [
         {
+          "id": "44b53c55-cf22-478d-9de9-5c432b7545d5",
+          "build": "24",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-12T21:51:31-08:00",
+          "expired": false
+        },
+        {
           "id": "22a336d9-1b3e-495b-8917-90bb4f139ccd",
           "build": "23",
           "version": "1.0.0",
@@ -97,11 +105,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "22a336d9-1b3e-495b-8917-90bb4f139ccd",
-        "build": "23",
+        "id": "44b53c55-cf22-478d-9de9-5c432b7545d5",
+        "build": "24",
         "version": "1.0.0",
         "state": "VALID",
-        "uploaded": "2026-11-08T11:25:18-08:00",
+        "uploaded": "2026-11-12T21:51:31-08:00",
         "expired": false
       },
       "versions": [
