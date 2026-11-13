@@ -1,3 +1,8 @@
+## 2026-11-14 새벽 점검
+- GitHub Actions 24시간: 체인브리프 '빌드 및 배포' 정상(마지막 성공 17:36Z), perpline·luft·qurator·oriel·blockkey 실패 없음. lifejunjun·yeobaek·firstbrick는 이 세션 권한 밖이라 미확인.
+- 예약 작업: FAILED 0, ABANDONED 1(재무·세무팀 CFO, 11/09 월요일 회차), device_absent 0.
+- 라이브 사이트·속보 시각: 확인 못 함(이 세션에서 웹 접근 차단). 장애 0 · 고침 0.
+
 ## 2026-11-13 새벽 점검
 - 밤새봄: Actions 6개 저장소 24시간 점검, 체인브리프 빌드 및 배포 1시간 내 성공. 장애 1 — asc.yml(App Store Connect) 11/11 22:18Z 실행이 약 15분 뒤 취소되어 실패, 이후 재실행 없음(원인 미확인, 재실행은 하지 않음).
 - 라이브 사이트는 프록시 차단으로 확인 못 함(미확인). firstbrick·lifejunjun·yeobaek Actions도 미확인.
