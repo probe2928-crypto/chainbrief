@@ -5,6 +5,9 @@ category: Markets
 author: Scott Park
 region: US
 summary: MSCI's final list under its new non-operating company test removes Strategy from the MSCI USA Index, and with it MSCI World and ACWI, at the close of Nov. 30. Estimates of the index-fund selling range from about $1.6 billion to $2.8 billion, and the people making them disagree on how much it matters.
+image: media/articles/2026-11-12-msci-confirms-strategy-exit-nov-30.png
+image_alt: Estimated index-fund selling of Strategy after its MSCI USA Index exit on Nov. 30: BloFin Research about $1.6B (13 million shares held by MSCI-tracking funds), JPMorgan $2.8B (built on MSCI's earlier, dropped proposal), JPMorgan $8.8B if other index providers followed. Strategy's float-adjusted value in MSCI's file about $37.3B, roughly 93% of the six deletions; mNAV about 1.08 now versus about 3.4 two years ago
+image_note: AI-made graphic (summary of article)
 ---
 
 Twenty-four companies are leaving the MSCI USA Index at the end of this month. Twenty-three of them are simply sliding down into MSCI's small-cap index. One is leaving MSCI's US indexes altogether: Strategy, the company that has turned itself into a holder of 850,364 bitcoin.
