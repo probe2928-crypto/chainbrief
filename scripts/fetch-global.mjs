@@ -37,7 +37,7 @@ export function symbols(title) {
 }
 const DERIV = /futures|perpetual|margin|options|pre-market|premarket|alpha|earn|convert|launchpool|hodler|megadrop|copy trading|trading bots|loan|monitoring tag|seed tag applied.*futures/i;
 export function kind(title, hint) {
-  if (/bStocks|xStocks|tokenized stock|TradFi|stock perpetual|equity|\bFX\b|forex|commodit|\b(?:XAU|XAG)USDT\b|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
+  if (/bStocks|xStocks|tokenized stock|TradFi|stock perpetual|equity|\bFX\b|forex|commodit|pre-?IPO|\b(?:XAU|XAG)USDT\b|Binance Alpha|\bAlpha\b/i.test(title)) return null; // 토큰화 주식·알파(온체인 목록)는 코인 상장이 아님
   if (/delist|cease trading|remove .* spot|end of support|will (remove|delist)/i.test(title)) return "delisting";
   if (hint === "delisting") return /spot|delist/i.test(title) ? "delisting" : null;
   if (hint === "futures" || (/perpetual|futures/i.test(title) && /launch|will list|introduce|new\b/i.test(title) && !/options|\bmargin\b|\bearn\b|copy trading|bots?\b|convert|loan|delist/i.test(title))) return /perpetual|futures|swap|contract/i.test(title) ? "futures" : null;

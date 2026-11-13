@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -327,7 +327,8 @@ const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src"
 const mediaBlock = (a, L = { img: "AI 생성 이미지", vid: "AI 제작 영상" }) => {
   const parts = [];
   if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${hasMedia(a.video.replace(/\.mp4$/, ".jpg")) ? ` poster="${u(a.video.replace(/\.mp4$/, ".jpg"))}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
-  if (a.image) parts.push(`<p class="a-credit">상단 이미지: ${esc(a.image_note || L.img)}</p>`);
+  if (isChart(a)) parts.push(chartFigure(a, u(a.image), { k: "도표", open: "도표 크게 보기" }));
+  else if (a.image) parts.push(`<p class="a-credit">상단 이미지: ${esc(a.image_note || L.img)}</p>`);
   return parts.join("");
 };
 function hero(slides, size = "lg", label = "주요 소식") {
@@ -353,7 +354,7 @@ function hero(slides, size = "lg", label = "주요 소식") {
   </div>` : ""}
 </section>`;
 }
-const artSlide = (a, eye) => ({ art: ART[a.category], img: a.image, eye, title: a.title, dek: a.summary || plain(a.body).slice(0, 110), href: u(`articles/${a.id}/`), cta: "기사 읽기" });
+const artSlide = (a, eye) => ({ art: ART[a.category], img: isChart(a) ? null : a.image, eye, title: a.title, dek: a.summary || plain(a.body).slice(0, 110), href: u(`articles/${a.id}/`), cta: "기사 읽기" });
 const eyeOf = (a) => `${a.format ? esc(a.format) : a.author === cfg.author ? "오늘의 해설" : "기사"} · ${esc(a.author || "편집국")}`;
 
 // 홈 상단 컬러 필드: 시장 숫자 4칸 + 오늘의 기사
@@ -569,7 +570,7 @@ articles.forEach((a, i) => {
   write(`articles/${a.id}/index.html`, layout({
     title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
-    body: `<div class="cover" aria-hidden="true">${a.image ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
+    body: `<div class="cover" aria-hidden="true">${a.image && !isChart(a) ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
     <article class="doc">
       <div class="kicker">${catTag(a)}${a.format ? `<span class="tag fmt">${esc(a.format)}</span>` : ""}</div>
       <h1>${esc(a.title)}</h1>
@@ -886,7 +887,7 @@ const PUBLIC_ORIGIN = SITE_URL || "https://probe2928-crypto.github.io";
 writeAppFeed({ write, lang: "ko", flashes, articles, markdown, now: NOW, link: (p) => PUBLIC_ORIGIN + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
 write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
 write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
-write("global-listings.json", JSON.stringify({ updatedAt: globalLs?.updatedAt || null, items: (globalLs?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 80) }));
+write("global-listings.json", JSON.stringify({ updatedAt: globalLs?.updatedAt || null, items: (globalLs?.items || []).filter((i) => !NON_COIN.test(i.title)).slice(0, 80) }));
 write("manifest.webmanifest", JSON.stringify({
   name: `${cfg.nameEn} ${cfg.name}`, short_name: cfg.nameEn, description: cfg.description, lang: "ko",
   start_url: BASE, scope: BASE, display: "standalone", background_color: "#0A0A0A", theme_color: "#0A0A0A",

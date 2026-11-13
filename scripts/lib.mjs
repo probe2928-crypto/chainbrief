@@ -136,12 +136,20 @@ export function smartQuotes(s) {
   }).replace(/([’”])(?=[가-힣\u4e00-\u9fff])/g, "$1\u2060"); // 닫는 따옴표 뒤 조사(‘출구’는)가 다음 줄로 떨어지지 않게 (단어 결합자)
 }
 
+// 기사 그림이 '도표·그래픽'(글자가 든 인포그래픽)이면 표지 배경으로 자르지 않고 본문 도표 액자로 보여 준다
+export const isChart = (a) => !!a?.image && /그래픽|도표|차트|graphic|chart|infographic|图表|图卡|图解/i.test(a.image_note || "");
+export function chartFigure(a, src, label) {
+  if (!isChart(a)) return "";
+  return `<figure class="a-chart"><a href="${src}" target="_blank" rel="noopener" aria-label="${label.open}"><img src="${src}" width="1200" height="630" alt="${(a.image_alt || a.title || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;")}" loading="lazy" decoding="async"></a><figcaption><span class="ac-k">${label.k}</span><span class="ac-n">${(a.image_note || "").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span></figcaption></figure>`;
+}
+// 코인 상장이 아닌 것(토큰화 주식·알파·Pre-IPO·외환·원자재)은 상장 원장·목록·사이드바에서 뺀다
+export const NON_COIN = /bStocks|xStocks|tokenized stock|\bAlpha\b|pre-?IPO|\bFX\b|forex|commodit/i;
 // 해외 거래소 상장 원장 (data/global-listings.json) — KO·EN·中文 상장 페이지 공용
 // S = { label, title, aside, listing, delisting, notice, empty, checked, stale }, rel(d) = 날짜 도장, hhmm(d)
 export const GL_EX = { binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
 export function globalLedger({ data, S, esc, rel, hhmm, limit = 40 }) {
   if (!data || !data.status) return "";
-  const items = (data.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, limit);
+  const items = (data.items || []).filter((i) => !NON_COIN.test(i.title)).slice(0, limit);
   const now = Date.now();
   const src = Object.keys(GL_EX).map((k) => {
     const st = data.status[k] || {};
@@ -176,7 +184,7 @@ export function globalLedger({ data, S, esc, rel, hhmm, limit = 40 }) {
 export const EX_ALL = { upbit: "Upbit", bithumb: "Bithumb", binance: "Binance", okx: "OKX", bybit: "Bybit", coinbase: "Coinbase" };
 export const isKR = (i) => i.exchange === "upbit" || i.exchange === "bithumb";
 export function mergeListings(krItems = [], global = null) {
-  const g = (global?.items || []).filter((i) => !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).map((i) => ({
+  const g = (global?.items || []).filter((i) => !NON_COIN.test(i.title)).map((i) => ({
     key: i.key, exchange: i.exchange, type: i.type, title: i.title, url: i.url, time: i.time,
     coins: (i.symbols || []).map((s) => ({ symbol: s, name: "" })), markets: [], global: true,
   }));
@@ -184,7 +192,7 @@ export function mergeListings(krItems = [], global = null) {
 }
 // 사이드 레일용 해외 상장 5건 (EN·中文 홈)
 export function globalRail({ data, S, esc, rel, hhmm, href, more }) {
-  const items = (data?.items || []).filter((i) => i.type !== "delisting" && !/bStocks|xStocks|\bAlpha\b/i.test(i.title)).slice(0, 5);
+  const items = (data?.items || []).filter((i) => i.type !== "delisting" && !NON_COIN.test(i.title)).slice(0, 5);
   if (!items.length) return "";
   const tyLabel = (t) => t === "listing" ? S.listing : (S.futures || "Futures");
   return `<section class="block"><div class="block-head"><h2>${esc(S.title)}</h2><span class="label">Global</span></div>

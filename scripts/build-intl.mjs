@@ -6,7 +6,7 @@ import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet} from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -342,7 +342,8 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${asset(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
   const MT = L.code === "zh" ? { img: "AI 生成图片", vid: "AI 制作视频" } : { img: "AI-generated image", vid: "AI-produced video" };
   const mediaBlock = (a) => (a.video ? `<figure class="a-media"><video controls playsinline preload="metadata"${hasMedia(a.video.replace(/\.mp4$/, ".jpg")) ? ` poster="${asset(a.video.replace(/\.mp4$/, ".jpg"))}"` : ""} src="${asset(a.video)}"></video><figcaption>${esc(a.video_note || MT.vid)}</figcaption></figure>` : "")
-    + (a.image ? `<p class="a-credit">${L.code === "zh" ? "头图：" : "Top image: "}${esc(a.image_note || MT.img)}</p>` : "");
+    + (isChart(a) ? chartFigure(a, asset(a.image), L.code === "zh" ? { k: "图表", open: "查看大图" } : { k: "Chart", open: "Open full-size chart" }) : "")
+    + (a.image && !isChart(a) ? `<p class="a-credit">${L.code === "zh" ? "头图：" : "Top image: "}${esc(a.image_note || MT.img)}</p>` : "");
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
     const used = new Set();
@@ -354,7 +355,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   ${slides.length > 1 ? `<div class="wrap hero-ui"><div class="hero-bars">${slides.map((_, i) => `<button type="button" class="hero-bar" aria-label="${i + 1}"><i></i></button>`).join("")}</div><span class="hero-count num"><b>01</b> / ${String(slides.length).padStart(2, "0")}</span><button type="button" class="hero-nav" data-dir="-1" aria-label="Previous">←</button><button type="button" class="hero-nav" data-dir="1" aria-label="Next">→</button></div>` : ""}
 </section>`;
   }
-  const artSlide = (a) => ({ art: ART[a.category], img: a.image, eye: `${esc(a.region || a.category || "")} · ${esc(a.author || L.name)}`, title: a.title, dek: a.summary || plain(a.body).slice(0, 140), href: u(`articles/${a.id}/`), cta: L.slideRead });
+  const artSlide = (a) => ({ art: ART[a.category], img: isChart(a) ? null : a.image, eye: `${esc(a.region || a.category || "")} · ${esc(a.author || L.name)}`, title: a.title, dek: a.summary || plain(a.body).slice(0, 140), href: u(`articles/${a.id}/`), cta: L.slideRead });
 
   // 파츠
   const chips = (t, b) => coinChips(coinsIn(t, b), { coins: cfg.coins, href: u("market/"), label: esc(L.ccAria) });
@@ -512,7 +513,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     const more = articles.filter((x) => x !== a).slice(0, 4);
     write(`${P}articles/${a.id}/index.html`, layout({
       title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
-      body: `<div class="cover" aria-hidden="true">${a.image ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
+      body: `<div class="cover" aria-hidden="true">${a.image && !isChart(a) ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${zt(a.title, L.code)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}
       <div class="byrow"><span class="byline">${esc(L.byText)} ${byName(a.author)}${staffOf(a.author) ? ` · ${esc(staffOf(a.author).desk)}` : ""}</span><span class="byend"><span class="readt">${esc(L.readT.replace("{n}", readMin(a.body, L.code)))}</span><time class="byline">${fullDate(a.date)}</time></span></div>

@@ -1336,6 +1336,18 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
 .a-media img,.a-media video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--line)}
 .a-media figcaption{margin-top:8px;font-size:var(--fs-meta);color:var(--mute)}
 .a-credit{margin:10px 0 22px;font-size:var(--fs-meta);color:var(--mute)}
+/* 기사 도표(인포그래픽) — 표지 배경으로 자르지 않고 본문 앞 액자로. 위 잉크 선 + 아래 헤어라인, 캡션은 라벨 · 출처 */
+.a-chart{margin:24px 0 34px}
+.a-chart a{display:block;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);cursor:zoom-in;outline-offset:4px}
+.a-chart img{display:block;width:100%;height:auto;aspect-ratio:1200/630;background:#fff;transition:opacity .25s ease}
+.a-chart a:hover img{opacity:.92}
+.a-chart figcaption{display:flex;align-items:baseline;gap:10px;margin-top:10px;font-size:var(--fs-meta);line-height:1.5;color:var(--mute)}
+.a-chart .ac-k{flex:none;font-family:var(--f-label),var(--f-sans);font-weight:500;font-size:var(--fs-meta);color:var(--ink)}
+.a-chart .ac-k::after{content:"";display:inline-block;width:18px;height:1px;margin-left:10px;vertical-align:middle;background:var(--faint)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .a-chart img{filter:brightness(.9)}}
+:root[data-theme="dark"] .a-chart img{filter:brightness(.9)}
+@media (max-width:700px){.a-chart{margin:20px -4px 28px}.a-chart a{padding:10px 0}}
+@media (prefers-reduced-motion:reduce){.a-chart img{transition:none}}
 .a-media video{aspect-ratio:9/16;width:auto;max-width:100%;height:min(78vh,640px);margin:0 auto;object-fit:contain;background:#0B0B0B;border-radius:2px}
 .a-media figcaption{text-align:center}
 
