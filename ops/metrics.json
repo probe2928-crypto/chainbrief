@@ -2907,6 +2907,182 @@
     "note": "국가는 사용자 기준 정렬(US 5·JP 3·KR 3·CA 2·MY 1·TW 1; 세션은 JP 7·US 5). 속성 전체 기준"
    },
    "supermetrics_note": "Supermetrics 체험판이 11/13 만료 예고(get_today 안내) — 만료 시 이 집계 불가"
+  },
+  {
+   "date": "2026-11-13",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-14 08:58 KST 수집). 호스트 기준 분리(chainbrief.app·perpline.tech·github.io/<경로>). 사이트별 사용자는 페이지 행 합산이라 근사",
+   "total": {
+    "users_all_property": 13,
+    "sessions": 14,
+    "views": 13,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 11,
+     "sessions": 11,
+     "views": 9,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "/ 9명, /listings/ 1, /projects/krapi-trading-workshop/ 1"
+    },
+    "perpline": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "perpline.tech/start.html 1(bitmedia 배너 유입 1건은 속성 전체 기준)"
+    },
+    "luft": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    },
+    "qurator": {
+     "users": 2,
+     "sessions": 2,
+     "views": 3,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    },
+    "blockkey": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 행 없음"
+    }
+   },
+   "gsc_note": "11-13 8개 사이트 클릭·노출 모두 0(집계 지연 가능). 11-08~13 조회: 11-08 oriel 클릭 1·노출 2, 11-09 yeobaek 노출 1(26위), 11-10 oriel 노출 1(2위), 11-11 yeobaek 노출 1(67위). 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "note": "3페이지 합산 1행: 11-12·13 팔로워 변동·도달·참여 0. 페이지별 분리·팔로워 총수 미확인"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 179,
+      "reach": 2,
+      "profile_views": 8,
+      "note": "11-13 reach 2·profile_views 8(지연 집계 가능), 11-12는 reach 31·profile_views 199로 상향됨(전 기록 25)"
+     }
+    },
+    "li": {
+     "chainbrief": {
+      "impressions": 0,
+      "engagement": 0
+     },
+     "blockkey": {
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "impressions": 0,
+      "engagement": 0
+     },
+     "note": "팔로워 총수 이번 회차 미조회(미확인)"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social에 metrics_<날짜> 문서 없음(playbook·posts_*만) — 11/13 X 숫자 미확인"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-12",
+    "users_total": 15,
+    "chainbrief": 8,
+    "perpline": 6,
+    "luft": 0,
+    "qurator": 1
+   },
+   "delta_vs_prev": {
+    "users_total": -2,
+    "sessions": -5,
+    "views": -14,
+    "by_site_users": {
+     "chainbrief": 3,
+     "perpline": -5,
+     "qurator": 1
+    },
+    "note": "매출 3사업: Perpline 6→1·QURATOR 1→2·LUFT 0→0. 절대값이 작아 즉시 판단 사항 아님"
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/ (9명)",
+      "/listings/ (1명)",
+      "/projects/krapi-trading-workshop/ (1명)"
+     ],
+     "perpline": [
+      "/start.html (1명)"
+     ],
+     "qurator": [
+      "/qurator/ (2명·3뷰)"
+     ]
+    },
+    "countries_by_users": [
+     [
+      "United States",
+      6
+     ],
+     [
+      "South Korea",
+      2
+     ],
+     [
+      "Hong Kong",
+      1
+     ],
+     [
+      "Japan",
+      1
+     ],
+     [
+      "Sudan",
+      1
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      13
+     ],
+     [
+      "bitmedia / banner",
+      1
+     ]
+    ]
+   },
+   "supermetrics_note": "Supermetrics 체험판이 11/14(UTC) 만료 예고 — 만료 후 이 집계 불가"
   }
  ]
 }
