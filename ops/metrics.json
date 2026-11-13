@@ -2735,6 +2735,178 @@
     ],
     "note": "국가·소스는 속성 전체 기준. 싱가포르 세션 11→7로 감소(봇 의심 패턴 약화)"
    }
+  },
+  {
+   "date": "2026-11-12",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-13 09:00 KST 수집). 호스트 기준 분리: chainbrief.app·perpline.tech·github.io/<경로>",
+   "total": {
+    "users_all_property": 15,
+    "sessions": 19,
+    "views": 27,
+    "gsc_clicks": null,
+    "gsc_impr": null
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 8,
+     "sessions": 11,
+     "views": 20,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "호스트 chainbrief.app 필터 직접 조회(홈 8명·10세션)"
+    },
+    "perpline": {
+     "users": 6,
+     "sessions": 7,
+     "views": 6,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "호스트 perpline.tech 필터 직접 조회, 전부 홈(/)"
+    },
+    "luft": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "note": "GA 행 없음"
+    },
+    "qurator": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "note": "github.io/qurator/ 1행"
+    },
+    "lifejunjun": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "note": "GA 행 없음"
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "note": "GA 행 없음"
+    },
+    "blockkey": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "note": "GA 행 없음"
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "note": "GA 행 없음"
+    }
+   },
+   "gsc_note": "11-12 서치콘솔은 아직 미집계(미확인). 8개 합계 최근 7일(11-05~11) 클릭 1(11-08)·노출 5, 11-11 클릭 0·노출 1(평균 67위). 사이트별 분리는 이번 회차 미조회. 체인브리프·Perpline 검색어 행 없음",
+   "social": {
+    "fb": {
+     "note": "3페이지 합산 1행, 최신 확정일 11-11 기준 팔로워 변동·참여 0. 페이지별 분리·11-12 값 미확인(지연 집계 가능)"
+    },
+    "ig": {
+     "lifejunjun": {
+      "followers": 179,
+      "reach": 25,
+      "impressions": null,
+      "note": "11-12 reach 25, 11-11 reach 10(전 기록 3에서 지연 집계로 상향). impressions(profile_views) 미조회"
+     }
+    },
+    "li": {
+     "chainbrief": {
+      "followers": 4,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "blockkey": {
+      "followers": 82,
+      "impressions": 0,
+      "engagement": 0
+     },
+     "oriel": {
+      "followers": 0,
+      "impressions": 0,
+      "engagement": 0
+     }
+    },
+    "x": {
+     "status": "부분 확인",
+     "followers": 3,
+     "following": 14,
+     "post_views": "글당 1~2뷰(보드 11/09 기록 기준)",
+     "note": "보드 social에 metrics_<날짜> 문서 없음 — playbook·posts_20261110 값만 사용, 11/11·12 미확인"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-11",
+    "users_total": 32,
+    "chainbrief": 18,
+    "perpline": 9,
+    "luft": 2,
+    "qurator": 3
+   },
+   "delta_vs_prev": {
+    "users_total": -17,
+    "by_site_users": {
+     "chainbrief": -10,
+     "perpline": -3,
+     "luft": -2,
+     "qurator": -2,
+     "lifejunjun": -2,
+     "blockkey": -4
+    },
+    "note": "32→15. 매출 3사업은 Perpline 9→6·LUFT 2→0·QURATOR 3→1, 절대값 작아 즉시 판단 사항 아님"
+   },
+   "top": {
+    "pages": {
+     "chainbrief": [
+      "/ (8명)",
+      "/projects/krapi-trading-workshop/ (1명·2세션)",
+      "/en/contact/ (1명·2뷰)"
+     ],
+     "perpline": [
+      "perpline.tech/ (6명)"
+     ],
+     "qurator": [
+      "/qurator/ (1명)"
+     ]
+    },
+    "countries_by_sessions": [
+     [
+      "United States",
+      5
+     ],
+     [
+      "Japan",
+      7
+     ],
+     [
+      "South Korea",
+      3
+     ],
+     [
+      "Canada",
+      2
+     ],
+     [
+      "Malaysia",
+      1
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      18
+     ],
+     [
+      "mokka.corp.google.com / referral",
+      1
+     ]
+    ],
+    "note": "국가는 사용자 기준 정렬(US 5·JP 3·KR 3·CA 2·MY 1·TW 1; 세션은 JP 7·US 5). 속성 전체 기준"
+   },
+   "supermetrics_note": "Supermetrics 체험판이 11/13 만료 예고(get_today 안내) — 만료 시 이 집계 불가"
   }
  ]
 }
