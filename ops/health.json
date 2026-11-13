@@ -1,70 +1,68 @@
 {
- "at": "2026-11-13T03:25:00+09:00",
+ "at": "2026-11-14 03:26 KST",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "성공 (11/12 17:35Z 부근, 1시간 내)",
-   "failures": [
-    "asc.yml 11/11 22:18Z 실패(15분 뒤 취소, 이후 실행 없음·원인 미확인) — 미해결",
-    "빌드 및 배포 #773 11/11 21:59Z 타임아웃 — 이후 성공으로 해결"
-   ],
+   "lastRun": "빌드 및 배포 success 2026-11-13T17:36Z",
+   "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "성공",
+   "lastRun": "pages build and deployment success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "성공",
+   "lastRun": "pages build and deployment success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "성공",
+   "lastRun": "Docent narration/pages success (pages 1건 cancelled, 이후 성공)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "성공",
+   "lastRun": "24시간 내 실행 없음",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "blockkey",
-   "lastRun": "성공",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "firstbrick",
-   "lastRun": "미확인(저장소 경로 오류)",
+   "lastRun": "24시간 내 실행 없음",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "lifejunjun",
-   "lastRun": "미확인(접근 권한 없음)",
+   "lastRun": "미확인(세션 권한 없음)",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "yeobaek",
-   "lastRun": "미확인(접근 권한 없음)",
+   "lastRun": "미확인(세션 권한 없음)",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": "미확인(API 경로 거부)",
    "failures": [],
    "fixed": []
   }
  ],
  "sites": [
   {
-   "url": "전체 사이트",
+   "url": "perpline.tech 외 전체",
    "ok": null,
-   "note": "프록시 차단으로 미확인"
+   "note": "미확인: 이 세션에서 웹 접근 차단(curl 403, WebFetch 권한 미응답)"
   }
  ],
- "failedTasks": []
+ "failedTasks": [],
+ "notes": "예약 작업 enabled 전체 확인: FAILED 0, ABANDONED 1(재무·세무팀 CFO 11/09 월요일 회차), device_absent 0"
 }
