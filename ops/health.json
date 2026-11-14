@@ -1,9 +1,9 @@
 {
- "at": "2026-11-14 03:26 KST",
+ "at": "2026-11-15 03:20 KST",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "빌드 및 배포 success 2026-11-13T17:36Z",
+   "lastRun": "빌드 및 배포 success 2026-11-14T18:05Z",
    "failures": [],
    "fixed": []
   },
@@ -58,9 +58,14 @@
  ],
  "sites": [
   {
-   "url": "perpline.tech 외 전체",
+   "url": "chainbrief.app",
+   "ok": true,
+   "note": "속보 KO 01:32 KST"
+  },
+  {
+   "url": "lifejunjun.com",
    "ok": null,
-   "note": "미확인: 이 세션에서 웹 접근 차단(curl 403, WebFetch 권한 미응답)"
+   "note": "fetch invalid_url, 미확인"
   }
  ],
  "failedTasks": [],
