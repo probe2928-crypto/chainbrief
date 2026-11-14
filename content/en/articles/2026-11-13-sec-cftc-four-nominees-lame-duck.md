@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The White House has named two SEC and two CFTC commissioners, its first picks for either agency in about a year and its first Democrats for them. The CFTC has been run by a single commissioner for months. The Senate that would confirm the four hands over to a Democratic majority on Jan. 3.
+image: media/articles/2026-11-13-sec-cftc-four-nominees-lame-duck.png
+image_alt: SEC has 2 sitting commissioners (Atkins, Uyeda) and would have 4 if nominees Johnson and Levine are confirmed via the Senate Banking Committee; CFTC has 1 (Selig) and would have 3 if Anonick and Rowland are confirmed via Senate Agriculture. Five seats per commission. The new Congress is sworn in at noon on Jan. 3, 2027, with Democrats taking the Senate majority; no hearing dates set as of Friday.
+image_note: AI-made graphic (summary of article)
 ---
 
 For most of this year, every rule, settlement and staff letter at the Commodity Futures Trading Commission has carried the approval of exactly one person. Chairman Mike Selig is the only commissioner on a panel built for five. On Thursday, the White House sent the Senate two names that would end that.
