@@ -5,8 +5,16 @@
   "description": "24시간 암호화폐·블록체인 속보, 해외 주요 뉴스, 실시간 시세를 한곳에서.",
   "domain": "chainbrief.app",
   "lang": "ko",
-  "social": { "x": "https://x.com/chainbrief_hq", "linkedin": "https://www.linkedin.com/company/chainbrief/", "facebook": "https://www.facebook.com/profile.php?id=61596044395440" },
-  "tgChannels": { "ko": "@chainbrief_kr", "en": "@chainbrief_global", "zh": "@chainbrief_cn" },
+  "social": {
+    "x": "https://x.com/chainbrief_hq",
+    "linkedin": "https://www.linkedin.com/company/chainbrief/",
+    "facebook": "https://www.facebook.com/profile.php?id=61596044395440"
+  },
+  "tgChannels": {
+    "ko": "@chainbrief_kr",
+    "en": "@chainbrief_global",
+    "zh": "@chainbrief_cn"
+  },
   "categories": [
     "비트코인",
     "알트코인",
@@ -118,12 +126,33 @@
   "auth": {
     "url": "https://szsvihpghadpxhavdhqt.supabase.co",
     "anonKey": "sb_publishable_mRoGWPlaCUl-Z8vdR3NMDg_bXDinag1",
-    "providers": ["google", "kakao", "email"],
-    "providersPending": ["apple"],
+    "providers": [
+      "google",
+      "kakao",
+      "email"
+    ],
+    "providersPending": [
+      "apple"
+    ],
     "naver": "hidden",
-    "channels": ["email", "kakao", "sms"],
-    "versions": { "terms": "2026-11-02", "privacy": "2026-11-02", "marketing": "2026-11-02" },
-    "theme": { "ink": "#0A0A0A", "paper": "#FFFFFF", "accent": "#0A0A0A", "muted": "#5A5A58", "line": "#E6E5E2", "radius": "6px" }
+    "channels": [
+      "email",
+      "kakao",
+      "sms"
+    ],
+    "versions": {
+      "terms": "2026-11-02",
+      "privacy": "2026-11-02",
+      "marketing": "2026-11-02"
+    },
+    "theme": {
+      "ink": "#0A0A0A",
+      "paper": "#FFFFFF",
+      "accent": "#0A0A0A",
+      "muted": "#5A5A58",
+      "line": "#E6E5E2",
+      "radius": "6px"
+    }
   },
   "communitySources": [
     {
@@ -259,5 +288,6 @@
       "cta": "了解明窗基金会",
       "path": ""
     }
-  }
+  },
+  "email": "probe2928@gmail.com"
 }
