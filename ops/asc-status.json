@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-14T21:54:12.440Z",
+  "at": "2026-11-15T21:55:37.692Z",
   "cmd": "status",
   "apps": [
     {
@@ -10,6 +10,14 @@
       "name": "CHAINBRIEF",
       "primaryLocale": "en-US",
       "builds": [
+        {
+          "id": "ad4b7976-150d-42a4-acd3-d074a59ee769",
+          "build": "22",
+          "version": "1.3.0",
+          "state": "VALID",
+          "uploaded": "2026-11-15T05:33:39-08:00",
+          "expired": false
+        },
         {
           "id": "40f63cd1-ad04-4bfc-afab-5dcb084c2419",
           "build": "19",
@@ -44,11 +52,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "40f63cd1-ad04-4bfc-afab-5dcb084c2419",
-        "build": "19",
+        "id": "ad4b7976-150d-42a4-acd3-d074a59ee769",
+        "build": "22",
         "version": "1.3.0",
         "state": "VALID",
-        "uploaded": "2026-11-04T21:05:02-08:00",
+        "uploaded": "2026-11-15T05:33:39-08:00",
         "expired": false
       },
       "versions": [
@@ -80,6 +88,14 @@
       "primaryLocale": "ko",
       "builds": [
         {
+          "id": "33aed696-fd1b-433d-b11b-a57230ccfd0f",
+          "build": "25",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-15T11:27:20-08:00",
+          "expired": false
+        },
+        {
           "id": "44b53c55-cf22-478d-9de9-5c432b7545d5",
           "build": "24",
           "version": "1.0.0",
@@ -105,11 +121,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "44b53c55-cf22-478d-9de9-5c432b7545d5",
-        "build": "24",
+        "id": "33aed696-fd1b-433d-b11b-a57230ccfd0f",
+        "build": "25",
         "version": "1.0.0",
         "state": "VALID",
-        "uploaded": "2026-11-12T21:51:31-08:00",
+        "uploaded": "2026-11-15T11:27:20-08:00",
         "expired": false
       },
       "versions": [
@@ -131,6 +147,14 @@
       "name": "LUFT",
       "primaryLocale": "ko",
       "builds": [
+        {
+          "id": "70457fcd-1ba8-40d2-9fc7-bfd9751bc238",
+          "build": "25",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-15T11:26:16-08:00",
+          "expired": false
+        },
         {
           "id": "24c963db-f969-4413-9115-0b5c2fff9817",
           "build": "23",
@@ -173,11 +197,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "24c963db-f969-4413-9115-0b5c2fff9817",
-        "build": "23",
+        "id": "70457fcd-1ba8-40d2-9fc7-bfd9751bc238",
+        "build": "25",
         "version": "1.0.0",
         "state": "VALID",
-        "uploaded": "2026-11-08T11:22:50-08:00",
+        "uploaded": "2026-11-15T11:26:16-08:00",
         "expired": false
       },
       "versions": [
