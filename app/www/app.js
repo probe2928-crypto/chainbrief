@@ -18,7 +18,7 @@
       live: "라이브 속보", news: "체인브리프 기사", list: "상장 소식", mkt: "실시간 시세", more: "저장한 기사",
       all: "전체", imp: "중요", today: "오늘", yday: "어제", upd: "{t} 업데이트", pxOff: "시세를 불러오지 못했어요. 연결되면 자동으로 다시 시도해요.", pxOld: "{t} 기준 · 다시 연결 중", offline: "오프라인 — 저장된 내용을 보여줘요", none: "아직 소식이 없어요.",
       by: "글", read: "읽기", saved: "저장했어요", unsaved: "저장을 취소했어요", copied: "링크를 복사했어요", noSaved: "저장한 기사가 없어요. 기사 화면 위쪽 책갈피를 누르면 여기에 모여요.",
-      settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
+      settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", contactUs: "문의하기 (이메일)", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
       ty: { listing: "신규 상장", delisting: "거래 종료", caution: "유의 종목", "caution-cleared": "유의 해제" }, notice: "공지 보기",
       glT: "해외 거래소 상장", krT: "국내 거래소 상장", glTy: { listing: "현물 상장", futures: "선물 상장", delisting: "상장 폐지" }, soon: "예정",
       usd: "달러", krw: "업비트 원화", kimp: "김프", fng: "공포·탐욕", dom: "BTC 도미넌스", mktNote: "김프 = 업비트 원화가 ÷ (글로벌 달러가 × 환율) − 1. 1분마다 갱신. 투자 권유가 아니에요.",
@@ -28,7 +28,7 @@
       live: "Live Wire", news: "CHAINBRIEF Analysis", list: "Exchange Listings", mkt: "Markets", more: "Saved stories",
       all: "All", imp: "Breaking", today: "Today", yday: "Yesterday", upd: "Updated {t}", pxOff: "Couldn't load prices. We'll retry automatically once you're online.", pxOld: "As of {t} · reconnecting", offline: "Offline — showing saved content", none: "No stories yet.",
       by: "By", read: "Read", saved: "Saved", unsaved: "Removed from saved", copied: "Link copied", noSaved: "Nothing saved yet. Tap the bookmark at the top of a story to keep it here.",
-      settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", site: "Website", privacy: "Privacy policy", partners: "Partners",
+      settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", contactUs: "Contact us (email)", site: "Website", privacy: "Privacy policy", partners: "Partners",
       ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, notice: "Notice",
       glT: "Global exchange listings", krT: "Korean exchange listings", glTy: { listing: "Spot listing", futures: "Futures", delisting: "Delisting" }, soon: "Soon",
       usd: "USD", krw: "Upbit KRW", kimp: "Kimchi", fng: "Fear & Greed", dom: "BTC dominance", mktNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute. Not investment advice.",
@@ -38,7 +38,7 @@
       live: "7×24 快讯", news: "链报分析", list: "交易所上币", mkt: "实时行情", more: "我的收藏",
       all: "全部", imp: "重要", today: "今天", yday: "昨天", upd: "{t} 更新", pxOff: "无法加载行情，联网后会自动重试。", pxOld: "{t} 数据 · 正在重连", offline: "离线 — 显示已保存内容", none: "暂无内容。",
       by: "作者", read: "阅读", saved: "已收藏", unsaved: "已取消收藏", copied: "链接已复制", noSaved: "还没有收藏。点击文章顶部的书签即可保存到这里。",
-      settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", site: "网站", privacy: "隐私政策", partners: "Partners",
+      settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", contactUs: "联系我们（邮箱）", site: "网站", privacy: "隐私政策", partners: "Partners",
       ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, notice: "公告",
       glT: "全球交易所上币", krT: "韩国交易所上币", glTy: { listing: "现货上币", futures: "合约上线", delisting: "下架" }, soon: "即将",
       usd: "美元", krw: "Upbit 韩元", kimp: "溢价", fng: "恐惧与贪婪", dom: "BTC 市占率", mktNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。不构成投资建议。",
@@ -56,7 +56,7 @@
 
   /* ---------- native helpers ---------- */
   const haptic = () => { try { P.Haptics?.impact({ style: "LIGHT" }); } catch {} };
-  const open = (url) => { if (!url) return; if (P.Browser) P.Browser.open({ url, presentationStyle: "popover" }).catch(() => (location.href = url)); else window.open(url, "_blank", "noopener"); };
+  const open = (url) => { if (!url) return; if (/^(mailto|tel):/.test(url)) { location.href = url; return; } if (P.Browser) P.Browser.open({ url, presentationStyle: "popover" }).catch(() => (location.href = url)); else window.open(url, "_blank", "noopener"); };
   let toastT;
   const toast = (msg) => { const t = $("#toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); };
   async function getJSON(url, ms = 12000) {
@@ -197,6 +197,7 @@
     out += `<div class="group"><span class="label">${T.settings}</span>
       <div class="row"><span>${T.lang}</span><span class="seg" id="langSeg">${["ko", "en", "zh"].map((l) => `<button type="button" data-l="${l}" aria-pressed="${l === lang}">${I[l].code}</button>`).join("")}</span></div>
       <div class="row"><span>${T.theme}</span><span class="seg" id="themeSeg">${[["system", T.sys], ["light", T.light], ["dark", T.dark]].map(([k, l]) => `<button type="button" data-th="${k}" aria-pressed="${k === th}">${l}</button>`).join("")}</span></div>
+      ${cfg?.email ? `<button type="button" class="row" data-url="mailto:${esc(cfg.email)}"><span>${T.contactUs}</span><small>${esc(cfg.email)}</small></button>` : ""}
       <button type="button" class="row" data-url="https://t.me/${esc(cfg?.telegram || "btcbullit")}"><span>${T.contact}</span><small>Telegram @${esc(cfg?.telegram || "btcbullit")}</small></button>
       <button type="button" class="row" data-url="${SITE}${lang === "ko" ? "" : lang + "/"}"><span>${T.site}</span><small>chainbrief</small></button>
       <button type="button" class="row" data-url="${SITE}privacy/"><span>${T.privacy}</span><small>→</small></button></div>`;

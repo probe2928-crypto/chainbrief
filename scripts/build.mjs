@@ -730,10 +730,11 @@ write("community/write/index.html", layout({
 // 문의
 write("contact/index.html", layout({
   title: "문의", active: "contact/", canonical: "contact/", float: false,
-  description: `제보, 광고, 제휴 문의는 텔레그램 @${cfg.telegram}`,
+  description: `제보, 광고, 제휴 문의${cfg.email ? ` · 이메일 ${cfg.email}` : ""} · 텔레그램 @${cfg.telegram}`,
   body: `<div class="wrap"><main class="single">
   ${secHead("Contact", "제보 · 광고 · 제휴 문의")}
   <div class="contact">
+    ${cfg.email ? `<div id="contact-us"><span class="label">Contact us · 이메일</span><div class="handle"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">체인브리프 운영팀 이메일이에요. 제보·광고·정정 요청 모두 받아요.</p></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
@@ -783,7 +784,7 @@ write("privacy/index.html", layout({
   <h2>문의</h2>
   <p>개인정보와 관련한 문의는 텔레그램 <a href="${TG}">@${esc(cfg.telegram)}</a>으로 보내주세요.</p>
   <h2>Privacy Policy (English)</h2>
-  <p>Accounts on CHAINBRIEF are optional. Without one, the website and apps do not collect personal data such as names, contacts, location or advertising identifiers; what an account collects (email, social login ID, sign-up site and referral, consent records, optional marketing channels) is described in the Korean sections above, which govern. Account data is stored by Supabase Inc. in the Seoul region and you can delete your account any time under Account. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Contact: Telegram @${esc(cfg.telegram)}.</p>
+  <p>Accounts on CHAINBRIEF are optional. Without one, the website and apps do not collect personal data such as names, contacts, location or advertising identifiers; what an account collects (email, social login ID, sign-up site and referral, consent records, optional marketing channels) is described in the Korean sections above, which govern. Account data is stored by Supabase Inc. in the Seoul region and you can delete your account any time under Account. Language, appearance settings and saved stories stay on your device. To show prices, the app connects directly to the public APIs of CoinGecko, Upbit, Bithumb and Alternative.me, which may log standard connection data under their own policies. Posts on the website's community board store the nickname, content, a hashed deletion password and a hashed IP address used to prevent spam. Partner banners and external links lead to third-party sites with their own policies. We use no ad tracking. The website (not the apps) uses Google Analytics 4 to count visits: pages viewed, device and browser type and approximate region are sent to Google and are not used to identify you. Advertising features and Google signals are off, and in the EEA, UK and Switzerland it runs without cookies. You can opt out with your browser settings or the <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">Google Analytics opt-out add-on</a>. Contact: ${cfg.email ? `${esc(cfg.email)} or ` : ""}Telegram @${esc(cfg.telegram)}.</p>
   </div>
   </main></div>`,
 }));
@@ -885,7 +886,7 @@ if (SITE_URL) {
 } else write("robots.txt", "User-agent: *\nAllow: /\n");
 const PUBLIC_ORIGIN = SITE_URL || "https://probe2928-crypto.github.io";
 writeAppFeed({ write, lang: "ko", flashes, articles, markdown, now: NOW, link: (p) => PUBLIC_ORIGIN + u(p), artOf: (a, i) => ART[a.category] || ART_POOL[i % ART_POOL.length] });
-write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
+write("api/config.json", JSON.stringify({ updated: NOW.toISOString(), artV: ART_V, telegram: cfg.telegram, email: cfg.email || "", coins: cfg.coins, ads: (cfg.ads || []).map(({ id, wordmark, url, title, short, text, cta, note }) => ({ id, wordmark, url, title, short, text, cta, note })) }));
 write("listings.json", JSON.stringify(lsItems.slice(0, 200).map(({ date, ...i }) => i)));
 write("global-listings.json", JSON.stringify({ updatedAt: globalLs?.updatedAt || null, items: (globalLs?.items || []).filter((i) => !NON_COIN.test(i.title)).slice(0, 80) }));
 write("manifest.webmanifest", JSON.stringify({

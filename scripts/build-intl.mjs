@@ -585,6 +585,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   write(`${P}contact/index.html`, layout({
     title: L.contactT, active: "contact/", canonical: "contact/", float: false,
     body: `<div class="wrap"><main class="single">${secHead("Contact", esc(L.contactPage))}<div class="contact">
+    ${cfg.email ? `<div id="contact-us"><span class="label">${L.code === "zh" ? "联系我们 · 邮箱" : "Contact us · Email"}</span><div class="handle"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">${L.code === "zh" ? "CHAINBRIEF 运营团队邮箱，受理爆料、广告与更正请求。" : "The CHAINBRIEF team inbox for tips, advertising and corrections."}</p></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>
