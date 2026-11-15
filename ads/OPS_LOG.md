@@ -1,3 +1,8 @@
+## 2026-11-16 새벽 점검
+- 밤새봄: Actions 24시간 — 체인브리프 '빌드 및 배포' 30회 실패 0(마지막 성공 18:00Z), perpline·luft·qurator 실패 0. firstbrick·lifejunjun·yeobaek는 권한 밖이라 미확인.
+- 라이브: 프록시 차단으로 직접 fetch 불가 → 저장소로 대체 확인(봇 커밋 18:00Z, KO 속보 01:31 KST, EN 21:34, ZH 21:32 신선). lifejunjun.com 등 직접 미확인.
+- 예약 작업: FAILED 0, 금고지기(CFO) 11/9 ABANDONED 유지. 장애 0 · 고침 0.
+
 ## 2026-11-15 새벽 점검
 - 밤새봄: Actions 24시간 — 체인브리프 '빌드 및 배포' 28회 실패 0(마지막 성공 18:05Z), perpline·luft·qurator 실패 0. firstbrick·lifejunjun·yeobaek는 권한 밖이라 미확인.
 - 라이브: 체인브리프 KO 속보 01:32 KST 신선, perpline·luft·qurator 데이터와 oriel·blockkey·yeobaek 응답 확인. lifejunjun.com은 fetch 불가로 미확인.
