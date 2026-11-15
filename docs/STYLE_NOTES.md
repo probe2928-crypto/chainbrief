@@ -15,6 +15,31 @@
 
 ## 날짜별 기록
 
+### 2026-11-15 (한국어·영어·중국어 — 일요일 회차, KST 기준)
+
+**읽은 기사: 0편** — 웹 가져오기(WebFetch)가 블록미디어·디센터·코인데스크코리아, The Block·CoinDesk·Decrypt, PANews·Odaily·ChainCatcher·界面 열한 곳 모두 권한 응답 대기 초과(PROVENANCE_REQUIRED)로 막혔고, 검색은 제목·링크뿐이며 날짜도 확인되지 않았다. 우회 수집은 하지 않았고, 읽지 않은 기사를 읽은 것처럼 적지 않는다. 필요한 도움: 위 매체 도메인에 대한 WebFetch 허용(11/14 중국어 회차부터 같은 문제). '이번 주 적용할 것'은 그대로 둔다.
+
+**우리 기사 점수 (지난 24시간, 10점 만점)**
+
+| 기사 | 자연스러움 | 구체성 | 리드 | 소제목 | 상투어(개수) | 종합 |
+|---|---|---|---|---|---|---|
+| KO 11-14 디지털자산기본법 8주 남아 | 8 | 9 | 9 | 8 | 0 | **8.4** |
+| KO 11-15 카바 렌드 BUSD 공격·국내 거래소 | 8 | 9 | 9 | 8 | 0 | **8.5** |
+| EN 11-14 CFTC 셀릭 단일 등록·12/14 의견 마감 | 8 | 9 | 9 | 7 | 0 (em dash 0) | **8.2** |
+| EN 11-15 스테이블코인 공급 감소·12월 금리 인상 | 7 | 8 | 9 | 6 | 0 (em dash 0) | **7.6** |
+| ZH 11-14 Meridian FX APAC | 8 | 9 | 9 | 7 | 0 | **8.2** |
+| ZH 11-15 新加坡票据·稳定币法 | 8 | 9 | 9 | 8 | 0 | **8.3** |
+
+평균 8.2점(11/14 중국어 회차 8.2~8.4점과 비슷, 한·영·중 한 번에 매긴 첫 평균). 금지 상투어·틀 소제목 grep 0개. 7점 미만 기사 없음. 약점: EN 11-15의 "What comes next"는 틀 소제목에 가깝고 "Where analysts disagree"도 라벨형이다. "Three counts, one direction" 아래 문단은 출처 네 곳의 숫자를 한 호흡에 나열한다. EN 11-14의 "What happens on Dec. 14"도 날짜 라벨이다.
+
+**연습 (파일은 고치지 않음, 7점 미만 기사 없음 · 기존 교훈 2·7번 적용, 오늘 새 기법 없음)**
+- 소제목 전: What comes next → 후: Three dates before the Fed meets (본문 날짜 3개를 가리키는 주제형)
+- 소제목 전: Where analysts disagree → 후: Which moves first, the cash or the price? (독자가 물을 질문형, 아래 첫 문장에서 바로 답함)
+- 문단 전: "Glassnode's $14.2 billion covers 30 days to Nov. 11. DefiLlama's daily series, compiled by Blockchain Reporter, showed total supply down $15.03 billion over the 30 days to Nov. 7, to about $292 billion. A Coinbase Institutional tally of USDT, USDC and DAI, cited by Coinpaper, put the 30-day fall at $11.5 billion. ..."
+- 후(기준 숫자 하나 → 나머지 차이): "Call Glassnode's $14.2 billion the yardstick; it covers the 30 days to Nov. 11. DefiLlama's series, compiled by Blockchain Reporter, runs a bit bigger, $15.03 billion down over the 30 days to Nov. 7, to about $292 billion. Coinbase Institutional counted only USDT, USDC and DAI and got $11.5 billion, as Coinpaper cited it. The windows and token lists differ. The direction does not." (사실·숫자·출처 그대로, 순서와 끝 한 줄만 바꿈)
+
+**다듬은 파일**: 없음 (7점 미만 기사 없음)
+
 ### 2026-11-14 재실행 (중국어 — 토요일 회차, KST 기준)
 
 **읽은 기사: 0편** — 웹 가져오기(WebFetch)가 PANews·Odaily·ChainCatcher·吴说(wublock123) 네 곳 모두 권한 응답 대기 초과(PROVENANCE_REQUIRED)로 막혔고, 검색은 제목·링크뿐이라 기법을 뽑을 수 없었다. 우회 수집은 하지 않았고, 읽지 않은 기사를 읽은 것처럼 적지 않는다. 필요한 도움: 중문 매체 도메인(panewslab.com·odaily.news·chaincatcher.com·wublock123.com) WebFetch 허용. '이번 주 적용할 것'은 그대로 둔다.

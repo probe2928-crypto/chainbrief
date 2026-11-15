@@ -52,7 +52,7 @@ important: true (시장을 움직이는 뉴스만) / false
 > Read the top section of `docs/STYLE_NOTES.md` (writing coach notes, updated daily) before writing.
  (세준 지시 2026-11-02: 기사가 기계가 쓴 것처럼 딱딱함)
 - Open with a concrete fact, scene, number or person — never an abstract summary sentence.
-- Headings come from the story itself (e.g. "Why Korea made the list"), never template headings like "What happened / Why it matters / What's next / The bottom line / Key takeaways". Short pieces need no headings.
+- Headings come from the story itself (e.g. "Why Korea made the list"), never template headings like "What happened / Why it matters / What's next / What comes next / The bottom line / Key takeaways". Short pieces need no headings.
 - Mix sentence lengths. Explain jargon once in plain words. Compare big numbers to something readers know.
 - End on the next concrete event (date, vote, deadline), not a moral or summary.
 - English words to cut: delve, landscape, navigate, underscore(s), pivotal, crucial, robust, notably, it's worth noting, in a move that, amid (more than once), signals (as a verb, more than once), poised to, sparked, a testament to, game-changer, unprecedented, in conclusion, overall, ultimately. Don't end on a "Things to watch:" checklist. No em-dash chains; max one em dash per paragraph.
