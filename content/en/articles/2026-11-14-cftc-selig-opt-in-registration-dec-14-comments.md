@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: Michael Selig told CNBC that crypto venues are lining up for a federal path his agency built after the CLARITY Act stalled. No firm has been named, and the comment window on the framework closes in a month.
+image: media/articles/2026-11-14-cftc-selig-opt-in-registration-dec-14-comments.png
+image_alt: Timeline scaled to calendar days — Sept. 15 CLARITY Act fails in the Senate 49–50 with 60 needed; Oct. 5 CFTC advance notice (CTX and CAM) made public; Nov. 14 Selig on CNBC; Dec. 14 comments close under RIN 3038-AF80; Jan. 3 Senate passes to a Democratic majority. The pitch is one federal license instead of 50 state regimes; no exchange has been named and the CFTC has one sitting commissioner.
+image_note: AI-made graphic (summary of article)
 ---
 
 A crypto exchange that wants to serve customers in every U.S. state today usually collects licenses one state at a time, from New York's BitLicense down to the money-transmitter permits most states require. Michael Selig, chairman of the Commodity Futures Trading Commission, is pitching a shortcut: one federal registration, with his agency as the only market regulator.
