@@ -3083,6 +3083,114 @@
     ]
    },
    "supermetrics_note": "Supermetrics 체험판이 11/14(UTC) 만료 예고 — 만료 후 이 집계 불가"
+  },
+  {
+   "date": "2026-11-14",
+   "tz_note": "GA4 속성 기준 일자(KST 어제, 2026-11-15 08:59 KST 수집). 사이트 분리는 호스트(hostname) 없이 페이지 경로만 조회돼 사이트별 사용자는 미확인(qurator만 경로로 식별)",
+   "total": {
+    "users_all_property": 11,
+    "sessions": 12,
+    "views": 12,
+    "gsc_clicks": null,
+    "gsc_impr": null
+   },
+   "sites": {
+    "qurator": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "/qurator/ 2명, GSC는 최근 7일 클릭·노출 0 조회로 확인(어제 단일일 미확인)"
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 경로 행 없음, GSC 최근 7일 0"
+    },
+    "perpline": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "사이트별 GA 미확인(호스트 미조회), GSC 최근 7일 0"
+    },
+    "chainbrief": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "미확인 — Supermetrics 체험 만료로 조회 거부(TRIAL_EXPIRED). 경로 / 7명·/exchanges/orangex.html 1명·/zh/flash/... 1명은 호스트 미확인"
+    }
+   },
+   "gsc_note": "Supermetrics 체험 11-14 만료(TRIAL_EXPIRED)로 luft·perpline GSC(7일)만 확인, 나머지 6개 사이트·SNS·OpenSEO 미확인",
+   "social": {
+    "fb": {
+     "note": "미확인(체험 만료)"
+    },
+    "ig": {
+     "note": "미확인(체험 만료)"
+    },
+    "li": {
+     "note": "미확인(체험 만료)"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "이번 회차 보드 미조회"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-13",
+    "users_total": 13
+   },
+   "delta_vs_prev": {
+    "users_total": -2,
+    "note": "전일 13→11, 절대값이 작아 즉시 판단 사항 아님. 사이트별 비교 불가"
+   },
+   "top": {
+    "pages": [
+     "/ (7명)",
+     "/qurator/ (2명)",
+     "/exchanges/orangex.html (1명·2세션)"
+    ],
+    "countries_by_users": [
+     [
+      "United States",
+      4
+     ],
+     [
+      "South Korea",
+      3
+     ],
+     [
+      "Canada",
+      2
+     ],
+     [
+      "Moldova",
+      1
+     ],
+     [
+      "Singapore",
+      1
+     ]
+    ],
+    "sources": [
+     [
+      "(direct) / (none)",
+      10
+     ],
+     [
+      "google / organic",
+      1
+     ]
+    ]
+   }
   }
  ]
 }
