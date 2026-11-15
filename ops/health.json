@@ -1,9 +1,9 @@
 {
- "at": "2026-11-15 03:20 KST",
+ "at": "2026-11-16 03:27 KST",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "빌드 및 배포 success 2026-11-14T18:05Z",
+   "lastRun": "빌드 및 배포 success 2026-11-15T18:00Z (24h 30회·실패 0)",
    "failures": [],
    "fixed": []
   },
@@ -58,14 +58,9 @@
  ],
  "sites": [
   {
-   "url": "chainbrief.app",
-   "ok": true,
-   "note": "속보 KO 01:32 KST"
-  },
-  {
-   "url": "lifejunjun.com",
+   "url": "(전체 14개 URL)",
    "ok": null,
-   "note": "fetch invalid_url, 미확인"
+   "note": "프록시 차단으로 직접 fetch 불가 — 저장소 신선도로 대체: 봇 커밋 18:00Z, KO 속보 01:31 KST, EN 21:34, ZH 21:32 모두 신선. lifejunjun·yeobaek·firstbrick 권한 밖 미확인"
   }
  ],
  "failedTasks": [],
