@@ -1,0 +1,7 @@
+---
+title: 比特币跌破6.4万美元时一小时爆仓6.91亿美元 九成以上为多单
+time: 2026-11-15T09:26:00+09:00
+category: 链上
+important: false
+---
+据CoinGlass数据，比特币短暂跌破64,000美元的那一小时内，全网合约爆仓约6.91亿美元，其中多单约6.71亿美元、空单约1,951万美元。CryptoTicker援引的CoinGlass数据显示，此前24小时爆仓合计约12.3亿美元，多单占82.7%。 [来源: PANews](https://panews.io/articles/01a1dbf3-6397-72b0-acb0-88fe7d1b0494)
