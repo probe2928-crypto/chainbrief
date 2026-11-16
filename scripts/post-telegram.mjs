@@ -68,9 +68,20 @@ const BTN = {
   zh: { read: "阅读全文", site: "实时行情", list: "上币动态" },
 };
 const utm = (u) => `${u}${u.includes("?") ? "&" : "?"}utm_source=telegram&utm_medium=channel`;
+// EN·ZH: 글 하나를 친구에게 넘기는 '공유' 버튼 — 기사 링크 + 채널 주소가 함께 가서, 받은 사람이 채널로 들어오게 (11/16 텔레오)
+const SHARE = {
+  en: { btn: "↗️ Share with a friend", text: (h) => `Free crypto listing alerts & breaking news → t.me/${h}` },
+  zh: { btn: "↗️ 分享给朋友", text: (h) => `免费加密上币提醒与突发快讯 → t.me/${h}` },
+};
 function buttons(lang, url) {
   const b = BTN[lang] || BTN.en, pre = L[lang]?.pre || "";
-  return { inline_keyboard: [[{ text: `📰 ${b.read}`, url: utm(url) }], [{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]] };
+  const rows = [[{ text: `📰 ${b.read}`, url: utm(url) }], [{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]];
+  const sh = SHARE[lang], h = String(channels[lang] || "").replace(/^@/, "");
+  if (sh && h) {
+    const u = `${url}?utm_source=telegram&utm_medium=share`;
+    rows.push([{ text: sh.btn, url: `https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent(sh.text(h))}` }]);
+  }
+  return { inline_keyboard: rows };
 }
 
 async function send(chat, html, url, lang) {
