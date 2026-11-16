@@ -10,10 +10,35 @@
 3. **큰 숫자는 독자 단위로 한 번 더.** 달러는 원화로(63억달러 → 약 9조원), bp는 %포인트로, 비율은 "열 곳 중 여덟 곳"처럼. 과거 사례 하나를 옆에 세워 크기를 가늠하게 한다(예: 바이비트 15억달러). 변하는 숫자는 진행형으로 보여 준다(80% → 90% → 95%). 숫자는 예상치·직전 값과 한 문장에 나란히 세우고, 합계는 구성 요소(매수 청산 vs 매도 청산, 펀드별 몫)로 쪼갠다. (CoinDesk 11/10·The Block 11/9·Decrypt 11/6 기사에서 배움 — 기법만)
 4. **확신도를 문장에 드러낸다.** 공식 발표(FBI·FIU)와 민간 분석(체이널리시스·TRM)을 구분해 쓰고, 추정치는 범위로. 출처마다 숫자가 다르면 하나만 고르지 말고 나란히 적어 차이를 인정한다. 출처 없는 "~하는 시각이 있다/业内人士认为"는 쓰지 않는다. 독자가 헷갈릴 숫자는 "혼동하지 말라"고 훈계하지 말고 각 숫자가 무엇을 가리키는지만 쓴다.
 5. **끝은 다음 날짜·숫자, 오해하기 쉬운 지점, 또는 '이 숫자가 재지 못하는 것' 한 문장으로. 긴 문단 뒤엔 한 줄짜리 문장으로 착지한다.** 체크리스트 나열("Things to watch:")이나 교훈으로 끝내지 않는다. 숫자·출처가 몰린 문단 다음에 "그래서 이번 주 바뀌는 것은 없다" 같은 짧은 문장을 두면 호흡이 생긴다. 분석가 인용을 마지막 줄로 넘길 땐 누구의 전망인지 밝히고 조건을 붙인다. (Decrypt의 데이터 한계 문단·The Block의 조건부 전망 마무리에서 배움)
-6. **나열은 '개수 한 문장 → 항목별 한 줄 → 짧은 착지'로.** 비율 다섯 개, 파트너사 네 곳처럼 항목이 많을 땐 한 문장에 다 욱여넣지 말고 "다섯 가지로 점수를 매긴다"로 개수를 먼저 말하고, 쉬운 말로 몇 개씩 묶어 두 문장으로 나눈다. 묶음 끝에는 "넷 이상 걸리면 탈락이다" 같은 짧은 문장을 둔다. 용어가 많은 문단 뒤엔 짧은 문장 하나. (The Block 기사들은 용어를 링크로 넘기지만 우리 기사는 본문에서 한 번 풀어 준다)
-7. **숫자가 네 개 이상 몰리면 '기준 숫자 하나 → 비율 → 나머지 차이' 순서로.** 한 문단에 28.5억·27억·12억·63억을 나란히 늘어놓지 말고, 63억이라는 자 하나를 먼저 세운 뒤 나머지를 "절반 안 됨·다섯 중 하나 안 됨"으로 읽히게 한다. 소제목도 "주장+숫자"(63억 도난, 법원이 허락한 건 12억)가 라벨보다 낫다.
+6. **나열과 숫자 더미는 '개수·기준 하나 → 묶음 → 짧은 착지'로.** 비율 다섯 개, 파트너사 네 곳처럼 항목이 많으면 "다섯 가지로 점수를 매긴다"로 개수를 먼저 말하고 두 문장으로 묶은 뒤 "넷 이상 걸리면 탈락이다" 같은 한 줄로 닫는다. 숫자가 네 개 이상 몰리면 63억 같은 기준 숫자 하나를 먼저 세우고 나머지를 "절반 안 됨·다섯 중 하나 안 됨"으로 읽히게 한다. 소제목도 "주장+숫자"(63억 도난, 법원이 허락한 건 12억)가 라벨보다 낫다.
+7. **어려운 개념은 '용어 → 쉬운 정의 한 문장 → 구체 예 → "쉽게 말해" 재진술' 순서로, 배경은 뉴스 문단 밖 짧은 구역으로.** 정의를 길게 한 문장에 욱여넣지 말고 문단 하나에 개념 하나만 둔다. 법·제도 배경(언제 어떤 규정이 나왔나)은 새 소식 문단 사이에 끼우지 말고 짧은 소제목 아래 따로 모은다. 소제목은 두세 단어 명사구도 좋다(전문가 발언을 제목으로 바꾼 짧은 소제목). 쉬운 말로 풀어 쓰되 같은 설명을 두 번 반복하지 않는다. (CoinDesk 11/16 옵션 시장 기사에서 배움 — 기법만)
 
 ## 날짜별 기록
+
+### 2026-11-17 (영어 — 화요일 회차, KST 기준)
+
+**읽은 기사: 3편** (모두 CoinDesk 11/16. 웹 가져오기 서브에이전트로 본문 전체 읽음. 기법만 요약, 원문 문장 옮기지 않음. 오늘은 CoinDesk 외 매체 확인은 못 함 — 검색 결과만 확인)
+1. CoinDesk · Shaurya Malwa · "Old crypto feud reignites: Why OKX's Star Xu blames Binance for two years of October crashes" (슬러그 제목: Bitcoin's slide reopens an old feud…) · https://www.coindesk.com/markets/2026/11/16/bitcoin-s-slide-reopens-an-old-feud-between-crypto-s-most-powerful-founders
+   - 배운 기법: 이름 있는 두 당사자의 대립을 첫 문장에 가격 움직임과 묶고, 둘째 문단에서 제3자의 반응으로 틀어 양쪽 입장을 숫자보다 먼저 보여 준다. 배경 이력은 뉴스 문단 밖 짧은 소제목 구역으로 뺐다. 끝은 교훈 없이 날짜 박힌 사실 한 줄.
+2. CoinDesk · Omkar Godbole · "Bitcoin's biggest bet is now a drop below $60,000, not a rally above $100,000" · https://www.coindesk.com/markets/2026/11/16/bitcoin-s-biggest-bet-is-now-a-drop-below-usd60-000-not-a-rally-above-usd100-000
+   - 배운 기법: 리드가 '무엇이 바뀌었나'를 단정하고 곧바로 다음 문장에서 상품을 쉬운 말로 정의한다. 용어 → 쉬운 정의 → 예 → "다시 말해" 반복, 소제목은 두세 단어짜리 명사구. 숫자는 순위("1위, 바로 뒤")와 인접 값 나란히 세우기로 비교, 끝은 지표 숫자 하나와 그 해석 한 줄(전망 아님).
+3. CoinDesk · Omkar Godbole · "Bitcoin was supposed to gain as AI faltered, but it crashed. Here's why." (뉴스레터) · https://www.coindesk.com/daybook-us/2026/11/16/bitcoin-was-supposed-to-gain-as-ai-faltered-but-it-crashed-here-s-why
+   - 배운 기법: 리드는 월간 낙폭 숫자 하나로 열고 둘째 문단에서 "더 걱정스러운 건"으로 서로 다른 두 자산을 묶는다. 전문가 인용은 길고 필자 연결 문장은 짧아 리듬이 갈린다. 가격은 떨어지는데 보유자 수는 늘었다는 식으로 상반된 두 지표를 한 문단에 세우고, 끝은 짧은 구어체 한 줄(우리 기사는 이 한 줄 착지만 따른다. 출처 있는 전망 질문형은 따라 하지 않음).
+
+**우리 기사 점수 (지난 24시간 영어, 10점 만점)**
+
+| 기사 | 자연스러움 | 구체성 | 리드 | 소제목 | 상투어(개수) | 종합 |
+|---|---|---|---|---|---|---|
+| EN 11-16 CFTC 주(州) 소송 12건·11/18 의견 마감 | 8 | 9 | 9 | 8 | 0 (em dash 0) | **8.4** |
+
+평균 8.4점(11/15 영어 회차 7.6~8.2점 대비 소폭 상승). 금지 상투어·틀 소제목 grep 0개. 7점 미만 기사 없음. 약점: "What Arkansas wants from Kalshi"는 라벨형이고, 루이지애나 문단은 법원·사건 이름·회사 목록이 한 문장에 몰려 있다. "Oct. 9 두 문서" 문단은 법률 용어 밀도가 높다. 리드(21세 이하 베팅 → 연방정부가 주를 고소)는 장면이 있어 그대로 둔다. 한국어·중국어 신규 기사는 오늘 회차 범위가 아니라 점수 매기지 않음.
+
+**연습 (파일은 고치지 않음, 7점 미만 기사 없음 · 오늘 배운 "개념은 문단 하나에 하나, 정의 뒤 풀어쓰기" 적용)**
+- 소제목 전: What Arkansas wants from Kalshi → 후: Penalties of up to $10,000 per violation (본문 수치 그대로, 주장+숫자형)
+- 문단 전: "Louisiana did not wait for a trial. On Nov. 12 the attorney general's office, led by Liz Murrill, filed a petition in the 21st Judicial District Court in Tangipahoa Parish against Kalshi and more than 30 other companies, including Polymarket, Coinbase and Robinhood, according to BlockchainReporter and The Block. A judge granted a temporary restraining order that evening without notice to the companies or a hearing. The order bars them from offering event contracts on sports, elections and award shows to people in Louisiana without a state license and permit."
+- 후(주체 한 줄 → 결과 한 줄 → 쉬운 말 한 줄): "Louisiana did not wait for a trial. On Nov. 12 Attorney General Liz Murrill's office went to the 21st Judicial District Court in Tangipahoa Parish and sued Kalshi and more than 30 other companies, among them Polymarket, Coinbase and Robinhood, according to BlockchainReporter and The Block. That evening a judge granted a temporary restraining order. The companies had not been told, and no hearing was held. For now none of them may offer event contracts on sports, elections or award shows to people in Louisiana without a state license and permit." (사실·숫자·출처 그대로, 문장 나눔과 순서만 바꿈)
+
+**다듬은 파일**: 없음 (7점 미만 기사 없음)
 
 ### 2026-11-15 (한국어·영어·중국어 — 일요일 회차, KST 기준)
 
