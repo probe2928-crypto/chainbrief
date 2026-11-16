@@ -21,3 +21,6 @@
 | 2026-11-13 | Saigon Children's Charity | 베트남 | https://www.saigonchildren.com/contact-us/ | 페이지 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 |
 | 2026-11-13 | Cambodia Charitable Trust (cctnz.org.nz) | 캄보디아(NZ 설립) | https://cctnz.org.nz/contact/ | 파트너십 페이지(https://cctnz.org.nz/corporate-partnerships/)에는 메일 주소 없음 · contact 페이지 열람 무응답 → 건너뜀 |
 | 2026-11-13 | The Giving Block | 미국(web3 기부) | https://thegivingblock.com/contact/ | 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 |
+| 2026-11-16 | Saigon Children's Charity (2회째) | 베트남 | https://www.saigonchildren.com/contact-us/ | 11/16 열람 권한 요청 다시 무응답(PROVENANCE_REQUIRED) → 주소 미확인, 건너뜀 · 검색 결과의 영국 자선위원회 등록부 주소는 제3자 목록이라 사용 안 함 |
+| 2026-11-16 | SeeBeyondBorders | 캄보디아(교사 역량·학교) | https://www.seebeyondborders.org/contact-us/ | 신규 후보 · 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 · 제3자 이메일 형식 사이트(prospeo 등) 사용 안 함 |
+| 2026-11-16 | Lotus Outreach | 캄보디아(여아 교육) | https://lotusoutreach.org/contact/ | 신규 후보 · 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 · 맞춤 제안 후보: 현장 프로그램 소개 기사 |
