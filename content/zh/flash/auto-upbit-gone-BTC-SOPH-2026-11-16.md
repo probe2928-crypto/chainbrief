@@ -1,0 +1,8 @@
+---
+title: "Upbit 将下架 SOPH"
+time: 2026-11-16T06:13:44.319Z
+category: 上币
+important: true
+auto: true
+---
+Upbit 已终止 SOPH 的交易支持，持有者请留意提币期限。 [官方公告](https://upbit.com/service_center/notice)
