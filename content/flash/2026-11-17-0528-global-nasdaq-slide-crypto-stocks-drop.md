@@ -1,0 +1,7 @@
+---
+title: 엔비디아發 기술주 급락…코인베이스·스트래티지 7%대↓
+time: 2026-11-17T05:28:00+09:00
+category: 비트코인
+important: false
+---
+16일(현지시간) 엔비디아를 둘러싼 불안에 미국 나스닥 종합지수가 장중 2% 안팎 밀리면서 가상자산 관련주가 동반 하락했다. 같은 날 오전 코인베이스 주가는 6.3% 내린 119.64달러, 스트래티지는 7.4% 내린 103.33달러에 거래됐고, 비트코인도 한때 6만3800달러대로 내려앉았다. 시장은 17일 장 마감 뒤 나오는 엔비디아 3분기 실적을 기술주와 비트코인의 다음 방향을 가를 변수로 보고 있다. [출처: 포브스](https://www.forbes.com/sites/digital-assets/2026/11/16/bitcoin-falls-below-64000-as-nvidia-turmoil-roils-tech-stocks-and-crypto/) · [크립토티커](https://cryptoticker.io/en/crypto-news-nasdaq-drops-2-percent-nvidia-bitcoin-november-16-2026/)
