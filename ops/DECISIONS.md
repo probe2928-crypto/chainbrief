@@ -2,6 +2,12 @@
 
 | 날짜 | 팀 | 결정 | 상태 |
 |---|---|---|---|
+| 2026-11-16 | 개발 | Perpline 독립 수수료 계산기 페이지 /tools/futures-fee-calculator.html(홈 공식·VENUES 숫자, 최저 5곳 표·가입 링크 src=tool-calc, JSON-LD, sitemap, 가이드 5편 옆 카드 링크). 홈·start 바이트 동일 | 완료 perpline 568ba15 · 11/23 도구 페이지 방문·tool-calc-list 가입클릭 확인 |
+| 2026-11-16 | 디자인 | 거래소 상세 히어로 로고 폴백(막히면 빈 원 → 첫 글자 이탤릭), 상세 페이지 CSS만 | 완료 perpline 568ba15 |
+| 2026-11-16 | 마케팅 | 세준 OK 한 장(계산기 X 글 문안·인스타 카루셀·충전 보류 근거) | 완료 perpline e515b30 · 게시 세준 OK 대기 |
+| 2026-11-16 | 운영 | 막힘 단일 목록 ops/BLOCKERS.md(8행, 중복 막힘 통합) | 완료 ops-status |
+| 2026-11-16 | 전략기획 | 1위 아이디어 '영문 전시 해설 패키지' 시안(qurator idea/caption-package) | 시안 완료 20d0337f · 세준 진행/보류 대기 |
+| 2026-11-16 | 전략기획 | 충전 0원 유지(실가입≥1·CAC 통과 시에만 Perpline $50) | 세준 숫자 대기 |
 | 2026-11-13 | 개발·디자인 | Perpline 화면 노출 AlphaX 레퍼럴 코드 문구 4곳 제거(FEEDBACK 10/29 규칙, 링크 유지) | 완료 perpline cb265d1 · 텔레그램 EN#52·ZH#47 본문은 세준 OK 대기 |
 | 2026-11-13 | 디자인 | 홈 히어로 동안 SUPPORT 버튼 아이콘화(슬라이드 화살표 가림 해소) | 완료 perpline cb265d1 |
 | 2026-11-13 | 개발 | 홈·가이드→거래소 상세 클릭 pl_venue_click + Savri /_evt/venue_click 계측 | 완료 perpline cb265d1 · 11/16 수집 확인 |
