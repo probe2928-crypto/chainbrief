@@ -5,6 +5,9 @@ category: 市场
 author: Scott Park
 region: 海外
 summary: 11月15日比特币一度跌到约6.2万美元，创7月以来新低，24小时爆仓约20亿美元。交易员起初把矛头对准刚被盗的币安，但币安研究院、CoinGlass和CryptoQuant的数据都显示，主动卖单更多出现在美国的美元现货平台；Coinbase溢价已连续53天为负。
+image: media/articles/2026-11-16-bitcoin-62000-selling-us-venues-coinbase-premium.png
+image_alt: CoinGlass现货累计成交量差（CVD）10月31日至11月15日：Coinbase负10.8亿美元，OKX正2.4亿美元，Bybit正6,517万美元，币安正5,188万美元。币安研究院11月11日至14日主动净卖出：未点名的美元现货平台7,438枚比特币，币安2,707枚，约2.75倍。Coinbase溢价截至11月15日连续53天为负
+image_note: AI 制作图表（整理本文内容）
 ---
 
 11月15日周日，亚洲还在早上，比特币一度跌到约62,080美元，是7月以来的最低价。CoinGlass统计，前后24小时全网合约爆仓约20亿美元，约合156亿港元，八成以上是押涨的多单。到下午，价格回到65,000美元上下。

@@ -5,6 +5,9 @@ category: Markets
 author: Scott Park
 region: US
 summary: Three data firms count the drop differently, but all of them show dollar tokens leaving crypto at the fastest rate in more than four years. With traders pricing a December rate hike, the question is whether the cash has anywhere better to go.
+image: media/articles/2026-11-15-stablecoin-supply-shrinks-fed-hike-december.png
+image_alt: 30-day drop in stablecoin supply on one scale — Glassnode $14.2 billion (30 days to Nov. 11), DefiLlama $15.03 billion (30 days to Nov. 7), Coinbase Institutional $11.5 billion (USDT, USDC and DAI), against close to $30 billion in June 2022. CME FedWatch odds for the Dec. 9 Fed meeting: 88.5% for a quarter-point hike, 11.5% for a half point. A three-month Treasury bill yields about 4.2%; a USDC balance pays nothing on its own.
+image_note: AI-made graphic (summary of article)
 ---
 
 Nearly one dollar in every twenty that sat in stablecoins a month ago is gone. Glassnode put the 30-day decline at $14.2 billion in a report published Wednesday, the fastest contraction since June 2022, according to The Block and TokenPost. On Sunday bitcoin slipped to about $62,100, its lowest since mid-July, and the money that usually buys those dips is the money that has been leaving.
