@@ -3191,6 +3191,129 @@
      ]
     ]
    }
+  },
+  {
+   "date": "2026-11-15",
+   "tz_note": "GA4 속성 기준 KST 어제(2026-11-16 08:59 KST 수집). 사이트 분리는 호스트 없이 경로만 조회돼 불가 — 어제 전부 경로 '/' 하나",
+   "total": {
+    "users_all_property": 9,
+    "sessions": 9,
+    "views": 9,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "perpline": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "qurator": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA는 경로 '/'만 잡혀 사이트 분리 불가, GSC는 8개 합산 최근 3일(11/13~15) 클릭·노출 0"
+    }
+   },
+   "gsc_note": "8개 사이트 GSC 11/13~15 3일 합계 클릭 0·노출 0·순위 없음(2회 조회). 단일일 값은 미조회",
+   "social": {
+    "fb": {
+     "note": "미확인(Supermetrics 체험 만료 TRIAL_EXPIRED)"
+    },
+    "ig": {
+     "note": "미확인(Supermetrics 체험 만료 TRIAL_EXPIRED)"
+    },
+    "li": {
+     "note": "미확인(Supermetrics 체험 만료 TRIAL_EXPIRED)"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social 컬렉션에 metrics_<날짜> 문서 없음(posts_*·playbook만 있음)"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-14",
+    "users_total": 11
+   },
+   "delta_vs_prev": {
+    "users_total": -2,
+    "note": "11→9, 절대값이 작아 즉시 판단 사항 아님"
+   },
+   "top": {
+    "pages": [
+     "/ (9명·9세션·9뷰)"
+    ],
+    "countries_by_sessions": [
+     [
+      "United States",
+      8
+     ],
+     [
+      "Japan",
+      1
+     ]
+    ],
+    "sources_by_sessions": [
+     [
+      "(direct) / (none)",
+      9
+     ]
+    ]
+   },
+   "unconfirmed": "OpenSEO(월요일 아님: 일요일 기준 어제 아닌 오늘 11/16은 월요일이나 Supermetrics 한도 때문에 이번 회차는 미실행)"
   }
  ]
 }
