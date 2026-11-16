@@ -26,7 +26,7 @@
   "review": {
     "firstName": "Sejun",
     "lastName": "Park",
-    "phone": "+82 10-5529-5086",
+    "phone": "+82 10-9129-5086",
     "email": "probe2928@gmail.com",
     "notes": "소규모 역사 여행(3~10명) 소개 앱입니다. 앱 안에서 결제나 예약은 없고, '관심 신청'은 이름과 연락처만 받아 운영자 메일로 전달하는 문의 양식입니다. 회원가입·로그인이 없어 테스트 계정이 필요 없습니다. 여행 카드와 내 여권은 기기 안에서만 동작합니다.\nThis app introduces small-group (3-10 people) history trips. There is no payment or booking in the app; 'interest request' is a contact form (name + email/KakaoTalk ID) sent to the operator's email. No account or login is required. Travel cards and the passport stamps work fully offline on the device."
   }
