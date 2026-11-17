@@ -1,0 +1,7 @@
+---
+title: 美 대법원, 커스토디아 '연준 계좌' 상고 기각
+time: 2026-11-17T12:52:00+09:00
+category: 해외
+important: false
+---
+미국 연방대법원이 16일(현지시간) 가상자산 은행 커스토디아(Custodia Bank)가 연방준비제도(연준) 마스터 계좌 발급 거부를 다툰 사건의 상고를 받아들이지 않았다. 이로써 지역 연준은행이 마스터 계좌 발급 여부를 재량으로 정할 수 있다는 제10연방항소법원 판결이 확정됐다. 가상자산 특화 은행이 연준 결제망에 직접 들어가는 길은 법원이 아닌 연준 정책에 달리게 됐다. [출처: 크립토타임스](https://www.cryptotimes.io/2026/11/16/supreme-court-rejects-custodia-banks-bid-for-fed-master-account/)
