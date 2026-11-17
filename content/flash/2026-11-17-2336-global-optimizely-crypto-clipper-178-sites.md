@@ -1,0 +1,7 @@
+---
+title: 옵티마이즐리 뚫려 178곳에 코인 탈취 코드…렛저도
+time: 2026-11-17T23:36:00+09:00
+category: 해외
+important: false
+---
+웹사이트 A/B 테스트 업체 옵티마이즐리(Optimizely)의 가입 절차 허점을 노린 공격자가 16일 고객사 스크립트에 악성 코드를 심어, 렛저(Ledger)·HSBC·BBC·줌 등 178개 기관 사이트에서 이용자가 입력하거나 복사한 지갑 주소를 공격자 주소로 바꿔치기했다. 보안업체 리포트 URI 집계로 공격자 주소에 들어온 돈은 약 7000달러 수준이지만, 카드 정보 탈취와 구형 아이폰 대상 공격 코드도 함께 뿌려진 것으로 나타났다. 옵티마이즐리는 취약 경로를 막고 주입된 코드를 지웠다고 밝혔으며, 16일 송금한 이용자는 받는 주소를 다시 확인하라는 권고가 나왔다. [출처: 코인데스크](https://www.coindesk.com/tech/2026/11/17/hackers-planted-crypto-stealing-code-on-178-organizations-sites-including-hsbc-bbc-and-ledger)
