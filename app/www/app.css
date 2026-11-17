@@ -195,3 +195,9 @@ html[lang="en"] .prose h2{font-weight:600}
 .ls.gl .t{margin-top:4px;font-family:"Newsreader",Georgia,serif;font-size:14.5px;line-height:1.45;color:var(--mute);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .ls .ty.futures{color:#7E6CB8}
 .sp{height:36px}
+
+/* 문의하기 (구글 플레이 뉴스 정책: 찾기 쉬운 인앱 연락처 페이지) */
+.bar.reading #contactBtn{display:none}
+.contact-doc .group{margin:22px 0}
+.contact-doc h2{font-size:18px;margin:26px 0 8px}
+.fl .meta .src{color:var(--ink);opacity:.75}
