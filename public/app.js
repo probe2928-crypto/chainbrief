@@ -3,7 +3,7 @@
   const CB = window.CB || { base: "/", coins: [], sb: {} };
   const T = Object.assign({
     locale: "ko-KR", tz: "Asia/Seoul", now: "방금", min: "분 전", hr: "시간 전", day: "일 전", yday: "어제 ",
-    newN: "새 속보 {n}건 보기", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
+    newN: "새 속보 {n}건 보기", seenTop: "지난 방문 이후 새 속보 {n}건", seenGo: "읽던 곳으로", seenMark: "여기부터 지난 방문 때 본 속보", basis: "{src} BTC 기준", upbit: "업비트", bithumb: "빗썸", asOf: "{t} 기준",
     priceErr: "시세를 불러오지 못했어요. 잠시 뒤 다시 시도해요.", won: "원", wonPre: "", copied: "복사됨", share: "공유", shareL: "이 속보 공유하기", expand: "펼쳐 읽기", collapse: "접기", view: "보기", vFull: "요약까지", vTitle: "제목만",
     fng: { "Extreme Fear": "극단적 공포", Fear: "공포", Neutral: "중립", Greed: "탐욕", "Extreme Greed": "극단적 탐욕" },
   }, CB.t || {});
@@ -170,7 +170,8 @@
         it.hidden = !ok; if (ok) shown++;
       });
       $$(".tg-inline", feed).forEach((x) => (x.hidden = cat !== "전체" || !!q));
-      $$(".day", feed).forEach((d) => { let n = d.nextElementSibling, any = false; while (n && !n.classList.contains("day")) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+      $$(".day", feed).forEach((d) => { let n = d.nextElementSibling, any = false; while (n && !n.classList.contains("day")) { if (!n.hidden && n.classList.contains("item")) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+      const sm = $("#seen-mark"), st = $(".seen-top"); if (sm) sm.hidden = cat !== "전체" || !!q; if (st) st.hidden = cat !== "전체" || !!q;
       const nm = $("#noMatch"); if (nm) nm.hidden = shown > 0 || !$(".item", feed);
     };
     // 속보 한 건씩 공유: 폰은 기기 공유 시트, PC는 '제목 + 링크' 복사 (코인니스 피드의 항목별 공유에서 착안)
@@ -196,6 +197,33 @@
       });
       m.append(btn);
     });
+    // 지난 방문 이후: 이 기기에서 마지막으로 본 속보 시각을 기억해, 그 뒤 새로 들어온 건수와 '읽던 곳' 표시 (코인니스 라이브 피드의 이어 읽기 흐름에서 착안)
+    const seenKey = "cb.seen." + (document.documentElement.lang || "ko").slice(0, 2), items = $$(".item", feed);
+    const times = items.map((it) => Date.parse($("time", it)?.getAttribute("datetime") || "")).filter((x) => x > 0);
+    if (times.length) {
+      const newest = Math.max(...times), seen = Date.parse(store.get(seenKey) || "") || 0;
+      if (seen && newest > seen) {
+        const fresh = items.filter((it) => Date.parse($("time", it)?.getAttribute("datetime") || "") > seen);
+        const stop = items.find((it) => { const t = Date.parse($("time", it)?.getAttribute("datetime") || ""); return t > 0 && t <= seen; });
+        if (fresh.length) {
+          const top = document.createElement("p");
+          top.className = "seen-top cjk"; top.setAttribute("role", "status");
+          top.innerHTML = `<span class="seen-dot" aria-hidden="true"></span><span>${esc(T.seenTop).replace("{n}", `<b class="num">${fresh.length}${stop ? "" : "+"}</b>`)}</span>`;
+          if (stop) {
+            const mark = document.createElement("div");
+            mark.className = "seen-mark cjk"; mark.id = "seen-mark"; mark.tabIndex = -1;
+            mark.innerHTML = `<span>${esc(T.seenMark)}</span>`;
+            stop.before(mark);
+            const go = document.createElement("a");
+            go.href = "#seen-mark"; go.className = "seen-go"; go.textContent = T.seenGo + " ↓";
+            go.addEventListener("click", (e) => { e.preventDefault(); mark.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block: "center" }); mark.focus({ preventScroll: true }); });
+            top.append(go);
+          }
+          feed.before(top);
+        }
+      }
+      if (newest > seen) store.set(seenKey, new Date(newest).toISOString());
+    }
     // 모바일: 속보 본문은 3줄로 접고 '펼쳐 읽기' — 넘치는 항목에만 버튼을 붙인다
     const narrow = matchMedia("(max-width:640px)");
     const clamp = () => {

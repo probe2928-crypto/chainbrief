@@ -734,7 +734,7 @@ write("contact/index.html", layout({
   body: `<div class="wrap"><main class="single">
   ${secHead("Contact", "제보 · 광고 · 제휴 문의")}
   <div class="contact">
-    ${cfg.email ? `<div id="contact-us"><span class="label">Contact us · 이메일</span><div class="handle"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">체인브리프 운영팀 이메일이에요. 제보·광고·정정 요청 모두 받아요.</p></div>` : ""}
+    ${cfg.email ? `<div id="contact-us"><span class="label">Contact us · 이메일</span><div class="handle mail"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">체인브리프 운영팀 이메일이에요. 제보·광고·정정 요청 모두 받아요.</p></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
