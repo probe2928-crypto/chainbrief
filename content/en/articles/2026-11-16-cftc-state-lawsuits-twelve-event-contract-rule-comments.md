@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: Arkansas and Louisiana became the 11th and 12th states the CFTC has taken to court over sports and election contracts in the space of two days. The federal rule the agency is leaning on is still a proposal, and public comments close on Nov. 18.
+image: media/articles/2026-11-16-cftc-state-lawsuits-twelve-event-contract-rule-comments.png
+image_alt: The CFTC has sued 12 states over prediction markets since April (Arkansas No. 11, Louisiana No. 12). Calendar: Nov. 4 Arkansas AG sues Kalshi; Nov. 12 DOJ and CFTC sue Arkansas and Louisiana wins a no-notice TRO against 30-plus firms; Nov. 13 DOJ and CFTC sue Louisiana; Nov. 18 comments close on the swap-definition proposal (11 filed as of Nov. 10); Nov. 30 hearing on the Louisiana order; Dec. 5 impartial-access deadline per BlockchainReporter.
+image_note: AI-made graphic (summary of article)
 ---
 
 In Arkansas you have to be 21 to place a legal sports bet. Kalshi, the state says, has been letting customers aged 18 to 20 trade contracts on game results anyway, and on Nov. 4 Attorney General Tim Griffin sued the company over it. Eight days later the federal government sued Arkansas.
