@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-16T22:05:27.943Z",
+  "at": "2026-11-17T22:13:24.000Z",
   "cmd": "status",
   "apps": [
     {
@@ -10,6 +10,14 @@
       "name": "CHAINBRIEF",
       "primaryLocale": "en-US",
       "builds": [
+        {
+          "id": "835d3878-3b8e-44a5-b39e-4fd1044c1349",
+          "build": "23",
+          "version": "1.3.1",
+          "state": "VALID",
+          "uploaded": "2026-11-17T01:02:29-08:00",
+          "expired": false
+        },
         {
           "id": "ad4b7976-150d-42a4-acd3-d074a59ee769",
           "build": "22",
@@ -52,11 +60,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "ad4b7976-150d-42a4-acd3-d074a59ee769",
-        "build": "22",
-        "version": "1.3.0",
+        "id": "835d3878-3b8e-44a5-b39e-4fd1044c1349",
+        "build": "23",
+        "version": "1.3.1",
         "state": "VALID",
-        "uploaded": "2026-11-15T05:33:39-08:00",
+        "uploaded": "2026-11-17T01:02:29-08:00",
         "expired": false
       },
       "versions": [
