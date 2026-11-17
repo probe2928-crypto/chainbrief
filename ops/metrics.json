@@ -3314,6 +3314,118 @@
     ]
    },
    "unconfirmed": "OpenSEO(월요일 아님: 일요일 기준 어제 아닌 오늘 11/16은 월요일이나 Supermetrics 한도 때문에 이번 회차는 미실행)"
+  },
+  {
+   "date": "2026-11-16",
+   "tz_note": "GA4 KST 어제. 수집 2026-11-17 09:00 KST, OpenSEO(GA4·GSC 연결) 경유 — Supermetrics는 체험 만료·도구 미로딩",
+   "total": {
+    "users_all_property": 11,
+    "sessions": null,
+    "views": 12,
+    "gsc_clicks": 0,
+    "gsc_impr": 0,
+    "note": "users는 페이지별 활성사용자 합(중복 가능 상한)"
+   },
+   "sites": {
+    "perpline": {
+     "users": 1,
+     "sessions": null,
+     "views": 2,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "perpline.tech: / 1뷰 + /exchanges/orangex.html 1뷰 (GA 호스트 기준). GSC 미확인"
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 기록 0행(호스트 없음)"
+    },
+    "qurator": {
+     "users": null,
+     "sessions": null,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 기록 0행(호스트 없음)"
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "어제 GA 기록 없음(호스트 chainbrief.app·perpline.tech만 잡힘)·GSC 미확인"
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "어제 GA 기록 없음(호스트 chainbrief.app·perpline.tech만 잡힘)·GSC 미확인"
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "어제 GA 기록 없음(호스트 chainbrief.app·perpline.tech만 잡힘)·GSC 미확인"
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "어제 GA 기록 없음(호스트 chainbrief.app·perpline.tech만 잡힘)·GSC 미확인"
+    },
+    "chainbrief": {
+     "users": 10,
+     "sessions": null,
+     "views": 10,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "chainbrief.app 페이지별 활성사용자 합(중복 가능)·뷰 10. GSC는 github.io/chainbrief 속성 11/10~16 매일 0/0"
+    }
+   },
+   "social": {
+    "fb": {
+     "note": "미확인(Supermetrics 체험 만료)"
+    },
+    "ig": {
+     "note": "미확인(Supermetrics 체험 만료)"
+    },
+    "li": {
+     "note": "미확인(Supermetrics 체험 만료)"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social에 metrics_<날짜> 문서 없음(playbook·posts_*만)"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-15",
+    "users_total": 9
+   },
+   "delta_vs_prev": {
+    "users_total": 2,
+    "views": 3,
+    "note": "9→약11, 절대값 작아 즉시 판단 사항 아님"
+   },
+   "top": {
+    "pages": [
+     "chainbrief.app / (5뷰)",
+     "/en/articles/2026-10-27-ripple-national-trust-bank-final-occ-approval/ (2뷰)",
+     "/articles/2026-11-16-pm-who-sold-weekend-bitcoin-drop-cvd/ (1뷰)"
+    ],
+    "countries_by_sessions": "미확인(경로 조회만 가능)",
+    "sources_by_sessions": "미확인"
+   },
+   "unconfirmed": "소셜 4곳·국가·유입경로·세션·7개 사이트 GSC·OpenSEO 사이트 감사(월요일 아님: 어제 11/16이 월요일이었고 오늘은 화요일)"
   }
  ]
 }
