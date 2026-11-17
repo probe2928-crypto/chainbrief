@@ -18,7 +18,7 @@
       live: "라이브 속보", news: "체인브리프 기사", list: "상장 소식", mkt: "실시간 시세", more: "저장한 기사",
       all: "전체", imp: "중요", today: "오늘", yday: "어제", upd: "{t} 업데이트", pxOff: "시세를 불러오지 못했어요. 연결되면 자동으로 다시 시도해요.", pxOld: "{t} 기준 · 다시 연결 중", offline: "오프라인 — 저장된 내용을 보여줘요", none: "아직 소식이 없어요.",
       by: "글", read: "읽기", saved: "저장했어요", unsaved: "저장을 취소했어요", copied: "링크를 복사했어요", noSaved: "저장한 기사가 없어요. 기사 화면 위쪽 책갈피를 누르면 여기에 모여요.",
-      settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", contactUs: "문의하기 (이메일)", cTitle: "문의하기", cLead: "체인브리프 운영팀 연락처예요. 제보·광고·제휴·기사 정정 요청을 받아요.", cEmail: "이메일", cWeb: "웹사이트 문의 페이지", cTg: "텔레그램", cSrc: "기사 출처 안내", cSrcBody: "체인브리프 기사는 편집국 기자가 직접 쓰고 기사마다 작성자를 표시해요. 속보는 항목마다 원문 출처(언론사·거래소·공시)를 밝혀요.", srcL: "출처", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
+      settings: "설정", lang: "언어", theme: "화면", sys: "자동", light: "밝게", dark: "어둡게", contact: "제보·광고 문의", contactUs: "문의하기 (이메일)", cTitle: "문의하기", cLead: "체인브리프 운영팀 연락처예요. 제보·광고·제휴·기사 정정 요청을 받아요.", cEmail: "이메일", cWeb: "웹사이트 문의 페이지", cTg: "텔레그램", cFix: "정정·제보 요청", cFixBody: "기사 제목이나 링크와 함께 고칠 내용을 이메일로 보내주세요. 확인 후 기사를 정정하고 정정 사실을 표시해요. 보통 2영업일 안에 답장해요.", cPub: "발행", cPubBody: "체인브리프(CHAINBRIEF) 편집국 · 웹사이트 chainbrief.app", cSrc: "기사 출처 안내", cSrcBody: "체인브리프 기사는 편집국 기자가 직접 쓰고 기사마다 작성자를 표시해요. 속보는 항목마다 원문 출처(언론사·거래소·공시)를 밝혀요.", srcL: "출처", site: "웹사이트", privacy: "개인정보처리방침", partners: "Partners",
       ty: { listing: "신규 상장", delisting: "거래 종료", caution: "유의 종목", "caution-cleared": "유의 해제" }, notice: "공지 보기",
       glT: "해외 거래소 상장", krT: "국내 거래소 상장", glTy: { listing: "현물 상장", futures: "선물 상장", delisting: "상장 폐지" }, soon: "예정",
       usd: "달러", krw: "업비트 원화", kimp: "김프", fng: "공포·탐욕", dom: "BTC 도미넌스", mktNote: "김프 = 업비트 원화가 ÷ (글로벌 달러가 × 환율) − 1. 1분마다 갱신. 투자 권유가 아니에요.",
@@ -28,7 +28,7 @@
       live: "Live Wire", news: "CHAINBRIEF Analysis", list: "Exchange Listings", mkt: "Markets", more: "Saved stories",
       all: "All", imp: "Breaking", today: "Today", yday: "Yesterday", upd: "Updated {t}", pxOff: "Couldn't load prices. We'll retry automatically once you're online.", pxOld: "As of {t} · reconnecting", offline: "Offline — showing saved content", none: "No stories yet.",
       by: "By", read: "Read", saved: "Saved", unsaved: "Removed from saved", copied: "Link copied", noSaved: "Nothing saved yet. Tap the bookmark at the top of a story to keep it here.",
-      settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", contactUs: "Contact us (email)", cTitle: "Contact us", cLead: "How to reach the CHAINBRIEF team — tips, advertising, partnerships and corrections.", cEmail: "Email", cWeb: "Contact page on the web", cTg: "Telegram", cSrc: "About our sources", cSrcBody: "CHAINBRIEF stories are written by our newsroom and every story names its author. Each live-wire item names its original source (media outlet, exchange or filing).", srcL: "Source", site: "Website", privacy: "Privacy policy", partners: "Partners",
+      settings: "Settings", lang: "Language", theme: "Appearance", sys: "Auto", light: "Light", dark: "Dark", contact: "Tips & partnerships", contactUs: "Contact us (email)", cTitle: "Contact us", cLead: "How to reach the CHAINBRIEF team — tips, advertising, partnerships and corrections.", cEmail: "Email", cWeb: "Contact page on the web", cTg: "Telegram", cFix: "Corrections and tips", cFixBody: "Email us the story title or link and what should be fixed. We check it, correct the story and note the correction. We usually reply within two business days.", cPub: "Publisher", cPubBody: "CHAINBRIEF newsroom · website chainbrief.app", cSrc: "About our sources", cSrcBody: "CHAINBRIEF stories are written by our newsroom and every story names its author. Each live-wire item names its original source (media outlet, exchange or filing).", srcL: "Source", site: "Website", privacy: "Privacy policy", partners: "Partners",
       ty: { listing: "New listing", delisting: "Delisting", caution: "Caution", "caution-cleared": "Caution lifted" }, notice: "Notice",
       glT: "Global exchange listings", krT: "Korean exchange listings", glTy: { listing: "Spot listing", futures: "Futures", delisting: "Delisting" }, soon: "Soon",
       usd: "USD", krw: "Upbit KRW", kimp: "Kimchi", fng: "Fear & Greed", dom: "BTC dominance", mktNote: "Kimchi premium = Upbit KRW price ÷ (global USD price × FX) − 1. Refreshed every minute. Not investment advice.",
@@ -38,7 +38,7 @@
       live: "7×24 快讯", news: "链报分析", list: "交易所上币", mkt: "实时行情", more: "我的收藏",
       all: "全部", imp: "重要", today: "今天", yday: "昨天", upd: "{t} 更新", pxOff: "无法加载行情，联网后会自动重试。", pxOld: "{t} 数据 · 正在重连", offline: "离线 — 显示已保存内容", none: "暂无内容。",
       by: "作者", read: "阅读", saved: "已收藏", unsaved: "已取消收藏", copied: "链接已复制", noSaved: "还没有收藏。点击文章顶部的书签即可保存到这里。",
-      settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", contactUs: "联系我们（邮箱）", cTitle: "联系我们", cLead: "CHAINBRIEF 运营团队联系方式，受理爆料、广告、合作与更正请求。", cEmail: "邮箱", cWeb: "网站联系页面", cTg: "Telegram", cSrc: "来源说明", cSrcBody: "CHAINBRIEF 文章由编辑部撰写，每篇均标注作者。每条快讯均注明原始来源（媒体、交易所或公告）。", srcL: "来源", site: "网站", privacy: "隐私政策", partners: "Partners",
+      settings: "设置", lang: "语言", theme: "外观", sys: "自动", light: "浅色", dark: "深色", contact: "爆料与合作", contactUs: "联系我们（邮箱）", cTitle: "联系我们", cLead: "CHAINBRIEF 运营团队联系方式，受理爆料、广告、合作与更正请求。", cEmail: "邮箱", cWeb: "网站联系页面", cTg: "Telegram", cFix: "更正与爆料", cFixBody: "请将文章标题或链接及需更正的内容发送至我们的邮箱。核实后我们会更正文章并注明更正。通常在两个工作日内回复。", cPub: "发布方", cPubBody: "CHAINBRIEF 编辑部 · 网站 chainbrief.app", cSrc: "来源说明", cSrcBody: "CHAINBRIEF 文章由编辑部撰写，每篇均标注作者。每条快讯均注明原始来源（媒体、交易所或公告）。", srcL: "来源", site: "网站", privacy: "隐私政策", partners: "Partners",
       ty: { listing: "新上币", delisting: "终止交易", caution: "警示", "caution-cleared": "解除警示" }, notice: "公告",
       glT: "全球交易所上币", krT: "韩国交易所上币", glTy: { listing: "现货上币", futures: "合约上线", delisting: "下架" }, soon: "即将",
       usd: "美元", krw: "Upbit 韩元", kimp: "溢价", fng: "恐惧与贪婪", dom: "BTC 市占率", mktNote: "泡菜溢价 = Upbit 韩元价格 ÷（全球美元价格 × 汇率）− 1，每分钟更新。不构成投资建议。",
@@ -238,16 +238,17 @@
       <div class="group"><button type="button" class="row" data-url="mailto:${esc(em)}"><span>${T.cEmail}</span><small>${esc(em)}</small></button>
       <button type="button" class="row" data-url="${esc(web)}"><span>${T.cWeb}</span><small>${esc(web.replace(/^https?:\/\//, ""))}</small></button>
       <button type="button" class="row" data-url="https://t.me/${esc(tg)}"><span>${T.cTg}</span><small>@${esc(tg)}</small></button></div>
-      <h2>${T.cSrc}</h2><p>${T.cSrcBody}</p><p class="fine">CHAINBRIEF · ${esc(SITE.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</p></div>`;
+      <h2>${T.cFix}</h2><p>${T.cFixBody}</p><h2>${T.cPub}</h2><p>${T.cPubBody}</p><h2>${T.cSrc}</h2><p>${T.cSrcBody}</p><p class="fine">CHAINBRIEF · ${esc(SITE.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</p></div>`;
     sc.scrollTop = 0;
     $("#reader").classList.add("open"); $("#reader").setAttribute("aria-hidden", "false");
     $(".bar").classList.add("reading"); $("#backBtn").hidden = false; $("#shareBtn").hidden = true; $("#saveBtn").hidden = true;
+    $("#contactTab")?.classList.add("on");
   }
   $("#contactBtn")?.addEventListener("click", openContact);
   function closeArticle() {
     current = null;
     $("#reader").classList.remove("open"); $("#reader").setAttribute("aria-hidden", "true");
-    $(".bar").classList.remove("reading"); $("#backBtn").hidden = true; $("#shareBtn").hidden = true; $("#saveBtn").hidden = true;
+    $(".bar").classList.remove("reading"); $("#backBtn").hidden = true; $("#shareBtn").hidden = true; $("#saveBtn").hidden = true; $("#contactTab")?.classList.remove("on");
   }
   function syncSave() { const on = !!(current && store.get("saved", []).some((s) => s.id === current.id)); $("#saveBtn").classList.toggle("on", on); }
   $("#saveBtn").addEventListener("click", () => {
@@ -271,7 +272,7 @@
     $$("#tabs button").forEach((b) => (b.dataset.tab === tab ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current")));
     renderers[tab]();
   }
-  $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (!b) return; if (b.dataset.tab === active) $(`#v-${active} .scroll`).scrollTo({ top: 0, behavior: "smooth" }); else { haptic(); show(b.dataset.tab); } });
+  $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (!b) return; if (b.dataset.tab === active && !$("#reader").classList.contains("open")) $(`#v-${active} .scroll`).scrollTo({ top: 0, behavior: "smooth" }); else { haptic(); show(b.dataset.tab); } });
   document.addEventListener("click", (e) => {
     if (e.target.closest("[data-contact]")) { e.preventDefault(); openContact(); return; }
     const art = e.target.closest("[data-art]"); if (art) { e.preventDefault(); openArticle(art.dataset.art); return; }

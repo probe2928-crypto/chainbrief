@@ -79,7 +79,7 @@ const ED = {
     tagline: "Blockchain news, analysis and live markets",
     description: "Independent blockchain and crypto news: a 24/7 live wire, daily analysis from our desk and live market data. Free to read, no sign-up.",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,400..600",
-    nav: [["", "Live"], ["news/", "News"], ["market/", "Markets"], ["returns/", "Returns"], ["surge/", "Surge"], projectNav("en"), ["contact/", "Contact"], ["listings/", "Listings"]],
+    nav: [["", "Live"], ["news/", "News"], ["market/", "Markets"], ["returns/", "Returns"], ["surge/", "Surge"], projectNav("en"), ["contact/", "Contact us"], ["listings/", "Listings"]],
     tabs: [["", "Live", "live"], ["news/", "News", "news"], ["market/", "Markets", "mkt"], ["surge/", "Surge", "surge"]], menuL: "Menu", searchL: "Search", closeL: "Close",
     cats: ["Bitcoin", "Altcoins", "Listings", "Regulation", "Macro", "On-chain", "Exchanges", "US", "Europe", "Singapore"],
     all: "All", breaking: "Breaking", liveTitle: "Live Wire",
@@ -130,7 +130,7 @@ const ED = {
     tagline: "区块链新闻、深度分析与实时行情",
     description: "独立的区块链与加密新闻：24小时快讯、编辑部每日深度分析与实时行情。免费阅读，无需注册。",
     fonts: "family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@300..500&family=Newsreader:opsz,wght@6..72,500..600&family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@300;400;500",
-    nav: [["", "快讯"], ["news/", "新闻"], ["market/", "行情"], ["returns/", "收益"], ["surge/", "异动"], projectNav("zh"), ["contact/", "联系"], ["listings/", "上币"]],
+    nav: [["", "快讯"], ["news/", "新闻"], ["market/", "行情"], ["returns/", "收益"], ["surge/", "异动"], projectNav("zh"), ["contact/", "联系我们"], ["listings/", "上币"]],
     tabs: [["", "快讯", "live"], ["news/", "新闻", "news"], ["market/", "行情", "mkt"], ["surge/", "异动", "surge"]], menuL: "菜单", searchL: "搜索", closeL: "关闭",
     cats: ["比特币", "山寨币", "上币", "监管", "宏观", "链上", "交易所", "香港", "新加坡", "海外"],
     all: "全部", breaking: "重要", liveTitle: "7×24 快讯",
@@ -313,7 +313,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">CHAINBRIEF</a><p>${esc(L.tagline)}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${L.nav.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${asset("")}" lang="ko">한국어</a><a href="${asset("en/")}" lang="en">English</a><a href="${asset("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">${L.code === "zh" ? "联系" : "Contact"} @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${esc(L.contactT)}</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">${esc(cfg.impact[L.code]?.title || cfg.impact.name)}</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">${L.code === "zh" ? "联系" : "Contact"} @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">${L.code === "zh" ? "联系我们" : "Contact us"}</a>${cfg.email ? `<a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}" target="_blank" rel="noopener">${esc(cfg.impact[L.code]?.title || cfg.impact.name)}</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">${esc(ABOUT[L.code].newsroom)}</a><a href="${u("privacy/")}">${esc(ABOUT[L.code].privacyT)}</a></div>
   </div>
   <p class="ft-legal">${esc(L.disclaimer)}</p>
@@ -583,13 +583,15 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
 
   // 문의
   write(`${P}contact/index.html`, layout({
-    title: L.contactT, active: "contact/", canonical: "contact/", float: false,
-    body: `<div class="wrap"><main class="single">${secHead("Contact", esc(L.contactPage))}<div class="contact">
+    title: L.code === "zh" ? "联系我们" : "Contact us", active: "contact/", canonical: "contact/", float: false,
+    body: `<div class="wrap"><main class="single">${secHead(L.code === "zh" ? "联系我们" : "Contact us", esc(L.contactPage))}<div class="contact">
     ${cfg.email ? `<div id="contact-us"><span class="label">${L.code === "zh" ? "联系我们 · 邮箱" : "Contact us · Email"}</span><div class="handle mail"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">${L.code === "zh" ? "CHAINBRIEF 运营团队邮箱，受理爆料、广告与更正请求。" : "The CHAINBRIEF team inbox for tips, advertising and corrections."}</p></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>
-    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>${CH ? CH.contact : ""}</div></main></div>`,
+    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div id="corrections"><span class="label">${L.code === "zh" ? "更正与爆料方式" : "Corrections and tips"}</span><p style="margin:10px 0 0;font-weight:300;max-width:56ch">${L.code === "zh" ? `请将文章标题或链接及需更正的内容发送至 ${cfg.email ? `<a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a>` : "Telegram"}。编辑部核实后会更正文章并注明更正，通常在两个工作日内回复。` : `Email the story title or link and what should be fixed to ${cfg.email ? `<a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a>` : "Telegram"}. Our newsroom checks it, corrects the story and notes the correction. We usually reply within two business days.`}</p></div>
+    <div id="publisher"><span class="label">${L.code === "zh" ? "发布信息" : "Publisher"}</span><ul style="margin-top:10px"><li>${L.code === "zh" ? "媒体" : "Publication"}: CHAINBRIEF (${esc(cfg.name)})</li><li>${L.code === "zh" ? "发布方" : "Published by"}: ${L.code === "zh" ? "CHAINBRIEF 编辑部" : "the CHAINBRIEF newsroom"} · <a href="${u("authors/")}" style="text-decoration:underline">${esc(ABOUT[L.code].newsroom)}</a></li>${SITE_URL ? `<li>${L.code === "zh" ? "网站" : "Website"}: <a href="${abs("")}" style="text-decoration:underline">${esc(SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a></li>` : ""}${cfg.email ? `<li>${L.code === "zh" ? "邮箱" : "Email"}: <a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a></li>` : ""}</ul></div>${CH ? CH.contact : ""}</div></main></div>`,
   }));
 
   // 편집국 · 기자별 · 개인정보처리방침

@@ -107,7 +107,7 @@ const ICON = {
   mkt: '<path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/>',
   menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
 };
-const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["returns/", "수익률"], ["surge/", "급등"], ["community/", "커뮤니티"], projectNav("ko"), ["contact/", "문의"], ["listings/", "상장"]];
+const NAV = [["", "속보"], ["news/", "뉴스"], ["market/", "시세"], ["returns/", "수익률"], ["surge/", "급등"], ["community/", "커뮤니티"], projectNav("ko"), ["contact/", "문의하기"], ["listings/", "상장"]];
 const TABS = [["", "속보", "live"], ["news/", "뉴스", "news"], ["market/", "시세", "mkt"], ["surge/", "급등", "surge"]];
 const TG = cfg.telegram ? `https://t.me/${cfg.telegram.replace(/^@/, "")}` : "";
 const CH = tgChan(cfg, "ko");
@@ -159,7 +159,7 @@ ${adBand}
     <div class="ft-brand"><a class="wm" href="${u()}">${esc(cfg.nameEn)}</a><p>${esc(cfg.tagline || "")}</p></div>
     <div class="ft-col"><span class="label">Sections</span>${NAV.map(([p, l]) => `<a href="${u(p)}">${l}</a>`).join("")}</div>
     <div class="ft-col"><span class="label">Editions</span><a href="${u()}" lang="ko">한국어</a><a href="${u("en/")}" lang="en">English</a><a href="${u("zh/")}" lang="zh-Hans">中文</a></div>
-    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">제보·광고 문의</a><a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
+    <div class="ft-col"><span class="label">Contact</span>${CH ? CH.footer : ""}${TG ? `<a href="${TG}" target="_blank" rel="noopener">문의 @${esc(cfg.telegram)}</a>` : ""}<a href="${u("contact/")}">문의하기</a>${cfg.email ? `<a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a>` : ""}<a href="${u("rss.xml")}">RSS</a>${cfg.impact ? `<a href="${cfg.impact.url}ko/" target="_blank" rel="noopener">오리엘 재단</a>` : ""}</div>
     <div class="ft-col"><span class="label">About</span><a href="${u("authors/")}">편집국</a><a href="${u("privacy/")}">개인정보처리방침</a><a href="${u("terms/")}">이용약관</a></div>
   </div>
   ${[cfg.footer.company, cfg.footer.registration, cfg.footer.publisher, cfg.footer.email].some(Boolean) ? `<div class="cols">
@@ -729,16 +729,18 @@ write("community/write/index.html", layout({
 
 // 문의
 write("contact/index.html", layout({
-  title: "문의", active: "contact/", canonical: "contact/", float: false,
+  title: "문의하기", active: "contact/", canonical: "contact/", float: false,
   description: `제보, 광고, 제휴 문의${cfg.email ? ` · 이메일 ${cfg.email}` : ""} · 텔레그램 @${cfg.telegram}`,
   body: `<div class="wrap"><main class="single">
-  ${secHead("Contact", "제보 · 광고 · 제휴 문의")}
+  ${secHead("Contact us", "문의하기 — 제보 · 정정 · 광고 · 제휴")}
   <div class="contact">
     ${cfg.email ? `<div id="contact-us"><span class="label">Contact us · 이메일</span><div class="handle mail"><a href="mailto:${esc(cfg.email)}">${esc(cfg.email)}</a></div><p style="margin:8px 0 0;font-weight:300">체인브리프 운영팀 이메일이에요. 제보·광고·정정 요청 모두 받아요.</p></div>` : ""}
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">텔레그램으로 메시지를 보내주시면 확인 후 답변드려요. 아래 버튼이 열리지 않으면 텔레그램에서 <b>@${esc(cfg.telegram)}</b>을 검색하세요.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">텔레그램으로 문의하기</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">아이디 복사</button></div>
     <div><span class="label">이런 문의를 받아요</span><ul style="margin-top:10px"><li>속보·기사 제보</li><li>광고 및 배너 제휴</li><li>거래소·프로젝트 협업</li><li>기사 정정 요청</li></ul></div>
+    <div id="corrections"><span class="label">정정·제보 요청 방법</span><p style="margin:10px 0 0;font-weight:300;max-width:56ch">기사 제목이나 링크와 함께 고칠 내용을 ${cfg.email ? `<a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a>` : "텔레그램"}으로 보내주세요. 편집국이 확인한 뒤 기사를 정정하고 정정 사실을 기사에 표시해요. 보통 2영업일 안에 답장해요.</p></div>
+    <div id="publisher"><span class="label">발행 정보</span><ul style="margin-top:10px"><li>매체명: ${esc(cfg.name)} (${esc(cfg.nameEn)})</li><li>발행: ${esc(cfg.name)} 편집국 · <a href="${u("authors/")}" style="text-decoration:underline">편집국 소개</a></li>${cfg.footer.publisher ? `<li>발행·편집인: ${esc(cfg.footer.publisher)}</li>` : ""}${cfg.footer.company ? `<li>${esc(cfg.footer.company)}</li>` : ""}${cfg.footer.registration ? `<li>등록번호 ${esc(cfg.footer.registration)}</li>` : ""}${SITE_URL ? `<li>웹사이트: <a href="${abs("")}" style="text-decoration:underline">${esc(SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a></li>` : ""}${cfg.email ? `<li>이메일: <a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a></li>` : ""}</ul></div>
     ${CH ? CH.contact : ""}
   </div>
   </main></div>`,

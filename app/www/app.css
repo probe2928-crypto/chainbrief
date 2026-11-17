@@ -179,7 +179,7 @@ html[lang="en"] .prose h2{font-weight:600}
 .skel{height:14px;margin:12px 0;background:var(--wash);border-radius:2px}
 
 /* tabs */
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);height:calc(var(--tab-h) + var(--sb));padding-bottom:var(--sb);background:var(--paper);border-top:1px solid var(--line);position:relative;z-index:5}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);height:calc(var(--tab-h) + var(--sb));padding-bottom:var(--sb);background:var(--paper);border-top:1px solid var(--line);position:relative;z-index:5}
 .tabs button{display:grid;place-items:center;align-content:center;gap:4px;font-size:11.5px;color:var(--faint)}
 .tabs svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.3}
 .tabs button[aria-current="page"]{color:var(--ink)}
@@ -200,4 +200,5 @@ html[lang="en"] .prose h2{font-weight:600}
 .bar.reading #contactBtn{display:none}
 .contact-doc .group{margin:22px 0}
 .contact-doc h2{font-size:18px;margin:26px 0 8px}
+.tabs button#contactTab.on{color:var(--ink)}
 .fl .meta .src{color:var(--ink);opacity:.75}
