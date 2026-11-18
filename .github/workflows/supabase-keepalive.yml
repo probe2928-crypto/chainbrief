@@ -1,0 +1,30 @@
+name: 회원 서버 깨우기 (Supabase keep-alive)
+
+# 무료 Supabase 프로젝트는 7일 동안 요청이 없으면 자동 일시정지돼요.
+# 'members' 프로젝트(체인브리프·QURATOR 로그인 공용)에 주 2회 가벼운 요청을 보내 멈추지 않게 해요.
+# 공개(publishable) 키만 쓰고 데이터는 읽거나 바꾸지 않아요. (세준 "할거 ㄱ" 2026-11-18)
+on:
+  schedule:
+    - cron: "17 1 * * 1,4"   # 월·목 10:17 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 인증 서버·REST 요청
+        run: |
+          set -u
+          URL=$(jq -r '.auth.url' <(curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/site.config.json"))
+          KEY=$(jq -r '.auth.anonKey' <(curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/site.config.json"))
+          ok=0
+          for p in auth/v1/health auth/v1/settings rest/v1/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -H "apikey: $KEY" -H "Authorization: Bearer $KEY" "$URL/$p")
+            echo "$p → $code"
+            case "$code" in 2*|401|404) ok=1;; esac
+          done
+          # 540 = 이미 일시정지됨 → 실패로 표시해서 메일 알림이 가게
+          [ "$ok" = 1 ] || { echo "::error::회원 서버 응답 없음 — Supabase 대시보드에서 Restore 필요"; exit 1; }
