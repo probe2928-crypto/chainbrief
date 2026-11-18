@@ -1,0 +1,183 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'Inter';font-feature-settings:'tnum'}
+#cap{position:absolute;left:40px;right:40px;top:1240px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;background:#fff;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
+.lbl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:10px;color:#8b93a3;font-size:34px}
+.flag{position:absolute;left:50%;width:150px;height:150px;margin-left:-75px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+.stamp{position:absolute;left:50%;top:880px;transform:translateX(-50%) rotate(-8deg);border:10px solid #ff3d5a;color:#ff3d5a;font-weight:900;font-size:110px;padding:10px 40px;border-radius:18px;letter-spacing:4px;white-space:nowrap}
+.phone{position:absolute;left:50%;top:300px;width:500px;height:820px;margin-left:-250px;border-radius:70px;background:#05070c;border:3px solid #2a3140;box-shadow:0 60px 140px rgba(0,0,0,.7),0 0 0 14px #11151d}
+.row{display:flex;justify-content:space-between;align-items:center;padding:30px 40px;border-bottom:1px solid #1a202b;font-weight:800;font-size:38px}
+.row small{display:block;font-size:22px;color:#6f7888;font-weight:600}
+.pill{font-size:30px;padding:10px 18px;border-radius:12px}
+.wm{position:absolute;left:0;right:0;text-align:center;font-weight:900;font-size:230px;letter-spacing:-10px}
+
+.dg{display:inline-block}
+.slice{position:absolute;left:0;right:0;top:600px;text-align:center;font-weight:900;font-size:230px;letter-spacing:-12px;line-height:1;color:#ff3d5a}
+.chip{position:absolute;top:620px;width:420px;height:220px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:64px;letter-spacing:6px}
+.band{position:absolute;left:-400px;right:-400px;white-space:nowrap;font-weight:900;overflow:hidden}
+.sp{position:absolute;left:60px;right:60px;height:1px}
+.wr{display:flex;align-items:center;justify-content:space-between;padding:26px 36px;border-bottom:1px solid #1a202b;font-weight:800;font-size:38px}
+.wr small{display:block;font-size:22px;color:#6f7888;font-weight:600}
+.wr canvas{position:static;width:150px;height:56px}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+ <div class="v" id="v1"><div class="lbl" style="top:400px">KRW DEPOSITS · 9 MONTHS</div><div class="big mono" id="h3" style="top:1075px;font-size:64px;letter-spacing:2px;color:#ff3d5a">▼ 31.9%</div>
+   <div class="big mono" id="h1" style="top:500px;font-size:300px;color:#ff3d5a;text-shadow:0 0 120px rgba(255,61,90,.55)"></div>
+   <div class="big mono" id="h2" style="top:800px;font-size:200px;color:#fff;letter-spacing:-6px"></div></div>
+ <div class="v" id="v2"><div class="lbl" style="top:470px">KOREA'S TOP 2 EXCHANGES</div>
+   <div class="chip" id="c1" style="left:70px;background:#0a1730;border:5px solid #5b8cff;color:#9fbcff">UPBIT</div>
+   <div class="chip" id="c2" style="right:70px;background:#1d1406;border:5px solid #ffb84d;color:#ffd08a">BITHUMB</div>
+   <div class="big mono" id="kd" style="top:900px;font-size:120px;letter-spacing:4px;color:#ffe14d">= ₩ KRW</div></div>
+ <div class="v" id="v3"><canvas id="tank" width="1080" height="1920"></canvas>
+   <div class="lbl" id="tl" style="top:250px">2025 END</div>
+   <div class="big mono" id="tv" style="top:310px;font-size:120px;letter-spacing:-4px;text-shadow:0 8px 30px rgba(0,0,0,.9)"></div></div>
+ <div class="v" id="v4"><div id="sl"></div><div class="slice mono" id="slv">−31.9%</div>
+   <div class="lbl" style="top:440px">KRW DEPOSITS</div>
+   <div id="brk" class="mono" style="position:absolute;left:150px;right:150px;top:930px;font-weight:800;font-size:40px;color:#c9d1dc">
+     <div style="display:flex;justify-content:space-between;padding:16px 0;border-bottom:2px solid #2a3140"><span>UPBIT</span><span style="color:#ff3d5a">−1조8,594억</span></div>
+     <div style="display:flex;justify-content:space-between;padding:16px 0"><span>BITHUMB</span><span style="color:#ff3d5a">−6,477억</span></div></div></div>
+ <div class="v" id="v5"><canvas id="ecg" width="1080" height="1920"></canvas>
+   <div class="lbl" style="top:330px">FEAR &amp; GREED INDEX · TODAY</div>
+   <div class="big mono" id="fg" style="top:430px;font-size:340px;color:#ff3d5a;text-shadow:0 0 120px rgba(255,61,90,.6)">11</div>
+   <div class="big" id="xf" style="top:1060px;font-family:'DejaVu Sans Mono',monospace;font-size:64px;letter-spacing:10px;color:#ff3d5a">EXTREME FEAR</div></div>
+ <div class="v" id="v6">
+   <div class="band mono" id="b1" style="top:420px;font-size:90px;color:#3a4150;transform:rotate(-6deg)"></div>
+   <div class="band mono" id="b2" style="top:660px;font-size:84px;color:#fff;background:#ff3d5a;padding:20px 0;transform:rotate(-6deg)"></div>
+   <div class="band mono" id="b3" style="top:930px;font-size:90px;color:#3a4150;transform:rotate(-6deg)"></div></div>
+ <div class="v" id="v7"><canvas id="spd" width="1080" height="1920"></canvas>
+   <div id="exit" style="position:absolute;left:50%;top:330px;margin-left:-230px;width:460px;height:170px;border-radius:20px;background:#0b8a5c;border:6px solid #33f0b0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:96px;letter-spacing:12px;color:#eafff6;box-shadow:0 0 60px rgba(51,240,176,.5)">EXIT →</div>
+   <div class="lbl" id="fs1" style="top:820px;letter-spacing:8px;color:#c9d1dc">STABLECOIN OUTFLOW · FASTEST SINCE</div>
+   <div class="big mono" id="yr" style="top:880px;font-size:260px;color:#ffe14d;text-shadow:0 0 90px rgba(255,225,77,.45)">2026</div></div>
+ <div class="v" id="v8"><div class="big" id="qm" style="top:330px;font-size:760px;color:transparent;-webkit-text-stroke:10px #ffe14d;letter-spacing:0">?</div>
+   <div class="lbl" id="oq" style="top:1110px;color:#fff">ONE QUESTION</div></div>
+ <div class="v" id="v9"><canvas id="rad" width="1080" height="1920"></canvas>
+   <div class="big" id="nx" style="top:640px;font-size:120px;letter-spacing:-2px">NEXT?</div></div>
+ <div class="v" id="v10"><div class="phone" id="ph"><div style="padding:70px 36px 16px;font-weight:900;font-size:44px">Watchlist</div>
+   <div class="wr" data-k="c"><div>BTC<small>Crypto</small></div><canvas width="300" height="112"></canvas></div>
+   <div class="wr" data-k="c"><div>ETH<small>Crypto</small></div><canvas width="300" height="112"></canvas></div>
+   <div class="wr" data-k="s"><div>NVDA<small>US Stock</small></div><canvas width="300" height="112"></canvas></div>
+   <div class="wr" data-k="s"><div>TSLA<small>US Stock</small></div><canvas width="300" height="112"></canvas></div>
+   <div class="wr" data-k="s"><div>AAPL<small>US Stock</small></div><canvas width="300" height="112"></canvas></div></div></div>
+ <div class="v" id="v11">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:8px;color:#9fb3ad">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+   <div style="position:absolute;bottom:200px;left:60px;right:60px;text-align:center;font-size:32px;line-height:1.5;color:#c3cad6;word-break:keep-all">투자 권유 아님 · 출처: 스탠딩아웃(두나무·빗썸 3분기 보고서) 11/18 · 토큰포스트 11/18 13시 · Motley Fool(CoinDesk 인용) 11/17</div>
+ </div>
+</div>
+<div id="vig"></div>
+<div id="tag"><i></i>MARKET BRIEF <span>2026.11.18</span></div>
+<div id="cap"></div><div id="prog"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words1118.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS; const TOTAL=34.6;
+const S=[['v1',0],['v2',3.7],['v3',6.36],['v4',10.9],['v5',13.4],['v6',17.22],['v7',19.8],['v8',25.16],['v9',27.96],['v10',30.2],['v11',33.22]];
+const SUB=[22.28,27.2]; // extra punch inside a scene
+const chunks=[];let cur=[];
+W.forEach((w,i)=>{cur.push(w);const end=/[.,?!]$/.test(w[0])||cur.length>=2;if(end){chunks.push(cur);cur=[]}});if(cur.length)chunks.push(cur);
+function cls(t){if(/투비트/.test(t))return'g';if(/(빠져|빠지|빠질|공포|줄었)/.test(t))return'r';if(/(\d|%|기회)/.test(t))return'y';return''}
+const bg=$('bg').getContext('2d'),gr=$('grain').getContext('2d');
+const candles=makeCandles(120,5);const bk=makeBokeh(30,8,1080,1920);
+const fmt=v=>{v=Math.round(v);const j=Math.floor(v/10000),e=v%10000;return (j?j+'조':'')+(e?e.toLocaleString('en-US')+'억':'')};
+// slices for -31.9%
+$('sl').innerHTML=[0,1,2,3,4,5].map(i=>`<div class="slice mono" style="clip-path:inset(${i*40}px 0 ${240-(i+1)*40}px 0)">−31.9%</div>`).join('');
+const ROWS=[...document.querySelectorAll('.wr')];
+const spark=ROWS.map((_,i)=>{const r=rng(40+i);let v=0;return Array.from({length:40},()=>v+= (r()-.48))});
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const ls=t-S[si][1];
+  let lp=ls;SUB.forEach(s=>{if(t>=s&&t-s<lp)lp=t-s});
+  const pz=1+0.12*Math.exp(-lp*7)+0.025*ls/4;
+  const r=rng(Math.floor(t*30));const sh=Math.exp(-lp*9)*22;
+  $('world').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${pz})`;
+  $('flash').style.opacity=Math.max(0,.6-lp*14)*(t>0.2?1:0);
+  const id=S[si][0];
+  const hue={v1:'#2a0710',v3:'#0d0f18',v4:'#2a0710',v5:'#1a0508',v6:'#12060a',v7:'#06140f',v9:'#06140f',v10:'#06140f',v11:'#06140f'}[id]||'#0a0e17';
+  const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  bg.save();bg.globalAlpha=.5;drawChart(bg,1080,1920,t,candles,{alpha:.16,speed:120,y0:1650,scale:9});bg.restore();
+  drawBokeh(bg,1080,1920,t,bk,'255,255,255');
+  if(id==='v1'){ // slot-roll digits
+    const roll=(s,t0)=>[...s].map((ch,i)=>{if(!/\d/.test(ch))return ch;const lock=t0+i*.12;if(t>=lock)return `<span class="dg">${ch}</span>`;const rr=rng(Math.floor(t*30)*7+i);return `<span class="dg" style="filter:blur(3px);transform:translateY(${(rr()-.5)*40}px);opacity:.75">${Math.floor(rr()*9)+1}</span>`}).join('');
+    $('h1').innerHTML='−'+roll('2조',-1);$('h2').innerHTML=roll('5,071억',-1);
+    const k=eo5(p(t,0,.35));$('h1').style.transform=`scale(${1.12-.12*k})`;$('h2').style.transform=`scale(${1.15-.15*k})`;$('h3').style.opacity=.6+.4*Math.abs(Math.sin(t*4));}
+  if(id==='v2'){const a=eo5(p(ls,0,.35)),b=eo5(p(ls,.6,.95));$('c1').style.transform=`translateX(${(1-a)*-700}px) rotate(${(1-a)*-12}deg)`;$('c2').style.transform=`translateX(${(1-b)*700}px) rotate(${(1-b)*12}deg)`;
+    const c=eo5(p(ls,1.2,1.6));$('kd').style.opacity=c;$('kd').style.transform=`translateY(${(1-c)*60}px)`;}
+  if(id==='v3'){const tc=$('tank').getContext('2d');tc.clearRect(0,0,1080,1920);
+    const X=280,Y=520,Wd=520,H=620;const k=eio(p(t,8.7,10.4));const v=78679-25071*k;const lvl=v/78679;
+    tc.lineWidth=8;tc.strokeStyle='#8b93a3';tc.beginPath();tc.roundRect(X,Y,Wd,H,40);tc.stroke();
+    tc.save();tc.beginPath();tc.roundRect(X+8,Y+8,Wd-16,H-16,34);tc.clip();
+    // ghost of old level
+    const top0=Y+H-(H-16)*1, top=Y+H-8-(H-16)*lvl;
+    tc.fillStyle='rgba(255,61,90,.18)';tc.fillRect(X,top0,Wd,top-top0+20);
+    const gg=tc.createLinearGradient(0,top,0,Y+H);gg.addColorStop(0,'#5b8cff');gg.addColorStop(1,'#1b2f6b');tc.fillStyle=gg;
+    tc.beginPath();tc.moveTo(X,Y+H);for(let x=0;x<=Wd;x+=10){tc.lineTo(X+x,top+Math.sin(x/60+t*6)*10*(0.4+k*(1-k)*3))}tc.lineTo(X+Wd,Y+H);tc.fill();tc.restore();
+    if(k>0){tc.setLineDash([16,14]);tc.strokeStyle='#ff3d5a';tc.lineWidth=4;tc.beginPath();tc.moveTo(X-30,Y+8);tc.lineTo(X+Wd+30,Y+8);tc.stroke();tc.setLineDash([]);}
+    $('tv').textContent='₩'+fmt(v);$('tv').style.color=k>=1?'#ff3d5a':'#fff';$('tl').textContent=k<.5?'2025 END':'2026 SEP';}
+  if(id==='v4'){const k=eo5(p(ls,0,.35));[...$('sl').children].forEach((e,i)=>{const d=(i%2?1:-1)*(1-k)*(160+i*40);e.style.transform=`translateX(${d}px)`;e.style.opacity=k>=1?0:.4+.6*k});$('slv').style.opacity=k>=1?1:0;
+    const b=eo5(p(ls,.8,1.2));$('brk').style.opacity=b;$('brk').style.transform=`translateY(${(1-b)*40}px)`;}
+  if(id==='v5'){const ec=$('ecg').getContext('2d');ec.clearRect(0,0,1080,1920);ec.lineWidth=8;ec.strokeStyle='#ff3d5a';ec.shadowColor='#ff3d5a';ec.shadowBlur=20;ec.beginPath();
+    const head=Math.min(1080,ls*420);for(let x=0;x<=head;x+=4){const ph=x%270;const amp=Math.max(.15,1-x/1080);let y=880;if(ph>110&&ph<125)y-= (ph-110)*16*amp;else if(ph>=125&&ph<145)y+=-240*amp+(ph-125)*22*amp;else if(ph>=145&&ph<155)y+=200*amp-(ph-145)*20*amp;x?ec.lineTo(x,y):ec.moveTo(x,y)}ec.stroke();ec.shadowBlur=0;
+    ec.fillStyle='#fff';ec.beginPath();ec.arc(head,880,10,0,7);ec.fill();
+    const beat=Math.exp(-((ls*420)%270)/40);$('fg').style.transform=`scale(${1+.06*beat})`;
+    const x=p(t,15.8,16.0);$('xf').style.opacity=x>0?(Math.floor(t*4)%2?1:.35):0;}
+  if(id==='v6'){const s1='BTC $64,429 ▼0.76%  ·  ',s2='EXTREME FEAR 11  ·  ';$('b1').textContent=s2.repeat(8);$('b2').textContent=s1.repeat(6);$('b3').textContent=s2.repeat(8);
+    $('b1').style.transform=`rotate(-6deg) translateX(${-(ls*260)%600}px)`;$('b3').style.transform=`rotate(-6deg) translateX(${(ls*260)%600-600}px)`;
+    const k=eo5(p(ls,0,.4));$('b2').style.transform=`rotate(-6deg) translateX(${520-ls*40+(1-k)*1400}px)`;}
+  if(id==='v7'){const sc=$('spd').getContext('2d');sc.clearRect(0,0,1080,1920);const rr=rng(9);
+    for(let i=0;i<60;i++){const y=rr()*1920,sp=600+rr()*1400,len=80+rr()*300;const x=((rr()*1500+ls*sp)%1500)-300;sc.strokeStyle=`rgba(255,255,255,${.05+rr()*.18})`;sc.lineWidth=2+rr()*4;sc.beginPath();sc.moveTo(x,y);sc.lineTo(x+len,y);sc.stroke()}
+    for(let i=0;i<10;i++){const ph=((ls*1.1+i/10)%1);const x=120+ph*700,y=640-Math.sin(ph*Math.PI)*150-ph*120;sc.globalAlpha=Math.sin(ph*Math.PI);sc.fillStyle='#26a17b';sc.beginPath();sc.arc(x,y,30,0,7);sc.fill();sc.fillStyle='#fff';sc.font='900 34px Inter';sc.textAlign='center';sc.textBaseline='middle';sc.fillText('$',x,y+1)}sc.globalAlpha=1;
+    $('yr').textContent='2022';$('yr').style.transform=`scale(${t>=22.28?1+.25*Math.exp(-(t-22.28)*6):1})`;
+    $('exit').style.opacity=Math.floor(t*3)%2?1:.8;}
+  if(id==='v8'){const k=eo5(p(ls,0,.5));$('qm').style.transform=`scale(${1.6-.6*k}) rotate(${(1-k)*-25+Math.sin(ls*3)*3}deg)`;$('qm').style.opacity=k;const one=t>=27.2;$('qm').textContent=one?'1':'?';$('qm').style.webkitTextStroke=one?'0':'10px #ffe14d';$('qm').style.color=one?'#ffe14d':'transparent';
+    const o=eo5(p(t,27.2,27.5));$('oq').style.opacity=o;$('oq').style.letterSpacing=(22-12*o)+'px';}
+  if(id==='v9'){const rc=$('rad').getContext('2d');rc.clearRect(0,0,1080,1920);const cx=540,cy=700,R=420;
+    rc.strokeStyle='rgba(51,240,176,.35)';rc.lineWidth=3;[1,.66,.33].forEach(f=>{rc.beginPath();rc.arc(cx,cy,R*f,0,7);rc.stroke()});
+    rc.beginPath();rc.moveTo(cx-R,cy);rc.lineTo(cx+R,cy);rc.moveTo(cx,cy-R);rc.lineTo(cx,cy+R);rc.stroke();
+    const a=ls*3.2-Math.PI/2;const sg=rc.createConicGradient(a-0.9,cx,cy);sg.addColorStop(0,'rgba(51,240,176,0)');sg.addColorStop(.14,'rgba(51,240,176,.45)');sg.addColorStop(.15,'rgba(51,240,176,0)');rc.fillStyle=sg;rc.beginPath();rc.arc(cx,cy,R,0,7);rc.fill();
+    const BL=[['BTC',-2.2,.7],['ETH',-.9,.8],['NVDA',.3,.78],['TSLA',1.6,.7],['AAPL',2.6,.75]];
+    BL.forEach(([n,ang,d])=>{let da=((a-ang)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);const seen=ls*3.2>((ang+Math.PI/2)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);if(!seen)return;const al=Math.max(.35,1-da/5);const x=cx+Math.cos(ang)*R*d,y=cy+Math.sin(ang)*R*d;
+      rc.globalAlpha=al;rc.fillStyle=/BTC|ETH/.test(n)?'#ffe14d':'#33f0b0';rc.beginPath();rc.arc(x,y,16,0,7);rc.fill();rc.font='800 40px Inter';rc.textAlign='center';rc.fillText(n,x,y-34);rc.globalAlpha=1});
+    const k=eo5(p(ls,0,.4));$('nx').style.opacity=k;$('nx').style.transform=`scale(${1.4-.4*k})`;}
+  if(id==='v10'){$('ph').style.transform=`translateY(${(1-eo5(p(ls,0,.6)))*500}px) rotate(${(1-eo5(p(ls,0,.6)))*8}deg)`;
+    ROWS.forEach((row,i)=>{const on=row.dataset.k==='c'?(t>=30.24&&t<31.12):(t>=31.12&&t<32.0);const all=t>=32;row.style.background=on?'rgba(255,225,77,.12)':all?'rgba(51,240,176,.06)':'transparent';
+      const cv=row.querySelector('canvas');const c=cv.getContext('2d');c.clearRect(0,0,300,112);const d=spark[i];const n=Math.max(2,Math.floor(eo3(p(ls,.3+i*.1,1.2+i*.1))*40));const mn=Math.min(...d),mx=Math.max(...d);
+      c.lineWidth=5;c.strokeStyle=d[39]>=d[0]?'#33f0b0':'#ff3d5a';c.beginPath();for(let j=0;j<n;j++){const x=j*300/39,y=100-(d[j]-mn)/(mx-mn+1e-6)*88;j?c.lineTo(x,y):c.moveTo(x,y)}c.stroke();});}
+  if(id==='v11'){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*560)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(16-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);}
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});
+  const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&t<c[c.length-1][2]+0.5&&t<TOTAL&&id!=='v11'){const txt=c.map(w=>w[0]).join(' ');cap.style.fontSize=(txt.length>9?96:118)+'px';cap.innerHTML=c.map(w=>`<span class="${cls(w[0])}">${w[0].replace(/[.,]$/,'')}</span>`).join(' ');
+    const k=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.25-0.25*back(k)}) rotate(${(ci%2?-1:1)*1.2}deg)`;cap.style.opacity=1;}
+  else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
