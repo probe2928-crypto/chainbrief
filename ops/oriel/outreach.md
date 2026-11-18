@@ -13,6 +13,8 @@
 | 2026-11-09 | Room to Read 아시아태평양(홍콩) (asia.pacific@roomtoread.org) | 홍콩·아시아 | https://www.roomtoread.org/connect/ · https://www.roomtoread.org/regional-offices/hong-kong/ | 초안(발송 대기) — 자동 발송이 권한 분류기에 막힘, Gmail 임시보관함에 저장 |
 | 2026-11-11 | Pencils of Promise 라오스 (laos@pencilsofpromise.org) | 라오스 | https://pencilsofpromise.org/contact/ | 초안(발송 대기) — 자동 발송 권한 분류기 차단(11/09와 동일), Gmail 임시보관함 저장 · 제안: 학교 지원 파일럿(등록 후) |
 | 2026-11-11 | Sipar (sipar.france@sipar.org) | 캄보디아(프랑스 사무소) | https://sipar.org/en/association-cambodge-sipar/nous-soutenir/partenaire-sipar-mecenat/ | 초안(발송 대기) — 자동 발송 차단, Gmail 임시보관함 저장 · 제안: 현장 프로그램 소개 기사 · 같은 페이지 개인 주소(emmylou.drys@)는 사용 안 함 |
+| 2026-11-18 | AMURTEL — Baan Unrak (info@amurtel.org) | 태국(상클라부리, 태국·미얀마 국경) | https://amurtel.org/thailand/ | 발송 · 제안: 현장 프로그램 소개 기사(체인브리프·오리엘 현장 일지) |
+| 2026-11-18 | Big Brother Mouse (BigBrotherMouse@yahoo.com) | 라오스(루앙프라방) | https://www.bigbrothermouse.com/laos/contact.html | 발송 · 제안: 현장 프로그램 소개 기사 · 단체 공식 연락 페이지에 게시된 단체 메일(야후 도메인) · contact.html의 개인 주소(Ertan)는 사용 안 함 |
 
 ## 다음 회차 후보 (주소 미확인 — 발송 안 함)
 
@@ -24,3 +26,5 @@
 | 2026-11-16 | Saigon Children's Charity (2회째) | 베트남 | https://www.saigonchildren.com/contact-us/ | 11/16 열람 권한 요청 다시 무응답(PROVENANCE_REQUIRED) → 주소 미확인, 건너뜀 · 검색 결과의 영국 자선위원회 등록부 주소는 제3자 목록이라 사용 안 함 |
 | 2026-11-16 | SeeBeyondBorders | 캄보디아(교사 역량·학교) | https://www.seebeyondborders.org/contact-us/ | 신규 후보 · 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 · 제3자 이메일 형식 사이트(prospeo 등) 사용 안 함 |
 | 2026-11-16 | Lotus Outreach | 캄보디아(여아 교육) | https://lotusoutreach.org/contact/ | 신규 후보 · 열람 권한 요청 무응답 → 주소 미확인, 건너뜀 · 맞춤 제안 후보: 현장 프로그램 소개 기사 |
+| 2026-11-18 | Saigon Children's Charity (3회째) | 베트남 | https://www.saigonchildren.com/engage/corporate-sponsorship/ | 페이지 열람 성공했으나 메일 주소가 Cloudflare 난독화([email protected])로 가려져 확인 불가 → 건너뜀(추측 안 함) |
+| 2026-11-18 | Lotus Outreach·SeeBeyondBorders·Cambodia Charitable Trust·The Giving Block | — | 각 contact 페이지 | 열람 권한 요청 무응답(PROVENANCE_REQUIRED) → 건너뜀 · 검색 결과에 나온 공식 URL만 열람 가능한 것으로 보임 |
