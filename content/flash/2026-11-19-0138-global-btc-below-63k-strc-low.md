@@ -1,0 +1,7 @@
+---
+title: 비트코인 6만2천달러대 밀려…STRC도 8월來 최저
+time: 2026-11-19T01:38:00+09:00
+category: 비트코인
+important: false
+---
+비트코인이 18일 미국 증시가 하락 전환하면서 6만3000달러 아래로 내려가 한국시간 19일 새벽 6만2400달러 안팎에서 거래됐다. 24시간 기준 2%대, 7일 기준 15%대 하락이다. 스트래티지의 영구 우선주 STRC도 자사주 매입에도 3% 떨어진 95.75달러로 8월 이후 가장 낮아졌고, 시장은 이날 오후(미 동부) 공개되는 10월 FOMC 의사록을 기다리고 있다. [출처: CoinDesk](https://www.coindesk.com/business/2026/11/18/live-updates-bitcoin-stuck-near-usd65-000-as-popular-basis-trade-returns-dry-up)
