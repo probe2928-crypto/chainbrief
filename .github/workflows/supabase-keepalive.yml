@@ -15,14 +15,15 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v5
+        with: { sparse-checkout: site.config.json, sparse-checkout-cone-mode: false }
       - name: 인증 서버·REST 요청
         run: |
-          set -u
-          URL=$(jq -r '.auth.url' <(curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/site.config.json"))
-          KEY=$(jq -r '.auth.anonKey' <(curl -fsSL "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/site.config.json"))
+          URL=$(jq -r '.auth.url' site.config.json); KEY=$(jq -r '.auth.anonKey' site.config.json)
+          echo "server: $URL"; getent hosts "${URL#https://}" || echo "DNS 조회 실패"
           ok=0
           for p in auth/v1/health auth/v1/settings rest/v1/; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -H "apikey: $KEY" -H "Authorization: Bearer $KEY" "$URL/$p")
+            code=$(curl -s -m 20 -o /dev/null -w '%{http_code}' -H "apikey: $KEY" -H "Authorization: Bearer $KEY" "$URL/$p")
             echo "$p → $code"
             case "$code" in 2*|401|404) ok=1;; esac
           done
