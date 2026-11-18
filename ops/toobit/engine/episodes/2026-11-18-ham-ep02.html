@@ -1,0 +1,150 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#ffe9b8;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 55%}
+#room{position:absolute;inset:0}
+#cap{position:absolute;left:50px;right:50px;top:1560px;text-align:center;font-weight:900;font-size:104px;line-height:1.08;letter-spacing:-2px;color:#fff;word-break:keep-all;
+ -webkit-text-stroke:14px #1b1b2f;paint-order:stroke fill;z-index:40}
+#cap .y{color:#ffd23f}#cap .r{color:#ff4d6d}#cap .g{color:#33f0b0}
+#title{position:absolute;top:110px;left:0;right:0;text-align:center;z-index:41}
+#title span{display:inline-block;background:#1b1b2f;color:#ffd23f;font-weight:900;font-size:40px;padding:14px 30px;border-radius:999px;letter-spacing:1px;transform:rotate(-2deg)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60}
+#redwash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(255,40,80,.55));opacity:0;z-index:30}
+#lines{position:absolute;inset:0;opacity:0;z-index:29}
+#tb{position:absolute;left:90px;right:90px;top:430px;height:560px;border-radius:44px;background:#0b0f18;border:8px solid #1b1b2f;box-shadow:0 18px 0 #1b1b2f;opacity:0;z-index:35;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#tbw{font-weight:800;font-size:170px;letter-spacing:-9px;color:#fff;line-height:1}
+#tbc{margin-top:26px;font-family:'DejaVu Sans Mono',monospace;color:#33f0b0;font-size:30px;letter-spacing:6px}
+#tbl{margin-top:22px;height:5px;width:0;background:#33f0b0;box-shadow:0 0 14px #33f0b0}
+#grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:multiply;z-index:55}
+</style></head><body>
+<div id="world">
+<svg id="room" viewBox="0 0 1080 1920" width="1080" height="1920">
+ <defs>
+  <radialGradient id="bgG" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#fff4d6"/><stop offset="1" stop-color="#ffd98a"/></radialGradient>
+  <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd59c"/><stop offset="1" stop-color="#f7ac5e"/></linearGradient>
+ </defs>
+ <rect width="1080" height="1920" fill="url(#bgG)"/>
+ <!-- wall poster + window -->
+ <g id="win"><rect x="90" y="230" width="300" height="260" rx="24" fill="#bfe6ff" stroke="#1b1b2f" stroke-width="8"/><line x1="240" y1="230" x2="240" y2="490" stroke="#1b1b2f" stroke-width="8"/><line x1="90" y1="360" x2="390" y2="360" stroke="#1b1b2f" stroke-width="8"/></g>
+ <g><rect x="740" y="240" width="230" height="300" rx="16" fill="#fff" stroke="#1b1b2f" stroke-width="8" transform="rotate(4 855 390)"/><text x="855" y="350" text-anchor="middle" font-size="64" font-weight="900" fill="#1b1b2f" transform="rotate(4 855 390)">HODL</text><text x="855" y="440" text-anchor="middle" font-size="90" transform="rotate(4 855 390)">🚀</text></g>
+ <!-- desk -->
+ <rect x="-20" y="1180" width="1120" height="760" fill="#9b6a43"/><rect x="-20" y="1160" width="1120" height="40" fill="#7b4f2e"/>
+ <!-- monitor -->
+ <g id="mon"><rect x="290" y="560" width="500" height="360" rx="26" fill="#1b1b2f"/><rect x="315" y="585" width="450" height="300" rx="14" fill="#0b0f18"/>
+  <polyline id="ch" fill="none" stroke="#33f0b0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" points=""/>
+  <text id="pct" x="745" y="630" text-anchor="end" font-size="44" font-weight="900" fill="#33f0b0">+0.0%</text>
+  <rect x="510" y="920" width="60" height="70" fill="#1b1b2f"/><rect x="440" y="985" width="200" height="22" rx="10" fill="#1b1b2f"/></g>
+ <!-- hamster -->
+ <g id="ham" transform="translate(540 1230)">
+  <g id="hamBody">
+   <!-- body (small, chibi) -->
+   <ellipse cx="0" cy="160" rx="200" ry="150" fill="url(#fur)" stroke="#3a2418" stroke-width="8"/>
+   <ellipse cx="0" cy="190" rx="125" ry="95" fill="#fff6ea"/>
+   <!-- ears -->
+   <circle cx="-170" cy="-215" r="72" fill="#ffc98a" stroke="#3a2418" stroke-width="8"/><ellipse cx="-168" cy="-208" rx="40" ry="38" fill="#ffb3c1"/>
+   <circle cx="170" cy="-215" r="72" fill="#ffc98a" stroke="#3a2418" stroke-width="8"/><ellipse cx="168" cy="-208" rx="40" ry="38" fill="#ffb3c1"/>
+   <!-- big round head -->
+   <ellipse cx="0" cy="-40" rx="265" ry="215" fill="url(#fur)" stroke="#3a2418" stroke-width="8"/>
+   <path d="M-262 -10 Q-200 175 0 175 Q200 175 262 -10 Q150 40 0 30 Q-150 40 -262 -10Z" fill="#fff6ea"/>
+   <ellipse cx="0" cy="-210" rx="42" ry="20" fill="#fff6ea" opacity=".55"/>
+   <path d="M-14 -252 Q-8 -300 18 -290 Q4 -275 10 -252" fill="#ffc98a" stroke="#3a2418" stroke-width="7" stroke-linejoin="round"/>
+   <!-- headset -->
+   <path d="M-258 -70 Q0 -420 258 -70" fill="none" stroke="#2b2b3d" stroke-width="20" stroke-linecap="round"/>
+   <rect x="-292" y="-110" width="58" height="96" rx="26" fill="#33f0b0" stroke="#3a2418" stroke-width="7"/>
+   <rect x="234" y="-110" width="58" height="96" rx="26" fill="#33f0b0" stroke="#3a2418" stroke-width="7"/>
+   <path d="M-262 -20 Q-240 110 -110 110" fill="none" stroke="#2b2b3d" stroke-width="7"/><circle cx="-108" cy="110" r="13" fill="#2b2b3d"/>
+   <!-- blush -->
+   <ellipse id="chL" cx="-165" cy="55" rx="50" ry="30" fill="#ff8fab" opacity=".7"/><ellipse id="chR" cx="165" cy="55" rx="50" ry="30" fill="#ff8fab" opacity=".7"/>
+   <g stroke="#ff6f93" stroke-width="5" stroke-linecap="round" opacity=".8"><path d="M-185 48 l-10 18"/><path d="M-165 48 l-10 18"/><path d="M-145 48 l-10 18"/><path d="M185 48 l10 18"/><path d="M165 48 l10 18"/><path d="M145 48 l10 18"/></g>
+   <!-- eyes: normal (sparkly) -->
+   <g id="eN">
+    <ellipse cx="-100" cy="-5" rx="40" ry="50" fill="#2a1712"/><ellipse cx="-100" cy="18" rx="28" ry="20" fill="#6b3a2a"/><circle cx="-86" cy="-24" r="16" fill="#fff"/><circle cx="-116" cy="22" r="7" fill="#fff"/>
+    <ellipse cx="100" cy="-5" rx="40" ry="50" fill="#2a1712"/><ellipse cx="100" cy="18" rx="28" ry="20" fill="#6b3a2a"/><circle cx="114" cy="-24" r="16" fill="#fff"/><circle cx="84" cy="22" r="7" fill="#fff"/>
+   </g>
+   <!-- happy ^^ -->
+   <g id="eH" opacity="0"><path d="M-135 10 Q-100 -40 -65 10" fill="none" stroke="#3a2418" stroke-width="13" stroke-linecap="round"/><path d="M65 10 Q100 -40 135 10" fill="none" stroke="#3a2418" stroke-width="13" stroke-linecap="round"/>
+    <path d="M-200 -70 l8 -22 l8 22 l22 8 l-22 8 l-8 22 l-8 -22 l-22 -8z" fill="#ffe14d"/><path d="M200 -90 l6 -16 l6 16 l16 6 l-16 6 l-6 16 l-6 -16 l-16 -6z" fill="#ffe14d"/></g>
+   <!-- shock -->
+   <g id="eS" opacity="0"><circle cx="-100" cy="-5" r="50" fill="#fff" stroke="#3a2418" stroke-width="7"/><circle cx="-100" cy="0" r="14" fill="#2a1712"/><circle cx="-94" cy="-6" r="4" fill="#fff"/><circle cx="100" cy="-5" r="50" fill="#fff" stroke="#3a2418" stroke-width="7"/><circle cx="100" cy="0" r="14" fill="#2a1712"/><circle cx="106" cy="-6" r="4" fill="#fff"/></g>
+   <!-- determined (sparkly + brows) -->
+   <g id="eD" opacity="0"><path d="M-150 -78 L-60 -52" stroke="#3a2418" stroke-width="13" stroke-linecap="round"/><path d="M150 -78 L60 -52" stroke="#3a2418" stroke-width="13" stroke-linecap="round"/>
+    <ellipse cx="-100" cy="0" rx="36" ry="40" fill="#2a1712"/><circle cx="-88" cy="-14" r="13" fill="#fff"/><path d="M-112 18 l4 -10 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4z" fill="#fff"/>
+    <ellipse cx="100" cy="0" rx="36" ry="40" fill="#2a1712"/><circle cx="112" cy="-14" r="13" fill="#fff"/><path d="M88 18 l4 -10 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4z" fill="#fff"/></g>
+   <!-- nose & mouth -->
+   <path d="M-13 28 Q0 20 13 28 Q8 40 0 41 Q-8 40 -13 28Z" fill="#ff6f8a"/>
+   <path id="mouth" d="" fill="none" stroke="#3a2418" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+   <!-- sweat & tears -->
+   <g id="sweat" opacity="0"><path d="M215 -150 q22 44 0 64 q-22 -20 0 -64z" fill="#9fe0ff" stroke="#3a2418" stroke-width="5"/><path d="M-240 -120 q16 32 0 48 q-16 -16 0 -48z" fill="#9fe0ff" stroke="#3a2418" stroke-width="5"/></g>
+   <g id="tears" opacity="0"><rect id="tL" x="-118" y="30" width="34" height="0" rx="16" fill="#9fe0ff"/><rect id="tR" x="84" y="30" width="34" height="0" rx="16" fill="#9fe0ff"/></g>
+   <!-- tiny paws -->
+   <g fill="#ffc98a" stroke="#3a2418" stroke-width="7"><ellipse cx="-115" cy="225" rx="48" ry="36"/><ellipse cx="115" cy="225" rx="48" ry="36"/></g>
+   <g stroke="#3a2418" stroke-width="5" stroke-linecap="round"><path d="M-128 232 v-14"/><path d="M-104 232 v-14"/><path d="M104 232 v-14"/><path d="M128 232 v-14"/></g>
+  </g>
+ </g>
+ <!-- floating icons -->
+ <g id="fx"></g>
+</svg>
+</div>
+<svg id="lines" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<div id="redwash"></div>
+<div id="tb"><div id="tbw">toobit</div><div id="tbl"></div><div id="tbc">CRYPTO / STOCKS / ONE APP</div></div>
+<div id="lev" style="position:absolute;top:230px;left:0;right:0;text-align:center;z-index:42;opacity:0"><span style="display:inline-block;background:#ff4d6d;color:#fff;font-weight:900;font-size:64px;padding:10px 34px;border-radius:20px;transform:rotate(3deg)">배율 ↑ <b id="levn">x2</b></span></div>
+<div id="goal" style="position:absolute;top:230px;left:0;right:0;text-align:center;z-index:42;opacity:0"><span style="display:inline-block;background:#ffd23f;color:#1b1b2f;font-weight:900;font-size:60px;padding:10px 34px;border-radius:20px;transform:rotate(-3deg)">목표: 월급 x2 🔥</span></div>
+<div id="title"><span>단타 햄찌 EP.02 · 야망편 🐹</span></div>
+<div id="cap"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words_ham.js"></script>
+<script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS, TOTAL=W[W.length-1][2]+0.6;
+const at=(re)=>{const w=W.find(w=>re.test(w[0]));return w?w[1]:0};
+const T={long:at(/^첫$/),up:at(/플러스/),five:at(/배율을/),minus:at(/마이너스\./),lesson:at(/교훈/),coin:at(/차트는/),toobit:at(/투비트/),end:at(/^다음/)};T.mental=T.minus+0.7;
+const chunks=[];let cur=[];W.forEach(w=>{cur.push(w);if(/[.,?!]$/.test(w[0])||cur.length>=2){chunks.push(cur);cur=[]}});if(cur.length)chunks.push(cur);
+const cls=t=>/투비트/.test(t)?'g':/(마이너스|멘탈|나갔)/.test(t)?'r':/(\d|%|롱|오른다|진짜|손절)/.test(t)?'y':'';
+// chart path
+const pts=[];let v=0;const r0=rng(4);for(let i=0;i<60;i++){pts.push(v);v+=(i<30?1.2:(i<38?-5:0.2))+(r0()-.5)*2.4}
+// lines (speed lines) static
+let ls='';for(let i=0;i<36;i++){const a=i/36*Math.PI*2;ls+=`<line x1="${540+Math.cos(a)*420}" y1="${900+Math.sin(a)*420}" x2="${540+Math.cos(a)*1400}" y2="${900+Math.sin(a)*1400}" stroke="#1b1b2f" stroke-width="${6+(i%3)*5}" opacity=".18"/>`}$('lines').innerHTML=ls;
+const gr=$('grain').getContext('2d');
+function talk(t){return W.some(w=>t>=w[1]&&t<=w[2])}
+window.seek=function(t){
+  // chart reveal by phase
+  let n=t<T.long?6:t<T.five?Math.min(30,6+Math.floor((t-T.long)/(T.five-T.long)*24)):t<T.minus?30:t<T.mental?Math.min(40,30+Math.floor((t-T.minus)*14)):Math.min(60,40+Math.floor((t-T.mental)*6));
+  const sub=pts.slice(0,n);const base=sub[sub.length-1];const lo=Math.min(...pts),hi=Math.max(...pts);
+  $('ch').setAttribute('points',sub.map((y,i)=>`${330+i*7.2},${860-(y-lo)/(hi-lo)*240}`).join(' '));
+  const crash=t>=T.minus; $('ch').setAttribute('stroke',t>=T.minus?'#ff4d6d':'#33f0b0');
+  const pc=t<T.five?Math.min(10,Math.max(0,(t-T.long))*6):(t<T.minus?10+(t-T.five)*3:-8.0);$('pct').textContent=(pc>=0?'+':'')+pc.toFixed(1)+'%';$('pct').setAttribute('fill',pc>=0?'#33f0b0':'#ff4d6d');
+  // expressions
+  const happy=t>=T.up&&t<T.minus, shock=t>=T.minus&&t<T.mental, sad=t>=T.mental&&t<T.lesson, det=t>=T.lesson&&t<T.coin;
+  $('eN').style.opacity=(happy||shock||sad||det)?0:1;$('eH').style.opacity=happy?1:0;$('eS').style.opacity=shock?1:0;$('eD').style.opacity=det?1:0;
+  $('sweat').style.opacity=shock?1:0;$('tears').style.opacity=sad?1:0;
+  if(sad){const h=Math.min(260,(t-T.mental)*300);$('tL').setAttribute('height',h);$('tR').setAttribute('height',h);$('eN').style.opacity=1;$('eS').style.opacity=0;}
+  // mouth flap
+  const open=talk(t)?(.35+.65*Math.abs(Math.sin(t*22))):0;const M=$('mouth');
+  if(open>0||shock){const mw=shock?30:22,o=shock?Math.max(open,.6):open;M.setAttribute('d',`M-${mw} 50 Q-${mw} ${54+o*46} 0 ${54+o*46} Q${mw} ${54+o*46} ${mw} 50 Q0 44 -${mw} 50Z`);M.setAttribute('fill','#c2405e');}
+  else{M.setAttribute('d',sad?'M-26 70 Q0 52 26 70':'M-32 48 Q-16 66 0 50 Q16 66 32 48');M.setAttribute('fill','none');}
+  const bl=(!happy&&!shock&&!sad&&!det&&(t%3.1)<0.12)?0.1:1;$('eN').setAttribute('transform',`translate(0 -5) scale(1 ${bl}) translate(0 5)`);
+  // body motion
+  const bob=Math.sin(t*6)*8;const jump=happy?-Math.abs(Math.sin(t*9))*40:0;const melt=sad?Math.min(1,(t-T.mental)*1.5):0;
+  const br=Math.sin(t*4)*.015;$('hamBody').setAttribute('transform',`translate(0 ${bob+jump+melt*60}) scale(${1+melt*.12-br} ${1-melt*.15+br}) rotate(${shock?Math.sin(t*40)*3:0})`);
+  // camera
+  let z=1, sh=0;
+  if(t>=T.five&&t<T.minus){z=1+0.12*eo3(p(t,T.five,T.minus))}
+  if(t>=T.minus&&t<T.mental){z=1.32;sh=Math.exp(-(t-T.minus)*4)*30}
+  if(t>=T.lesson&&t<T.coin){z=1.08}
+  const r=rng(Math.floor(t*30));$('world').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${z})`;
+  $('lines').style.opacity=(happy||(t>=T.minus&&t<T.mental))?.9:0;$('lines').style.transform=`rotate(${t*20}deg)`;
+  $('redwash').style.opacity=(t>=T.minus&&t<T.lesson)?.8:0;
+  $('flash').style.opacity=Math.max(0,.8-Math.abs(t-T.minus)*5)+Math.max(0,.6-Math.abs(t-T.coin)*5);
+  // toobit card
+  const tbOn=t>=T.coin-0.1&&t<T.end-0.1;const k=eo5(p(t,T.coin-0.1,T.coin+0.4));
+  $('tb').style.opacity=tbOn?1:0;$('tb').style.transform=`translateY(${(1-k)*-500}px) rotate(${(1-k)*-8}deg)`;$('tbl').style.width=(eo5(p(t,T.coin+0.2,T.coin+0.8))*420)+'px';
+  // captions
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&t<c[c.length-1][2]+0.4){cap.innerHTML=c.map(w=>`<span class="${cls(w[0])}">${w[0].replace(/[.,]$/,'')}</span>`).join(' ');const kk=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.3-0.3*back(kk)}) rotate(${(ci%2?-2:2)}deg)`;cap.style.opacity=1}else cap.style.opacity=0;
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*15)+3);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);$('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+  {const lk=p(t,T.five,T.five+0.8);$('lev').style.opacity=(t>=T.five&&t<T.minus)?1:0;$('levn').textContent='x'+[2,5,10,20][Math.min(3,Math.floor(lk*4))];$('lev').style.transform=`scale(${1+0.06*Math.sin(t*20)})`;$('goal').style.opacity=(t>=T.up-3.5&&t<T.long)?1:0;}
+};
+seek(0);
+</script></body></html>

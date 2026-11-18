@@ -1,0 +1,127 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'Inter';font-feature-settings:'tnum'}
+#cap{position:absolute;left:60px;right:60px;top:1250px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(255,225,77,.5),rgba(255,225,77,0) 70%);mix-blend-mode:screen;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
+.lbl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:10px;color:#8b93a3;font-size:34px}
+.flag{position:absolute;left:50%;width:150px;height:150px;margin-left:-75px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px rgba(255,255,255,.08)}
+.stamp{position:absolute;left:50%;top:880px;transform:translateX(-50%) rotate(-8deg);border:10px solid #ff3d5a;color:#ff3d5a;font-weight:900;font-size:110px;padding:10px 40px;border-radius:18px;letter-spacing:4px;white-space:nowrap}
+.phone{position:absolute;left:50%;top:300px;width:500px;height:820px;margin-left:-250px;border-radius:70px;background:#05070c;border:3px solid #2a3140;box-shadow:0 60px 140px rgba(0,0,0,.7),0 0 0 14px #11151d}
+.row{display:flex;justify-content:space-between;align-items:center;padding:30px 40px;border-bottom:1px solid #1a202b;font-weight:800;font-size:38px}
+.row small{display:block;font-size:22px;color:#6f7888;font-weight:600}
+.pill{font-size:30px;padding:10px 18px;border-radius:12px}
+.wm{position:absolute;left:0;right:0;text-align:center;font-weight:900;font-size:230px;letter-spacing:-10px}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+ <div class="v" id="v1"><canvas id="c1" width="1080" height="1920"></canvas>
+   <div class="big" id="lq" style="top:820px;font-size:230px;color:#33f0b0;text-shadow:0 0 80px rgba(51,240,176,.5)">LONG?</div></div>
+ <div class="v" id="v2"><div class="lbl" style="top:470px">THE NUMBER PROS CHECK FIRST</div>
+   <div class="big" id="fr" style="top:560px;font-size:200px;letter-spacing:-6px;line-height:.95">FUNDING<br><span style="color:#ffe14d">RATE</span></div></div>
+ <div class="v" id="v3">
+   <div class="lbl" style="top:1130px">PRICE</div>
+   <div id="spotb" style="position:absolute;left:230px;width:240px;bottom:880px;height:0;background:#8b93a3;border-radius:16px 16px 0 0"></div>
+   <div id="futb" style="position:absolute;left:610px;width:240px;bottom:880px;height:0;background:#ffe14d;border-radius:16px 16px 0 0"></div>
+   <div class="mono" style="position:absolute;left:230px;width:240px;top:1060px;text-align:center;font-weight:900;font-size:44px;color:#c9d1dc">SPOT</div>
+   <div class="mono" style="position:absolute;left:610px;width:240px;top:1060px;text-align:center;font-weight:900;font-size:44px;color:#ffe14d">FUTURES</div>
+   <div id="pay" style="position:absolute;left:0;right:0;top:330px;text-align:center;font-weight:900;font-size:64px;opacity:0"><span style="color:#33f0b0">LONGS</span> → <span style="color:#ffe14d">$</span> → <span style="color:#ff3d5a">SHORTS</span></div></div>
+ <div class="v" id="v4"><div class="lbl" style="top:380px">WHO'S CROWDED?</div>
+   <div class="big mono" id="fp" style="top:450px;font-size:170px;color:#ff3d5a">+0.00%</div>
+   <div style="position:absolute;left:110px;right:110px;top:720px;height:120px;border-radius:60px;background:#2a0710;overflow:hidden"><div id="lbar" style="height:100%;width:50%;background:linear-gradient(90deg,#33f0b0,#1fa67a)"></div></div>
+   <div class="mono" style="position:absolute;left:110px;top:860px;font-weight:900;font-size:48px;color:#33f0b0" id="lpct">LONG 50%</div>
+   <div class="mono" style="position:absolute;right:110px;top:860px;font-weight:900;font-size:48px;color:#ff3d5a" id="spct">50% SHORT</div>
+   <div style="position:absolute;left:0;right:0;top:960px;text-align:center;font-size:30px;color:#6f7888;letter-spacing:4px">EXAMPLE</div></div>
+ <div class="v" id="v5"><canvas id="c5" width="1080" height="1920"></canvas>
+   <div class="stamp" id="liq" style="top:420px;font-size:88px">LIQUIDATED</div></div>
+ <div class="v" id="v6"><div class="lbl" style="top:380px">FLIP SIDE</div>
+   <div class="big mono" id="fn" style="top:450px;font-size:170px;color:#33f0b0">-0.00%</div>
+   <div style="position:absolute;left:110px;right:110px;top:720px;height:120px;border-radius:60px;background:#2a0710;overflow:hidden"><div id="lbar2" style="height:100%;width:50%;background:linear-gradient(90deg,#33f0b0,#1fa67a)"></div></div>
+   <div class="mono" style="position:absolute;right:110px;top:860px;font-weight:900;font-size:48px;color:#ff3d5a">SHORTS CROWDED</div></div>
+ <div class="v" id="v7"><canvas id="c7" width="1080" height="1920"></canvas>
+   <div class="big mono" style="top:880px;font-size:200px;color:#ffe14d">8H</div>
+   <div class="lbl" style="top:1100px;letter-spacing:6px">USUALLY · VARIES BY EXCHANGE</div></div>
+ <div class="v" id="v8"><canvas id="c8" width="1080" height="1920"></canvas>
+   <div id="fpanel" style="position:absolute;right:90px;top:400px;width:330px;height:420px;border-radius:26px;background:rgba(10,16,22,.92);border:3px solid #ffe14d;padding:30px;box-sizing:border-box">
+     <div style="font-weight:800;font-size:30px;letter-spacing:4px;color:#8b93a3">FUNDING</div>
+     <div class="mono" id="fv" style="font-weight:900;font-size:76px;color:#ffe14d;margin-top:20px">+0.01%</div>
+     <div style="font-weight:700;font-size:28px;color:#8b93a3;margin-top:20px">NEXT IN</div>
+     <div class="mono" id="cd" style="font-weight:900;font-size:56px;color:#fff">07:59:59</div></div></div>
+ <div class="v" id="v9"><div class="phone" id="ph"><div style="padding:70px 40px 20px;font-weight:900;font-size:44px">Watchlist</div>
+   <div class="row"><div>BTC<small>Crypto</small></div><span class="pill" style="background:#0f2a22;color:#33f0b0">USDT</span></div>
+   <div class="row"><div>ETH<small>Crypto</small></div><span class="pill" style="background:#0f2a22;color:#33f0b0">USDT</span></div>
+   <div class="row"><div>NVDA<small>US Stock</small></div><span class="pill" style="background:#1a2236;color:#8ab4ff">USDT</span></div>
+   <div class="row"><div>TSLA<small>US Stock</small></div><span class="pill" style="background:#1a2236;color:#8ab4ff">USDT</span></div>
+   <div class="row"><div>AAPL<small>US Stock</small></div><span class="pill" style="background:#1a2236;color:#8ab4ff">USDT</span></div></div></div>
+ <div class="v" id="v10">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:8px;color:#9fb3ad">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+ </div>
+</div>
+<div id="vig"></div>
+<div id="tag"><i></i>TRADER SCHOOL <span>EP.01</span></div>
+<div id="cap"></div><div id="prog"></div>
+<div id="risk" style="position:absolute;bottom:150px;left:0;right:0;text-align:center;font-size:24px;color:#6f7888;z-index:46;opacity:0">Not financial advice · Leveraged trading can lose all your margin</div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words_fund.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const TOTAL=32.0;
+const S=[['v1',0],['v2',4.52],['v3',5.8],['v4',10.4],['v5',14.48],['v6',18.32],['v7',21.52],['v8',24.56],['v9',28.48],['v10',30.0]];
+const CAP=[[0,'Only looking at the <b>chart</b> before you <b>long</b>?'],[2.08,'Pros check <b>this number</b> first.'],[4.52,''],[5.8,'When futures trade <b>above spot</b>,'],[8.08,'<b>longs pay shorts</b>.'],[10.4,'Funding <b>too high</b>?'],[12.24,'Everyone is <b>crowded long</b>.'],[14.48,'Then even a <b>small dip</b>'],[16.16,'can trigger a <r>liquidation cascade</r>.'],[18.32,'<b>Negative</b> funding?'],[19.76,'<r>Shorts</r> are crowded.'],[21.52,'It usually settles <b>every 8 hours</b>.'],[24.56,'From today, keep <b>funding</b>'],[26.32,'right next to your <b>chart</b>.'],[28.48,'Crypto &amp; stocks. <g>One app.</g>'],[30.0,'']];
+const bg=$('bg').getContext('2d'),gr=$('grain').getContext('2d');
+const candles=makeCandles(120,5);const bk=makeBokeh(30,8,1080,1920);const cd2=makeCandles(80,13);
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const ls=t-S[si][1];
+  const pz=1+0.1*Math.exp(-ls*7)+0.025*ls/4;
+  const r=rng(Math.floor(t*30));const sh=Math.exp(-ls*9)*18;
+  $('world').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${pz})`;
+  $('flash').style.opacity=Math.max(0,.45-ls*7)*(si>0?1:0);
+  const hue={v1:'#06140f',v2:'#1a1606',v4:'#2a0710',v5:'#2a0710',v6:'#06140f',v8:'#0d0f18',v9:'#06140f',v10:'#06140f'}[S[si][0]]||'#0a0e17';
+  const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  bg.save();bg.globalAlpha=.5;drawChart(bg,1080,1920,t,candles,{alpha:.16,speed:120,y0:1650,scale:9});bg.restore();drawBokeh(bg,1080,1920,t,bk,'255,255,255');
+  if(si===0){const c=$('c1').getContext('2d');c.clearRect(0,0,1080,1920);c.save();drawChart(c,1080,1300,t*2,cd2,{alpha:.9,speed:60,y0:700,scale:14});c.restore();const k=eo5(p(t,.3,.8));$('lq').style.transform=`scale(${1.5-.5*k}) rotate(${Math.sin(t*6)*3}deg)`;$('lq').style.opacity=k;}
+  if(si===1){const k=eo5(p(ls,0,.45));$('fr').style.transform=`scale(${2-k})`;$('fr').style.filter=`blur(${(1-k)*12}px)`;}
+  if(si===2){$('spotb').style.height=(eo5(p(ls,.1,.7))*420)+'px';$('futb').style.height=(eo5(p(ls,.4,1.1))*560)+'px';const k=eo5(p(t,8.0,8.4));$('pay').style.opacity=k;$('pay').style.transform=`translateY(${(1-k)*40}px)`;}
+  if(si===3){const k=eo3(p(ls,0,1.6));$('fp').textContent='+'+(0.1*k).toFixed(2)+'%';const lk=eo5(p(t,12.2,13.4));$('lbar').style.width=(50+35*lk)+'%';$('lpct').textContent='LONG '+Math.round(50+35*lk)+'%';$('spct').textContent=Math.round(50-35*lk)+'% SHORT';}
+  if(si===4){const c=$('c5').getContext('2d');c.clearRect(0,0,1080,1920);c.fillStyle='#2a3140';c.fillRect(60,1150,960,8);for(let i=0;i<9;i++){const st=15.6+i*.18;const k=p(t,st,st+.35);const ang=eio(k)*1.05;c.save();c.translate(120+i*105,1150);c.rotate(ang);c.fillStyle=k>0?'#ff3d5a':'#33f0b0';c.fillRect(-20,-170,40,170);c.restore();}
+    const k=p(t,16.4,16.6);$('liq').style.opacity=k>0?1:0;$('liq').style.transform=`translateX(-50%) rotate(-8deg) scale(${k>0?1+1.4*(1-eo5(k)):0})`;}
+  if(si===5){const k=eo3(p(ls,0,1.2));$('fn').textContent='-'+(0.05*k).toFixed(2)+'%';$('lbar2').style.width=(50-30*eo5(p(t,19.8,20.8)))+'%';}
+  if(si===6){const c=$('c7').getContext('2d');c.clearRect(0,0,1080,1920);c.lineWidth=18;c.strokeStyle='#2a3140';c.beginPath();c.arc(540,620,220,0,7);c.stroke();const a=-Math.PI/2+eio(p(ls,0,2.6))*Math.PI*2;c.strokeStyle='#ffe14d';c.beginPath();c.arc(540,620,220,-Math.PI/2,a);c.stroke();c.lineWidth=12;c.strokeStyle='#fff';c.beginPath();c.moveTo(540,620);c.lineTo(540+Math.cos(a)*170,620+Math.sin(a)*170);c.stroke();}
+  if(si===7){const c=$('c8').getContext('2d');c.clearRect(0,0,1080,1920);c.fillStyle='rgba(10,16,22,.85)';c.fillRect(80,400,560,420);c.save();c.beginPath();c.rect(80,400,560,420);c.clip();drawChart(c,640,820,t*2,cd2,{alpha:.95,speed:40,y0:640,scale:8});c.restore();const k=eo5(p(ls,0,.5));$('fpanel').style.transform=`translateX(${(1-k)*500}px)`;const rem=Math.max(0,8*3600-1-Math.floor((t-24.56)*137));const hh=String(Math.floor(rem/3600)).padStart(2,'0'),mm=String(Math.floor(rem%3600/60)).padStart(2,'0'),ss=String(rem%60).padStart(2,'0');$('cd').textContent=hh+':'+mm+':'+ss;}
+  if(si===8){$('ph').style.transform=`translateY(${(1-eo5(p(ls,0,.6)))*500}px) rotate(${(1-eo5(p(ls,0,.6)))*8}deg)`;}
+  if(si===9){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*560)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(16-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);
+  }
+
+  $('risk').style.opacity=t>=30.3?1:0;
+  let ci=0;CAP.forEach((c,i)=>{if(t>=c[0])ci=i});const cap=$('cap');const txt=CAP[ci][1];
+  if(txt){cap.style.fontSize='76px';cap.style.letterSpacing='-1px';cap.innerHTML=txt.replace(/<b>/g,'<span class="y">').replace(/<\/b>/g,'</span>').replace(/<r>/g,'<span class="r">').replace(/<\/r>/g,'</span>').replace(/<g>/g,'<span class="g">').replace(/<\/g>/g,'</span>');const k=p(t,CAP[ci][0],CAP[ci][0]+.15);cap.style.transform=`translateY(${(1-eo5(k))*30}px)`;cap.style.opacity=eo5(k);}else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);$('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
