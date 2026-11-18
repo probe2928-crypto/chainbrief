@@ -1,0 +1,7 @@
+---
+title: 币安攻击者转出74,880枚ETH 经THORChain换成比特币
+time: 2026-11-18T09:25:00+09:00
+category: 链上
+important: false
+---
+据链上分析账号Lookonchain，与10月29日币安安全事件相关的钱包11月17日在约三小时内转出74,880枚ETH，价值约1.368亿美元，并通过跨链协议THORChain换成比特币。MistTrack标记的一个地址自10月30日起未动，此次把34,279.66枚ETH分到三个新钱包。美国司法部此前表示已冻结超过27亿美元赃款，其中超过12亿美元获法院授权扣押或限制。 [来源: The Coin Republic](https://www.thecoinrepublic.com/2026/11/17/binance-news-hacker-moves-136-8m-in-stolen-ether-via-thorchain/)

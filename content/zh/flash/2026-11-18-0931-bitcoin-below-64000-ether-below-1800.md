@@ -1,0 +1,7 @@
+---
+title: 比特币跌破6.4万美元 以太坊失守1,800美元
+time: 2026-11-18T09:31:00+09:00
+category: 比特币
+important: false
+---
+据CoinMarketCap数据，截至北京时间11月18日凌晨2时，比特币24小时跌1.66%至约63,832美元，以太坊跌2.02%至约1,787美元，索拉纳逆势涨约1.5%。市场接下来等待美联储11月19日公布的会议纪要。 [来源: IT Times](https://www.ittimes.com/news/articleView.html?idxno=88051)
