@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The Supreme Court declined on Monday to hear Custodia Bank's case, leaving in place a ruling that Reserve Banks may refuse master accounts even to legally eligible banks. Crypto firms now depend on the Fed's narrower "skinny" account, which is still only a proposal.
+image: media/articles/2026-11-17-supreme-court-custodia-fed-master-account-denied.png
+image_alt: Custodia Bank v. Fed Board, No. 26-62. Timeline: Oct 2020 applies to Kansas City Fed; Jun 2022 sues after 19-month wait; Jan 27, 2023 Kansas City Fed rejects; Mar 29, 2024 Wyoming court rules for Fed; Oct 31, 2025 10th Circuit affirms 2-1; Mar 13, 2026 full 10th Circuit declines rehearing; Nov 16, 2026 Supreme Court denies petition. Skinny account proposal (May 2026): no interest, no discount window or intraday credit, no cash, check or ACH, balance cap, decisions typically within 90 days. Kraken limited-purpose account Mar 4, 2026, renewal due early Mar 2027
+image_note: AI-made graphic (summary of article)
 ---
 
 Custodia Bank asked the Federal Reserve Bank of Kansas City for an account in October 2020. On Monday, Nov. 16, 2026, the last route to forcing the Fed to say yes closed with two words on the Supreme Court's docket: "Petition DENIED."
