@@ -12,7 +12,7 @@ canvas{position:absolute;inset:0}
 #tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
 #tag span{color:#8b93a3}
 #prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
-#flash{position:absolute;inset:0;background:#fff;z-index:60;opacity:0}
+#flash{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(51,240,176,.55),rgba(51,240,176,0) 70%);mix-blend-mode:screen;z-index:60;opacity:0}
 #grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
 #vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
 .big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
@@ -62,7 +62,8 @@ canvas{position:absolute;inset:0}
  <div class="v" id="v7"><canvas id="spd" width="1080" height="1920"></canvas>
    <div id="exit" style="position:absolute;left:50%;top:330px;margin-left:-230px;width:460px;height:170px;border-radius:20px;background:#0b8a5c;border:6px solid #33f0b0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:96px;letter-spacing:12px;color:#eafff6;box-shadow:0 0 60px rgba(51,240,176,.5)">EXIT →</div>
    <div class="lbl" id="fs1" style="top:820px;letter-spacing:8px;color:#c9d1dc">STABLECOIN OUTFLOW · FASTEST SINCE</div>
-   <div class="big mono" id="yr" style="top:880px;font-size:260px;color:#ffe14d;text-shadow:0 0 90px rgba(255,225,77,.45)">2026</div></div>
+   <div class="big mono" id="yr" style="top:880px;font-size:260px;color:#ffe14d;text-shadow:0 0 90px rgba(255,225,77,.45)">2026</div>
+   <div class="stamp" id="mx" style="top:580px;font-size:96px;opacity:0">MAX SPEED</div></div>
  <div class="v" id="v8"><div class="big" id="qm" style="top:330px;font-size:760px;color:transparent;-webkit-text-stroke:10px #ffe14d;letter-spacing:0">?</div>
    <div class="lbl" id="oq" style="top:1110px;color:#fff">ONE QUESTION</div></div>
  <div class="v" id="v9"><canvas id="rad" width="1080" height="1920"></canvas>
@@ -110,7 +111,7 @@ window.seek=function(t){
   const pz=1+0.12*Math.exp(-lp*7)+0.025*ls/4;
   const r=rng(Math.floor(t*30));const sh=Math.exp(-lp*9)*22;
   $('world').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${pz})`;
-  $('flash').style.opacity=Math.max(0,.6-lp*14)*(t>0.2?1:0);
+  $('flash').style.opacity=Math.max(0,.5-lp*8)*(t>0.2?1:0);
   const id=S[si][0];
   const hue={v1:'#2a0710',v3:'#0d0f18',v4:'#2a0710',v5:'#1a0508',v6:'#12060a',v7:'#06140f',v9:'#06140f',v10:'#06140f',v11:'#06140f'}[id]||'#0a0e17';
   const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
@@ -144,10 +145,11 @@ window.seek=function(t){
     $('b1').style.transform=`rotate(-6deg) translateX(${-(ls*260)%600}px)`;$('b3').style.transform=`rotate(-6deg) translateX(${(ls*260)%600-600}px)`;
     const k=eo5(p(ls,0,.4));$('b2').style.transform=`rotate(-6deg) translateX(${520-ls*40+(1-k)*1400}px)`;}
   if(id==='v7'){const sc=$('spd').getContext('2d');sc.clearRect(0,0,1080,1920);const rr=rng(9);
-    for(let i=0;i<60;i++){const y=rr()*1920,sp=600+rr()*1400,len=80+rr()*300;const x=((rr()*1500+ls*sp)%1500)-300;sc.strokeStyle=`rgba(255,255,255,${.05+rr()*.18})`;sc.lineWidth=2+rr()*4;sc.beginPath();sc.moveTo(x,y);sc.lineTo(x+len,y);sc.stroke()}
+    for(let i=0;i<60;i++){const y=rr()*1920,sp=600+rr()*1400,len=80+rr()*300;const acc=t>=22.28?(ls+(t-22.28)*1.8):ls;const x=((rr()*1500+acc*sp)%1500)-300;sc.strokeStyle=`rgba(255,255,255,${.05+rr()*.18})`;sc.lineWidth=2+rr()*4;sc.beginPath();sc.moveTo(x,y);sc.lineTo(x+len,y);sc.stroke()}
     for(let i=0;i<10;i++){const ph=((ls*1.1+i/10)%1);const x=120+ph*700,y=640-Math.sin(ph*Math.PI)*150-ph*120;sc.globalAlpha=Math.sin(ph*Math.PI);sc.fillStyle='#26a17b';sc.beginPath();sc.arc(x,y,30,0,7);sc.fill();sc.fillStyle='#fff';sc.font='900 34px Inter';sc.textAlign='center';sc.textBaseline='middle';sc.fillText('$',x,y+1)}sc.globalAlpha=1;
     $('yr').textContent='2022';$('yr').style.transform=`scale(${t>=22.28?1+.25*Math.exp(-(t-22.28)*6):1})`;
-    $('exit').style.opacity=Math.floor(t*3)%2?1:.8;}
+    $('exit').style.opacity=Math.floor(t*3)%2?1:.8;
+    const mk=p(t,22.28,22.5);$('mx').style.opacity=mk>0?1:0;$('mx').style.transform=`translateX(-50%) rotate(-8deg) scale(${mk>0?1+1.4*(1-eo5(mk)):0})`;$('yr').style.color=t>=22.28?'#ff3d5a':'#ffe14d';$('exit').style.transform=`translateY(${t>=22.28?-eo5(p(t,22.28,22.7))*60:0}px)`;}
   if(id==='v8'){const k=eo5(p(ls,0,.5));$('qm').style.transform=`scale(${1.6-.6*k}) rotate(${(1-k)*-25+Math.sin(ls*3)*3}deg)`;$('qm').style.opacity=k;const one=t>=27.2;$('qm').textContent=one?'1':'?';$('qm').style.webkitTextStroke=one?'0':'10px #ffe14d';$('qm').style.color=one?'#ffe14d':'transparent';
     const o=eo5(p(t,27.2,27.5));$('oq').style.opacity=o;$('oq').style.letterSpacing=(22-12*o)+'px';}
   if(id==='v9'){const rc=$('rad').getContext('2d');rc.clearRect(0,0,1080,1920);const cx=540,cy=700,R=420;
