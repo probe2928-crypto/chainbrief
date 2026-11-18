@@ -3554,6 +3554,118 @@
     ]
    },
    "unconfirmed": "IG·LI·X 팔로워/도달, 사이트별 방문자, 검색어 상위 5개, FB 페이지별 수치. OpenSEO 사이트 감사는 화요일이라 건너뜀(월요일만). OpenSEO 검색 성과 10/18~11/14 체인브리프 행 0"
+  },
+  {
+   "date": "2026-11-18",
+   "tz_note": "GA4 KST 어제(2026-11-18). 수집 2026-11-19 08:58 KST. Supermetrics 체험 11/14 만료(TRIAL_EXPIRED)로 조회 불가 → OpenSEO GA4·서치콘솔 읽기 경유(활성사용자는 페이지별 합산 상한값, 세션·국가·유입은 미확인)",
+   "total": {
+    "users_all_property": 10,
+    "sessions": null,
+    "views": 11,
+    "gsc_clicks": 0,
+    "gsc_impr": 0
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 8,
+     "sessions": null,
+     "views": 9,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "호스트 chainbrief.app 기준, 사용자는 페이지별 활성사용자 합(상한)"
+    },
+    "perpline": {
+     "users": 2,
+     "sessions": null,
+     "views": 2,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "호스트 perpline.tech 기준, GSC는 체인브리프 속성만 조회돼 미확인"
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음(0 또는 미수집), GSC 미확인"
+    },
+    "qurator": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음, GSC 미확인"
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음, GSC 미확인"
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음, GSC 미확인"
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음, GSC 미확인"
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 행 없음, GSC 미확인"
+    }
+   },
+   "social": {
+    "fb": {
+     "note": "미조회(Supermetrics 만료)"
+    },
+    "ig": {
+     "note": "미조회(Supermetrics 만료)"
+    },
+    "li": {
+     "note": "미조회(Supermetrics 만료)"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social 컬렉션 metrics_<날짜> 조회 안 함(이번 회차 생략)"
+    }
+   },
+   "prev_day_ref": {
+    "ref_day": "2026-11-17",
+    "users_total": 5,
+    "views": 5
+   },
+   "delta_vs_prev": {
+    "users_total": 5,
+    "views": 6,
+    "note": "5→10명, 5→11뷰. 절대값이 작아 즉시 판단 사항 아님. 같은 OpenSEO 방식이라 비교 가능"
+   },
+   "top": {
+    "pages": [
+     "chainbrief.app / (4뷰)",
+     "chainbrief.app /en/contact/ (3뷰)",
+     "perpline.tech / 및 /tools/futures-fee-calculator.html (각 1뷰)"
+    ],
+    "countries_by_sessions": null,
+    "sources_by_sessions": null
+   },
+   "unconfirmed": "Supermetrics TRIAL_EXPIRED(11/14)로 세션·국가·유입·SNS 전부 미확인. OpenSEO 서치콘솔 체인브리프 11/14~18 클릭·노출 0. 사이트 감사는 월요일만이라 건너뜀(크레딧 82<100)."
   }
  ]
 }
