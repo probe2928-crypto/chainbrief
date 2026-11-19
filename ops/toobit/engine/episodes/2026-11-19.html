@@ -1,0 +1,259 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- 2026-11-19 Toobit 시안: 연준 0.5%p 인상 거론 → 비트코인 · 출처 스탠딩아웃 11/19 11:26(코인마켓캡·파사이드·로이터 인용) -->
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'DejaVu Sans Mono',monospace;font-feature-settings:'tnum'}
+#cap{position:absolute;left:40px;right:40px;top:1390px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
+.lbl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:10px;color:#8b93a3;font-size:40px}
+.src{position:absolute;left:0;right:0;text-align:center;font-size:30px;color:#8b93a3;font-weight:700;letter-spacing:1px}
+/* odometer */
+.odo{display:inline-block;height:1em;overflow:hidden;vertical-align:top}
+.odo>span{display:block}
+/* fed columns */
+.col{position:absolute;bottom:0;width:70px;background:linear-gradient(90deg,#9aa3b5,#e9edf5 45%,#7d8699);border-radius:6px 6px 0 0}
+/* quote */
+.quote{position:absolute;left:90px;right:90px;top:430px;background:#f4f1e8;color:#0b0d12;border-radius:40px;padding:50px 60px 60px;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+.quote:after{content:'';position:absolute;left:120px;bottom:-60px;border:30px solid transparent;border-top:40px solid #f4f1e8}
+/* stairs */
+.step{position:absolute;bottom:0;width:260px;background:#151b26;border-top:8px solid #3a4456}
+/* minutes paper */
+.paper{position:absolute;left:140px;right:140px;top:330px;height:700px;background:#f2efe6;color:#1a1d24;border-radius:10px;padding:60px 60px;box-shadow:0 50px 140px rgba(0,0,0,.7)}
+.ln{height:22px;background:#c9c4b6;border-radius:6px;margin:26px 0}
+.hl{position:relative;font-weight:900;font-size:76px;letter-spacing:-2px;margin:34px 0;word-break:keep-all}
+.hl b{position:absolute;left:-14px;top:6px;height:84px;background:#ffe14d;z-index:-1;border-radius:6px}
+/* dots */
+.dot{position:absolute;width:120px;height:120px;border-radius:50%;background:#1d2330;border:4px solid #2e3647;box-sizing:border-box}
+/* elevator */
+.elev{position:absolute;left:150px;right:150px;top:340px;height:560px;background:#07090d;border:10px solid #3b4250;border-radius:30px;box-shadow:inset 0 0 80px rgba(255,61,90,.15),0 40px 120px rgba(0,0,0,.7)}
+.door{position:absolute;top:960px;width:380px;height:240px;background:linear-gradient(90deg,#5a6273,#aab2c2 50%,#5a6273)}
+/* week tiles */
+.day{position:absolute;top:540px;width:134px;height:210px;border-radius:20px;background:#141a24;border:5px solid #263043;box-sizing:border-box;text-align:center;font-weight:900;font-size:62px;padding-top:34px;color:#8b93a3}
+/* alt grid */
+.tile{position:absolute;width:170px;height:120px;border-radius:18px;background:#141a24;border:4px solid #263043;box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:900;color:#3a4456}
+.wm{position:absolute;left:0;right:0;text-align:center;font-weight:900;font-size:230px;letter-spacing:-10px}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+
+ <!-- A: hook 0.25 → 0.5 odometer -->
+ <div class="v" id="vA"><div class="lbl" style="top:420px">FED · DEC RATE HIKE?</div>
+   <div class="big mono" style="top:540px;font-size:290px;letter-spacing:-14px;color:#ffe14d;text-shadow:0 0 90px rgba(255,225,77,.45)">
+     <span id="hk">0.25%</span></div>
+   <div class="big" id="pUp" style="top:880px;font-size:110px;color:#ff3d5a">▲ p</div>
+   <div id="bpill" style="position:absolute;left:50%;top:1040px;transform:translateX(-50%);white-space:nowrap;background:#ff3d5a;color:#fff;font-weight:900;font-size:64px;padding:14px 34px;border-radius:20px" class="mono">BTC ▼15% · 7D</div></div>
+
+ <!-- B: FED temple -->
+ <div class="v" id="vB"><div id="temple" style="position:absolute;left:140px;right:140px;top:360px;height:600px">
+     <div id="roof" style="position:absolute;left:0;right:0;top:0;height:0;border-left:400px solid transparent;border-right:400px solid transparent;border-bottom:150px solid #dfe4ee"></div>
+     <div id="cols" style="position:absolute;left:40px;right:40px;top:170px;bottom:60px"></div>
+     <div style="position:absolute;left:-20px;right:-20px;bottom:0;height:60px;background:#c9cfdb;border-radius:6px"></div></div>
+   <div class="big" id="fedT" style="top:1010px;font-size:110px;letter-spacing:6px">FED</div>
+   <div class="lbl" style="top:1140px;font-size:32px;letter-spacing:12px">FEDERAL RESERVE</div></div>
+
+ <!-- C: Waller quote card -->
+ <div class="v" id="vC"><div class="quote" id="qt">
+     <div style="font-weight:800;font-size:34px;color:#6b6f7a;letter-spacing:3px">WALLER · CNBC · 11.18</div>
+     <div id="qtxt" style="font-weight:900;font-size:130px;letter-spacing:-5px;margin-top:20px;line-height:1.05;word-break:keep-all"></div></div>
+   <div class="lbl" style="top:1080px;letter-spacing:4px">크리스토퍼 월러 · 연준 이사</div></div>
+
+ <!-- D: rate staircase -->
+ <div class="v" id="vD"><div id="stairs" style="position:absolute;left:60px;right:60px;top:360px;height:800px">
+     <div class="step" id="st0" style="left:0;height:160px"></div>
+     <div class="step" id="st1" style="left:320px;height:340px"></div>
+     <div class="step" id="st2" style="left:640px;height:540px"></div>
+     <div class="mono" style="position:absolute;left:30px;bottom:80px;font-size:60px;font-weight:900;color:#8b93a3">NOW</div>
+     <div class="mono" style="position:absolute;left:340px;bottom:250px;font-size:60px;font-weight:900;color:#8b93a3">+0.25</div>
+     <div class="mono" id="st2t" style="position:absolute;left:660px;bottom:430px;font-size:76px;font-weight:900;color:#ffe14d">+0.5</div>
+     <div id="ball" style="position:absolute;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd27a,#f7931a 55%,#b86a0c);box-shadow:0 0 60px rgba(247,147,26,.6);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:72px;color:#fff6e5">₿</div></div>
+   <div class="lbl" style="top:240px">12월 FOMC 시나리오</div></div>
+
+ <!-- E: minutes highlighter -->
+ <div class="v" id="vE"><div class="paper" id="pp">
+     <div style="font-weight:900;font-size:40px;letter-spacing:4px">MINUTES OF THE FOMC</div>
+     <div style="font-size:30px;color:#6b6f7a;font-weight:700;margin-top:8px">October 2026 · 11.18 공개</div>
+     <div class="ln" style="width:92%;margin-top:60px"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:88%"></div>
+     <div class="hl"><b id="hlb"></b>거의 모든 참석자</div>
+     <div class="hl" style="margin-top:-10px"><b id="hlb2"></b>“추가 인상 적절”</div>
+     <div class="ln" style="width:85%"></div><div class="ln" style="width:70%"></div></div></div>
+
+ <!-- F: participant dots -->
+ <div class="v" id="vF"><div class="lbl" style="top:330px">FOMC 참석자 · 추가 인상</div><div id="dots"></div>
+   <div class="big" id="allT" style="top:1030px;font-size:110px;letter-spacing:-3px;color:#ffe14d">ALMOST ALL</div></div>
+
+ <!-- G: elevator floor display -->
+ <div class="v" id="vG"><div class="elev"><div class="lbl" style="top:40px;font-size:34px">BTC · 11.19 09:00 KST</div>
+     <div class="big mono" id="elv" style="top:150px;font-size:170px;letter-spacing:-6px;color:#ff3d5a;text-shadow:0 0 50px rgba(255,61,90,.7)">$73,942</div>
+     <div class="big" id="elA" style="top:360px;font-size:130px;color:#ff3d5a">▼</div></div></div>
+
+ <!-- H: 24h ring -->
+ <div class="v" id="vH"><svg width="1080" height="1200" style="position:absolute;left:0;top:0"><circle cx="540" cy="720" r="330" stroke="#1d2330" stroke-width="34" fill="none"/>
+     <circle id="ring" cx="540" cy="720" r="330" stroke="#ff3d5a" stroke-width="34" fill="none" stroke-linecap="round" transform="rotate(-90 540 720)"/></svg>
+   <div class="lbl" style="top:560px">24H</div>
+   <div class="big mono" id="dd1" style="top:645px;font-size:170px;letter-spacing:-10px;color:#ff3d5a">-0.0%</div></div>
+
+ <!-- I: week tiles -->
+ <div class="v" id="vI"><div class="lbl" style="top:450px">LAST 7 DAYS</div><div id="days"></div>
+   <div class="big mono" id="w15" style="top:850px;font-size:300px;letter-spacing:-12px;color:#ff3d5a">-15%</div></div>
+
+ <!-- J1: ETF box -->
+ <div class="v" id="vJ"><div id="box" style="position:absolute;left:240px;width:600px;top:360px;height:560px;border-radius:30px;background:linear-gradient(160deg,#1b2333,#0b0f17);border:6px solid #33415a">
+     <div style="position:absolute;top:60px;left:0;right:0;text-align:center;font-weight:900;font-size:90px;letter-spacing:-2px">SPOT ETF</div>
+     <div class="mono" style="position:absolute;top:170px;left:0;right:0;text-align:center;font-size:40px;color:#8b93a3;font-weight:700">BITCOIN · US · 11.17</div>
+     <div id="lvlE" style="position:absolute;left:30px;right:30px;bottom:30px;height:260px;border-radius:16px;background:linear-gradient(180deg,#ffe14d,#f7931a)"></div></div>
+   <canvas id="leak" width="1080" height="1920"></canvas></div>
+ <!-- J2: outflow counter -->
+ <div class="v" id="vK"><div class="lbl" style="top:470px">ETF NET FLOW · 1 DAY</div>
+   <div class="big mono" id="etf" style="top:570px;font-size:190px;letter-spacing:-10px;color:#ff3d5a;text-shadow:0 0 80px rgba(255,61,90,.5)">-$0.0M</div>
+   <div class="big" id="krw" style="top:820px;font-size:64px;letter-spacing:-1px;color:#fff">≈ 0억원 유출</div></div>
+
+ <!-- K: alt grid -->
+ <div class="v" id="vL"><div class="lbl" style="top:300px">ALTCOIN TOP 20 · 24H</div><div id="tiles"></div>
+   <div class="big mono" id="altN" style="top:1060px;font-size:120px;letter-spacing:-4px;color:#ff3d5a">0/20 ▼</div></div>
+
+ <!-- L1: seesaw -->
+ <div class="v" id="vM"><div id="saw" style="position:absolute;left:90px;width:900px;top:820px;height:24px;background:#dfe4ee;border-radius:12px;transform-origin:50% 50%">
+     <div style="position:absolute;left:-10px;bottom:24px;width:260px;height:150px;border-radius:20px;background:#ffe14d;color:#0b0d12;font-weight:900;font-size:64px;display:flex;align-items:center;justify-content:center">금리</div>
+     <div style="position:absolute;right:-10px;bottom:24px;width:300px;height:150px;border-radius:20px;background:#ff3d5a;color:#fff;font-weight:900;font-size:56px;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1">위험<br>자산</div></div>
+   <div style="position:absolute;left:470px;top:844px;width:0;height:0;border-left:70px solid transparent;border-right:70px solid transparent;border-bottom:150px solid #5a6273"></div></div>
+ <!-- L2: shaking RISK -->
+ <div class="v" id="vN"><div class="big" id="risk" style="top:520px;font-size:230px;letter-spacing:-10px;line-height:.95">RISK<br><span style="color:#ff3d5a">ON?</span></div>
+   <svg id="crk" width="1080" height="1200" style="position:absolute;left:0;top:0"><path id="ck" d="M520 470 L560 600 L500 690 L590 820 L540 930 L610 1060" stroke="#fff" stroke-width="8" fill="none"/></svg></div>
+
+ <!-- P: one app tabs -->
+ <div class="v" id="vP"><div id="ph" style="position:absolute;left:50%;top:280px;width:560px;height:900px;margin-left:-280px;border-radius:70px;background:#05070c;border:3px solid #2a3140;box-shadow:0 60px 140px rgba(0,0,0,.7),0 0 0 14px #11151d,0 0 120px rgba(51,240,176,.15);overflow:hidden">
+   <div style="display:flex;margin:90px 40px 30px;background:#121822;border-radius:24px;padding:8px;position:relative">
+     <div id="seg" style="position:absolute;top:8px;bottom:8px;width:calc(50% - 8px);border-radius:18px;background:#33f0b0"></div>
+     <div id="tC" style="flex:1;text-align:center;font-weight:900;font-size:38px;padding:18px 0;position:relative">CRYPTO</div><div id="tS" style="flex:1;text-align:center;font-weight:900;font-size:38px;padding:18px 0;position:relative">STOCKS</div></div>
+   <div id="rows"></div></div></div>
+ <!-- Z: toobit -->
+ <div class="v" id="vZ">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:8px;color:#9fb3ad">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+   <div class="src" style="top:1640px">투자 권유 아님 · 출처: 스탠딩아웃 2026.11.19<br>(코인마켓캡·파사이드 인베스터스·로이터 인용)</div>
+ </div>
+</div>
+<div id="vig"></div>
+<div id="tag"><i></i>MARKET BRIEF <span>2026.11</span></div>
+<div id="cap"></div><div id="prog"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words1119fed.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS; const TOTAL=33.2;
+// scenes: [id,start,transition]  tr: z=zoom-through, w=whip, m=mint glow, c=hard cut+shake
+const S=[['vA',0,'c'],['vB',2.08,'z'],['vC',4.24,'w'],['vD',5.92,'z'],['vE',8.8,'w'],['vF',10.0,'c'],['vG',12.56,'z'],['vH',15.04,'c'],['vI',16.88,'w'],
+ ['vJ',19.52,'z'],['vK',21.04,'c'],['vL',23.12,'w'],['vM',26.0,'z'],['vN',28.08,'c'],['vP',29.28,'z'],['vZ',31.2,'m']];
+// caption chunks: break on punctuation or every 2 words
+const chunks=[];let cur=[];
+const BR=new Set([0,1,3,4,6,7,9,10,12,14,17,18,21,23,25,26,28,31,33,34,36,38,40,41,42,44,46]);W.forEach((w,i)=>{if(BR.has(i)&&cur.length){chunks.push(cur);cur=[]}cur.push(w)});if(cur.length)chunks.push(cur);
+function cls(t){if(/투비트/.test(t))return'g';if(/(하락|유출|빠졌|흔들)/.test(t))return'r';if(/(\d|%|인상|비트코인|ETF)/.test(t))return'y';return''}
+const bg=$('bg').getContext('2d'),lk=$('leak').getContext('2d'),gr=$('grain').getContext('2d');
+const candles=makeCandles(120,19);const bk=makeBokeh(30,8,1080,1920);
+// build columns, dots, days, tiles
+(function(){let h='';for(let i=0;i<6;i++)h+=`<div class="col" id="c${i}" style="left:${i*118}px;height:0"></div>`;$('cols').innerHTML=h;
+ h='';for(let i=0;i<19;i++){const r=Math.floor(i/5),c=i%5;const x=(r===3?240:105)+c*180,y=420+r*140;h+=`<div class="dot" id="d${i}" style="left:${x}px;top:${y}px"></div>`}$('dots').innerHTML=h;
+ h='';const dn=['MON','TUE','WED','THU','FRI','SAT','SUN'];for(let i=0;i<7;i++)h+=`<div class="day" id="w${i}" style="left:${46+i*143}px">${['12','13','14','15','16','17','18'][i]}<div style="font-size:28px;margin-top:10px;letter-spacing:2px">${['THU','FRI','SAT','SUN','MON','TUE','WED'][i]}</div></div>`;$('days').innerHTML=h;
+ h='';for(let i=0;i<20;i++){const r=Math.floor(i/5),c=i%5;h+=`<div class="tile" id="t${i}" style="left:${70+c*192}px;top:${400+r*150}px">·</div>`}$('tiles').innerHTML=h;})();
+(function(){const A=[['BTC','Bitcoin'],['ETH','Ethereum'],['SOL','Solana'],['XRP','XRP']],B=[['NVDA','NVIDIA'],['TSLA','Tesla'],['AAPL','Apple'],['MSFT','Microsoft']];let h='';
+ for(let i=0;i<4;i++)h+=`<div style="position:relative;height:150px;border-bottom:1px solid #1a202b;overflow:hidden"><div class="rA" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 44px"><div style="font-weight:900;font-size:50px">${A[i][0]}<div style="font-size:26px;color:#6f7888;font-weight:600">${A[i][1]}</div></div><svg width="170" height="60"><path d="M0 ${20+i*6} L40 ${30-i*3} L80 ${28+i*4} L120 ${44-i*2} L170 ${50-i*5}" stroke="#ff3d5a" stroke-width="5" fill="none"/></svg></div>
+ <div class="rB" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 44px"><div style="font-weight:900;font-size:50px">${B[i][0]}<div style="font-size:26px;color:#6f7888;font-weight:600">${B[i][1]}</div></div><svg width="170" height="60"><path d="M0 ${30-i*4} L40 ${24+i*5} L80 ${38-i*3} L120 ${30+i*3} L170 ${42-i*4}" stroke="#8ab4ff" stroke-width="5" fill="none"/></svg></div></div>`;
+ document.getElementById('rows').innerHTML=h;})();
+const flipOrder=[3,11,0,17,7,14,5,19,9,1,12,16,6,10,2,18,13,8,4];// tile 15 stays neutral
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const id=S[si][0],ls=t-S[si][1],tr=S[si][2];
+  const r=rng(Math.floor(t*30));
+  // transitions (no white flash): zoom-through / whip / hard cut shake / mint glow
+  let sc=1+0.025*ls/4,tx=0,ty=0,bl=0;
+  if(si>0){
+    if(tr==='z'){const k=eo5(p(ls,0,.35));sc*=1+0.9*(1-k);bl=(1-k)*14}
+    if(tr==='w'){const k=eo5(p(ls,0,.28));tx=(1-k)*900;bl=(1-k)*22}
+    if(tr==='c'){sc*=1+0.12*Math.exp(-ls*7);const sh=Math.exp(-ls*9)*26;tx=(r()-.5)*sh;ty=(r()-.5)*sh}
+  }
+  $('world').style.transform=`translate(${tx}px,${ty}px) scale(${sc})`;const VS={vA:1.12,vB:1.12,vC:1.1,vD:1.15,vE:1.12,vF:1.0,vG:1.2,vH:1.12,vJ:1.2,vK:1.1,vL:1.05,vM:1.0,vN:1.15,vP:1.12};$(id).style.transform=`scale(${VS[id]||1})`;$(id).style.transformOrigin='50% 22%';$('world').style.filter=bl>0.3?`blur(${bl}px)`:'none';
+  const fl=$('flash');
+  if(tr==='m'&&si>0){fl.style.background='radial-gradient(ellipse at 50% 45%,rgba(51,240,176,.8),transparent 70%)';fl.style.opacity=Math.max(0,.9-ls*3)}
+  else if(tr==='c'&&si>0){fl.style.background='#ff3d5a';fl.style.opacity=Math.max(0,.22-ls*3)}else fl.style.opacity=0;
+  // bg
+  const hue={vA:'#1a1606',vB:'#0a0e17',vC:'#0a0e17',vD:'#1a1606',vG:'#2a0710',vH:'#2a0710',vI:'#2a0710',vK:'#2a0710',vL:'#1a0710',vN:'#2a0710',vZ:'#06140f'}[id]||'#0a0e17';
+  const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  bg.save();bg.globalAlpha=.5;drawChart(bg,1080,1920,t,candles,{alpha:.14,speed:120,y0:1700,scale:9});bg.restore();
+  drawBokeh(bg,1080,1920,t,bk,'255,255,255');
+  // scene-specific
+  if(id==='vA'){ // odometer roll 2→5, then % lands, ▲p pulses
+    const k=eio(p(t,.2,1.0));$('hk').textContent=(0.25+0.25*k).toFixed(2)+'%';$('hk').style.color=k<1?'#8b93a3':'#ffe14d';
+    $('hk').parentElement.style.transform=`scale(${1+.18*Math.exp(-Math.max(0,t-1.0)*6)*(t>1?1:0)})`;
+    $('pUp').style.opacity=t>1.0?1:0;const bp=p(t,1.2,1.4);$('bpill').style.opacity=bp>0?1:0;$('bpill').style.transform=`translateX(-50%) rotate(-3deg) scale(${bp>0?1+1.2*(1-eo5(bp)):0})`;$('pUp').style.transform=`translateY(${(1-eo5(p(t,1,1.3)))*120}px) scale(${1+.06*Math.sin(t*14)})`;}
+  if(id==='vB'){$('roof').style.transform=`translateY(${(1-eo5(p(ls,.5,.9)))*-400}px)`;$('roof').style.opacity=p(ls,.5,.6);
+    for(let i=0;i<6;i++){$('c'+i).style.height=(eo5(p(ls,.05+i*.06,.45+i*.06))*370)+'px'}
+    $('fedT').style.letterSpacing=(40-34*eo5(p(ls,.2,.8)))+'px';$('fedT').style.opacity=p(ls,.2,.4);}
+  if(id==='vC'){const q='12월\n0.5%p 인상?';const n=Math.floor(p(ls,.1,.7)*q.length);$('qtxt').innerHTML=q.slice(0,n).replace('\n','<br>').replace('0.5%p','<span style="color:#d63a50">0.5%p</span>')+(n<q.length&&ls%0.5<0.25?'|':'');
+    $('qt').style.transform=`rotate(${-2+2*eo5(p(ls,0,.4))}deg) scale(${.9+.1*back(p(ls,0,.35))})`;}
+  if(id==='vD'){ // ball hops up steps; at 7.28 top step lights
+    const stepX=[75,395,715],stepY=[160,340,540];
+    const seg=Math.min(1.999,p(ls,.15,1.4)*2);const i0=Math.floor(seg),f=eio(seg-i0);
+    const x=stepX[i0]+(stepX[i0+1]-stepX[i0])*f,y=stepY[i0]+(stepY[i0+1]-stepY[i0])*f+Math.sin(f*Math.PI)*90;
+    $('ball').style.left=x+'px';$('ball').style.bottom=y+'px';
+    const on=t>7.28;$('st2').style.borderTopColor=on?'#ffe14d':'#3a4456';$('st2').style.background=on?'linear-gradient(180deg,rgba(255,225,77,.35),#151b26 60%)':'#151b26';
+    $('st2t').style.transform=`scale(${on?1+.25*Math.exp(-(t-7.28)*6):1})`;}
+  if(id==='vE'){$('pp').style.transform=`translateY(${(1-eo5(p(ls,0,.35)))*300}px) rotate(${-3+3*eo5(p(ls,0,.4))}deg)`;
+    $('hlb').style.width=(eo3(p(ls,.25,.6))*560)+'px';$('hlb2').style.width=(eo3(p(ls,.55,.95))*520)+'px';}
+  if(id==='vF'){for(let i=0;i<19;i++){const k=p(ls,.15+i*.07,.3+i*.07);const e=$('d'+i);const on=k>0.5;e.style.background=on?'#ffe14d':'#1d2330';e.style.borderColor=on?'#fff3a8':'#2e3647';e.style.boxShadow=on?'0 0 30px rgba(255,225,77,.6)':'none';e.style.transform=`scaleX(${Math.abs(Math.cos(k*Math.PI))||.05})`}
+    $('allT').style.opacity=p(ls,1.4,1.6);$('allT').style.transform=`scale(${1+.3*(1-eo5(p(ls,1.4,1.8)))})`;}
+  if(id==='vG'){const k=eo3(p(t,12.9,14.6));const v=Math.round(73942-(73942-62851)*k);$('elv').textContent='$'+v.toLocaleString('en-US');
+    
+    $('elA').style.transform=`translateY(${(ls*3%1)*40}px)`;$('elA').style.opacity=t<14.7?1:.25;
+    $('world').style.transform+=` translateY(${Math.sin(t*40)*(t<14.7?3:0)}px)`;}
+  if(id==='vH'){const k=eo3(p(ls,.1,1.0));$('dd1').textContent='-'+(3.1*k).toFixed(1)+'%';const C=2*Math.PI*330;$('ring').style.strokeDasharray=C;$('ring').style.strokeDashoffset=C*(1-k);}
+  if(id==='vI'){for(let i=0;i<7;i++){const on=ls>.05+i*.07;const e=$('w'+i);e.style.background=on?'#3a0a14':'#141a24';e.style.borderColor=on?'#ff3d5a':'#263043';e.style.color=on?'#ff3d5a':'#8b93a3';e.style.transform=`translateY(${on?(1-eo5(p(ls,.05+i*.07,.25+i*.07)))*-40:0}px)`}
+    const k=p(ls,.62,.8);$('w15').style.opacity=k>0?1:0;$('w15').style.transform=`scale(${1+1.5*(1-eo5(k))}) rotate(-4deg)`;}
+  if(id==='vJ'){$('lvlE').style.height=(260-180*eio(p(ls,.3,1.5)))+'px';
+    lk.clearRect(0,0,1080,1920);const rr=rng(42);for(let i=0;i<16;i++){const ph=(ls*1.6+rr())%1;if(ls<.25)continue;const x=540+(rr()-.5)*300+Math.sin(ph*6+i)*40,y=930+ph*260;
+      lk.save();lk.translate(x,y);lk.rotate((rr()-.5)+ph*3);lk.globalAlpha=1-ph;lk.strokeStyle='#33f0b0';lk.lineWidth=5;lk.beginPath();lk.roundRect(-44,-24,88,48,10);lk.stroke();lk.fillStyle='#33f0b0';lk.beginPath();lk.arc(0,0,9,0,7);lk.fill();lk.restore();}}
+  if(id==='vK'){const k=eo3(p(ls,.05,1.0));$('etf').textContent='-$'+(239.9*k).toFixed(1)+'M';$('krw').textContent='≈ '+Math.round(3198*k).toLocaleString('en-US')+'억원 유출';}
+  if(id==='vL'){let n=0;flipOrder.forEach((ti,j)=>{const on=t>23.2+j*.06;const e=$('t'+ti);if(on)n++;e.style.background=on?'#3a0a14':'#141a24';e.style.borderColor=on?'#ff3d5a':'#263043';e.style.color=on?'#ff3d5a':'#3a4456';e.textContent=on?'▼':'·'});
+    $('altN').textContent=n+'/20 ▼';$('altN').style.transform=`scale(${n===19?1+.2*Math.exp(-(t-24.28)*6):1})`;}
+  if(id==='vM'){const a=-14*eio(p(ls,.2,.9))+Math.sin(ls*9)*1.2*p(ls,.9,1.1);$('saw').style.transform=`rotate(${-a}deg)`;}
+  if(id==='vN'){const sh=10+8*Math.sin(t*3);$('risk').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px)`;const ck=$('ck');if(!ck.L){ck.L=ck.getTotalLength();ck.style.strokeDasharray=ck.L}ck.style.strokeDashoffset=ck.L*(1-eo3(p(ls,.05,.5)));}
+  if(id==='vP'){$('ph').style.transform=`translateY(${(1-eo5(p(ls,0,.45)))*600}px) rotate(${(1-eo5(p(ls,0,.45)))*10}deg)`;
+    const k=eio(p(t,29.9,30.2));$('seg').style.left=(8+k*(544-80)/2)+'px';$('tC').style.color=k<.5?'#06140f':'#8b93a3';$('tS').style.color=k>=.5?'#06140f':'#8b93a3';
+    document.querySelectorAll('.rA').forEach((e,i)=>{const q=eo5(p(t,29.9+i*.05,30.25+i*.05));e.style.transform=`translateX(${-q*110}%)`});
+    document.querySelectorAll('.rB').forEach((e,i)=>{const q=eo5(p(t,29.9+i*.05,30.25+i*.05));e.style.transform=`translateX(${(1-q)*110}%)`});}
+  if(id==='vZ'){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*560)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(16-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);
+  }
+  // captions (hidden on toobit scene)
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});
+  const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&ci>0&&t<c[c.length-1][2]+0.5&&id!=='vZ'){const txt=c.map(w=>w[0]).join(' ');cap.style.fontSize=(txt.length>10?92:txt.length>7?104:118)+'px';cap.innerHTML=c.map(w=>`<span class="${cls(w[0])}">${w[0].replace(/[.,]$/,'').replace('포인트','%p').replace('%%p','%p')}</span>`).join(' ');
+    const k=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.25-0.25*back(k)}) rotate(${(ci%2?-1:1)*1.2}deg)`;cap.style.opacity=1;}
+  else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
