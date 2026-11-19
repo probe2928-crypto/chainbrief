@@ -1,0 +1,7 @@
+---
+title: SEC 지명자 존슨 "토큰화 주식 면제, 정식 규칙으로"
+time: 2026-11-20T05:28:00+09:00
+category: 규제
+important: false
+---
+미국 상원 은행위원회가 19일(현지시간) 증권거래위원회(SEC) 위원 지명자 인사청문회를 열었다. 민주당 몫 지명자인 크리스틴 존슨 전 상품선물거래위원회(CFTC) 위원은 SEC가 토큰화 주식에 적용하려는 '혁신 면제'를 의견수렴 절차를 거친 정식 규칙으로 만들어야 한다고 말했고, 공화당 몫 스티븐 레바인 지명자는 이 면제가 기한이 정해진 좁은 조치라며 옹호했다. 두 사람이 인준되면 SEC는 공화 3명·민주 1명의 4인 체제가 된다. [출처: CoinDesk](https://www.coindesk.com/policy/2026/11/19/trump-s-democratic-sec-pick-suggests-tokenization-policy-deserves-full-rule-process)
