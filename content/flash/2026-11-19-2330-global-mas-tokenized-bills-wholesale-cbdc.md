@@ -1,0 +1,7 @@
+---
+title: 싱가포르 통화청, 토큰화 국채 1억싱가포르달러 CBDC로 결제
+time: 2026-11-19T23:30:00+09:00
+category: 해외
+important: false
+---
+싱가포르통화청(MAS)은 만기 4주짜리 토큰화 통화안정증권(MAS Bills) 1억싱가포르달러(약 7750만달러)어치를 이달 6일 발행해 도매용 중앙은행디지털화폐(CBDC)로 결제를 마쳤다고 19일 밝혔다. DBS·HSBC·OCBC·UOB·스탠다드차타드 등 5개 프라이머리 딜러가 참여했고 응찰액은 발행액의 두 배를 넘었으며, 만기는 12월 4일이다. MAS는 시험 결제망 이름을 'SG 디지털 원장(SG Digital Ledger)'으로 바꾸고 내년 발행 규모와 참여 기관, 담보 활용 범위를 넓힐 계획이다. [출처: The Block](https://www.theblock.co/news/web3/2026-11-19-singapores-mas-tokenized-bills-443562)
