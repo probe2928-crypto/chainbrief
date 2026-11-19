@@ -7,7 +7,7 @@
 1. ops-status 브랜치 `ops/trot/sns/queue.json`, `posted.md`를 읽고 posted.md에 아직 없는 queue 첫 항목 1개를 고른다(같은 가수 3연속 금지).
    - 미디어(공개, trot-media 브랜치): 밴드용 30초 `clip`(≈3MB), 인스타용 15초 `ig`(≤1MB, `.../trot-media/ig/<id>.mp4`).
 2. **밴드** https://band.us/band/104995766 — 글쓰기 → 동영상 첨부: 밴드 탭 JS에서 `fetch(clip)`→Blob→File(video/mp4)→DataTransfer→`input[type=file][accept^="video"]`에 넣고 change → '동영상 올리기' 창에서 **AI 활용 토글 켜기** → 첨부하기 → 영상 위 본문 클릭 후 캡션 타이핑 → 게시.
-3. **페이스북 페이지** https://www.facebook.com/profile.php?id=61596061627297 — '무슨 생각을 하고 계신가요?' → 캡션(+ 해당 곡 유튜브 숏츠 주소, 모르면 채널 주소) → 다음 → 게시. 링크 미리보기 자동. (영상 직접 업로드는 learnings의 해시 중계로 가능하면 1MB 이하 ig 파일로 시도)
+3. **페이스북 페이지** https://www.facebook.com/profile.php?id=61596794636846 (11/19 새로 만든 '트롯스테이지 TrotStage' 페이지, 박세준 프로필이 관리자. 게시 전 오른쪽 위 프로필 사진 → 프로필 전환에서 '트롯스테이지 TrotStage'를 고른다. 옛 페이지 61596061627297은 Aquila Coin 소유라 쓰지 않음) — '무슨 생각을 하고 계신가요?' → 캡션(+ 해당 곡 유튜브 숏츠 주소, 모르면 채널 주소) → 다음 → 게시. 링크 미리보기 자동. (영상 직접 업로드는 learnings의 해시 중계로 가능하면 1MB 이하 ig 파일로 시도)
 4. **인스타 @trotstage_kr** — learnings.md의 '밴드 탭 해시 중계' 방식으로 `ig/<id>.mp4`(1MB 이하)를 인스타 탭에 넣어 릴스로 게시. 캡션은 붙여넣기(ClipboardEvent paste), **AI 레이블 추가 켜기**. 실패하면 ⏸로 기록하고 다음 회차에 재시도.
 5. `posted.md` '제작 채팅 운영분' 표에 한 줄 추가(시각·id·채널별 ✅/❌/⏸·링크·비고) → commit & push(ops-status, 충돌 시 rebase 후 두 쪽 내용 모두 보존).
 
