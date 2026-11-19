@@ -1,0 +1,86 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:P;src:local('Noto Sans CJK KR Black'),local('NotoSansCJKkr-Black')}
+html,body{margin:0;background:#000;width:1080px;height:1920px;overflow:hidden;font-family:'Noto Sans CJK KR','Noto Sans KR',sans-serif}
+#stage{position:absolute;inset:0;overflow:hidden}
+.p{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:transform,opacity}
+#title{position:absolute;top:120px;left:0;right:0;text-align:center;z-index:20;font-weight:900;font-size:96px;line-height:1.05;color:#fff;letter-spacing:-3px;
+ -webkit-text-stroke:14px #000;paint-order:stroke fill;text-shadow:0 8px 0 #000}
+#title .y{color:#ffe14d}
+#ep{display:inline-block;color:#ff3d5a}
+#cap{position:absolute;left:50px;right:50px;top:1330px;text-align:center;z-index:20;font-weight:900;font-size:84px;line-height:1.15;color:#fff;letter-spacing:-2px;
+ -webkit-text-stroke:12px #000;paint-order:stroke fill}
+#cap .y{color:#ffe14d}#cap .r{color:#ff4d6d}#cap .g{color:#33f0b0}
+.bub{position:absolute;z-index:21;opacity:0;font-weight:800;border-radius:34px;padding:26px 36px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+#chat{left:90px;top:520px;max-width:760px;background:#fff;color:#111;font-size:48px}
+#chat .who{font-size:30px;color:#888;font-weight:700;margin-bottom:6px}
+#noti{left:60px;right:60px;top:430px;background:rgba(28,28,30,.94);color:#fff;font-size:44px;border-radius:30px;display:flex;gap:24px;align-items:center}
+#noti .ic{width:84px;height:84px;border-radius:20px;background:#ff3d5a;display:flex;align-items:center;justify-content:center;font-size:52px;flex:none}
+#noti small{display:block;color:#aaa;font-size:30px;font-weight:600}
+#msg{right:70px;top:540px;max-width:720px;background:#ffd6e3;color:#222;font-size:50px}
+#msg .who{font-size:30px;color:#c2185b;font-weight:800;margin-bottom:6px}
+.stamp{position:absolute;z-index:21;opacity:0;font-weight:900;color:#fff;-webkit-text-stroke:16px #000;paint-order:stroke fill}
+#x20{left:0;right:0;text-align:center;top:560px;font-size:300px;color:#ff3d5a}
+#p30{left:0;right:0;text-align:center;top:560px;font-size:240px;color:#33f0b0}
+#next{position:absolute;inset:0;z-index:30;opacity:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;flex-direction:column}
+#next div{font-weight:900;font-size:150px;color:#fff;-webkit-text-stroke:16px #000;paint-order:stroke fill}
+#next span{font-weight:800;font-size:44px;color:#ffe14d;margin-top:20px}
+#end{position:absolute;inset:0;z-index:40;opacity:0;background:#07090d;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center}
+#end .t1{font-weight:800;font-size:54px;color:#c9d1dc;line-height:1.4}
+#end .t1 b{color:#ffe14d}
+#end .wm{font-weight:900;font-size:200px;letter-spacing:-8px;margin-top:70px}
+#end .t2{font-weight:700;font-size:30px;letter-spacing:8px;color:#8b93a3;margin-top:10px}
+#ai{position:absolute;right:30px;bottom:24px;z-index:50;background:#141414;color:#ddd;font-weight:800;font-size:28px;padding:12px 20px;border-radius:8px}
+#flash{position:absolute;inset:0;z-index:29;background:#ff1f3d;opacity:0;mix-blend-mode:screen}
+</style></head><body><div id="stage">
+<div class="p" id="p0" style="background-image:url(p1.jpg)"></div>
+<div class="p" id="p1" style="background-image:url(p2.jpg)"></div>
+<div class="p" id="p2" style="background-image:url(p3.jpg)"></div>
+<div class="p" id="p3" style="background-image:url(p4.jpg)"></div>
+<div class="p" id="p4" style="background-image:url(p5.jpg)"></div>
+<div class="p" id="p5" style="background-image:url(p6.jpg)"></div>
+<div class="p" id="p6" style="background-image:url(key.jpg)"></div>
+<div id="title">결혼자금 <span class="y">20배 롱</span><br>탄 썰 <span id="ep">1화</span></div>
+<div class="bub" id="chat"><div class="who">회사 단톡방 · 김대리</div>비트 이번엔 진짜 간다 🚀🚀</div>
+<div class="stamp" id="x20">x20</div>
+<div class="stamp" id="p30">+30%</div>
+<div class="bub" id="noti"><div class="ic">!</div><div>포지션이 청산되었습니다<small>오전 3:00 · 선물 거래 알림</small></div></div>
+<div class="bub" id="msg"><div class="who">💕 예비신부</div>자기야~ 내일 웨딩홀<br>계약금 넣는 날이지? 😊</div>
+<div id="cap"></div>
+<div id="flash"></div>
+<div id="next"><div>2화에서 계속</div><span>이 이야기는 픽션입니다</span></div>
+<div id="end"><div class="t1">차트 옆엔 <b>청산가</b>부터.<br>코인이랑 해외주식, 앱 하나로</div><div class="wm">toobit</div><div class="t2">CRYPTO / STOCKS / ONE APP</div></div>
+<div id="ai">AI 생성 영상 · 투자 조언 아님</div>
+</div>
+<script src="words.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const cl=(x,a,b)=>Math.max(a,Math.min(b,x)),p=(t,a,b)=>cl((t-a)/(b-a),0,1),eo=k=>1-Math.pow(1-k,3),eb=k=>{const c=1.70158;return 1+(c+1)*Math.pow(k-1,3)+c*Math.pow(k-1,2)};
+const S=[0,5.52,10.8,15.16,19.68,23.84,28.8];const END=34.0,TOTAL=36.5;
+const KB=[[1.0,1.12,0,-40],[1.15,1.0,0,30],[1.05,1.2,0,-60],[1.2,1.05,0,0],[1.0,1.15,0,40],[1.25,1.05,0,0],[1.08,1.18,0,-30]];
+// caption chunks
+const W=window.WORDS;const CH=[];let cur=[];W.forEach((w,i)=>{cur.push(w);const end=/[.,?!]$/.test(w[0]);if(end||cur.length>=2){CH.push(cur);cur=[]}});if(cur.length)CH.push(cur);
+const HL={'20':'y','이십':'y','오천만':'y','청산되었습니다.':'r','플러스':'g','삼십':'g','퍼센트.':'g','계약금':'y','비트,':'y','새벽':'r','세':'r','시.':'r'};
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s)si=i});
+  for(let i=0;i<7;i++){const el=$('p'+i);const st=S[i],en=i<6?S[i+1]:END;
+    let o=0;if(t>=st-0.25&&t<en+0.25){o=Math.min(p(t,st-0.25,st+0.05),1-p(t,en-0.05,en+0.25))}
+    if(i===0&&t<0.3)o=1;
+    el.style.opacity=o;const k=p(t,st,en);const kb=KB[i];const sc=kb[0]+(kb[1]-kb[0])*k;
+    let sh=0;if(i===5){sh=Math.exp(-(t-st)*3)*14*Math.sin(t*90)}
+    el.style.transform=`translate(${sh}px,${kb[3]*k}px) scale(${sc})`;}
+  // title pop
+  const tk=p(t,0,0.35);$('title').style.transform=`scale(${0.6+0.4*eb(tk)})`;$('title').style.opacity=t<END?1:0;
+  // overlays
+  const bub=(id,a,b)=>{const k=p(t,a,a+0.35);const on=t>=a&&t<b;$(id).style.opacity=on?eo(k):0;$(id).style.transform=`translateY(${(1-eo(k))*60}px) scale(${0.9+0.1*eb(k)})`};
+  bub('chat',8.4,10.8);bub('noti',23.84,28.8);bub('msg',28.8,32.1);
+  const st=(id,a,b)=>{const k=p(t,a,a+0.3);$(id).style.opacity=(t>=a&&t<b)?1:0;$(id).style.transform=`scale(${2.2-1.2*eb(k)}) rotate(${-6+6*k}deg)`};
+  st('x20',11.9,14.8);st('p30',15.84,19.4);
+  $('flash').style.opacity=Math.max(0,.75-Math.abs(t-23.84)*3)+Math.max(0,.4-Math.abs(t-24.6)*3);
+  const nk=p(t,32.15,32.5);$('next').style.opacity=(t>=32.15&&t<END)?eo(nk):0;$('next').firstElementChild.style.transform=`scale(${1.6-0.6*eb(nk)})`;
+  $('end').style.opacity=t>=END?eo(p(t,END,END+0.3)):0;
+  // captions
+  let c=null;for(const ch of CH){if(t>=ch[0][1]-0.05&&t<ch[ch.length-1][2]+0.25)c=ch}
+  if(c&&t<32.1){$('cap').innerHTML=c.map(w=>{const cls=HL[w[0]]||'';return cls?`<span class="${cls}">${w[0]}</span>`:w[0]}).join(' ');const k=p(t,c[0][1]-0.05,c[0][1]+0.12);$('cap').style.opacity=1;$('cap').style.transform=`scale(${0.85+0.15*eb(k)})`}else $('cap').style.opacity=0;
+};
+seek(0);
+</script></body></html>
