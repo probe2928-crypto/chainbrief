@@ -1,0 +1,28 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Sub,Noto Sans CJK KR Black,62,&H00FFFFFF,&H00FFFFFF,&H00000000,&H64000000,1,0,0,0,100,100,0,0,1,5,2,2,60,60,380,1
+Style: Hook,Noto Sans CJK KR Black,92,&H004DE1FF,&H00FFFFFF,&H00000000,&H64000000,1,0,0,0,100,100,0,0,1,7,3,8,60,60,230,1
+Style: Tag,Noto Sans CJK KR Black,34,&H00FFFFFF,&H00FFFFFF,&H00202020,&HB4000000,1,0,0,0,100,100,1,0,3,10,0,7,50,50,90,1
+Style: AI,Noto Sans CJK KR Black,30,&H00DDDDDD,&H00FFFFFF,&H00141414,&H00141414,1,0,0,0,100,100,0,0,3,22,0,3,36,36,22,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 1,0:00:00.00,0:00:30.12,Tag,,0,0,0,,단타 동기들 EP.01
+Dialogue: 1,0:00:00.00,0:00:30.12,AI,,0,0,0,,AI 생성 영상 · 투자 조언 아님
+Dialogue: 2,0:00:00.00,0:00:03.00,Hook,,0,0,0,,{\fad(0,250)\t(0,200,\fscx115\fscy115)\t(200,400,\fscx100\fscy100)}20배 롱 잡은\N신입의 최후
+Dialogue: 0,0:00:01.50,0:00:04.40,Sub,,0,0,0,,선배, 저 오늘 퇴사각이에요.\N{\fs38\c&HD0D0D0&}Senior, I'm quitting today.
+Dialogue: 0,0:00:05.90,0:00:07.50,Sub,,0,0,0,,뭐 샀는데?\N{\fs38\c&HD0D0D0&}What did you buy?
+Dialogue: 0,0:00:07.60,0:00:10.00,Sub,,0,0,0,,비트 롱이요. {\c&H4DE1FF&}20배.\N{\fs38\c&HD0D0D0&}BTC long. 20x leverage.
+Dialogue: 0,0:00:11.75,0:00:13.40,Sub,,0,0,0,,...{\c&H4DE1FF&}펀딩비{\c&HFFFFFF&}는?\N{\fs38\c&HD0D0D0&}...and the funding rate?
+Dialogue: 0,0:00:14.15,0:00:15.30,Sub,,0,0,0,,그게 뭔데요?\N{\fs38\c&HD0D0D0&}What's that?
+Dialogue: 0,0:00:15.35,0:00:17.55,Sub,,0,0,0,,다 롱에 몰려 있으면\N{\c&H4DE1FF&}롱이 숏한테 돈 내.\N{\fs38\c&HD0D0D0&}When everyone's long, longs pay shorts.
+Dialogue: 0,0:00:17.60,0:00:20.04,Sub,,0,0,0,,이게 높다?\N다들 {\c&H5A3DFF&}한쪽{\c&HFFFFFF&}에 서 있다는 거야.\N{\fs38\c&HD0D0D0&}High funding = everyone on one side.
+Dialogue: 0,0:00:20.15,0:00:23.00,Sub,,0,0,0,,어... 어? {\c&H5A3DFF&}왜 빠져요?\N{\fs38\c&HD0D0D0&}Wait... why is it dropping?
+Dialogue: 0,0:00:24.10,0:00:27.00,Sub,,0,0,0,,그러니까 차트 옆에\N{\c&H4DE1FF&}이거 하나{\c&HFFFFFF&}는 같이 봐.\N{\fs38\c&HD0D0D0&}So watch this next to your chart.
+Dialogue: 0,0:00:27.40,0:00:30.12,Sub,,0,0,0,,...퇴사는 내일 할게요.\N{\fs38\c&HD0D0D0&}...I'll quit tomorrow.
