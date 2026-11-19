@@ -3666,6 +3666,119 @@
     "sources_by_sessions": null
    },
    "unconfirmed": "Supermetrics TRIAL_EXPIRED(11/14)로 세션·국가·유입·SNS 전부 미확인. OpenSEO 서치콘솔 체인브리프 11/14~18 클릭·노출 0. 사이트 감사는 월요일만이라 건너뜀(크레딧 82<100)."
+  },
+  {
+   "date": "2026-11-19",
+   "tz_note": "GA4 KST 어제(11/19). 수집 2026-11-20 08:58 KST. Supermetrics 체험 11/14 만료, 무료 일일 한도로 GA4 페이지별 1회만 조회됨; GSC는 OpenSEO 경유(체인브리프 속성만)",
+   "total": {
+    "users_all_property": 16,
+    "sessions": 19,
+    "views": 19,
+    "gsc_clicks": 0,
+    "gsc_impr": 0,
+    "note": "users는 페이지별 활성사용자 합(중복 가능 상한, null 행 제외)"
+   },
+   "sites": {
+    "chainbrief": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GA 경로 /·/en/·/zh/ 호스트 분리 불가(chainbrief.app·perpline.tech 혼재). 전체합: 사용자(페이지별 합, 상한) 16·세션 19·뷰 19 중 /·/en/·/zh/ 경로 사용자 15·세션 17·뷰 17. GSC는 11/19 검색어 행 0건=클릭 0"
+    },
+    "perpline": {
+     "users": null,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "/perpline/ 경로 세션1·뷰1(사용자 null). GSC 미확인(OpenSEO는 체인브리프 속성만 읽힘)"
+    },
+    "luft": {
+     "users": null,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "/luft/ 경로 세션1·뷰1. GSC 미확인"
+    },
+    "qurator": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "/qurator/ 경로. GSC 미확인"
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 행 없음, GSC 미확인"
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 행 없음, GSC 미확인"
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 행 없음, GSC 미확인"
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "GA 어제 행 없음, GSC 미확인"
+    }
+   },
+   "social": {
+    "fb": {
+     "note": "미확인(Supermetrics 만료)"
+    },
+    "ig": {
+     "note": "미확인(Supermetrics 만료)"
+    },
+    "li": {
+     "note": "미확인(Supermetrics 만료)"
+    },
+    "x": {
+     "note": "미확인: 텔레그램 보드 social 컬렉션 최신 기록이 11/10 이전 형식(metrics_ 문서 없음)"
+    }
+   },
+   "top": {
+    "pages": [
+     [
+      "/",
+      8,
+      "users"
+     ],
+     [
+      "/en/articles/2026-11-09-coinbase-final-occ-trust-charter-custody/",
+      3,
+      "users"
+     ],
+     [
+      "/qurator/",
+      1,
+      "users"
+     ]
+    ],
+    "countries": "미확인",
+    "sources": "미확인"
+   }
   }
  ]
 }

@@ -1,3 +1,4 @@
+2026-11-20 09:00 | 그로스 애널리스트(숫자봄) | 총 방문자 16 · 검색 클릭 0 | 11/19 세션 19·뷰 19로 전날 뷰 11 대비 증가, 매출 3사업(LUFT·Perpline·QURATOR) 경로 각 1뷰·급변 없음. Supermetrics 체험 만료로 SNS·국가·유입·타 사이트 GSC는 미확인
 2026-11-20 08:45 | 아침 브리핑 · 실무이사 | 방문 3 · 가입클릭 어제 0·누적 1 | 신청 0 | 누를 것 1 | Savri 7일: /pl/ 3PV·/pl/tools/futures-fee-calculator.html 1·/pl/exchanges/orangex.html 1(Perpline 7일 5, 어제 2→5), signup_click/orangex 1(증가 0)·venue_click/orangex 2, 목표 '가입 클릭 (/_evt)' 1·페이백 신청 0·/pl/start.html 0·/pl/ 3, 유입 direct 10·google.com 1·telegram 1·perpline.tech 1(X 0) · Gmail 24h 거래소 가입 알림 0 · 누를 것: OK-QUEUE-1116 ② 계정 지정(③은 11/25 결정으로)
 2026-11-20 03:26 | 시스템 엔지니어(밤새봄) | 정상 6 · 장애 0 · 고침 0 | 이번 회차 산출물: Actions 24h 점검표+예약작업 31개 점검(실패 0)+health.json. 못 본 것: 라이브 사이트 fetch(프록시 403·권한 시간초과), lifejunjun·yeobaek·firstbrick 저장소(권한 없음/조회 불가)
 2026-11-19 23:20 | 실무이사 | 밤 보고 | 내일 1순위: QURATOR 콘텐츠 12/6~8 daily 편성 · 밤이사 이번 회차 산출물: ops/reports/2026-11-19.md(예약 작업 30개·실패 0·결과 미기록 2) + QURATOR 나눔 문구 예정형 패치(11/20 운영QA 적용)
