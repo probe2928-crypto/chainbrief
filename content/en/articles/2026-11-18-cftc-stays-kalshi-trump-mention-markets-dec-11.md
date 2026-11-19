@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The CFTC has stayed two Kalshi contracts that paid out on which words President Trump says, and opened a proceeding into whether the exchange falsely certified them. Kalshi must answer by Dec. 11, while the agency keeps suing states to protect the same industry.
+image: media/articles/2026-11-18-cftc-stays-kalshi-trump-mention-markets-dec-11.png
+image_alt: Timeline of the CFTC stay on Kalshi mention markets. Feb 20, 2025 Kalshi self-certifies the TRUMPSAY series; Nov 18, 2025 first TRUMPSAY market opens; Aug 28, 2026 CFTC settles with a White House teleprompter operator who was right on 39 of 43 contracts ($107,539.02 returned plus $65,000 penalty); Sept 22, 2026 Staff Letter 26-27 calls mention markets presumptively easy to manipulate; Oct 1, 2026 Trump nicknames contract listed without a new certification; Nov 13, 2026 CFTC stays both contracts and says it presumptively believes the certification is false; Dec 11, 2026 Kalshi's written answer due. Each contract has a $1 notional value priced 1 to 99 cents
+image_note: AI-made graphic (summary of article)
 ---
 
 For about a year, anyone with a Kalshi account could put a dollar on whether President Donald Trump would say a particular word before a set date. That market is now frozen, and the exchange has until Dec. 11 to explain to its own regulator why it should ever reopen.
