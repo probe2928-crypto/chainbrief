@@ -3779,6 +3779,92 @@
     "countries": "미확인",
     "sources": "미확인"
    }
+  },
+  {
+   "date": "2026-11-20",
+   "tz_note": "GA4 KST 어제(11/20). 수집 2026-11-21 KST. Supermetrics 체험 11/14 만료(TRIAL_EXPIRED) — GA 경로별·GSC(체인브리프 외)·FB·IG·LI 전부 미확인. 속성 전체 합계만 OpenSEO GA 경유로 확인",
+   "total": {
+    "users_all_property": 10,
+    "sessions": 12,
+    "views": null,
+    "gsc_clicks": 0,
+    "gsc_impr": 0,
+    "note": "OpenSEO traffic_acquisition: 속성 전체 세션 12·활성사용자 10(전부 Direct, 참여 세션 1). 사이트별 분해 불가, views 미확인"
+   },
+   "sites": {
+    "chainbrief": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GSC는 OpenSEO 경유 11/20 검색어 행 0건=클릭 0. GA 경로별 미확인"
+    },
+    "perpline": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "qurator": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "경로별 GA 미확인(Supermetrics 체험 만료)"
+    }
+   },
+   "social": {
+    "fb": null,
+    "ig": null,
+    "li": null,
+    "x": null,
+    "note": "미확인 — Supermetrics 체험 만료로 조회 불가, X는 이번 회차 보드 미조회"
+   },
+   "top": {}
   }
  ]
 }
