@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: A bipartisan letter says Treasury's draft GENIUS Act rule protects issuers waiting on federal approval but leaves state-chartered ones exposed when the law takes effect on Jan. 18, 2027.
+image: media/articles/2026-11-19-senators-genius-act-safe-harbor-state-stablecoin-issuers.png
+image_alt: Who gets a cushion when the GENIUS Act's Section 3 ban takes effect on Jan. 18, 2027. Federal pipeline: safe harbor in Treasury's draft rule if the regulator grants a Section 5(f) waiver of up to 12 months. State-chartered issuers: no matching path; six senators ask for one while state certifications are reviewed. Timeline: July 2025 GENIUS Act signed; Aug. 18, 2026 Treasury proposes Section 3 rule; Oct. 21, 2026 OCC Bulletin 2026-51 sets waiver path for federal applicants; Nov. 17, 2026 senators' letter to Treasury Secretary Bessent; Jan. 18, 2027 Section 3 ban takes effect; July 18, 2028 exchanges limited to permitted issuers
+image_note: AI-made graphic (summary of article)
 ---
 
 A stablecoin company chartered in Wyoming and one waiting on a federal license could be doing the same business on Jan. 18, 2027. Under the rule Treasury has drafted, only the second one gets a cushion while regulators finish their paperwork. Six U.S. senators want that changed.
