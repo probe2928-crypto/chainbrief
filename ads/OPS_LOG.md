@@ -1,3 +1,7 @@
+## 2026-11-21 새벽 점검
+- 이상 없음(Actions 24시간: 체인브리프 빌드 및 배포 28회 실패 0, perpline·luft·qurator 성공). 예약 작업 실패 0, device_absent 0.
+- 못 본 것: 라이브 사이트 직접 열람(프록시 403·WebFetch 권한 시간 초과), lifejunjun·yeobaek·firstbrick 저장소(권한 없음/조회 불가).
+
 ## 2026-11-20 새벽 점검
 - 이상 없음(Actions 24시간: 체인브리프 keep-alive 1회 실패 후 자동 복구, 나머지 성공). 예약 작업 31개 실패 0.
 - 못 본 것: 라이브 사이트 직접 열람(프록시·권한 막힘), lifejunjun·yeobaek 저장소(접근 권한 없음).
