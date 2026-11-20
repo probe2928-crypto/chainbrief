@@ -1417,3 +1417,8 @@ html:is([lang="ko"],[lang="zh-Hans"]) .cal-dd.soon{font-family:var(--f-sans)}
 .seen-mark span{white-space:nowrap}
 #feed.compact .seen-mark{margin:14px 0 2px}
 @media (max-width:640px){.seen-top{gap:4px 10px}.seen-go{margin-left:0}.seen-mark span{white-space:normal;text-align:center}}
+/* 지난 방문 이후 새 속보 — '속보' 탭·메뉴의 작은 신호 점 (2026-11-20) */
+nav.tabs a[data-live]{position:relative}
+nav.tabs a .live-dot{position:absolute;top:11px;left:calc(50% + 8px);width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 2px var(--paper)}
+nav.top a .live-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--signal);margin-left:5px;vertical-align:.55em}
+@media (prefers-reduced-motion:no-preference){a .live-dot{animation:live-dot-in .6s ease-out both}@keyframes live-dot-in{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}}
