@@ -1,71 +1,13 @@
-{
- "at": "2026-11-20 03:26 KST",
- "repos": [
-  {
-   "repo": "chainbrief",
-   "lastRun": "빌드 및 배포 success 17:50Z(마지막 성공 30분 전)",
-   "failures": [
-    "회원 서버 깨우기 failure 11/19 02:20Z (인증 서버·REST 요청 단계)"
-   ],
-   "fixed": [
-    "이후 03:49Z·03:59Z 성공으로 자연 해결"
-   ]
-  },
-  {
-   "repo": "perpline",
-   "lastRun": "pages build success 11/19 04:53Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "luft",
-   "lastRun": "pages build success 11/19 09:58Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "qurator",
-   "lastRun": "pages build success 11/19 14:20Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "oriel",
-   "lastRun": "빌드 및 배포 success 11/18",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "blockkey",
-   "lastRun": "빌드 및 배포 success 11/05",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "firstbrick",
-   "lastRun": "조회 불가(프록시 403)",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "lifejunjun",
-   "lastRun": "접근 권한 없음",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "yeobaek",
-   "lastRun": "접근 권한 없음",
-   "failures": [],
-   "fixed": []
-  }
- ],
- "sites": [
-  {
-   "url": "all",
-   "ok": null,
-   "note": "라이브 fetch 불가(프록시 403, WebFetch 권한 시간초과). 체인브리프는 데이터 커밋(17:50Z 상장 소식)으로 갱신 확인"
-  }
- ],
- "failedTasks": []
-}
+{"at":"2026-11-21T03:40:00+09:00",
+ "repos":[
+  {"repo":"chainbrief","lastRun":"빌드 및 배포 success 2026-11-20T18:06Z (24h 28회, 실패 0)","failures":[],"fixed":[]},
+  {"repo":"perpline","lastRun":"pages build success 2026-11-20T05:08Z","failures":[],"fixed":[]},
+  {"repo":"luft","lastRun":"pages build success 2026-11-20T10:00Z","failures":[],"fixed":[]},
+  {"repo":"qurator","lastRun":"pages build success 2026-11-20T14:25Z","failures":[],"fixed":[]},
+  {"repo":"oriel","lastRun":"24h 내 실행 없음 (마지막 커밋 11/18)","failures":[],"fixed":[]},
+  {"repo":"blockkey","lastRun":"24h 내 실행 없음 (마지막 커밋 11/05)","failures":[],"fixed":[]},
+  {"repo":"firstbrick","lastRun":"확인 못 함 (API 경로 거부)","failures":[],"fixed":[]},
+  {"repo":"lifejunjun","lastRun":"확인 못 함 (이 작업에 저장소 권한 없음)","failures":[],"fixed":[]},
+  {"repo":"yeobaek","lastRun":"확인 못 함 (이 작업에 저장소 권한 없음)","failures":[],"fixed":[]}],
+ "sites":[{"url":"전체(체인브리프·perpline·luft·qurator·oriel·blockkey·yeobaek·lifejunjun.com)","ok":null,"note":"확인 못 함 — 이 환경 프록시가 외부 사이트 403, WebFetch 권한 요청 시간 초과"}],
+ "failedTasks":[]}
