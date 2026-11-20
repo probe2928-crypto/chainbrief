@@ -1,0 +1,248 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- 2026-11-20 Toobit 시안: 비트코인 30일 최저 · 파생 거래량은 증가 · 출처 코리안투데이 11/20 09:09(코인마켓캡) · 토큰포스트 11/20 11:59 -->
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR','Noto Color Emoji',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'DejaVu Sans Mono',monospace;font-feature-settings:'tnum'}
+#cap{position:absolute;left:40px;right:40px;top:1390px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.09;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 75% 60% at 50% 45%,transparent 45%,rgba(0,0,0,.75))}
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:900;letter-spacing:-8px;line-height:1}
+.lbl{position:absolute;left:0;right:0;text-align:center;font-weight:800;letter-spacing:10px;color:#8b93a3;font-size:44px}
+.src{position:absolute;left:0;right:0;text-align:center;font-size:36px;color:#9aa3b3;font-weight:700;letter-spacing:1px;line-height:1.35}
+/* split-flap */
+.flap{display:inline-block;width:128px;height:210px;margin:0 5px;border-radius:18px;background:linear-gradient(180deg,#1b2130 49.6%,#05070b 49.6%,#05070b 50.4%,#141925 50.4%);position:relative;overflow:hidden;vertical-align:middle;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.flap b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:170px;font-weight:900;color:#ffe14d}
+.fsep{display:inline-block;font-size:130px;font-weight:900;color:#ffe14d;vertical-align:middle;width:56px;text-align:center}
+/* slats */
+.slat{position:absolute;left:0;right:0;overflow:hidden}
+.slat div{position:absolute;left:0;right:0;text-align:center;font-weight:900;font-size:250px;letter-spacing:-12px;color:#ff3d5a;line-height:1}
+/* twin bars */
+.row{position:absolute;left:70px;right:150px;height:300px}
+.row .nm{position:absolute;left:0;top:0;font-weight:900;font-size:96px;letter-spacing:-2px}
+.row .pc{position:absolute;right:0;top:-6px;font-weight:900;font-size:110px;letter-spacing:-4px;color:#ff3d5a}
+.row .tr{position:absolute;left:0;right:0;top:140px;height:120px;border-radius:20px;background:#121722}
+.row .fl{position:absolute;left:0;top:0;bottom:0;border-radius:20px;background:#f2f4f8}
+.row .bite{position:absolute;top:-10px;bottom:-10px;background:linear-gradient(90deg,#ff3d5a,#b3122e);clip-path:polygon(14% 0,100% 6%,92% 100%,0 92%,10% 60%,0 35%);box-shadow:0 0 40px #ff3d5a}
+/* trapdoor blocks */
+.blk{position:absolute;bottom:0;width:78px;height:430px;border-radius:14px;background:#e9edf5;color:#0b0d12;display:flex;align-items:center;justify-content:center}
+.blk span{transform:rotate(-90deg);white-space:nowrap;font-weight:900;font-size:52px;letter-spacing:2px}
+/* price vs bets */
+.word{position:absolute;left:0;right:0;text-align:center;font-weight:900;line-height:1;letter-spacing:-6px}
+/* floor */
+.tick{position:absolute;left:0;width:100%;text-align:center}
+/* hold/break */
+.half{position:absolute;left:0;right:0;height:560px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:230px;letter-spacing:-10px}
+/* merge cards */
+.card{position:absolute;left:90px;width:900px;height:300px;border-radius:44px;background:#0d121b;border:6px solid #2a3344;box-sizing:border-box;padding:50px 60px}
+.card .t{font-weight:900;font-size:150px;letter-spacing:-4px;line-height:1}
+.card .s{position:absolute;right:60px;top:120px;font-family:'DejaVu Sans Mono',monospace;font-size:52px;letter-spacing:8px;color:#8b93a3}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+ <div id="sweep" style="position:absolute;left:-600px;top:-200px;width:420px;height:2400px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);transform:rotate(18deg);z-index:30;pointer-events:none"></div>
+
+ <!-- A: 30D LOW line (final number visible from frame 0) -->
+ <div class="v" id="vA"><div class="lbl" style="top:250px">BTC · LAST 30 DAYS</div>
+   <canvas id="cA" width="1080" height="1300"></canvas>
+   <div id="lowTag" style="position:absolute;left:600px;top:930px;white-space:nowrap;background:#ffe14d;color:#0b0d12;font-weight:900;font-size:86px;letter-spacing:-2px;padding:10px 30px;border-radius:18px;transform-origin:100% 50%" class="mono">$61,973</div>
+   <div id="stamp" style="position:absolute;left:0;right:0;top:330px;text-align:center"><span style="display:inline-block;border:12px solid #ff3d5a;color:#ff3d5a;font-weight:900;font-size:170px;letter-spacing:-4px;padding:6px 40px;border-radius:24px">30D LOW</span></div></div>
+
+ <!-- B: split-flap price board -->
+ <div class="v" id="vB"><div class="lbl" style="top:470px">BITCOIN · USD</div>
+   <div id="board" style="position:absolute;left:0;right:0;top:580px;text-align:center;white-space:nowrap"></div>
+   <div class="lbl mono" style="top:880px;font-size:40px;letter-spacing:4px;color:#c3c9d4">11.20 09:09 KST · CMC</div></div>
+
+ <!-- C: slat-drop -13.1% -->
+ <div class="v" id="vC"><div class="lbl" style="top:300px">BTC · 7 DAYS</div>
+   <div class="big mono" id="oc1" style="top:380px;font-size:250px;letter-spacing:-12px;color:transparent;-webkit-text-stroke:4px rgba(255,61,90,.55)">-13.1%</div><div id="slats"></div>
+   <div class="big mono" id="oc2" style="top:880px;font-size:250px;letter-spacing:-12px;color:transparent;-webkit-text-stroke:4px rgba(255,61,90,.55)">-13.1%</div>
+   <div class="big" id="c7d" style="top:1180px;font-size:72px;letter-spacing:-1px;color:#fff">일주일 하락폭</div></div>
+
+ <!-- D: twin bars BTC/ETH -->
+ <div class="v" id="vD"><div class="lbl" style="top:330px">7D CHANGE</div>
+   <div class="row" id="rB" style="top:470px"><div class="nm">BTC</div><div class="pc mono" id="pB">-13.1%</div><div class="tr"><div class="fl" id="fB"></div><div class="bite" id="bB"></div></div></div>
+   <div class="row" id="rE" style="top:830px"><div class="nm">ETH</div><div class="pc mono" id="pE">-12.9%</div><div class="tr"><div class="fl" id="fE"></div><div class="bite" id="bE"></div></div></div></div>
+
+ <!-- E: trapdoor top 10 -->
+ <div class="v" id="vE"><div class="lbl" style="top:300px">TOP 10 · 24H</div>
+   <div id="stage" style="position:absolute;left:30px;right:30px;top:420px;height:470px;overflow:hidden"></div>
+   <canvas id="deb" width="1080" height="1300"></canvas><div id="floorE" style="position:absolute;left:30px;right:30px;top:890px;height:10px;background:#ff3d5a;box-shadow:0 0 30px #ff3d5a"></div>
+   <div class="big mono" id="eN" style="top:960px;font-size:170px;letter-spacing:-8px;color:#ff3d5a">0/10 ▼</div></div>
+
+ <!-- F: X-cross chart -->
+ <div class="v" id="vF"><canvas id="cF" width="1080" height="1400"></canvas>
+   <div id="lP" style="position:absolute;right:60px;top:1080px;font-weight:900;font-size:76px;color:#ff3d5a;letter-spacing:-2px">가격 ▼</div>
+   <div id="lV" style="position:absolute;right:60px;top:290px;font-weight:900;font-size:76px;color:#ffe14d;letter-spacing:-2px">파생 거래량 ▲</div></div>
+
+ <!-- G: +19.7% derivatives -->
+ <div class="v" id="vG"><div class="lbl" style="top:420px">DERIVATIVES VOLUME · 24H</div>
+   <div class="big mono" id="g197" style="top:550px;font-size:250px;letter-spacing:-16px;color:#ffe14d;text-shadow:0 0 90px rgba(255,225,77,.4)">+19.7%</div>
+   <div class="big mono" id="g903" style="top:850px;font-size:110px;letter-spacing:-4px;color:#fff">$903.4B</div><div id="vbars"></div></div>
+
+ <!-- H: PRICE vs BETS -->
+ <div class="v" id="vH">
+   <div class="word" id="wP" style="top:400px;font-size:230px;color:#ff3d5a">PRICE ↓</div>
+   <div class="word" id="wB" style="top:720px;font-size:230px;color:#ffe14d">BETS ↑</div></div>
+
+ <!-- I: total market cap -->
+ <div class="v" id="vI"><div class="lbl" style="top:430px">TOTAL CRYPTO MARKET CAP</div>
+   <div class="big mono" id="mc" style="top:560px;font-size:270px;letter-spacing:-16px;color:#ffe14d"></div>
+   <div class="big" id="mcK" style="top:880px;font-size:96px;letter-spacing:-2px;color:#fff">≈ 2,824조 원</div></div>
+
+ <!-- J: floor line -->
+ <div class="v" id="vJ">
+   <div id="jBox" style="position:absolute;left:90px;right:90px;top:360px;height:230px;border-radius:30px;background:#ffe14d;color:#0b0d12;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:170px;letter-spacing:-8px" class="mono">$2.12T</div>
+   <div id="tape" style="position:absolute;left:520px;width:40px;top:590px;background:repeating-linear-gradient(180deg,#fff 0 6px,transparent 6px 28px)"></div>
+   <div id="tapeT" style="position:absolute;left:600px;top:700px;font-weight:900;font-size:130px;letter-spacing:-5px;color:#fff" class="mono">-5.8%</div>
+   <div id="floorJ" style="position:absolute;left:0;right:0;top:1000px;height:14px;background:repeating-linear-gradient(90deg,#ff3d5a 0 60px,transparent 60px 90px);box-shadow:0 0 30px rgba(255,61,90,.6)"></div>
+   <div class="mono" style="position:absolute;left:90px;top:1040px;font-weight:900;font-size:96px;color:#ff3d5a;letter-spacing:-3px">$2.00T</div></div>
+
+ <!-- K: HOLD / BREAK -->
+ <div class="v" id="vK">
+   <div id="kH" style="position:absolute;inset:0;background:#33f0b0;color:#04140e;display:flex;align-items:center;justify-content:center;padding-bottom:300px;box-sizing:border-box;font-weight:900;font-size:290px;letter-spacing:-12px">HOLD?</div>
+   <div id="kB" style="position:absolute;inset:0;background:#ff3d5a;color:#fff;display:flex;align-items:center;justify-content:center;padding-bottom:300px;box-sizing:border-box;font-weight:900;font-size:250px;letter-spacing:-12px">BREAK?</div>
+   <div class="mono" id="kL" style="position:absolute;left:0;right:0;top:1130px;text-align:center;font-weight:900;font-size:64px;letter-spacing:4px;color:rgba(0,0,0,.75)">$2.00T LINE</div></div>
+
+ <!-- L: coin + stock merge -->
+ <div class="v" id="vL">
+   <div class="card" id="kC"><div class="t">BTC</div><div class="s">CRYPTO</div></div>
+   <div class="card" id="kS"><div class="t">NVDA</div><div class="s">STOCKS</div></div>
+   <div id="kOne" style="position:absolute;left:0;right:0;top:1120px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-weight:700;font-size:84px;letter-spacing:18px;color:#33f0b0">ONE APP</div></div>
+
+ <!-- Z: toobit -->
+ <div class="v" id="vZ">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:26px;letter-spacing:8px;color:#9fb3ad">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+   <div class="src" style="top:1600px">출처: 코리안투데이 11.20 09:09(CMC) · 토큰포스트 11.20 11:59<br>투자 권유 아님</div>
+ </div>
+</div>
+<div id="vig"></div>
+<div id="tag"><i></i>MARKET BRIEF <span>2026.11</span></div>
+<div id="cap"></div><div id="prog"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words1120.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS; const TOTAL=33.4;
+// [id,start,transition] z=zoom-through w=whip c=hard cut m=mint glow
+const S=[['vA',0,'c'],['vB',3.6,'z'],['vC',5.6,'c'],['vD',7.92,'w'],['vE',11.04,'z'],['vF',14.08,'c'],['vG',16.56,'z'],['vH',18.72,'w'],
+ ['vI',21.84,'z'],['vJ',24.56,'c'],['vK',27.84,'w'],['vL',29.76,'z'],['vZ',31.28,'m']];
+const chunks=[];let cur=[];
+const BR=new Set([0,1,4,7,8,10,11,13,15,16,18,19,21,24,26,27,28,30,32,34,35,37,40,42,45,48,50,51,52,53,54,55]);
+W.forEach((w,i)=>{if(BR.has(i)&&cur.length){chunks.push(cur);cur=[]}cur.push(w)});if(cur.length)chunks.push(cur);
+function cls(t){if(/투비트/.test(t))return'g';if(/(빠졌|밀렸|빨간불|깨질|내리는|낮은)/.test(t))return'r';if(/(\d|%|비트코인|이더리움|베팅)/.test(t))return'y';return''}
+const bg=$('bg').getContext('2d'),gr=$('grain').getContext('2d'),cA=$('cA').getContext('2d'),cF=$('cF').getContext('2d');
+const candles=makeCandles(120,23);const bk=makeBokeh(30,9,1080,1920);
+// 30-day path (illustrative shape, ends at the low)
+const path=(()=>{const r=rng(1120);const pts=[];let v=0.55;for(let i=0;i<=30;i++){const tr=i<10?0.004:-0.022;v+=tr+(r()-.5)*0.07;pts.push(v)}
+  const mn=Math.min(...pts),mx=Math.max(...pts);pts[30]=mn-0.04;return pts.map(x=>(x-(mn-0.04))/(mx-(mn-0.04)))})();
+// flap board
+(function(){const s='$61,973';let h='';[...s].forEach((ch,i)=>{if(/\d/.test(ch))h+=`<span class="flap"><b class="mono" data-f="${ch}" id="fl${i}">0</b></span>`;else h+=`<span class="fsep mono">${ch}</span>`});$('board').innerHTML=h;
+ // slats
+ h='';for(let i=0;i<5;i++)h+=`<div class="slat" id="sl${i}" style="top:${630+i*52}px;height:52px"><div class="mono" style="top:${-i*52}px">-13.1%</div></div>`;$('slats').innerHTML=h;
+ // blocks: 8 down then TRX, HYPE stay
+ const T=['BTC','ETH','BNB','XRP','SOL','ZEC','XMR','DOGE','TRX','HYPE'];h='';T.forEach((n,i)=>{h+=`<div class="blk" id="bk${i}" style="left:${40+i*90}px"><span>${n}</span></div>`});$('stage').innerHTML=h;})();
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const id=S[si][0],ls=t-S[si][1],tr=S[si][2];
+  const r=rng(Math.floor(t*30));
+  let sc=1+0.03*ls/3,tx=0,ty=0,bl=0;
+  if(si>0){
+    if(tr==='z'){const k=eo5(p(ls,0,.35));sc*=1+0.9*(1-k);bl=(1-k)*14}
+    if(tr==='w'){const k=eo5(p(ls,0,.28));tx=(1-k)*900;bl=(1-k)*22}
+    if(tr==='c'){sc*=1+0.12*Math.exp(-ls*7);const sh=Math.exp(-ls*9)*26;tx=(r()-.5)*sh;ty=(r()-.5)*sh}
+  }
+  $('world').style.transform=`translate(${tx}px,${ty}px) scale(${sc})`;const ca=si>0?Math.exp(-ls*8)*10:0;
+  const VS={vA:1.05,vB:1.0,vC:1.0,vD:1.04,vE:1.0,vF:1.0,vG:1.0,vH:1.04,vI:1.0,vJ:1.04,vK:1.04,vL:1.0};const DY={vA:60,vB:200,vC:40,vD:90,vE:130,vF:60,vG:60,vH:150,vI:150,vJ:60};$(id).style.transform=`translateY(${DY[id]||0}px) scale(${VS[id]||1})`;$(id).style.transformOrigin='50% 30%';
+  $('world').style.filter=(bl>0.3?`blur(${bl}px) `:'')+(ca>0.5?`drop-shadow(${ca}px 0 0 rgba(255,0,70,.55)) drop-shadow(${-ca}px 0 0 rgba(0,230,255,.55))`:'')||'none';
+  $('sweep').style.left=(-600+eio(p(ls,.05,.55))*2300)+'px';
+  const fl=$('flash');
+  if(tr==='m'&&si>0){fl.style.background='radial-gradient(ellipse at 50% 45%,rgba(51,240,176,.8),transparent 70%)';fl.style.opacity=Math.max(0,.9-ls*3)}
+  else if(tr==='c'&&si>0){fl.style.background='#ff3d5a';fl.style.opacity=Math.max(0,.22-ls*3)}else fl.style.opacity=0;
+  const hue={vA:'#2a0710',vB:'#1a1606',vC:'#2a0710',vD:'#140a12',vE:'#2a0710',vF:'#0a0e17',vG:'#1a1606',vH:'#10101a',vI:'#1a1606',vJ:'#2a0710',vK:'#0a0e17',vL:'#06140f',vZ:'#06140f'}[id]||'#0a0e17';
+  const g=bg.createRadialGradient(540,800,50,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  bg.save();bg.globalAlpha=.5;drawChart(bg,1080,1920,t,candles,{alpha:.12,speed:120,y0:1700,scale:9});bg.restore();
+  drawBokeh(bg,1080,1920,t,bk,'255,255,255');
+
+  if(id==='vA'){ // line already drawn at frame 0; camera pushes along; stamp slams at 1.6
+    cA.clearRect(0,0,1080,1300);const X=i=>60+i*30,Y=v=>1000-v*430;const n=30;
+    cA.lineWidth=12;cA.lineJoin='round';cA.strokeStyle='#ff3d5a';cA.shadowColor='#ff3d5a';cA.shadowBlur=24;cA.beginPath();
+    for(let i=0;i<=n;i++){i?cA.lineTo(X(i),Y(path[i])):cA.moveTo(X(i),Y(path[i]))}cA.stroke();cA.shadowBlur=0;
+    // grad fill
+    const gf=cA.createLinearGradient(0,500,0,1100);gf.addColorStop(0,'rgba(255,61,90,.35)');gf.addColorStop(1,'rgba(255,61,90,0)');cA.lineTo(X(n),1100);cA.lineTo(X(0),1100);cA.closePath();cA.fillStyle=gf;cA.fill();
+    // floor dashed at low
+    cA.setLineDash([24,18]);cA.strokeStyle='rgba(255,225,77,.8)';cA.lineWidth=5;cA.beginPath();cA.moveTo(40,Y(path[n]));cA.lineTo(1040,Y(path[n]));cA.stroke();cA.setLineDash([]);
+    const pu=1+.25*Math.sin(t*9);cA.fillStyle='#fff';cA.beginPath();cA.arc(X(n),Y(path[n]),20*pu,0,7);cA.fill();
+    cA.strokeStyle='rgba(255,255,255,.5)';cA.lineWidth=4;cA.beginPath();cA.arc(X(n),Y(path[n]),20+(t*60)%70,0,7);cA.stroke();
+    $('lowTag').style.left=(X(n)-380)+'px';$('lowTag').style.top=(Y(path[n])+40)+'px';$('lowTag').style.transform=`scale(${1+.05*Math.sin(t*6)})`;
+    const k=p(t,1.55,1.75);$('stamp').style.opacity=k>0?1:0;$('stamp').style.transform=`scale(${k>0?1+1.6*(1-eo5(k)):1}) rotate(-4deg)`;}
+  if(id==='vB'){document.querySelectorAll('.flap b').forEach((e,i)=>{const lock=.15+i*.12;if(ls<lock){e.textContent=Math.floor(rng(Math.floor(t*30)+i*7)()*10);e.style.color='#c3c9d4';e.parentElement.style.transform=`scaleY(${.9+.1*Math.abs(Math.cos(t*40))})`}else{e.textContent=e.dataset.f;e.style.color='#ffe14d';e.parentElement.style.transform='scaleY(1)'}});}
+  if(id==='vC'){for(let i=0;i<5;i++){const k=eo5(p(ls,.04+i*.06,.32+i*.06));$('sl'+i).style.transform=`translateX(${(i%2?1:-1)*(1-k)*1100}px)`}
+    $('c7d').style.opacity=p(ls,.6,.8);$('oc1').style.transform=`translateX(${-200+ls*90}px)`;$('oc2').style.transform=`translateX(${200-ls*90}px)`;$('oc1').style.opacity=$('oc2').style.opacity=p(ls,.3,.5);
+    const late=p(ls,1.4,1.6);$('slats').style.transform=`translateY(${late*-10}px) scale(${1+.03*late})`;}
+  if(id==='vD'){[['B',.131,0],['E',.129,.84]].forEach(([k,v,d])=>{const q=eio(p(ls,.15+d,.75+d));$('f'+k).style.width=((1-v*q)*100)+'%';$('b'+k).style.left=((1-v)*100)+'%';$('b'+k).style.width=(v*100)+'%';
+      $('b'+k).style.opacity=q>0?1:0;$('b'+k).style.transform=`translateY(${q>.98?(ls-(.75+d))*600:0}px) rotate(${q>.98?(ls-(.75+d))*30:0}deg)`;
+      $('p'+k).style.opacity=p(ls,.5+d,.6+d);$('p'+k).style.transform=`scale(${1+.35*(1-eo5(p(ls,.5+d,.8+d)))})`;});
+    $('rE').style.opacity=p(ls,.6,.8);}
+  if(id==='vE'){let n=0;for(let i=0;i<10;i++){const e=$('bk'+i);if(i<8){const st=12.4+i*.08;const k=ei3(p(t,st,st+.3));if(t>st)n++;e.style.transform=`translateY(${k*560}px)`;e.style.background=t>st?'#ff3d5a':'#e9edf5';e.style.color=t>st?'#fff':'#0b0d12'}
+      else{const on=t>13.2;e.style.background=on?'#33f0b0':'#e9edf5';e.style.boxShadow=on?'0 0 40px rgba(51,240,176,.6)':'none';e.style.transform=`translateY(${on?-14*Math.exp(-(t-13.2)*5):0}px)`}}
+    $('eN').textContent=n+'/10 ▼';$('eN').style.transform=`scale(${n===8?1+.2*Math.exp(-(t-12.96)*6):1})`;$('eN').style.opacity=t>12.3?1:.3;
+    $('floorE').style.opacity=.6+.4*Math.sin(t*12);const dc=$('deb').getContext('2d');dc.clearRect(0,0,1080,1300);for(let i=0;i<8;i++){const st=12.4+i*.08+.18;const q=t-st;if(q<0||q>.6)continue;const rr=rng(i*31+5);for(let j=0;j<10;j++){const vx=(rr()-.5)*700,vy=-300-rr()*500;const x=40+i*90+39+vx*q,y=470+vy*q+900*q*q;dc.globalAlpha=1-q/.6;dc.fillStyle=j%3?'#ff3d5a':'#fff';dc.fillRect(x,y,10+rr()*14,10+rr()*14)}}dc.globalAlpha=1;
+    const fq=[0,1,2,3,4,5,6,7].some(i=>{const d=t-(12.4+i*.08+.18);return d>0&&d<.06});$('floorE').style.boxShadow=fq?'0 0 90px 20px #ff3d5a':'0 0 30px #ff3d5a';}
+  if(id==='vF'){cF.clearRect(0,0,1080,1400);const k=eo3(p(ls,0,1.1));const N=60;
+    const P=i=>[60+i/N*960,450+ (i/N)*620 + Math.sin(i*.9)*18],V=i=>[60+i/N*960,1080-(i/N)*700+Math.sin(i*1.3)*22];
+    [[P,'rgba(255,61,90,.22)'],[V,'rgba(255,225,77,.22)']].forEach(([f,c])=>{cF.lineWidth=8;cF.strokeStyle=c;cF.setLineDash([18,16]);cF.beginPath();for(let i=0;i<=N;i++){const [x,y]=f(i);i?cF.lineTo(x,y):cF.moveTo(x,y)}cF.stroke();cF.setLineDash([])});
+    [[P,'#ff3d5a'],[V,'#ffe14d']].forEach(([f,c])=>{cF.lineWidth=14;cF.strokeStyle=c;cF.shadowColor=c;cF.shadowBlur=26;cF.lineCap='round';cF.beginPath();for(let i=0;i<=N*k;i++){const [x,y]=f(i);i?cF.lineTo(x,y):cF.moveTo(x,y)}cF.stroke();});cF.shadowBlur=0;
+    // cross ring
+    if(k>.55){const q=eo5(p(ls,.95,1.3));cF.strokeStyle='#fff';cF.lineWidth=6;cF.beginPath();cF.arc(540,765,30+q*80,0,7);cF.globalAlpha=1-q*.6;cF.stroke();cF.globalAlpha=1}
+    $('lP').style.opacity=p(ls,1.3,1.5);$('lV').style.opacity=p(ls,1.3,1.5);}
+  if(id==='vG'){const k=eo3(p(ls,0,.5));$('g197').textContent='+'+(19.7*k).toFixed(1)+'%';if(ls<0.05)$('g197').textContent='+19.7%';
+    $('g197').style.transform=`scale(${1+.15*Math.exp(-Math.max(0,ls-.5)*6)*(ls>.5?1:0)})`;$('g903').style.opacity=p(ls,.7,.9);if(!window.vbI){window.vbI=1;let h='';for(let i=0;i<14;i++)h+=`<div class="vb" style="position:absolute;bottom:${1920-1340}px;left:${70+i*68}px;width:48px;border-radius:10px 10px 0 0;background:linear-gradient(180deg,#ffe14d,rgba(255,225,77,.15))"></div>`;$('vbars').innerHTML=h}
+    document.querySelectorAll('.vb').forEach((e,i)=>{const hh=(60+i*14+ (i%3)*20)*eo5(p(ls,.05+i*.04,.5+i*.04));e.style.height=hh+'px';e.style.opacity=.55});$('g903').style.transform=`translateY(${(1-eo5(p(ls,.7,1.0)))*80}px)`;}
+  if(id==='vH'){const a=eio(p(ls,.7,1.3));$('wP').style.transform=`scale(${1-.45*a}) translateY(${a*60}px)`;$('wP').style.opacity=1-.4*a;
+    const b=eo5(p(t,20.08,20.6));$('wB').style.opacity=b>0?1:0;$('wB').style.transform=`scaleX(${.4+.6*b}) scaleY(${.6+.5*b})`;}
+  if(id==='vI'){const s='$2.12T';const n=Math.ceil(p(ls,0,.3)*s.length);$('mc').innerHTML=[...s].map((c,i)=>`<span style="display:inline-block;opacity:${i<n?1:0};transform:translateY(${i<n?0:60}px)">${c}</span>`).join('');
+    $('mcK').style.opacity=p(ls,1.2,1.4);$('mcK').style.transform=`scale(${1+.3*(1-eo5(p(ls,1.2,1.5)))})`;}
+  if(id==='vJ'){const k=eio(p(ls,.1,2.6));const top=360+k*170;$('jBox').style.top=top+'px';const tb=top+230;$('tape').style.top=tb+'px';$('tape').style.height=(1000-tb)+'px';
+    $('tapeT').style.top=(tb+(1000-tb)/2-65)+'px';$('tapeT').style.opacity=p(ls,.3,.5);$('floorJ').style.transform=`translateX(${-(t*120)%90}px)`;
+    $('jBox').style.transform=`translateX(${Math.sin(t*30)*k*3}px)`;}
+  if(id==='vK'){const late=t>28.72;const fk=late?1:(Math.floor(ls*6)%2);$('kH').style.display=fk?'none':'flex';$('kB').style.display=fk?'flex':'none';
+    const sh=late?Math.exp(-(t-28.72)*4)*30:0;$('kB').style.transform=`translate(${(r()-.5)*sh}px,${(r()-.5)*sh}px) scale(${late?1+.1*Math.exp(-(t-28.72)*6):1})`;$('kL').style.color=fk?'rgba(255,255,255,.85)':'rgba(0,0,0,.75)';}
+  if(id==='vL'){const a=eo5(p(ls,0,.35)),b=eo5(p(t,30.44,30.72)),m=eio(p(t,30.72,30.9));
+    $('kC').style.left=(-1000+a*1090)+'px';$('kC').style.top=(420+m*40)+'px';$('kS').style.left=(1080-b*990)+'px';$('kS').style.top=(760-m*40)+'px';$('kS').style.opacity=b>0?1:0;
+    const on=m>.98;[$('kC'),$('kS')].forEach(e=>{e.style.borderColor=on?'#33f0b0':'#2a3344';e.style.boxShadow=on?'0 0 60px rgba(51,240,176,.45)':'none'});
+    $('kOne').style.opacity=p(t,30.8,30.95);$('kOne').style.letterSpacing=(30-12*eo5(p(t,30.8,31.1)))+'px';}
+  if(id==='vZ'){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*560)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(16-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);
+  }
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});
+  const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&ci>0&&t<c[c.length-1][2]+0.5&&id!=='vZ'){const txt=c.map(w=>w[0]).join(' ');cap.style.fontSize=(txt.length>10?92:txt.length>7?104:118)+'px';cap.innerHTML=c.map(w=>`<span class="${id==='vK'?'':cls(w[0])}">${w[0].replace(/[.,]$/,'')}</span>`).join(' ');
+    const k=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.25-0.25*back(k)}) rotate(${(ci%2?-1:1)*1.2}deg)`;cap.style.opacity=1;}
+  else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
