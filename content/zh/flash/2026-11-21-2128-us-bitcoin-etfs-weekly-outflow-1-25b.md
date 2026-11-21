@@ -1,0 +1,7 @@
+---
+title: 美国比特币现货ETF本周净流出12.5亿美元 11月累计流出35.9亿美元
+time: 2026-11-21T21:28:00+09:00
+category: 比特币
+important: false
+---
+据Farside数据，美国比特币现货ETF在美东时间11月20日（周五）再流出1.245亿美元，其中富达FBTC流出7,240万美元。本周合计净流出约12.5亿美元，11月累计约35.9亿美元；以太坊现货ETF本周另流出2.217亿美元。周四贝莱德IBIT单日流出5.411亿美元，占了本周流出的大部分。[来源: crypto.news](https://crypto.news/bitcoin-capital-underwater-950-billion/)
