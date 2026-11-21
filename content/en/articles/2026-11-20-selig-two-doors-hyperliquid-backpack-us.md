@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The CFTC chair said onchain trading venues can register as exchanges or work through one that already is, but will get no separate rulebook. Backpack has just shown what the first route takes.
+image: media/articles/2026-11-20-selig-two-doors-hyperliquid-backpack-us.png
+image_alt: Two doors into the US for onchain venues, as CFTC chair Michael Selig described on Nov. 19. Door 1, register as an exchange: Backpack approved as DCM and DCO by the CFTC on Nov. 16 and as FCM by the NFA on Nov. 18, launch date not announced. Door 2, partner with a registered firm: Payward proposal via Bitnomial (September), ICE deal with Trade.xyz (Oct. 29), HypeStrat FCM application (Nov. 5); Hyperliquid itself stays closed to US users. No separate rulebook for onchain venues. Hyperliquid open interest 6.8 billion at end-September
+image_note: AI-made graphic (summary of article)
 ---
 
 Hyperliquid ended the third quarter holding $16.8 billion in open derivatives positions, more than Bybit, Kraken or OKX, and it did that without a single American customer. On Thursday the man who decides whether that changes laid out the terms. Michael Selig, chairman of the Commodity Futures Trading Commission, said a decentralized venue can come into the United States in one of two ways, and neither involves a rulebook written just for it.
