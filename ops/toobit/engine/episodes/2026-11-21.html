@@ -1,0 +1,296 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- 2026-11-21 Toobit 시안: 나스닥 −5.28% → 코인 선물 22억 달러 청산
+ 출처: 이코노미블록 11/21 12:54(코인글래스: 24h 청산 22.2억$·롱 92.7%·322,229명·최대 단일 BTC/USDT 5,171만$)
+       뉴스웨이 11/21 10:35·머니투데이 11/21 06:35(나스닥 22,617.73 −5.28%·엔비디아 125.53$ −14.01%·VIX 35.89, 11/20 현지)
+       코리안투데이 11/21 09:10(CMC: BTC 58,843$ −4.9%·7일 −13.9%·ETH 1,621.46$ −7.6%) -->
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000;color:#fff;font-family:'Inter','Noto Sans CJK KR',sans-serif}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.v{position:absolute;inset:0;display:none}
+canvas{position:absolute;inset:0}
+.mono{font-family:'DejaVu Sans Mono',monospace;font-feature-settings:'tnum'}
+#cap{position:absolute;left:40px;right:40px;top:1370px;word-break:keep-all;text-align:center;font-weight:900;font-size:118px;line-height:1.05;letter-spacing:-3px;
+  -webkit-text-stroke:3px rgba(0,0,0,.35);text-shadow:0 10px 0 rgba(0,0,0,.6),0 0 50px rgba(0,0,0,.8);z-index:40}
+#cap .y{color:#ffe14d}#cap .r{color:#ff3d5a}#cap .g{color:#33f0b0}
+#tag{position:absolute;top:120px;left:70px;z-index:45;font-weight:800;font-size:28px;letter-spacing:5px;color:#fff;display:flex;gap:14px;align-items:center}
+#tag i{width:16px;height:16px;border-radius:50%;background:#ff3d5a;box-shadow:0 0 14px #ff3d5a}
+#tag span{color:#8b93a3}
+#prog{position:absolute;left:0;top:0;height:7px;background:#ffe14d;z-index:50}
+#flash{position:absolute;inset:0;z-index:60;opacity:0}
+#grain{position:absolute;inset:0;z-index:55;opacity:.08;mix-blend-mode:overlay}
+#vig{position:absolute;inset:0;z-index:35;background:radial-gradient(ellipse 80% 62% at 50% 42%,transparent 50%,rgba(0,0,0,.7))}
+/* bottom HUD ticker */
+#hud{position:absolute;left:0;right:0;top:1528px;height:80px;z-index:42;overflow:hidden;background:linear-gradient(90deg,#ffe14d,#ffe14d);color:#0b0d12}
+#hud .tr{position:absolute;top:0;height:80px;display:flex;width:max-content;align-items:center;white-space:nowrap;font-weight:900;font-size:44px;letter-spacing:-1px}
+#hud .tr>*{flex:none}#hud .tr b{margin:0 26px 0 0}#hud .tr em{font-style:normal;color:#c4002a;margin-right:60px}
+#hud2{position:absolute;left:0;right:0;top:1608px;height:10px;z-index:42;background:repeating-linear-gradient(-45deg,#0b0d12 0 16px,#ffe14d 16px 32px)}
+/* extruded + chromatic numbers */
+.ex{font-weight:900;line-height:1;white-space:nowrap}
+.exY{color:#ffe14d;text-shadow:-4px 0 0 rgba(0,230,255,.55),4px 0 0 rgba(255,0,90,.55),0 18px 50px rgba(0,0,0,.7)}
+.exR{color:#ff3d5a;text-shadow:-4px 0 0 rgba(0,230,255,.5),4px 0 0 rgba(255,220,0,.35),0 18px 50px rgba(0,0,0,.7)}
+.exW{color:#fff;text-shadow:-4px 0 0 rgba(0,230,255,.5),4px 0 0 rgba(255,0,90,.5),0 18px 50px rgba(0,0,0,.7)}
+.lbl{position:absolute;font-weight:900;letter-spacing:6px;color:#c3c9d4;font-size:62px}
+.src{position:absolute;left:0;right:0;text-align:center;font-size:36px;color:#9aa3b3;font-weight:700;letter-spacing:1px;line-height:1.4}
+.haz{position:absolute;left:-400px;width:1900px;height:150px;display:flex;align-items:center;white-space:nowrap;font-weight:900;font-size:84px;letter-spacing:4px}
+.cell{position:absolute;width:62px;height:62px;border-radius:10px}
+.wrow{position:absolute;left:60px;right:60px;height:150px;border-radius:30px;background:#0d121b;border:4px solid #263042;box-sizing:border-box;display:flex;align-items:center;padding:0 40px}
+.wrow .n{font-weight:900;font-size:78px;width:330px;letter-spacing:-2px}
+.wrow .pr{font-weight:900;font-size:70px;flex:1;text-align:right;letter-spacing:-2px}
+.wrow .pc{font-weight:900;font-size:62px;width:270px;text-align:right;color:#ff3d5a;letter-spacing:-2px}
+.wrow .ty{position:absolute;left:40px;top:-2px;font-size:24px;letter-spacing:6px;color:#33f0b0;font-weight:800}
+</style></head><body>
+<div id="world">
+ <canvas id="bg" width="1080" height="1920"></canvas>
+ <div id="sweep" style="position:absolute;left:-600px;top:-200px;width:420px;height:2400px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transform:rotate(18deg);z-index:30;pointer-events:none"></div>
+
+ <!-- A: frame-0 slam $2.22B (diagonal) -->
+ <div class="v" id="vA">
+   <div class="lbl" style="left:70px;top:330px;color:#ff3d5a;font-size:72px">LIQUIDATED · 24H</div>
+   <div id="aNum" class="ex exY mono" style="position:absolute;left:50px;top:480px;font-size:285px;letter-spacing:-22px;transform-origin:0 50%">$2.22B</div>
+   <div id="aKr" class="ex exW" style="position:absolute;left:70px;top:860px;font-size:150px;letter-spacing:-6px">≈ 22억 달러</div>
+ </div>
+
+ <!-- B: full-bleed red, edge-bleeding stacked type -->
+ <div class="v" id="vB">
+   <div id="bRed" style="position:absolute;inset:0;background:#ff3d5a"></div>
+   <div id="bL1" style="position:absolute;left:-40px;top:230px;white-space:nowrap;font-weight:900;font-size:300px;letter-spacing:-16px;line-height:.86;color:#fff">FORCED</div>
+   <div id="bL2" style="position:absolute;left:-40px;top:500px;white-space:nowrap;font-weight:900;font-size:300px;letter-spacing:-16px;line-height:.86;color:#0b0d12">CLOSE.</div>
+   <div id="bL3" style="position:absolute;left:-40px;top:770px;white-space:nowrap;font-weight:900;font-size:300px;letter-spacing:-16px;line-height:.86;color:transparent;-webkit-text-stroke:5px #fff">FORCED</div>
+   <div id="bCtr" class="mono" style="position:absolute;left:70px;top:1080px;background:#0b0d12;color:#ffe14d;font-weight:900;font-size:120px;letter-spacing:-6px;padding:12px 34px;border-radius:22px">$2.22B · 24H</div>
+ </div>
+
+ <!-- B2: largest single liquidation -->
+ <div class="v" id="vB2">
+   <div class="lbl" style="left:70px;top:300px;font-size:58px">LARGEST SINGLE HIT</div>
+   <div class="ex exW mono" style="position:absolute;left:70px;top:390px;font-size:120px;letter-spacing:-4px">BTC/USDT</div>
+   <div id="b2N" class="ex exR mono" style="position:absolute;left:60px;top:570px;font-size:300px;letter-spacing:-20px">$51.7M</div>
+   <div id="b2Bar" style="position:absolute;left:70px;top:940px;height:40px;background:#ff3d5a;box-shadow:0 0 40px #ff3d5a;border-radius:8px"></div>
+   <div class="lbl mono" style="left:70px;top:1010px;font-size:56px;letter-spacing:4px;color:#fff">ONE POSITION · GONE</div>
+ </div>
+
+ <!-- C: crosshair lock on NASDAQ -->
+ <div class="v" id="vC">
+   <div class="lbl" style="left:0;right:0;text-align:center;top:330px;font-size:64px;color:#ff3d5a">TRIGGER</div>
+   <div id="cWord" class="ex exW" style="position:absolute;left:0;right:0;text-align:center;top:600px;font-size:230px;letter-spacing:-10px">NASDAQ</div>
+   <canvas id="cRet" width="1080" height="1400"></canvas>
+ </div>
+
+ <!-- D: mega candle −5.28% -->
+ <div class="v" id="vD">
+   <canvas id="cD" width="1080" height="1400"></canvas>
+   <div id="dNum" class="ex exR mono" style="position:absolute;right:50px;top:560px;font-size:205px;letter-spacing:-16px">-5.28%</div>
+   <div class="lbl mono" style="right:70px;top:840px;font-size:64px;letter-spacing:2px;color:#fff;text-align:right">NASDAQ 22,617</div>
+   <div class="lbl" style="right:70px;top:930px;font-size:50px;letter-spacing:4px;text-align:right">11.20 (US) · 1 DAY</div>
+ </div>
+
+ <!-- E: NVDA letters collapse -->
+ <div class="v" id="vE">
+   <div id="eWord" style="position:absolute;left:0;right:0;top:380px;text-align:center;white-space:nowrap"></div>
+   <div id="eNum" class="ex exR mono" style="z-index:5;position:absolute;left:0;right:0;text-align:center;top:760px;font-size:270px;letter-spacing:-18px">-14.01%</div>
+   <canvas id="cE" width="1080" height="1400"></canvas>
+ </div>
+
+ <!-- F: odometer BTC -->
+ <div class="v" id="vF">
+   <div class="ex exW" style="position:absolute;left:70px;top:330px;font-size:150px;letter-spacing:-6px">BTC</div>
+   <div class="lbl mono" style="left:400px;top:370px;font-size:60px;letter-spacing:2px;color:#ff3d5a">▼ 4.9% · 24H</div>
+   <div id="odo" style="position:absolute;left:60px;top:560px;height:300px;overflow:hidden;white-space:nowrap"></div>
+   <div id="fLine" style="position:absolute;left:60px;right:60px;top:900px;height:12px;background:repeating-linear-gradient(90deg,#ff3d5a 0 50px,transparent 50px 76px)"></div>
+   <div class="lbl mono" style="left:70px;top:940px;font-size:56px;letter-spacing:3px;color:#ff3d5a">$60,000 BROKEN</div>
+ </div>
+
+ <!-- G: diagonal band −13.9% -->
+ <div class="v" id="vG">
+   <div id="gBand" style="position:absolute;left:-300px;right:-300px;top:560px;height:420px;background:#ff3d5a;transform:rotate(-12deg);display:flex;align-items:center;justify-content:center">
+     <div id="gTxt" class="mono" style="font-weight:900;font-size:260px;letter-spacing:-18px;color:#fff;white-space:nowrap;text-shadow:0 10px 0 #8c0d23,0 20px 0 #3f0510">-13.9%</div></div>
+   <div id="g7" class="ex exW mono" style="position:absolute;left:70px;top:300px;font-size:170px;letter-spacing:-8px">7D</div>
+   <div class="lbl" style="right:70px;top:1100px;font-size:70px;color:#fff;text-align:right">일주일 낙폭</div>
+ </div>
+
+ <!-- H: waffle 100 cells, 92.7 long -->
+ <div class="v" id="vH">
+   <div class="lbl" style="left:90px;top:250px;font-size:60px">EVERY 100 LIQUIDATED</div>
+   <div id="waf" style="position:absolute;left:90px;top:340px;width:900px;height:720px"></div>
+   <div id="hNum" class="ex exR mono" style="position:absolute;left:0;right:0;text-align:center;top:1080px;font-size:200px;letter-spacing:-12px">92.7% LONG</div>
+ </div>
+
+ <!-- H2: LONG flips -->
+ <div class="v" id="vH2">
+   <div id="h2Up" class="ex exW" style="position:absolute;left:60px;top:330px;font-size:300px;letter-spacing:-14px">LONG</div>
+   <div id="h2Arr" style="position:absolute;right:60px;top:700px;font-size:280px;font-weight:900;line-height:1;color:#33f0b0">↑</div>
+   <div id="h2N" class="ex exR mono" style="position:absolute;left:50px;top:720px;font-size:250px;letter-spacing:-18px">92.7%</div>
+ </div>
+ <!-- I: 322,229 traders counter -->
+ <div class="v" id="vI">
+   <div class="lbl" style="left:70px;top:330px;font-size:62px">TRADERS LIQUIDATED · 24H</div>
+   <div id="iNum" class="ex exY mono" style="position:absolute;left:50px;top:430px;font-size:240px;letter-spacing:-16px">322,229</div>
+   <canvas id="cI" width="1080" height="1400"></canvas>
+ </div>
+
+ <!-- I2: dots exit -->
+ <div class="v" id="vI2">
+   <canvas id="cI2" width="1080" height="1400"></canvas>
+   <div id="i2T" class="ex exR" style="position:absolute;left:70px;top:330px;font-size:200px;letter-spacing:-8px">EXIT ▶</div>
+   <div class="lbl" style="left:70px;top:1120px;font-size:68px;color:#fff">32만 명, 하루 만에</div>
+ </div>
+
+ <!-- J: twin seismograph STOCKS / CRYPTO -->
+ <div class="v" id="vJ">
+   <div class="lbl" style="left:70px;top:190px;font-size:64px;color:#fff">STOCKS</div>
+   <div class="lbl" style="left:70px;top:680px;font-size:64px;color:#ffe14d">CRYPTO</div>
+   <canvas id="cJ" width="1080" height="1400"></canvas>
+   <div id="jLink" class="mono" style="position:absolute;left:0;right:0;text-align:center;top:1180px;font-weight:900;font-size:110px;color:#33f0b0;letter-spacing:2px;text-shadow:0 0 40px rgba(51,240,176,.5)">= SAME SHAKE</div>
+ </div>
+
+ <!-- K: one watchlist -->
+ <div class="v" id="vK">
+   <div class="lbl mono" style="left:60px;top:250px;font-size:56px;letter-spacing:8px;color:#33f0b0">ONE WATCHLIST</div>
+   <div class="wrow" id="w0" style="top:340px"><span class="ty">CRYPTO</span><span class="n">BTC</span><span class="pr mono">58,843</span><span class="pc mono">-4.9%</span></div>
+   <div class="wrow" id="w1" style="top:520px"><span class="ty">CRYPTO</span><span class="n">ETH</span><span class="pr mono">1,621</span><span class="pc mono">-7.6%</span></div>
+   <div class="wrow" id="w2" style="top:700px"><span class="ty">STOCKS</span><span class="n">NVDA</span><span class="pr mono">125.53</span><span class="pc mono">-14.0%</span></div>
+   <div class="wrow" id="w3" style="top:880px"><span class="ty">INDEX</span><span class="n">NASDAQ</span><span class="pr mono">22,617</span><span class="pc mono">-5.3%</span></div>
+   <div id="kHi" style="position:absolute;left:52px;right:52px;height:166px;border:6px solid #33f0b0;border-radius:36px;box-shadow:0 0 40px rgba(51,240,176,.5)"></div>
+ </div>
+
+ <!-- Z: toobit -->
+ <div class="v" id="vZ">
+   <div id="tb-leak" style="position:absolute;left:-200px;right:-200px;top:520px;height:520px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(51,240,176,.28),transparent 70%);filter:blur(30px)"></div>
+   <div id="tb-echo"></div>
+   <div id="tb" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1"></div>
+   <div id="tb-line" style="position:absolute;left:50%;top:925px;height:3px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#33f0b0,#fff,#33f0b0,transparent);box-shadow:0 0 18px #33f0b0"></div>
+   <div id="tb-cap" style="position:absolute;left:0;right:0;top:960px;text-align:center;font-family:'DejaVu Sans Mono',monospace;font-size:40px;letter-spacing:8px;color:#c9e6dc">CRYPTO <span style="color:#33f0b0">/</span> STOCKS <span style="color:#33f0b0">/</span> ONE APP</div>
+   <div class="src" style="top:1560px">출처: 이코노미블록 11.21(코인글래스) · 뉴스웨이·머니투데이 11.21<br>코리안투데이 11.21(CMC) · 투자 권유 아님</div>
+ </div>
+</div>
+<div id="vig"></div>
+<div id="hud"><div class="tr" id="tr1"></div></div><div id="hud2"></div>
+<div id="tag"><i></i>MARKET BRIEF <span>2026.11</span></div>
+<div id="cap"></div><div id="prog"></div>
+<canvas id="grain" width="540" height="960"></canvas><div id="flash"></div>
+<script src="words1121.js"></script><script src="../v2/common.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const W=window.WORDS; const TOTAL=33.6;
+// [id,start,transition] z=zoom-through w=whip c=hard cut m=mint glow s=slice glitch
+const S=[['vA',0,'c'],['vB',1.72,'s'],['vB2',3.3,'w'],['vC',5.22,'z'],['vD',6.76,'c'],['vE',9.22,'c'],['vF',11.94,'w'],['vG',14.84,'c'],
+ ['vH',17.8,'z'],['vH2',19.88,'c'],['vI',21.8,'s'],['vI2',23.62,'w'],['vJ',25.32,'z'],['vK',28.58,'w'],['vZ',31.56,'m']];
+const chunks=[];let cur=[];
+const BR=new Set([0,2,4,6,9,11,13,14,15,17,18,21,22,24,25,26,27,30,32,34,36,38,41,43,45,47]);
+W.forEach((w,i)=>{if(BR.has(i)&&cur.length){chunks.push(cur);cur=[]}cur.push(w)});if(cur.length)chunks.push(cur);
+function cls(t){if(/투비트/.test(t))return'g';if(/(폭락|무너졌|밀렸|청산|퇴장|흔들|낙폭)/.test(t))return'r';if(/(\d|%|나스닥|엔비디아|비트코인|롱)/.test(t))return'y';return''}
+const bg=$('bg').getContext('2d'),gr=$('grain').getContext('2d');
+// ticker tape (sourced values only)
+(function(){const items=[['NASDAQ','22,617.73','▼5.28%'],['NVDA','125.53','▼14.01%'],['BTC','58,843','▼4.9%'],['ETH','1,621.46','▼7.6%'],['LIQ 24H','$2.22B','LONG 92.7%'],['VIX','35.89','▲26.2%']];
+ const h=items.map(i=>`<b>${i[0]}</b><b class="mono">${i[1]}</b><em class="mono">${i[2]}</em>`).join('');$('tr1').innerHTML=h+h+h;})();
+// orderbook-ish digit columns (texture only)
+const OB=(()=>{const r=rng(1121);return Array.from({length:44},(_,i)=>({x:i<22?20+ (i%2)*120:820+(i%2)*120,y:(Math.floor(i/2)%11)*170,s:r(),txt:(r()*9e4+1e4).toFixed(0)}))})();
+// hazard tape text
+
+// NVDA letters
+$('eWord').innerHTML=[...'NVDA'].map((c,i)=>`<span class="nl ex exW" style="display:inline-block;font-size:330px;letter-spacing:-10px;margin:0 6px">${c}</span>`).join('');
+// odometer: 5 8 , 8 4 3
+(function(){const s='$58,843';let h='';[...s].forEach((c,i)=>{if(/\d/.test(c)){let col='';for(let d=9;d>=0;d--)col+=`<div style="height:300px">${d}</div>`;h+=`<span class="odc ex exR mono" data-d="${c}" style="display:inline-block;vertical-align:top;font-size:270px;letter-spacing:-20px;width:150px;text-align:center;transform:translateY(0)">${col}</span>`}else h+=`<span class="ex exR mono" style="display:inline-block;vertical-align:top;font-size:270px;width:${c==','?80:140}px;height:300px;text-align:center">${c}</span>`});$('odo').innerHTML=h})();
+// waffle
+(function(){let h='';for(let i=0;i<100;i++){const x=(i%10)*90,y=Math.floor(i/10)*72;h+=`<div class="cell" id="wc${i}" style="left:${x}px;top:${y}px;width:78px;height:60px"></div>`}$('waf').innerHTML=h})();
+function bgDraw(t,hue){
+  const g=bg.createRadialGradient(540,760,40,540,900,1300);g.addColorStop(0,hue);g.addColorStop(1,'#000');bg.fillStyle=g;bg.fillRect(0,0,1080,1920);
+  // perspective floor grid
+  bg.save();bg.strokeStyle='rgba(255,255,255,.10)';bg.lineWidth=2;const hz=1180,vx=540;
+  for(let i=-14;i<=14;i++){bg.beginPath();bg.moveTo(vx+i*14,hz);bg.lineTo(vx+i*190,1920);bg.stroke()}
+  for(let j=0;j<14;j++){const k=((j+ (t*1.2)%1)/14);const y=hz+Math.pow(k,2.2)*760;bg.globalAlpha=Math.min(1,k*2);bg.beginPath();bg.moveTo(0,y);bg.lineTo(1080,y);bg.stroke()}
+  bg.globalAlpha=1;
+  // ceiling grid (mirrored, fainter)
+  bg.strokeStyle='rgba(255,255,255,.05)';for(let i=-14;i<=14;i++){bg.beginPath();bg.moveTo(vx+i*14,330);bg.lineTo(vx+i*190,-400);bg.stroke()}
+  // orderbook digit columns on sides
+  bg.font='700 30px DejaVu Sans Mono';OB.forEach((o,i)=>{const y=((o.y+t*(30+o.s*40))%1870);bg.fillStyle=(i%3===0)?'rgba(255,61,90,.16)':'rgba(255,255,255,.07)';bg.fillText(o.txt,o.x,y)});
+  bg.restore();
+}
+window.seek=function(t){
+  let si=0;S.forEach((s,i)=>{if(t>=s[1])si=i});
+  S.forEach((s,i)=>$(s[0]).style.display=i===si?'block':'none');
+  const id=S[si][0],ls=t-S[si][1],tr=S[si][2];
+  const r=rng(Math.floor(t*30));
+  let sc=1+0.035*ls/3,tx=0,ty=0,bl=0,rot=0;
+  if(si>0){
+    if(tr==='z'){const k=eo5(p(ls,0,.32));sc*=1+0.9*(1-k);bl=(1-k)*14}
+    if(tr==='w'){const k=eo5(p(ls,0,.26));tx=(1-k)*900;bl=(1-k)*22}
+    if(tr==='c'){sc*=1+0.12*Math.exp(-ls*7);const sh=Math.exp(-ls*9)*26;tx=(r()-.5)*sh;ty=(r()-.5)*sh}
+    if(tr==='s'){const k=p(ls,0,.22);rot=(1-k)*-3;tx=(1-k)*((Math.floor(ls*60)%2)?40:-40)}
+  }
+  $('world').style.transform=`translate(${tx}px,${ty}px) scale(${sc}) rotate(${rot}deg)`;const ca=si>0?Math.exp(-ls*8)*10:0;
+  $('world').style.filter=(bl>0.3?`blur(${bl}px) `:'')+(ca>0.5?`drop-shadow(${ca}px 0 0 rgba(255,0,70,.55)) drop-shadow(${-ca}px 0 0 rgba(0,230,255,.55))`:'')||'none';
+  // slice glitch: clip bands offset
+  if(tr==='s'&&si>0&&ls<.2){const o=Math.round((1-ls/.2)*70);$(id).style.clipPath='none';$(id).style.filter=`drop-shadow(${o}px 0 0 rgba(255,61,90,.6))`}else $(id).style.filter='none';
+  $('sweep').style.left=(-600+eio(p(ls,.05,.55))*2300)+'px';
+  const fl=$('flash');
+  if(tr==='m'&&si>0){fl.style.background='radial-gradient(ellipse at 50% 45%,rgba(51,240,176,.8),transparent 70%)';fl.style.opacity=Math.max(0,.9-ls*3)}
+  else if(tr==='c'&&si>0){fl.style.background='#ff3d5a';fl.style.opacity=Math.max(0,.22-ls*3)}else fl.style.opacity=0;
+  const hue={vA:'#2a1f04',vB:'#2a0710',vB2:'#2a0710',vC:'#0a0e17',vD:'#2a0710',vE:'#2a0710',vF:'#2a0710',vG:'#14060a',vH:'#2a0710',vH2:'#06140f',vI:'#1a1606',vI2:'#14060a',vJ:'#0a0e17',vK:'#06140f',vZ:'#06140f'}[id]||'#0a0e17';
+  bgDraw(t,hue);
+  // HUD ticker
+  const hudOn=id!=='vZ';$('hud').style.opacity=hudOn?1:0;$('hud2').style.opacity=hudOn?1:0;$('tr1').style.left=(-(t*170)%($('tr1').scrollWidth/3))+'px';
+
+  if(id==='vA'){const k=eo5(p(t,0,.18));$('aNum').style.transform=`rotate(-6deg) scale(${1.1-.1*k})`;$('aKr').style.opacity=p(t,.85,1.0);$('aKr').style.transform=`rotate(-6deg) translateX(${(1-eo5(p(t,.85,1.1)))*-300}px)`;
+    const sh=Math.exp(-t*6)*18;$('aNum').style.marginLeft=((r()-.5)*sh)+'px';}
+  if(id==='vB'){[1,2,3].forEach(i=>{const k=eo5(p(ls,(i-1)*.08,.25+(i-1)*.08));$('bL'+i).style.transform=`translateX(${(i%2?1:-1)*(1-k)*1200 + (i%2?-1:1)*ls*40}px)`});
+    const c=eo5(p(ls,.3,.45));$('bCtr').style.opacity=c>0?1:0;$('bCtr').style.transform=`scale(${1+.5*(1-c)}) rotate(-3deg)`;}
+  if(id==='vB2'){const k=eo5(p(ls,.1,.4));$('b2N').style.transform=`translateX(${(1-k)*-900}px)`;$('b2Bar').style.width=(940*eio(p(ls,.4,1.2)))+'px';
+    const sh=ls>1.25&&ls<1.6?Math.exp(-(ls-1.25)*10)*30:0;$('b2N').style.marginTop=((r()-.5)*sh)+'px';$('b2N').style.opacity=ls>1.5?(.55+.45*(Math.floor(ls*14)%2)):1;}
+  if(id==='vC'){const c=$('cRet').getContext('2d');c.clearRect(0,0,1080,1400);const k=eo5(p(ls,0,.55));const cx=540+(1-k)*300,cy=720-(1-k)*260,R=380-200*k;
+    c.strokeStyle=k>.98?'#ff3d5a':'#fff';c.lineWidth=8;c.beginPath();c.arc(cx,cy,R,0,7);c.stroke();c.lineWidth=5;
+    [[-1,0],[1,0],[0,-1],[0,1]].forEach(([dx,dy])=>{c.beginPath();c.moveTo(cx+dx*(R-60),cy+dy*(R-60));c.lineTo(cx+dx*(R+110),cy+dy*(R+110));c.stroke()});
+    // brackets
+    const bw=560,bh=230,bx=540-bw/2,by=600;c.lineWidth=12;c.strokeStyle='#ff3d5a';const L=60,q=eo5(p(ls,.5,.75));if(q>0){c.globalAlpha=q;[[bx,by,1,1],[bx+bw,by,-1,1],[bx,by+bh,1,-1],[bx+bw,by+bh,-1,-1]].forEach(([x,y,sx,sy])=>{c.beginPath();c.moveTo(x+sx*L,y);c.lineTo(x,y);c.lineTo(x,y+sy*L);c.stroke()});c.globalAlpha=1}
+    c.font='900 54px DejaVu Sans Mono';c.fillStyle='#ff3d5a';if(k>.98&&Math.floor(ls*8)%2)c.fillText('● LOCKED',380,960);
+    $('cWord').style.transform=`scale(${1+.08*Math.exp(-Math.max(0,ls-.55)*8)*(ls>.55?1:0)})`;}
+  if(id==='vD'){const c=$('cD').getContext('2d');c.clearRect(0,0,1080,1400);const k=ei3(p(ls,.05,.5));const top=280,bot=top+120+k*900;
+    c.strokeStyle='#ff3d5a';c.lineWidth=10;c.beginPath();c.moveTo(150,top-80);c.lineTo(150,bot+60);c.stroke();
+    c.fillStyle='#ff3d5a';c.shadowColor='#ff3d5a';c.shadowBlur=50;c.fillRect(70,top,160,bot-top);c.shadowBlur=0;
+    // small previous candles left
+    
+    if(k>=1){const q=ls-.5;for(let i=0;i<14;i++){const rr=rng(i*7+3);const x=150+(rr()-.5)*300*q*4,y=bot+(-200*rr()*q+900*q*q);c.globalAlpha=Math.max(0,1-q*2);c.fillRect(x,y,14,14)}c.globalAlpha=1}
+    const n=eo5(p(ls,.45,.65));$('dNum').style.opacity=n>0?1:0;$('dNum').style.transform=`scale(${1+.6*(1-n)})`;}
+  if(id==='vE'){const L=[...document.querySelectorAll('.nl')];L.forEach((e,i)=>{const st=1.45+i*.1;const q=Math.max(0,ls-st);const fall=q>0?600*q*q*3:0;e.style.transform=`translateY(${fall}px) rotate(${q>0?(i%2?1:-1)*q*120:0}deg)`;e.style.color=q>0?'#ff3d5a':'#fff';e.style.opacity=Math.max(0,1-fall/600)});
+    const n=eo5(p(ls,.15,.4));$('eNum').style.opacity=n>0?1:0;$('eNum').style.transform=`translateY(${(1-n)*-120}px)`;
+    const c=$('cE').getContext('2d');c.clearRect(0,0,1080,1400);c.fillStyle='rgba(255,61,90,.9)';[0,1,2,3].forEach(i=>{const st=1.45+i*.1;const q=ls-st;if(q<0||q>.7)return;const rr=rng(i*13+1);for(let j=0;j<12;j++){const x=290+i*170+(rr()-.5)*500*q,y=560+(-300*rr())*q+1200*q*q;c.globalAlpha=1-q/.7;c.fillRect(x,y,12+rr()*16,12+rr()*16)}});c.globalAlpha=1;}
+  if(id==='vF'){const O=[...document.querySelectorAll('.odc')];O.forEach((e,i)=>{const d=+e.dataset.d;const k=eo5(p(ls,.02+i*.04,.3+i*.04));e.style.transform=`translateY(${-(9-d)*300*k}px)`;e.style.filter=k<1?`blur(${(1-k)*3}px)`:'none'});
+    $('fLine').style.transform=`translateX(${-(t*100)%76}px)`;$('fLine').style.opacity=.6+.4*Math.sin(t*14);}
+  if(id==='vG'){const k=eo5(p(ls,0,.3));$('gBand').style.transform=`rotate(-12deg) scaleY(${k})`;$('gTxt').style.transform=`translateX(${120-ls*110}px)`;$('g7').style.opacity=p(ls,.3,.45);}
+  if(id==='vH'){for(let i=0;i<100;i++){const e=$('wc'+i);const st=.05+i*.006;const on=ls>st;const isL=i<93;e.style.background=!on?'#151a24':(isL?'#ff3d5a':'#33f0b0');e.style.transform=`scale(${on?1+.3*Math.exp(-(ls-st)*14):.85})`;if(i===92&&on)e.style.background='linear-gradient(90deg,#ff3d5a 70%,#33f0b0 70%)'}
+    const n=eo5(p(ls,.7,.9));$('hNum').style.opacity=n>0?1:0;$('hNum').style.transform=`scale(${1+.5*(1-n)})`;}
+  if(id==='vH2'){const f=eio(p(t,20.3,20.6));$('h2N').style.transform=`translateX(${(1-eo5(p(ls,0,.3)))*-900}px)`;$('h2Arr').style.transform=`rotate(${180*f}deg)`;$('h2Arr').style.color=f>.5?'#ff3d5a':'#33f0b0';$('h2Up').style.color=f>.5?'#ff3d5a':'#fff';
+    const sh=f>.5?Math.exp(-(t-20.5)*6)*30:0;$('h2Up').style.transform=`translate(${(r()-.5)*sh}px,${f*40}px)`;}
+  if(id==='vI'){const k=eo5(p(ls,0,.25));$('iNum').textContent='322,229';$('iNum').style.transform=`scale(${1+.4*(1-k)})`;$('iNum').style.transformOrigin='0 50%';
+    const c=$('cI').getContext('2d');c.clearRect(0,0,1080,1400);const n=Math.floor(eo3(p(ls,.05,1.4))*240);for(let i=0;i<240;i++){const x=90+(i%20)*46,y=800+Math.floor(i/20)*46;c.fillStyle=i<n?'#ff3d5a':'rgba(255,255,255,.12)';c.beginPath();c.arc(x,y,15,0,7);c.fill()}}
+  if(id==='vI2'){const c=$('cI2').getContext('2d');c.clearRect(0,0,1080,1400);for(let i=0;i<240;i++){const rr=rng(i+77);const x0=90+(i%20)*46,y0=560+Math.floor(i/20)*46;const st=(19-(i%20))*.05+rr()*.25;const q=Math.max(0,ls-st);const x=x0+q*q*900;if(x>1120)continue;c.fillStyle='#ff3d5a';c.globalAlpha=Math.max(.2,1-q);c.beginPath();c.arc(x,y0,15,0,7);c.fill();if(q>0){c.fillRect(x-q*200,y0-3,q*200,6)}}c.globalAlpha=1;
+    // door
+    c.fillStyle='#ffe14d';c.fillRect(1040,520,40,580);$('i2T').style.transform=`translateX(${(1-eo5(p(ls,0,.3)))*-700}px)`;}
+  if(id==='vJ'){const c=$('cJ').getContext('2d');c.clearRect(0,0,1080,1400);const amp=1+eo3(p(ls,0,1.0))*.0;
+    if(!window.JW){const r=rng(2026);let v=0;window.JW=[];for(let i=0;i<=90;i++){const shock=(i%13===7)?-2.6:0;v+=(r()-.5)*1.4+shock*.9-.06;window.JW.push(v)}}
+    const n=Math.floor(eo3(p(ls,0,1.3))*90);const JW=window.JW;const mn=Math.min(...JW),mx=Math.max(...JW);
+    [[260,330,'#fff',1],[750,330,'#ffe14d',1.15]].forEach(([y0,h,col,g])=>{c.strokeStyle=col;c.lineWidth=9;c.lineJoin='round';c.shadowColor=col;c.shadowBlur=20;c.beginPath();for(let i=0;i<=n;i++){const x=40+i*11,y=y0+(1-(JW[i]-mn)/(mx-mn))*h*g*.9+Math.sin(i*1.7+g)*6;i?c.lineTo(x,y):c.moveTo(x,y)}c.stroke();c.shadowBlur=0;
+      const i=n,x=40+i*11,y=y0+(1-(JW[i]-mn)/(mx-mn))*h*g*.9+Math.sin(i*1.7+g)*6;c.fillStyle=col;c.beginPath();c.arc(x,y,16,0,7);c.fill()});
+    c.strokeStyle='rgba(51,240,176,.55)';c.lineWidth=4;c.setLineDash([10,12]);for(let i=13*0+7;i<=n;i+=13){const x=40+i*11;c.beginPath();c.moveTo(x,250);c.lineTo(x,1150);c.stroke()}c.setLineDash([]);
+    $('jLink').style.opacity=p(ls,1.0,1.2);const sh=Math.sin(t*40)*4*eo3(p(ls,0,1));$('vJ').style.marginLeft=sh+'px';}
+  if(id==='vK'){[0,1,2,3].forEach(i=>{const k=eo5(p(ls,.05+i*.12,.4+i*.12));$('w'+i).style.transform=`translateX(${(1-k)*(i%2?1100:-1100)}px)`});
+    const hi=Math.min(3,Math.floor(p(ls,.9,2.6)*4));$('kHi').style.top=(332+hi*180)+'px';$('kHi').style.opacity=ls>.9?1:0;}
+  if(id==='vZ'){
+    if(!window.tbInit){window.tbInit=1;const tb=$('tb');tb.innerHTML=[...'toobit'].map(ch=>`<span style="display:inline-block;overflow:hidden;vertical-align:top;padding:0 2px"><span class="tbl" style="display:inline-block;background:linear-gradient(100deg,#fff 0%,#fff 40%,#7dffd5 50%,#fff 60%,#fff 100%);background-size:300% 100%;-webkit-background-clip:text;color:transparent">${ch}</span></span>`).join('');
+      $('tb-echo').innerHTML=[1,2,3].map(i=>`<div class="tbe" style="position:absolute;left:0;right:0;top:640px;text-align:center;font-weight:800;font-size:250px;letter-spacing:-14px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(51,240,176,${.5/i})">toobit</div>`).join('');}
+    const L=[...document.querySelectorAll('.tbl')];L.forEach((e,i)=>{const k=eo5(p(ls,.02+i*.035,.32+i*.035));e.style.transform=`translateY(${(1-k)*105}%)`;e.style.filter=`blur(${(1-k)*6}px)`;e.style.backgroundPosition=`${100-eio(p(ls,.45,1.1))*100}% 0`;});
+    document.querySelectorAll('.tbe').forEach((e,i)=>{const k=eo5(p(ls,.25,1.0));e.style.opacity=(1-k)*.9;e.style.transform=`scale(${1+(i+1)*.08*k})`;});
+    $('tb-line').style.width=(eo5(p(ls,.3,.8))*760)+'px';
+    const c=eo5(p(ls,.45,.85));$('tb-cap').style.opacity=c;$('tb-cap').style.letterSpacing=(18-8*c)+'px';
+    $('tb-leak').style.opacity=.6+.4*Math.sin(ls*5);
+  }
+  let ci=-1;chunks.forEach((c,i)=>{if(t>=c[0][1]-0.05)ci=i});
+  const c=ci>=0?chunks[ci]:null;const cap=$('cap');
+  if(c&&ci>0&&t<c[c.length-1][2]+0.5&&id!=='vZ'){const txt=c.map(w=>w[0]).join(' ');cap.style.fontSize=(txt.length>10?92:txt.length>7?104:118)+'px';cap.innerHTML=c.map(w=>`<span class="${cls(w[0])}">${w[0].replace(/[.,]$/,'')}</span>`).join(' ');
+    const k=p(t,c[0][1]-0.05,c[0][1]+0.12);cap.style.transform=`scale(${1.25-0.25*back(k)}) rotate(${(ci%2?-1:1)*1.2}deg)`;cap.style.opacity=1;}
+  else cap.style.opacity=0;
+  $('prog').style.width=(t/TOTAL*100)+'%';
+  const img=gr.createImageData(540,960);const r2=rng(Math.floor(t*30)+7);for(let i=0;i<img.data.length;i+=4){const v=r2()*255;img.data[i]=img.data[i+1]=img.data[i+2]=v;img.data[i+3]=255}gr.putImageData(img,0,0);
+  $('grain').style.transform='scale(2)';$('grain').style.transformOrigin='0 0';
+};
+seek(0);
+</script></body></html>
