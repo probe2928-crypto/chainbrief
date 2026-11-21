@@ -1,0 +1,7 @@
+---
+title: CFTC 의장 "하이퍼리퀴드, 등록하거나 제휴해야 美 진출"
+time: 2026-11-22T01:29:00+09:00
+category: 규제
+important: false
+---
+마이클 셀리그 미국 상품선물거래위원회(CFTC) 의장이 19일(현지시간) 워싱턴 '캐피톨 크립토 포럼'에서 하이퍼리퀴드(Hyperliquid) 같은 온체인 파생상품 거래소가 미국 개인 투자자를 받으려면 직접 거래소 등록을 하거나 이미 등록된 거래소와 손잡아야 한다고 밝혔다. 온체인이라고 해서 별도 규칙을 두지는 않겠다는 뜻으로, 그는 이달 거래소(DCM)·청산소(DCO)·선물중개(FCM) 인가를 모두 받은 백팩(Backpack)을 첫 번째 경로의 사례로 들었다. 하이퍼리퀴드는 현재 미국 이용자 접속을 막고 있으며, 등록 신청이나 제휴를 발표한 적은 없다. [출처: The Block](https://www.theblock.co/news/regulation/2026-11-19-cftc-chair-selig-hyperliquid-onchain-venues-the-us-444106)
