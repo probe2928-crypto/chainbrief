@@ -81,3 +81,8 @@
 - 성과 부진 → 회의·전략·리서치·유료광고 관리 직원 11명 끔: 조사랑·회의봉·전략한·글다듬·디자인율·광고미·제휴진·광고돌·도알파·큐레온·하늘솜.
 - 전환수(trig_014jgYBnufqRJoGz6B1FXVMZ) → "Perpline 직접 홍보·커뮤니티 배포": 매일 영어 글 3개, 맥 켜져 있으면 X·텔레그램 등에 게시, 꺼져 있으면 대기 글로 저장. 보고는 올린 글·방문·가입클릭 숫자 3개만.
 - 막힌 점: 실제 게시는 맥 내장 브라우저(로그인 계정)가 있어야 함. Typefully 연결 계정 0.
+
+## 2026-11-21 영상팀 교체 (세준 지시)
+- 해고: 모션준(trig_01PkFpEQcPZW2YtjzjqkHwW4), 이한결(trig_01BMuuTsMN8861ZtU8MJWn8c), Toobit 시안 PD 컷하나(trig_01E2y1Vok2jFNN7ivCf5yr9B), Toobit 리서치 숏폼희(trig_01JpQJ9NEjJNK28hubz7yQ3c) — Toobit 업무 전체 종료.
+- 채용: 연출아 · 광고 영상 크리에이티브 디렉터(trig_01VxNFGzfQDziTjayCosrKWG, 화·금 13:41) — 레퍼런스 5편·스토리보드 사전 채점·제품 실사 필수·3인 9.0 게이트.
+- 채용: 한장면 · 여행 숏츠 수석 PD(trig_01Uzi7KfRPZYX2ntYDPAoGCX, 월·목 21:37, 맥 필요) — 레퍼런스·엄격한 컷 선별·색보정·2인 8.5 게이트.
