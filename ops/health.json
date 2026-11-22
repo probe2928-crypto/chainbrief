@@ -1,64 +1,64 @@
 {
- "at": "2026-11-22 03:25 KST",
- "repos": [
-  {
-   "repo": "chainbrief",
-   "lastRun": "success 2026-11-21T18:07Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "perpline",
-   "lastRun": "success 2026-11-21T02:27Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "luft",
-   "lastRun": "success 2026-11-21T14:29Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "qurator",
-   "lastRun": "success 2026-11-21T14:24Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "oriel",
-   "lastRun": "success 2026-11-18T05:23Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "blockkey",
-   "lastRun": "success 2026-11-05T05:00Z",
-   "failures": [],
-   "fixed": []
-  },
-  {
-   "repo": "lifejunjun",
-   "lastRun": null,
-   "failures": [],
-   "fixed": [],
-   "note": "세션에 저장소 권한 없음"
-  },
-  {
-   "repo": "yeobaek",
-   "lastRun": null,
-   "failures": [],
-   "fixed": [],
-   "note": "세션에 저장소 권한 없음"
-  }
- ],
- "sites": [
-  {
-   "url": "github.io 전체·lifejunjun.com",
-   "ok": null,
-   "note": "확인 불가: 프록시 403, WebFetch 권한 시간 초과. chainbrief는 15분 빌드 성공+최근 커밋 UTC 18:07로 갱신 정상 추정"
-  }
- ],
- "failedTasks": [],
- "deviceAbsent": 0
+  "at": "2026-11-23T03:25:00+09:00",
+  "repos": [
+    {
+      "repo": "probe2928-crypto/chainbrief",
+      "lastRun": "2026-11-22T16:31Z 빌드 및 배포 성공",
+      "failures": [],
+      "fixed": []
+    },
+    {
+      "repo": "probe2928-crypto/perpline",
+      "lastRun": "성공",
+      "failures": [],
+      "fixed": []
+    },
+    {
+      "repo": "probe2928-crypto/luft",
+      "lastRun": "성공",
+      "failures": [],
+      "fixed": []
+    },
+    {
+      "repo": "probe2928-crypto/qurator",
+      "lastRun": "성공",
+      "failures": [],
+      "fixed": []
+    },
+    {
+      "repo": "probe2928-crypto/oriel",
+      "lastRun": "성공",
+      "failures": [],
+      "fixed": []
+    },
+    {
+      "repo": "probe2928-crypto/blockkey",
+      "lastRun": "성공",
+      "failures": [],
+      "fixed": []
+    }
+  ],
+  "sites": [
+    {
+      "url": "https://chainbrief.app/en/",
+      "ok": null,
+      "note": "프록시 차단·WebFetch 권한 시간 초과로 미확인(저장소 기준 KO 속보 01:31 KST, EN·ZH 21:34 KST)"
+    },
+    {
+      "url": "https://perpline.tech/api/venues.json",
+      "ok": null,
+      "note": "미확인(접근 차단)"
+    },
+    {
+      "url": "https://probe2928-crypto.github.io/luft/catalog.js",
+      "ok": null,
+      "note": "미확인(접근 차단)"
+    },
+    {
+      "url": "https://probe2928-crypto.github.io/qurator/data/works.json",
+      "ok": null,
+      "note": "미확인(접근 차단)"
+    }
+  ],
+  "failedTasks": []
 }
