@@ -1,3 +1,8 @@
+## 2026-11-23 새벽 점검
+- 밤새봄: Actions 24시간 — chainbrief·perpline·luft·qurator·oriel·blockkey 미해결 실패 0. 관찰 1건: chainbrief '빌드 및 배포' 마지막 성공이 16:31Z라 점검 시각(18:18Z) 기준 1시간 넘게 공백(GitHub 15분 cron 지연으로 추정, 진행 중·실패 실행 없음, 푸시 배포는 정상). 고침 0.
+- 속보 신선도(저장소 커밋 기준): KO 01:31 KST, EN·ZH 21:34 KST. 라이브 사이트 직접 열람은 프록시 403·WebFetch 권한 시간 초과로 못 함(미확인). firstbrick·lifejunjun·yeobaek는 권한 밖 미확인.
+- 예약 작업 전 페이지: FAILED 0, device_absent 0.
+
 ## 2026-11-22 새벽 점검
 - 이상 없음(Actions 24시간 실패 0: chainbrief 빌드 및 배포 15분 주기 정상, perpline·luft·qurator·oriel·blockkey 성공). 예약 작업 전수 실패 0, device_absent 0.
 - 못 본 것: 라이브 사이트 직접 열람(프록시 403·WebFetch 권한 시간 초과), lifejunjun·yeobaek·firstbrick 저장소(권한 없음).
