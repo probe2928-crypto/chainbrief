@@ -1,0 +1,7 @@
+---
+title: 비트코인 저점서 9% 반등…6만달러 다시 넘어
+time: 2026-11-22T16:30:00+09:00
+category: 비트코인
+important: false
+---
+21일 5만5천달러대까지 밀려 2024년 9월 이후 최저를 찍었던 비트코인이 6만달러 위로 되올라왔다. 코인데스크에 따르면 저점 5만5130달러에서 9% 남짓 오른 것으로, 같은 날 미 동부시간 오후 기준 6만300달러 부근에서 거래됐다. 크립토퀀트 집계로는 최근 7일 동안 보유자들이 손실을 보고 판 금액이 113억달러를 넘었다. 이번 반등은 그 투매가 한차례 지나간 직후에 나왔다. [출처: CoinDesk](https://www.coindesk.com/markets/2026/11/21/bitcoin-bounces-9-from-two-year-low-to-retake-usd60-000-as-traders-eye-monday-s-stock-open)
