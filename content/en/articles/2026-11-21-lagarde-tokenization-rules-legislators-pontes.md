@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: EU
 summary: The ECB president told bankers in Frankfurt that a single EU market for tokenized assets is within reach only if lawmakers agree common rules before rival platforms harden. The euro area's own settlement link has just carried its first €1 billion bond.
+image: media/articles/2026-11-21-lagarde-tokenization-rules-legislators-pontes.png
+image_alt: Lagarde in Frankfurt, Nov. 20 — the pipes work, the rulebook isn't written yet. Tokenized traditional assets on public blockchains reached about €23 billion in March, five times a year earlier (implied about €4.6 billion). Pontes, live since Sept. 21, settled the ESM's €1 billion DLT bond in central bank money
+image_note: AI-made graphic (summary of article)
 ---
 
 Earlier this month the European Stability Mechanism, the euro area's bailout fund, sold a €1 billion bond that existed only on a blockchain, and paid for it in central bank money. On Friday, Christine Lagarde used that deal to make a broader point to a room of bankers in Frankfurt: the plumbing for tokenized finance in Europe now works, but nobody has yet written the rulebook that would make it one market instead of many.
