@@ -3865,6 +3865,115 @@
     "note": "미확인 — Supermetrics 체험 만료로 조회 불가, X는 이번 회차 보드 미조회"
    },
    "top": {}
+  },
+  {
+   "date": "2026-11-21",
+   "tz_note": "GA4 어제(11/21). 수집 2026-11-22 KST. Supermetrics 체험 만료(TRIAL_EXPIRED, 11/14) 지속 — GA 경로별 1회만 조회 성공(무료 일일 한도), GSC·FB·IG·LI 미확인. X는 보드에 최신 metrics 문서 없음 → 미확인.",
+   "total": {
+    "users_all_property": 7,
+    "sessions": 7,
+    "views": 8,
+    "gsc_clicks": null,
+    "gsc_impr": null,
+    "note": "GA4 pagePath 기준: '/' 6명·6세션·7뷰(사이트 경로 미분류), '/perpline/' 1명·1세션·1뷰. 전일(11/20) 10명·12세션 대비 -3명·-5세션"
+   },
+   "sites": {
+    "chainbrief": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "perpline": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "luft": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "qurator": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "lifejunjun": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "yeobaek": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "blockkey": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "oriel": {
+     "users": null,
+     "sessions": null,
+     "views": null,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    }
+   },
+   "social": {
+    "fb": null,
+    "ig": null,
+    "li": null,
+    "x": null
+   },
+   "top": {
+    "countries": [
+     {
+      "country": "China",
+      "users": 3
+     },
+     {
+      "country": "United States",
+      "users": 3
+     },
+     {
+      "country": "Japan",
+      "users": 1
+     }
+    ],
+    "sources": [
+     {
+      "source_medium": "(direct) / (none)",
+      "users": 7,
+      "sessions": 7
+     }
+    ],
+    "pages": [
+     {
+      "path": "/",
+      "views": 7
+     },
+     {
+      "path": "/perpline/",
+      "views": 1
+     }
+    ]
+   }
   }
  ]
 }
