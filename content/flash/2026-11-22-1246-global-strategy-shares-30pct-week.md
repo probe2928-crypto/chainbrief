@@ -1,0 +1,7 @@
+---
+title: 스트래티지 주가 한 주 새 30% 하락…BTC 평단 밑으로
+time: 2026-11-22T12:46:00+09:00
+category: 해외
+important: false
+---
+비트코인을 가장 많이 가진 상장사 스트래티지(Strategy) 주가가 20일(현지시간) 77.80달러로 마감해 한 주 전 111.62달러보다 30.3% 떨어졌다. 회사가 공시한 보유량은 85만849BTC, 평균 매입가는 개당 7만5452달러인데 비트코인이 6만달러 안팎에 머물면서 평가액이 매입 원가보다 약 130억달러 낮아졌다. MSCI는 이달 30일 장 마감 기준으로 스트래티지를 지수에서 빼기로 해 패시브 자금 매도도 남아 있다. [출처: CEO Economy](https://ceoeconomy.com/article/strategy-shares-fall-30-percent-bitcoin-below-cost-metaplanet)
