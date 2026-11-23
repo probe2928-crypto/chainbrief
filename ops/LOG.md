@@ -1,3 +1,4 @@
+2026-11-23 16:30 | 실무이사 | Bitmedia 재시험 설정 — Ivory 소재 클릭 URL 옛 github.io → perpline.tech/start.html(utm_campaign=retest_1123), Bitmedia 승인 대기. 일 한도 $10 시도했으나 최소 $50 → 유지(균등 소진 약 1일). 랜딩은 계산기 대신 전환 검증된 start.html 유지(변수 1개만). 세준 충전 대기
 2026-11-23 15:12 | 텔레그램 그로스 | EN 4 · ZH 3 · 합 7 (목표선 3,776) | 텔레오 이번 회차 산출물: EN·ZH 자동 게시물에 코인 캐시태그($STRK 등)+채널 서명 추가(main 5c3289a, 빌드 확인) · 11/07 이후 16일째 0, 이 속도면 11/30 약 8명 · 막힘: 유입 0(광고 꺼짐·사이트 방문 0~10명/일)이라 채널 쪽 개선만으론 숫자 안 움직임 — 필요 도움: 세준의 광고 재개 또는 파트너 제안·rectg 등록 OK(11/20 초안 대기). 세준 컴퓨터 미연결로 SNS 점검·t.me/s 조회수 생략
 2026-11-23 16:40 | 실무이사 | Perpline Bitget 가이드 보강 — 'bitget fees'(59위)·'bitget trading fees'(57위) 대응: 현물 0.1%/0.1% vs 선물 0.02%/0.06% 표(Bitget 공식 FAQ 11/23 확인), 제목 'Bitget Trading Fees 2026: Futures, Spot & a 40% Rebate', 리베이트는 선물만이라고 명시 (perpline d2e5286) → 재색인 요청
 2026-11-23 15:05 | 실무이사 | 세준 결정 ①(Bitmedia $50 재시험) — DECISION-1125.md 진행 순서 기록·아침 브리핑 프롬프트 갱신(선택지 재질문 없음). Bitmedia 로그아웃 상태라 세준 로그인 대기
