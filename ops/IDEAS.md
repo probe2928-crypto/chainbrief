@@ -1,5 +1,8 @@
 # 새 수익 아이디어 (전략기획 · 최신이 위 · 같은 아이디어 반복 금지)
 
+## 2026-11-23 CX팀(고객님)
+- 체인브리프 '광고·협찬 안내(Advertise)' 한 페이지 — 협찬 표시 원칙·지면 종류·7일 보고·'단가는 메일 문의'만 공개(가격 숫자 없음). 2주 새 같은 문의 4번(ops/cx/FAQ.md 1번) → 첫 답장 왕복 1회 줄이기. 세준 OK 필요.
+
 ## 2026-11-18 전략기획
 1. **[1위] Perpline '수수료 감사(Fee audit)' — 거래 내역 CSV를 브라우저에서 읽어 실제 낸 수수료·리베이트 환산 (거래소 7년)** — 11/4 '페이백 계산기'(가정 숫자)와 다름: 내 실제 숫자. 매출 3사업(Perpline) 전환 장치 겸 검색용 도구. 근거(제목·URL 확인 수준, 가격·이용자 미확인): CoinTracking Trade Analysis·Trading Fees 보고서(https://cointracking.freshdesk.com/en/support/solutions/articles/29000049938-trade-analysis, https://www.cointracking.info/fees.php), Crypto Tax Calculator 선물 가져오기(https://help.cryptotaxcalculator.io/en/articles/8574793-importing-margin-futures-and-derivatives-manually), FeeEdge(https://peerpush.com/p/feeedge) — 경쟁은 세금·포트폴리오 도구의 부속 기능. 위험: 거래소별 CSV 열 이름 차이(세준 계정 내보내기 샘플 1개 필요), 개인 거래 내역('업로드 없음' 필수). 2주 검증: 색인 확인(11/21) 뒤 /tools/fee-audit.html 공개(세준 OK) → 사용 10회 중 가입 클릭 1회 이상. **첫걸음(완료)**: perpline idea/fee-audit de4ae6d — 시안 페이지·샘플 CSV 2종 검산.
 2. **한국 미술 컬렉팅 입문 영문 유료 뉴스레터 (미술·역사+투자 경험)** — 외국인 컬렉터용 '작가·시대 맥락·아트페어 동선·거래 관행' 해설(투자 권유·가격 예측 없음). 근거: SOAS 한국 미술 시장·컬렉터 연구(https://library.oapen.org/handle/20.500.12657/93130), The Art Newspaper 프리즈 서울 앞 딜러용 한국 시장 기사(https://www.theartnewspaper.com/2022/08/30/four-things-every-dealer-should-know-about-the-korean-art-market-before-going-to-frieze-seoul), 영문 한국 현대미술 자문 사이트(https://kaldi-art.pages.dev/) — 수요는 매체 기사 수준, 유료 뉴스레터 사례 미확인. 위험: 미술품 '투자' 쪽으로 읽히면 규제·권유 문제(11/9 조각투자 글 보류와 같은 선) → 감상·맥락으로 한정. 11/16 '서울 아트위크 동선 가이드'와 달리 상시 구독. 2주 검증: 무료 3호 발행(beehiiv, 세준 OK) → 구독 30명·유료 의향 응답 3명. 첫걸음: 1호 목차·샘플 1편.
