@@ -1,5 +1,5 @@
 {
-  "at": "2026-11-21T21:59:16.586Z",
+  "at": "2026-11-23T01:50:56.942Z",
   "cmd": "status",
   "apps": [
     {
@@ -96,6 +96,14 @@
       "primaryLocale": "ko",
       "builds": [
         {
+          "id": "467677f6-7d60-45e1-89a4-bb6f8bd5717b",
+          "build": "27",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-22T11:34:41-08:00",
+          "expired": false
+        },
+        {
           "id": "33aed696-fd1b-433d-b11b-a57230ccfd0f",
           "build": "25",
           "version": "1.0.0",
@@ -129,11 +137,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "33aed696-fd1b-433d-b11b-a57230ccfd0f",
-        "build": "25",
+        "id": "467677f6-7d60-45e1-89a4-bb6f8bd5717b",
+        "build": "27",
         "version": "1.0.0",
         "state": "VALID",
-        "uploaded": "2026-11-15T11:27:20-08:00",
+        "uploaded": "2026-11-22T11:34:41-08:00",
         "expired": false
       },
       "versions": [
@@ -155,6 +163,14 @@
       "name": "LUFT",
       "primaryLocale": "ko",
       "builds": [
+        {
+          "id": "ef95d026-37de-427e-a66f-f220325e5646",
+          "build": "27",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-22T11:31:47-08:00",
+          "expired": false
+        },
         {
           "id": "70457fcd-1ba8-40d2-9fc7-bfd9751bc238",
           "build": "25",
@@ -205,11 +221,11 @@
         }
       ],
       "latestValidBuild": {
-        "id": "70457fcd-1ba8-40d2-9fc7-bfd9751bc238",
-        "build": "25",
+        "id": "ef95d026-37de-427e-a66f-f220325e5646",
+        "build": "27",
         "version": "1.0.0",
         "state": "VALID",
-        "uploaded": "2026-11-15T11:26:16-08:00",
+        "uploaded": "2026-11-22T11:31:47-08:00",
         "expired": false
       },
       "versions": [
