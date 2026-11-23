@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: Justice Melissa Crane hears Attorney General Letitia James's request for a restraining order against Kalshi at 11:30 a.m. ET on Nov. 23. Kalshi says the order would shut its federally regulated exchange for everyone; a federal judge on Friday again declined to stop the state case.
+image: media/articles/2026-11-22-new-york-kalshi-restraining-order-hearing-crane.png
+image_alt: Kalshi v. New York — Justice Melissa Crane hears the attorney general's restraining-order request Nov. 23 at 11:30 a.m. ET. Federal appeals courts on preemption: 3rd Circuit for Kalshi (April); 9th (August), 6th (September) and 4th (last week, 2-1) for the states; the 2nd Circuit, which covers New York, has not ruled
+image_note: AI-made graphic (summary of article)
 ---
 
 At 11:30 a.m. on Monday, in a Manhattan courtroom, a state judge will decide whether to hear the argument that could matter most to Kalshi this year. Justice Melissa Crane of New York County Supreme Court has before her Attorney General Letitia James's request for a temporary restraining order against the prediction market. Kalshi's lawyers say the order, as written, would close its exchange for every customer in the country. The attorney general's office says it would do nothing of the sort.

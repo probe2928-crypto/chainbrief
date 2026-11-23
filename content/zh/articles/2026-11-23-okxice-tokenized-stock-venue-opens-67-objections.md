@@ -5,6 +5,9 @@ category: 交易所
 author: Scott Park
 region: 海外
 summary: OKX与纽交所母公司洲际交易所（ICE）合资的OKXICE，计划美国时间11月23日开放代币化证券交易场所，首批70多项资产以59只Direxion ETF和Coinbase、Circle、Strategy等加密相关公司为主，只对通过审核的美国客户开放。按SEC“创新豁免”规则，已有67家公司提出反对，美股“七巨头”全部在列。
+image: media/articles/2026-11-23-okxice-tokenized-stock-venue-opens-67-objections.png
+image_alt: OKXICE代币化证券交易场所美国时间11月23日开门。按SEC创新豁免提出反对的公司累计：10月23日22家、10月间50家、11月2日56家、11月5日67家，美股七巨头全部在列。首批70多项资产，其中59只为Direxion ETF
+image_note: AI 制作图表（整理本文内容）
 ---
 
 周一打开这家新平台的美国用户，可以买到Coinbase、Robinhood和Strategy的股票代币，却找不到特斯拉、Meta或Netflix。不是平台不想上，是这些公司自己说了“不”。
