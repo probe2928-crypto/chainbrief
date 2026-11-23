@@ -1,0 +1,8 @@
+---
+title: "[업비트] 스카이프로토콜(SKY) 거래 유의 종목 지정"
+time: 2026-11-23T12:38:45.891Z
+category: 상장
+important: false
+auto: true
+---
+업비트가 스카이프로토콜(SKY)을(를) 거래 유의 종목으로 지정했다. 유의 종목은 일정 기간 안에 해소되지 않으면 거래지원이 종료될 수 있다. [거래소에서 보기](https://upbit.com/exchange?code=CRIX.UPBIT.KRW-SKY)
