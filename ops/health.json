@@ -1,64 +1,114 @@
 {
-  "at": "2026-11-23T03:25:00+09:00",
-  "repos": [
-    {
-      "repo": "probe2928-crypto/chainbrief",
-      "lastRun": "2026-11-22T16:31Z 빌드 및 배포 성공",
-      "failures": [],
-      "fixed": []
-    },
-    {
-      "repo": "probe2928-crypto/perpline",
-      "lastRun": "성공",
-      "failures": [],
-      "fixed": []
-    },
-    {
-      "repo": "probe2928-crypto/luft",
-      "lastRun": "성공",
-      "failures": [],
-      "fixed": []
-    },
-    {
-      "repo": "probe2928-crypto/qurator",
-      "lastRun": "성공",
-      "failures": [],
-      "fixed": []
-    },
-    {
-      "repo": "probe2928-crypto/oriel",
-      "lastRun": "성공",
-      "failures": [],
-      "fixed": []
-    },
-    {
-      "repo": "probe2928-crypto/blockkey",
-      "lastRun": "성공",
-      "failures": [],
-      "fixed": []
-    }
-  ],
-  "sites": [
-    {
-      "url": "https://chainbrief.app/en/",
-      "ok": null,
-      "note": "프록시 차단·WebFetch 권한 시간 초과로 미확인(저장소 기준 KO 속보 01:31 KST, EN·ZH 21:34 KST)"
-    },
-    {
-      "url": "https://perpline.tech/api/venues.json",
-      "ok": null,
-      "note": "미확인(접근 차단)"
-    },
-    {
-      "url": "https://probe2928-crypto.github.io/luft/catalog.js",
-      "ok": null,
-      "note": "미확인(접근 차단)"
-    },
-    {
-      "url": "https://probe2928-crypto.github.io/qurator/data/works.json",
-      "ok": null,
-      "note": "미확인(접근 차단)"
-    }
-  ],
-  "failedTasks": []
+ "at": "2026-11-24T03:30:00+09:00",
+ "repos": [
+  {
+   "repo": "chainbrief",
+   "lastRun": "빌드 및 배포 2026-11-24T03:27 KST 수동 실행 성공",
+   "failures": [
+    "스토어 앱 2026-11-23T04:28 KST: ios(qurator) 서명 빌드→TestFlight 업로드 실패 — CFBundleShortVersionString 1.0.3이 이미 승인된 버전과 같음"
+   ],
+   "fixed": [],
+   "note": "15분 cron(schedule) 마지막 실행 11-23 16:59 KST, 이후 push 실행만 있음 — GitHub 스케줄 지연 추정, 수동 빌드로 복구 확인"
+  },
+  {
+   "repo": "blockkey",
+   "lastRun": "success 2026-11-05",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "perpline",
+   "lastRun": "success 2026-11-24 00:41 KST",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "oriel",
+   "lastRun": "success 2026-11-18",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "luft",
+   "lastRun": "success 2026-11-23",
+   "failures": [
+    "pages build 취소 1건(후속 성공)"
+   ],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
+   "lastRun": "success 2026-11-23",
+   "failures": [
+    "pages build 취소 3건(후속 성공)"
+   ],
+   "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": "조회 실패(프록시 오류)",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "lifejunjun",
+   "lastRun": "권한 없음",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "yeobaek",
+   "lastRun": "권한 없음",
+   "failures": [],
+   "fixed": []
+  }
+ ],
+ "sites": [
+  {
+   "url": "chainbrief KO/EN/ZH",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "perpline",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "luft",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "qurator",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "oriel",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "blockkey",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "yeobaek",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "lifejunjun.com",
+   "ok": null,
+   "note": "미확인 — 이 세션에서 접속 차단"
+  },
+  {
+   "url": "chainbrief 속보",
+   "ok": true,
+   "note": "저장소 기준 최신 속보 커밋 11-24 01:35 KST(약 2시간 전, 3시간 이내)"
+  }
+ ],
+ "failedTasks": []
 }
