@@ -22,6 +22,7 @@ HOOK = {  # 바꿀 항목만. 시간 약속·실존 가수·'곧 공개' 같은 
  'gukbap_5': '올해 고생한 우리 딸, 국밥 한 그릇 먹고 가라',
 }
 by = {it['id']: it for it in todo}
+ORDER = [i for i in ORDER if i in by]  # 11/23: 이미 게시된 항목은 자동 제외(교체본이 낡지 않게)
 assert set(ORDER) == set(by), (set(ORDER) ^ set(by))
 new = []
 for i in ORDER:
