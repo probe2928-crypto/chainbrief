@@ -47,18 +47,35 @@ function load(lang, kind) {
   }).filter((x) => !x.draft && !isNaN(x.date) && x.date <= new Date(Date.now() + 60_000));
 }
 
+// EN·ZH: 코인 캐시태그($STRK 등) — 텔레그램 앱 검색에서 캐시태그로 공개 채널 글을 찾을 때 우리 글이 걸리게 (11/23 텔레오)
+// 자동 상장 글은 파일 이름(auto-거래소-…-마켓-심볼), 그 밖엔 frontmatter tickers("BTC,ETH") 또는 분류(Bitcoin·Ethereum)에서 뽑는다
+const CAT_TICKER = { bitcoin: "BTC", ethereum: "ETH", solana: "SOL", xrp: "XRP" };
+function cashtags(x) {
+  const set = new Set();
+  const m = String(x.id).match(/^auto-[a-z]+-(?:mkt|warn|list)?-?(?:KRW|USDT|BTC|USDC)-([A-Z0-9]{2,12})(?:-|$)/i);
+  if (m) set.add(m[1].toUpperCase());
+  String(x.tickers || "").split(/[\s,]+/).filter(Boolean).forEach((t) => set.add(t.replace(/^\$/, "").toUpperCase()));
+  const c = CAT_TICKER[String(x.category || "").toLowerCase()]; if (c) set.add(c);
+  return [...set].filter((t) => /^[A-Z][A-Z0-9]{1,11}$/.test(t)).slice(0, 3).map((t) => `$${t}`).join(" ");
+}
+// EN·ZH: 글 끝 채널 서명 — 본문만 복사·캡처해 퍼져도 채널 주소가 따라가게 (11/23 텔레오)
+const SIGN = { en: "free listing alerts & breaking news", zh: "免费上币提醒与快讯" };
+const sign = (lang) => { const h = String(channels[lang] || "").replace(/^@/, ""); return SIGN[lang] && h ? `\n\n📡 <a href="https://t.me/${h}">@${h}</a> · ${esc(SIGN[lang])}` : ""; };
+
 const urlOf = (x) => `${SITE}${L[x.lang].pre}${x.kind === "flash" ? "flash" : "articles"}/${x.id}/`;
 function message(x) {
   const t = L[x.lang];
   const url = `${SITE}${t.pre}${x.kind === "flash" ? "flash" : "articles"}/${x.id}/`;
   const tag = x.category ? ` #${String(x.category).replace(/[\s·.,/&-]+/g, "")}` : "";
+  const ct = SIGN[x.lang] ? cashtags(x) : "";
+  const tags = `${tag}${ct ? ` ${ct}` : ""}${sign(x.lang)}`;
   if (x.kind === "flash") {
     const head = `${x.important ? `🔴 <b>${esc(t.hot)}</b> ` : ""}<b>${esc(x.title)}</b>`;
     const body = mdToHtml(x.body).slice(0, 3000);
-    return `${head}\n\n${body}\n\n<a href="${url}">${esc(t.more)}</a>${tag}`;
+    return `${head}\n\n${body}\n\n<a href="${url}">${esc(t.more)}</a>${tags}`;
   }
   const by = x.author ? ` · ${esc(x.author)}` : "";
-  return `📰 <b>${esc(x.title)}</b>\n\n${esc(x.summary || "")}\n\n<a href="${url}">${esc(t.read)} →</a>${by}${tag}`;
+  return `📰 <b>${esc(x.title)}</b>\n\n${esc(x.summary || "")}\n\n<a href="${url}">${esc(t.read)} →</a>${by}${tags}`;
 }
 
 // 게시물 아래 버튼: 기사 원문 · 사이트(시세·상장) — 채널 구독자를 홈페이지로 이어 줌 (GA에 utm으로 잡힘)
