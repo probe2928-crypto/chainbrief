@@ -1,6 +1,8 @@
 ---
 title: MSCI's list of 'non-operating' companies is due, and Strategy is the $24 billion test case
 date: 2026-11-11T21:30:00+09:00
+seoTitle: "MSCI non-operating companies list: why Strategy (MSTR) is the test case"
+seoDescription: "MSCI's new test for companies that mostly hold assets, explained: why Strategy (MSTR) makes up about 87% of the flagged value and what an index exit could mean."
 category: Markets
 author: Scott Park
 region: US

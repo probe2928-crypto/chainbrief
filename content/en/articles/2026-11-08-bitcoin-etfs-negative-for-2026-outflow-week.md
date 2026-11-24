@@ -1,6 +1,8 @@
 ---
 title: Bitcoin ETFs slip into the red for 2026 after a $1.28 billion week of withdrawals
 date: 2026-11-08T21:30:00+09:00
+seoTitle: "Bitcoin ETF outflows: a $1.28B week turns 2026 flows negative (IBIT leads)"
+seoDescription: "U.S. spot bitcoin ETFs lost $1.28 billion in the first week of November, the worst run since June, and are now net sellers for 2026. BlackRock's IBIT led the outflows."
 category: Markets
 author: Scott Park
 region: US

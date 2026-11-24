@@ -411,7 +411,7 @@ write("index.html", layout({
   const pick = [...flashes.filter((f) => f.important), ...flashes].filter((f, i, a) => a.indexOf(f) === i).slice(0, 4);
   const slides = pick.map((f) => ({ art: ART[f.category] || "blue-hour", eye: `속보 · ${esc(f.category || "시장")} · ${hhmm(f.date)}`, title: f.title, dek: plain(f.body || "").slice(0, 110), href: u(`flash/${f.id}/`), cta: "속보 읽기" }));
   write("flash/index.html", layout({
-    title: "속보 아카이브", description: `체인브리프 라이브 속보 ${arch.length}건을 날짜별로 다시 봅니다.`, active: "flash/", canonical: "flash/",
+    title: "코인 속보 · 실시간 비트코인·암호화폐 뉴스", description: `비트코인·알트코인·거래소 상장 소식을 실시간 속보로. 체인브리프 라이브 속보 ${arch.length}건을 날짜별로 다시 보고 검색해요.`, active: "flash/", canonical: "flash/",
     body: `${hero(slides, "sm", "주요 속보")}<div class="wrap"><main class="grid"><div class="col"><section>
     ${secHead("Wire Archive", "속보 아카이브", `<label class="search"><span class="sr">속보 검색</span><input id="q" type="search" placeholder="속보 검색"></label>`)}
     <nav class="dayidx" aria-label="날짜로 이동"><span class="label">Dates</span><div class="di-row">${dayIndex(arch, (n) => `${n}건`)}</div></nav>
