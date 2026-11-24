@@ -23,3 +23,4 @@ CIC Alex · Gaurav · Daniel (Crypto Classics) · RAVEN · AltSignals · The CEO
 
 ## 메모
 - 11/25: 글 게시 직후 X가 'Unlock more on X'(graduated access) 안내 — 새 계정이라 사람 확인 전까지 노출 제한, 팔로우하지 않은 사람에게 보내는 DM은 자동 필터링(요청함으로 감). 규칙대로 이날 새 DM 0건, 세준 확인 대기.
+- 11/25 01:08: 세준이 @perplinetech 전화번호 등록·인증 완료 → DM 재개(하루 3명).
