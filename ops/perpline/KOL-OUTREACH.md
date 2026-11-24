@@ -1,0 +1,22 @@
+# Perpline 해외 KOL 제휴 DM 장부 (X @perplinetech)
+
+세준 지시 11/24: 해외 KOL에게 X·텔레그램으로 제휴 제안, 한국 제외. **불빗으로 연락한 사람(텔레그램 'KOL 텔레'·'KOL 유투버' 전원)은 X에서도 보내지 않음.** 텔레그램으로는 보내지 않음(전원 불빗과 겹침).
+
+## 규칙
+- 계정: X @perplinetech 에서만. 하루 최대 3명(새 계정 스팸 제한 방지), 같은 사람 재발송 금지, 후속은 1회·7일 뒤.
+- 대상: 크립토 트레이딩/선물/디파이 콘텐츠, 팔로워 5천~20만, 프로필에 DM 버튼 있음, 미국·한국 기반 아님, 아래 '제외'에 없음, 사기·시그널 판매 위주 계정 제외.
+- 문구(이름·한 줄 맞춤만 바꿈):
+  Hi {name}, Sejun from Perpline (perpline.tech). We pay futures traders back 40–60% of their trading fees on OKX, Bitget, BingX, BloFin and a few others, paid weekly in USDT.
+  {one line why they fit}. We just opened a partner program: your own link, and 50% of what we earn from every trader you send, paid monthly in USDT for as long as they trade. No fee, no posting schedule.
+  Details: perpline.tech/partners.html — happy to set up your link if it sounds interesting.
+- 답장 오면 한국어 번역해 세준에게 보고하고, 파트너 링크는 perpline.tech/?ref=<이름> 으로 안내(세준 OK 후).
+
+## 제외(불빗 연락 대상)
+CIC Alex · Gaurav · Daniel (Crypto Classics) · RAVEN · AltSignals · The CEO (Binance Killers) · Cato (unfolded) · Jana (DataDash) · 국내 KOL 전원
+
+## 보낸 기록
+| 날짜 | 계정 | 팔로워 | 상태 |
+|---|---|---|---|
+| 11/24 | @Crypto__Haris | 10.8만 | 발송, 답장 대기 |
+| 11/24 | @Kebbi_kingjr | 7.4천 | 발송, 답장 대기 |
+| 11/24 | @BloosBTC | 17.7만 | 발송, 답장 대기 |

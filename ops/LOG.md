@@ -1,3 +1,4 @@
+2026-11-24 14:50 | 실무이사 | X @perplinetech 첫 제휴 DM 3건 발송(@Crypto__Haris·@Kebbi_kingjr·@BloosBTC) — X Chat 비밀코드 세준 설정 · 장부 ops/perpline/KOL-OUTREACH.md(규칙·제외 목록·발송 기록)
 2026-11-24 14:42 | 실무이사 | 인생준준 판매 상품 고정(세준 ㄱ): 코타키나발루 3박 4일 후보 2027.02.25~28 — yeobaek/go/kotakinabalu 신청 페이지(세준 직접 촬영 사진, yeobaek 593aa0f), 인생준준 메인 모집 교체(lifejunjun 1c6102a, 타이난은 다음 일정 준비 중), 오늘 21:30 릴스 캡션·첫 댓글을 신청 페이지로 변경
 2026-11-24 14:55 | 실무이사 | 세준 '불빗 보낸 곳 빼고 안 겹치면 보내' → 텔레그램 'KOL 텔레/유투버' 전원(국내+해외 8)이 불빗 연락 대상이라 텔레그램 발송 0 · X @perplinetech에서 새 해외 KOL에게 DM 준비: 1차 후보 @Crypto__Haris(10.8만)·@Kebbi_kingjr(7.4천)·@BloosBTC(17.7만), 모두 DM 열림·불빗과 안 겹침 → X Chat 첫 사용 시 '비밀코드(passcode)' 설정 필요, 세준 입력 대기
 2026-11-24 14:38 | 실무이사 | 체인브리프 검색 | GSC chainbrief.app 28일: 클릭 5·노출 1.26K·평균 8.1위 · 'miuro' 노출 453(7.7위)·클릭 0, MSCI 기사 노출 176(5.1위)·클릭 0 → seoTitle/seoDescription 필드 추가 후 두 페이지 검색 제목·설명 개선(bedeccc) · 광고 안내 페이지에 MIURO 구글 첫 페이지 사례 추가(156f082) · 참고: OpenSEO 프로젝트 GSC는 옛 github.io 속성(0행)에 연결돼 있음
