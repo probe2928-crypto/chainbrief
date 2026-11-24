@@ -4086,6 +4086,199 @@
     },
     "seo_audit": "건너뜀 — OpenSEO 크레딧 82 (<100)"
    }
+  },
+  {
+   "date": "2026-11-23",
+   "tz_note": "GA4 KST 어제(11/23). 수집 2026-11-24 09:00 KST. Supermetrics 체험 만료(TRIAL_EXPIRED, 11/14) 지속 — 무료 일일 한도로 GA4 3건·GSC 1건만 성공, FB·IG·LI는 TRIAL_EXPIRED로 미확인. X는 보드 social에 metrics_<날짜> 문서 없음(posts_*만, 최신 11/10) → 미확인. 호스트(hostname) 없이 경로만 조회돼 chainbrief.app·perpline.tech 루트 '/'는 사이트 미분류. 월요일 아님 → OpenSEO 검색 성과·감사 생략.",
+   "total": {
+    "users_all_property": 118,
+    "sessions": 124,
+    "views": 236,
+    "gsc_clicks": 0,
+    "gsc_impr": 6,
+    "note": "GA4 날짜 조회 기준. 전일(11/22) 5명·5세션·4뷰 대비 +113명·+119세션·+232뷰. 증가분은 /en/issue/etf/ 한 페이지(102세션·202뷰) — 유입 전부 직접(direct)·미국 95세션, 1인 1세션·2뷰 패턴이라 봇/스캐너 가능성(미확정). GSC는 11/23이 미확정(노출 4·2)이라 확정 최신일 11/22 값 병기."
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 106,
+     "sessions": 107,
+     "views": 206,
+     "gsc_clicks": 0,
+     "gsc_impr": 4,
+     "note": "경로 /en/·/zh/ 하위 합(사용자는 페이지별 합산 상한). /en/issue/etf/ 102세션·202뷰. 루트 '/' 8세션·10뷰는 chainbrief.app·perpline.tech 구분 불가라 제외. GSC=chainbrief.app 11/23 미확정(11/22 확정: 0클릭·45노출·평균 8.13위)",
+     "split": {
+      "en": {
+       "users": 103,
+       "sessions": 103,
+       "views": 204
+      },
+      "zh": {
+       "users": 3,
+       "sessions": 3,
+       "views": 2
+      }
+     }
+    },
+    "perpline": {
+     "users": 1,
+     "sessions": 1,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 2,
+     "note": "/start.html 1명(유입 bitmedia / banner, 우크라이나). 루트 '/' 미분류 제외. GSC=perpline.tech 11/23 미확정(11/22 확정: 0클릭·7노출·평균 41.7위)"
+    },
+    "luft": {
+     "users": 2,
+     "sessions": 4,
+     "views": 6,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 4,
+     "sessions": 6,
+     "views": 6,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "lifejunjun": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 1,
+     "sessions": 2,
+     "views": 1,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 3,
+     "sessions": 5,
+     "views": 4,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "GSC github.io/oriel 11/20 노출 1(평균 1위) 이후 0"
+    }
+   },
+   "unclassified_root": {
+    "users": 7,
+    "sessions": 8,
+    "views": 10,
+    "note": "경로 '/' — chainbrief.app 또는 perpline.tech 루트(호스트 미조회)"
+   },
+   "social": {
+    "fb": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "ig": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "li": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social에 metrics_<날짜> 문서 없음(최신 posts_20261110)"
+    }
+   },
+   "top": {
+    "pages": [
+     {
+      "path": "/en/issue/etf/",
+      "views": 202
+     },
+     {
+      "path": "/",
+      "views": 10
+     },
+     {
+      "path": "/qurator/",
+      "views": 6
+     }
+    ],
+    "countries_by_sessions": [
+     {
+      "country": "United States",
+      "sessions": 105
+     },
+     {
+      "country": "South Korea",
+      "sessions": 12
+     },
+     {
+      "country": "India",
+      "sessions": 2
+     },
+     {
+      "country": "United Kingdom",
+      "sessions": 1
+     },
+     {
+      "country": "Philippines",
+      "sessions": 1
+     }
+    ],
+    "sources": [
+     {
+      "source_medium": "(direct) / (none)",
+      "sessions": 118
+     },
+     {
+      "source_medium": "(not set)",
+      "sessions": 4
+     },
+     {
+      "source_medium": "google / organic",
+      "sessions": 1
+     },
+     {
+      "source_medium": "accounts.google.com / referral",
+      "sessions": 1
+     },
+     {
+      "source_medium": "bitmedia / banner",
+      "sessions": 1
+     }
+    ],
+    "gsc_latest_final_11_22": {
+     "chainbrief.app": {
+      "clicks": 0,
+      "impr": 45,
+      "position": 8.1333
+     },
+     "perpline.tech": {
+      "clicks": 0,
+      "impr": 7,
+      "position": 41.7143
+     },
+     "github.io_sites": {
+      "clicks": 0,
+      "impr": 0
+     }
+    },
+    "gsc_chainbrief_queries": "미확인(쿼리 조회는 무료 한도 소진 전 생략)",
+    "seo_audit": "월요일 아님 — 생략"
+   },
+   "delta_vs_prev": {
+    "ref_day": "2026-11-22",
+    "users": 113,
+    "sessions": 119,
+    "views": 232
+   }
   }
  ]
 }
