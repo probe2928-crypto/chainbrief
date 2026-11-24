@@ -263,3 +263,52 @@ export function alsoLine(list, { names, label, esc, title = "" }) {
 // 방문 통계 (GA4, 웹사이트만 · t.me 링크 클릭은 tg_join 이벤트(placement·channel)로 기록 — 앱은 별도 화면이라 들어가지 않음). 유럽·영국·스위스는 쿠키 없이, 광고 기능 꺼짐
 export const GA_ID = "G-8YQ1BGBDR7";
 export const gaSnippet = (hosts = ["probe2928-crypto.github.io"]) => `<script>(function(){if(${JSON.stringify(hosts)}.indexOf(location.hostname)<0)return;var s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}";document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};var D={ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};gtag("consent","default",Object.assign({analytics_storage:"denied",region:["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IS","IE","IT","LV","LI","LT","LU","MT","NL","NO","PL","PT","RO","SK","SI","ES","SE","GB","CH"]},D));gtag("consent","default",Object.assign({analytics_storage:"granted"},D));gtag("js",new Date());gtag("config","${GA_ID}",{allow_google_signals:false,allow_ad_personalization_signals:false});document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="t.me/"]');if(!a)return;var P=[["tl-tg","topline"],["tgc-card","rail"],["tgcard-in","card"],["tg-inline","inline"],["tg-float","float"],["slide","slide"],["tgc-o","rail_other"],["tgc-contact","contact"],["footer","footer"]],w="other";for(var i=0;i<P.length;i++){if(a.closest("."+P[i][0])||a.closest(P[i][0])){w=P[i][1];break}}gtag("event","tg_join",{placement:w,channel:a.getAttribute("href").split("t.me/")[1]||"",page_lang:document.documentElement.lang||"",transport_type:"beacon"})},true)})();</script>`;
+
+// 광고 안내 페이지 (Advertise) — ko/en/zh 공통 본문. 가격은 '부터'로만 표기, 세부는 문의로.
+export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
+  const T = {
+    ko: {
+      label: "Advertise", h1: "체인브리프 광고·스폰서 안내",
+      lede: "모든 유료 콘텐츠에 광고 표시를 붙이는 뉴스룸에서, 영어·중국어·한국어 독자에게 프로젝트를 소개하세요.",
+      opts: [
+        ["스폰서 기사", "300 USDT부터 · 1회", "공식 문서를 바탕으로 체인브리프 편집국이 직접 써요. 게시 전에 사실관계를 확인해 주시고, 기사 위·아래에 '광고' 표시가 붙어요. 사이트 게시 후 텔레그램 채널, X, 링크드인 페이지와 발행인 링크드인(팔로워 1만 2천 명 이상)에 공유해요."],
+        ["배너", "월 200 USDT부터", "영어·중국어판 사이트 배너, '광고' 표시."],
+      ],
+      howL: "진행 순서", how: ["자료와 목표를 보내주세요.", "편집국이 초안을 써요. 보통 일주일 안에 드려요.", "사실관계를 확인해 주세요. 문장과 관점은 편집국이 정해요.", "게시 전 USDT로 결제해요.", "게시하고 채널에 공유해요."],
+      noL: "하지 않는 것", no: ["수익 보장·가격 예측 문구", "광고를 일반 기사처럼 보이게 하기", "국문판의 거래소 추천·레퍼럴 광고"],
+      cta: "광고 문의하기",
+    },
+    en: {
+      label: "Advertise", h1: "Advertise with CHAINBRIEF",
+      lede: "Reach crypto readers in English, Chinese and Korean through a newsroom that labels every paid placement.",
+      opts: [
+        ["Sponsored article", "From 300 USDT · one-off", "Written by our desk from your official documents. You check the facts before it goes live, and it is labeled Sponsored at the top and bottom. After publishing we share it on our Telegram channels, X, our LinkedIn page and the founder's LinkedIn (12,000+ followers)."],
+        ["Banner", "From 200 USDT / month", "A labeled banner on the English and Chinese editions."],
+      ],
+      howL: "How it works", how: ["Send us your documents and goals.", "Our desk writes the draft, usually within a week.", "You check the facts. Wording and angle stay with our editors.", "Payment in USDT before publication.", "We publish and share it across our channels."],
+      noL: "What we don't do", no: ["Guaranteed-return or price-prediction claims", "Paid content dressed up as news", "Exchange referral promotions on our Korean edition"],
+      cta: "Get in touch",
+    },
+    zh: {
+      label: "Advertise", h1: "在链报投放广告",
+      lede: "通过一家为所有付费内容明确标注的新闻编辑部，触达英文、中文与韩文加密读者。",
+      opts: [
+        ["赞助文章", "300 USDT 起 · 单次", "由链报编辑部根据贵方官方资料撰写。发布前由贵方核对事实，文章顶部与底部标注「赞助」。发布后分享至我们的 Telegram 频道、X、LinkedIn 主页及创始人 LinkedIn（12,000+ 关注者）。"],
+        ["横幅广告", "每月 200 USDT 起", "英文版与中文版网站横幅，标注「赞助」。"],
+      ],
+      howL: "合作流程", how: ["发送资料与推广目标。", "编辑部撰写初稿，通常一周内完成。", "贵方核对事实，措辞与角度由编辑部决定。", "发布前以 USDT 付款。", "发布并分享至各渠道。"],
+      noL: "我们不做的事", no: ["保证收益或价格预测的表述", "把广告伪装成新闻", "在韩文版刊登交易所推荐或返佣推广"],
+      cta: "联系我们",
+    },
+  }[lang];
+  const mail = cfg.email ? `<a class="btn" href="mailto:${esc(cfg.email)}?subject=${encodeURIComponent("CHAINBRIEF advertising")}">${esc(cfg.email)}</a>` : "";
+  const tg = cfg.telegram ? `<a class="btn ghost" href="https://t.me/${esc(cfg.telegram)}" target="_blank" rel="noopener">Telegram @${esc(cfg.telegram)}</a>` : "";
+  return `<div class="wrap"><main class="single"><div class="sec"><div><span class="label">${T.label}</span><h1>${esc(T.h1)}</h1></div></div>
+  <div class="contact" id="advertise">
+    <p class="lede" style="margin:0;max-width:60ch">${esc(T.lede)}</p>
+    ${T.opts.map(([n, p, d]) => `<div><span class="label">${esc(n)}</span><div class="handle">${esc(p)}</div><p style="margin:8px 0 0;font-weight:300;max-width:60ch">${esc(d)}</p></div>`).join("")}
+    <div><span class="label">${esc(T.howL)}</span><ol style="margin-top:10px">${T.how.map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>
+    <div><span class="label">${esc(T.noL)}</span><ul style="margin-top:10px">${T.no.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div><span class="label">${esc(T.cta)}</span><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">${mail}${tg}<a class="btn ghost" href="${contactHref}">${lang === "ko" ? "문의하기 페이지" : lang === "zh" ? "联系页面" : "Contact page"}</a></div></div>
+  </div></main></div>`;
+}

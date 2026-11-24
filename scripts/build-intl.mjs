@@ -6,7 +6,7 @@ import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -589,9 +589,14 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
     <div><span class="label">Telegram</span><div class="handle">@${esc(cfg.telegram)}</div></div>
     <p style="margin:0;font-weight:300;max-width:56ch">${esc(L.contactBody)}</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="${TG}" target="_blank" rel="noopener">${esc(L.openTg)}</a><button class="btn ghost" type="button" data-copytext="@${esc(cfg.telegram)}">${esc(L.copyId)}</button></div>
-    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div><span class="label">${esc(L.weTake)}</span><ul style="margin-top:10px">${L.weTakeL.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p style="margin:10px 0 0"><a href="${u("advertise/")}" style="text-decoration:underline">${L.code === "zh" ? "查看广告合作说明 →" : "Advertising options and rates →"}</a></p></div>
     <div id="corrections"><span class="label">${L.code === "zh" ? "更正与爆料方式" : "Corrections and tips"}</span><p style="margin:10px 0 0;font-weight:300;max-width:56ch">${L.code === "zh" ? `请将文章标题或链接及需更正的内容发送至 ${cfg.email ? `<a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a>` : "Telegram"}。编辑部核实后会更正文章并注明更正，通常在两个工作日内回复。` : `Email the story title or link and what should be fixed to ${cfg.email ? `<a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a>` : "Telegram"}. Our newsroom checks it, corrects the story and notes the correction. We usually reply within two business days.`}</p></div>
     <div id="publisher"><span class="label">${L.code === "zh" ? "发布信息" : "Publisher"}</span><ul style="margin-top:10px"><li>${L.code === "zh" ? "媒体" : "Publication"}: CHAINBRIEF (${esc(cfg.name)})</li><li>${L.code === "zh" ? "发布方" : "Published by"}: ${L.code === "zh" ? "CHAINBRIEF 编辑部" : "the CHAINBRIEF newsroom"} · <a href="${u("authors/")}" style="text-decoration:underline">${esc(ABOUT[L.code].newsroom)}</a></li>${SITE_URL ? `<li>${L.code === "zh" ? "网站" : "Website"}: <a href="${abs("")}" style="text-decoration:underline">${esc(SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a></li>` : ""}${cfg.email ? `<li>${L.code === "zh" ? "邮箱" : "Email"}: <a href="mailto:${esc(cfg.email)}" style="text-decoration:underline">${esc(cfg.email)}</a></li>` : ""}</ul></div>${CH ? CH.contact : ""}</div></main></div>`,
+  }));
+  write(`${P}advertise/index.html`, layout({
+    title: L.code === "zh" ? "广告合作" : "Advertise", active: "contact/", canonical: "advertise/", float: false,
+    description: L.code === "zh" ? "链报赞助文章（300 USDT 起）与横幅广告：合作流程与原则" : "Sponsored articles from 300 USDT and banner ads on CHAINBRIEF: how it works and what we don't do",
+    body: advertiseBody({ lang: L.code, esc, cfg, u, contactHref: u("contact/") }),
   }));
 
   // 편집국 · 기자별 · 개인정보처리방침
@@ -644,7 +649,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   if (SITE_URL) {
     const sm = path.join(OUT, "sitemap.xml");
     if (fs.existsSync(sm)) {
-      const urls = [...SHARED_PAGES, ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), "authors/", ...staffList.map(([, r]) => `authors/${r.slug}/`), "privacy/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
+      const urls = [...SHARED_PAGES, "advertise/", ...catList.map(([c]) => `category/${catSlug(c)}/`), "issue/", ...IG.all.map((g) => `issue/${g.x.slug}/`), "authors/", ...staffList.map(([, r]) => `authors/${r.slug}/`), "privacy/", ...articles.map((a) => `articles/${a.id}/`), ...flashes.slice(0, 300).map((f) => `flash/${f.id}/`)].map((p) => `<url><loc>${abs(p)}</loc></url>`).join("");
       fs.writeFileSync(sm, fs.readFileSync(sm, "utf8").replace("</urlset>", urls + "</urlset>"));
     }
   }
