@@ -1,3 +1,4 @@
+2026-11-24 14:35 | 실무이사 | Perpline 전용 X 계정 개설 @perplinetech (이메일 probe2928+perpline@gmail.com, 세준이 얼굴 인증·비번 입력) · 프로필 사진(파란 P)·배너('Your trading fees, returned.')·소개글·Global·perpline.tech/?utm_source=x 설정, 첫 소개 글 1개 게시 · 새 계정이라 DM은 며칠 글 쌓은 뒤 시작(체인브리프 계정으로는 Perpline DM 안 함)
 2026-11-24 14:14 | 실무이사 | 텔레그램 유입 추적 | 봇(체인브리프 시그널)에 EN·ZH 채널 '구독자 추가' 권한 부여(텔레그램 웹) → 초대 링크 6개 생성(data/tg-invites.json: meta-ad·linkedin·x × en·zh) · 메타 광고 TG 직행 EN v1 URL → t.me/+GQqoZfWHKMJkYzc1(meta-ad) · 링크드인 체인브리프 페이지 글·세준 퍼가기 글 텔레그램 링크 → linkedin 초대 링크(EN +q-GNntWSbm4wNGM1, ZH +9S-MnaGMrIBlMGY1) · X 글은 x 링크 사용 예정 · 가입은 tg-admin count(하루 2번)가 링크별로 data/tg-joins.json에 집계
 2026-11-24 14:15 | 실무이사 | 마케팅 고도화(세준 ㄱ): 한장면 월·수·금+Trial Reels A/B(프롬프트 재서명), 배트롯 하루 1회 20:18, 텔레오→체인브리프 X 그로스(매일 15:07, 텔레그램 5,000 목표 리셋), 홍보라→트롯 쇼츠 훅 개선, ops/EXPERIMENTS.md(2주 무반응 자동 종료 규칙) + 월요일 숫자판 신설
 2026-11-24 14:07 | 실무이사 | 세준 '지금 스탑' → 해외 KOL 텔레그램·X 제안 작업 중단(보낸 메시지 0건). 제휴 페이지·AADS 광고는 그대로
