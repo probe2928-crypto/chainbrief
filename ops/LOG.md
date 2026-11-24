@@ -1,3 +1,4 @@
+2026-11-25 01:05 | 실무이사 | 세준 'Perpline에도 글 계속 올려야지' → 서이오(Perpline 가이드) 평일 → 매일 10:37로 변경(trig_01FUMCW9JLRpXVyjt1Y33y2q) · X @perplinetech 매일 18:47 글이 새 가이드를 돌려가며 소개
 2026-11-25 01:15 | 실무이사 | 본부 명령 제1호 하달(세준 지시): 전 직원 능동 근무·오전/오후/저녁·선조치 후보고 — ops/DIRECTIVE.md, 본부 순찰(09:33·14:33·19:33) 신설, 직원별 새 각오 PDF
 2026-11-25 01:00 | 실무이사 | @Kebbi_kingjr 답장 발송(자금 지원 거절·수익 배분 유지·?ref=kebbi 링크 제안) · X 새 계정 제한(graduated access)으로 비팔로워 DM 필터 → 해제하려면 세준이 X에 전화번호 등록·인증 필요
 2026-11-25 01:00 | 실무이사 | 코타키나발루 릴스 Metricool 'account limit'로 전 채널 실패 → vidIQ로 인스타 직접 게시(https://www.instagram.com/reel/DgITHU7GTt6/). 한장면 게시 경로 vidIQ·Trial Reel(SS_PERFORMANCE)로 변경(맥 재서명). 11/25 12:30 방콕 출장·11/26 12:30 호커 1탄 리메이크는 같은 시각 vidIQ로 대신 게시 예약(send_later)
