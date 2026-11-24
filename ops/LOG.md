@@ -1,3 +1,4 @@
+2026-11-25 03:30 | 밤새봄(시스템 엔지니어) | 정상 6 · 장애 1 · 고침 0 | Actions 실패 0건. chainbrief 빌드 마지막 성공 11/25 01:35 KST(1h45m 경과, 15분 주기 schedule은 00:31 이후 없음·push 실행만 있음). 라이브 사이트 점검은 외부 웹 접근 차단으로 못 함, lifejunjun·yeobaek 저장소는 이 회차에 권한 없음, 예약작업 FAILED 없음(일부 페이지만 확인). 이번 회차 산출물: 이 점검 기록
 2026-11-25 02:12 | 실무이사 | 세준 '글도 많이 써라' → Perpline 가이드 하루 2편(10:37·16:37, trig_01FUMCW9JLRpXVyjt1Y33y2q) · X @perplinetech 하루 3글: 새 예약 trig_01K2oKvJBPirW9qFnv2LWjfc 09:47·13:47 글만 + 기존 18:47(글·DM·답장)
 2026-11-25 01:10 | 실무이사 | @perplinetech 전화번호 등록 완료(세준) → 새 계정 제한 해제 기대, 오늘 18:47부터 하루 3명 KOL DM 재개
 2026-11-25 01:05 | 실무이사 | 세준 'Perpline에도 글 계속 올려야지' → 서이오(Perpline 가이드) 평일 → 매일 10:37로 변경(trig_01FUMCW9JLRpXVyjt1Y33y2q) · X @perplinetech 매일 18:47 글이 새 가이드를 돌려가며 소개
