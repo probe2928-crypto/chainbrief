@@ -277,6 +277,7 @@ export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
       howL: "진행 순서", how: ["자료와 목표를 보내주세요.", "편집국이 초안을 써요. 보통 일주일 안에 드려요.", "사실관계를 확인해 주세요. 문장과 관점은 편집국이 정해요.", "게시 전 USDT로 결제해요.", "게시하고 채널에 공유해요."],
       noL: "하지 않는 것", no: ["수익 보장·가격 예측 문구", "광고를 일반 기사처럼 보이게 하기", "국문판의 거래소 추천·레퍼럴 광고"],
       cta: "광고 문의하기",
+      proof: "예시: 스폰서 프로젝트 페이지 MIURO는 구글에서 'miuro' 검색 시 첫 페이지에 노출돼요(2026년 11월, 28일간 노출 450회 이상).",
     },
     en: {
       label: "Advertise", h1: "Advertise with CHAINBRIEF",
@@ -288,6 +289,7 @@ export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
       howL: "How it works", how: ["Send us your documents and goals.", "Our desk writes the draft, usually within a week.", "You check the facts. Wording and angle stay with our editors.", "Payment in USDT before publication.", "We publish and share it across our channels."],
       noL: "What we don't do", no: ["Guaranteed-return or price-prediction claims", "Paid content dressed up as news", "Exchange referral promotions on our Korean edition"],
       cta: "Get in touch",
+      proof: "Example: our sponsored MIURO project page shows on Google's first page for \"miuro\" (Nov. 2026, 450+ search impressions in 28 days).",
     },
     zh: {
       label: "Advertise", h1: "在链报投放广告",
@@ -299,6 +301,7 @@ export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
       howL: "合作流程", how: ["发送资料与推广目标。", "编辑部撰写初稿，通常一周内完成。", "贵方核对事实，措辞与角度由编辑部决定。", "发布前以 USDT 付款。", "发布并分享至各渠道。"],
       noL: "我们不做的事", no: ["保证收益或价格预测的表述", "把广告伪装成新闻", "在韩文版刊登交易所推荐或返佣推广"],
       cta: "联系我们",
+      proof: "案例：我们的赞助项目页 MIURO 在谷歌搜索「miuro」时位于首页（2026 年 11 月，28 天内展示 450 次以上）。",
     },
   }[lang];
   const mail = cfg.email ? `<a class="btn" href="mailto:${esc(cfg.email)}?subject=${encodeURIComponent("CHAINBRIEF advertising")}">${esc(cfg.email)}</a>` : "";
@@ -306,6 +309,7 @@ export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
   return `<div class="wrap"><main class="single"><div class="sec"><div><span class="label">${T.label}</span><h1>${esc(T.h1)}</h1></div></div>
   <div class="contact" id="advertise">
     <p class="lede" style="margin:0;max-width:60ch">${esc(T.lede)}</p>
+    <p style="margin:0;font-weight:300;max-width:60ch">${esc(T.proof)}</p>
     ${T.opts.map(([n, p, d]) => `<div><span class="label">${esc(n)}</span><div class="handle">${esc(p)}</div><p style="margin:8px 0 0;font-weight:300;max-width:60ch">${esc(d)}</p></div>`).join("")}
     <div><span class="label">${esc(T.howL)}</span><ol style="margin-top:10px">${T.how.map((x) => `<li>${esc(x)}</li>`).join("")}</ol></div>
     <div><span class="label">${esc(T.noL)}</span><ul style="margin-top:10px">${T.no.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
