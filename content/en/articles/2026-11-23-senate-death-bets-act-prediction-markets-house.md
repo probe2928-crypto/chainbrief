@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: The Senate passed Adam Schiff's DEATH BETS Act by voice vote on Nov. 19, after narrowing it on the floor. The House companion has sat in committee since March, and the bill dies if it is not passed before the 119th Congress ends on Jan. 3.
+image: media/articles/2026-11-23-senate-death-bets-act-prediction-markets-house.png
+image_alt: DEATH BETS Act timeline — S. 4035 filed March 10, House companion H.R. 7942 filed March 17, CFTC public-interest rule proposed June 12 with 1,459 comments by July 27, Senate passed by voice vote Nov. 19, and the 119th Congress ends Jan. 3, 2027. The House bill is still in the Agriculture Committee with no markup
+image_note: AI-made graphic (summary of article)
 ---
 
 In March, a contract on Kalshi asking whether Ayatollah Ali Khamenei would be "out as Supreme Leader" had drawn $54 million in trading before the exchange paused it. That number sat in the first press release for a bill that, eight months later, has cleared the U.S. Senate without a single recorded vote against it.
