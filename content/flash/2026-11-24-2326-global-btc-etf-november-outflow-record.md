@@ -1,0 +1,7 @@
+---
+title: 美 비트코인 현물 ETF 11월 유출 47억달러…월간 최대
+time: 2026-11-24T23:26:00+09:00
+category: 비트코인
+important: false
+---
+미국 비트코인 현물 상장지수펀드(ETF)에서 23일(현지시간) 하루 약 5억7000만달러가 빠져나가 닷새 연속 순유출을 기록했다. 이 가운데 블랙록 아이셰어즈 비트코인 트러스트(IBIT) 몫이 5억900만달러였다. 파사이드 인베스터스 집계로 11월 누적 순유출은 47억1000만달러로, 종전 최대였던 올해 6월(45억달러)을 넘어섰다. [출처: CoinDesk](https://www.coindesk.com/daybook-us/2026/11/24/bitcoin-drops-as-november-spot-etf-outflows-increase-to-record-usd4-71-billion)
