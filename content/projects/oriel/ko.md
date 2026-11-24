@@ -6,7 +6,7 @@ date: 2026-11-24T14:00:00+09:00
 category: 기부 · 교육
 period: Weekly
 cover: oriel
-website: https://probe2928-crypto.github.io/oriel/
+website: https://orielfoundation.org/
 telegram: https://t.me/oriel_foundation
 contact: probe2928@gmail.com · @btcbullit
 summary: 배움에서 시작해 한 끼 식사·깨끗한 물·안전한 등굣길로, 마을이 요청하면 교실과 학교까지. 아직 등록 전이라 기부는 받지 않고, 모든 과정을 공개 기록으로 남기겠다는 재단이다.

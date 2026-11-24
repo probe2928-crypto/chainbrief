@@ -6,7 +6,7 @@ date: 2026-11-24T14:00:00+09:00
 category: Giving · Education
 period: Weekly
 cover: oriel
-website: https://probe2928-crypto.github.io/oriel/
+website: https://orielfoundation.org/
 telegram: https://t.me/oriel_foundation
 contact: probe2928@gmail.com · @btcbullit
 summary: Learning first, then meals, clean water and a safe road to school, and classrooms only when a community asks. It is not taking donations until it is registered, and plans to keep every step on a public record.

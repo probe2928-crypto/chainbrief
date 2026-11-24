@@ -6,7 +6,7 @@ date: 2026-11-24T14:00:00+09:00
 category: 公益 · 教育
 period: Weekly
 cover: oriel
-website: https://probe2928-crypto.github.io/oriel/
+website: https://orielfoundation.org/
 telegram: https://t.me/oriel_foundation
 contact: probe2928@gmail.com · @btcbullit
 summary: 從學習開始，再到一餐飯、乾淨的水與安全的上學路；只有社區提出需要時才興建教室。在正式登記前不接受捐款，所有過程都將公開記錄。
