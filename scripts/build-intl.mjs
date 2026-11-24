@@ -6,7 +6,7 @@ import { issueGroups, issueBand, issueIndex, issueLink, eventTimeline } from "./
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure, flashPager } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -88,7 +88,7 @@ const ED = {
     moodT: "Market Mood", dom: "BTC dominance", koreaListings: "Latest Listings", allListings: "All listings",
     contactT: "Tips · Ads · Partnerships", contactX: `Message us on Telegram @${cfg.telegram}.`, openTg: "Open Telegram",
     disclaimer: "CHAINBRIEF content is for information only and is not investment advice. Third-party headlines remain the property of their publishers. Prices: CoinGecko, Upbit, Bithumb. Fear & Greed: Alternative.me.",
-    readMore: "Read", copy: "Copy link", toWire: "Back to the wire", alsoT: "More from the wire",
+    readMore: "Read", copy: "Copy link", toWire: "Back to the wire", alsoT: "More from the wire", fp: { prev: "Previous", next: "Next", oldest: "Nothing earlier on the wire.", newest: "This is the latest. New items land on the wire first.", aria: "Previous and next wire items", keys: "Use ← → to move", day: (d) => `${d} on the wire` },
     gl: { label: "Global Exchanges", title: "Global exchange listings", aside: "Spot and futures listings and delistings on Binance, OKX, Bybit and Coinbase, checked every 15 minutes. Headlines and links only.", listing: "Spot listing", futures: "Futures", delisting: "Delisting", upcoming: "Soon", all: "All", allTypes: "All types", none: "Nothing matches this filter.", more: "All global listings", notice: "Exchange notice", empty: "No global exchange listings in the last 30 days yet.", checked: "Checked {t}", stale: "Not reachable right now" },
     listingsTitle: "Exchange Listings", listingsDesc: "New spot and futures listings, caution flags and delistings on Binance, OKX, Bybit, Coinbase, Upbit and Bithumb — one ledger, grouped by time of day.",
     slots: [["Morning", 6, 12], ["Afternoon", 12, 18], ["Evening", 18, 24], ["Overnight", 0, 6]], today: "Today", yday: "Yesterday", nNew: "{n} new", none: "Nothing in this window.", wkS: "Last", wkU: "days", nIt: "{n}", nItS: "{n} items", nIt1: "1 item", qSlots: "Nothing {s}", qDay: "No exchange news on this day.", wkNone: "No exchange news in the last 7 days.", qJoin: " · ",
@@ -139,7 +139,7 @@ const ED = {
     moodT: "市场情绪", dom: "BTC 市占率", koreaListings: "最新上币", allListings: "全部上币",
     contactT: "爆料 · 广告 · 合作", contactX: `请通过 Telegram @${cfg.telegram} 联系我们。`, openTg: "打开 Telegram",
     disclaimer: "CHAINBRIEF 提供的信息仅供参考，不构成投资建议。外部头条版权归原媒体所有。行情来源：CoinGecko、Upbit、Bithumb；恐惧与贪婪指数：Alternative.me。",
-    readMore: "阅读", copy: "复制链接", toWire: "返回快讯", alsoT: "相关快讯",
+    readMore: "阅读", copy: "复制链接", toWire: "返回快讯", alsoT: "相关快讯", fp: { prev: "上一条", next: "下一条", oldest: "没有更早的快讯了。", newest: "这是最新一条，新快讯请看快讯列表。", aria: "上一条与下一条快讯", keys: "按 ← → 翻阅", day: (d) => `${d}快讯` },
     gl: { label: "Global Exchanges", title: "全球交易所上币", aside: "每 15 分钟检查币安、OKX、Bybit 与 Coinbase 的现货、合约上币及下架，仅转载公告标题与链接。", listing: "现货上币", futures: "合约上线", delisting: "下架", upcoming: "即将", all: "全部", allTypes: "全部类型", none: "没有符合条件的动态。", more: "全部全球上币", notice: "官方公告", empty: "近 30 天暂无全球交易所上币动态。", checked: "{t} 已检查", stale: "暂时无法连接" },
     listingsTitle: "交易所上币动态", listingsDesc: "币安、OKX、Bybit、Coinbase、Upbit、Bithumb 的现货与合约上币、警示及下架公告，一个列表按时段整理。",
     slots: [["上午", 6, 12], ["下午", 12, 18], ["晚间", 18, 24], ["凌晨", 0, 6]], today: "今天", yday: "昨天", nNew: "新币 {n}", none: "该时段暂无动态。", wkS: "最近", wkU: "天", nIt: "{n} 条", nItS: "{n} 条", qSlots: "{s} 暂无动态", qDay: "当天没有交易所动态。", wkNone: "最近 7 天没有交易所动态。", qJoin: "、",
@@ -439,14 +439,13 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
 
   // 속보 상세
   flashes.forEach((f, i) => {
-    const near = [flashes[i - 1], flashes[i + 1]].filter(Boolean);
+    const pager = flashPager({ flashes, i, u, esc, hhmm, dayKey, dayLabel: (d) => L.fp.day(fmt(d, { month: "long", day: "numeric" })), S: L.fp, title: (t) => zt(t, L.code) });
     write(`${P}flash/${f.id}/index.html`, layout({
       title: f.title, description: plain(f.body || f.title).slice(0, 160), canonical: `flash/${f.id}/`, type: "article",
       body: `<div class="wrap"><p class="crumbs"><a href="${u()}">Live Wire</a><i class="sep" aria-hidden="true">/</i><span class="here">${esc(f.category || "")}</span></p><main class="grid"><div class="col"><article class="doc">
       <div class="kicker">${f.important ? `<span class="tag hot">${esc(L.breaking)}</span>` : ""}${f.category ? `<span class="tag kr">${esc(f.category)}</span>` : ""}<time class="byline">${fullDate(f.date)}</time></div>
       <h1>${zt(f.title, L.code)}</h1>${ccLine(f.title, f.body)}${issueLink({ ...IA, item: f })}<div class="prose">${markdown(f.body || "")}</div>
-      <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${CH ? CH.card : ""}</article>
-      ${near.length ? `<section>${secHead("Also", esc(L.alsoT), "", "h2")}${near.map(flashItem).join("")}</section>` : ""}</div>${rail()}</main></div>`,
+      <div class="share"><button class="btn ghost" type="button" data-copy>${esc(L.copy)}</button><a class="btn" href="${u()}">${esc(L.toWire)}</a></div>${pager}${CH ? CH.card : ""}</article></div>${rail()}</main></div>`,
     }));
   });
 

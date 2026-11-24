@@ -316,3 +316,16 @@ export function advertiseBody({ lang, esc, cfg, u, contactHref }) {
     <div><span class="label">${esc(T.cta)}</span><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">${mail}${tg}<a class="btn ghost" href="${contactHref}">${lang === "ko" ? "문의하기 페이지" : lang === "zh" ? "联系页面" : "Contact page"}</a></div></div>
   </div></main></div>`;
 }
+
+// 속보 상세 '이전 · 다음 속보' 넘김 (코인니스 상세 화면의 이어 넘기기 동선을 체인브리프식으로)
+// flashes는 최신순. older = 시간상 앞선 속보(왼쪽 ←), newer = 뒤에 들어온 속보(오른쪽 →).
+// S: { prev, next, newest, oldest, pos(n, total, day), keys }
+export function flashPager({ flashes, i, u, esc, hhmm, dayKey, dayLabel, S, title = (t) => esc(t) }) {
+  const f = flashes[i], older = flashes[i + 1], newer = flashes[i - 1];
+  const day = flashes.filter((x) => dayKey(x.date) === dayKey(f.date));
+  const n = day.length - day.indexOf(f); // 그날 몇 번째로 들어온 속보인지(오래된 것부터)
+  const cell = (x, dir) => x
+    ? `<a class="fp-a fp-${dir}" href="${u(`flash/${x.id}/`)}" rel="${dir}" data-fp="${dir}"><span class="fp-l">${dir === "prev" ? `<i aria-hidden="true">←</i> ${esc(S.prev)}` : `${esc(S.next)} <i aria-hidden="true">→</i>`}<time>${hhmm(x.date)}</time></span><span class="fp-t">${title(x.title)}</span></a>`
+    : `<span class="fp-a fp-${dir} is-end"><span class="fp-l">${esc(dir === "prev" ? S.prev : S.next)}</span><span class="fp-t">${esc(dir === "prev" ? S.oldest : S.newest)}</span></span>`;
+  return `<nav class="fpager" aria-label="${esc(S.aria)}"><p class="fp-pos"><span>${esc(dayLabel(f.date))}</span><b>${n}</b><span class="fp-of">/ ${day.length}</span><span class="fp-k">${esc(S.keys)}</span></p><div class="fp-row">${cell(older, "prev")}${cell(newer, "next")}</div></nav>`;
+}

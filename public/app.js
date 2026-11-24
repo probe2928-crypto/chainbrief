@@ -516,6 +516,14 @@
     const box = document.getElementById("sq");
     if (box) box.focus(); else if (CB.searchUrl) location.href = CB.searchUrl;
   });
+  // 속보 상세: ← → 키로 이전 · 다음 속보 (입력 중·히어로·시트 안에서는 무시)
+  if (document.querySelector(".fpager")) document.addEventListener("keydown", (e) => {
+    if ((e.key !== "ArrowLeft" && e.key !== "ArrowRight") || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey || e.defaultPrevented) return;
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName) || t.closest?.(".hero, [role=dialog], dialog, .xsheet, .nsheet"))) return;
+    const a = document.querySelector(`.fpager a[data-fp="${e.key === "ArrowLeft" ? "prev" : "next"}"]`);
+    if (a) { e.preventDefault(); location.href = a.href; }
+  });
   // 가로 스크롤 줄(메뉴·시세 테이프): 양끝 페이드는 스크롤 위치에 맞춰, 현재 메뉴는 화면 안으로
   document.querySelectorAll("nav.top, .tape").forEach((el) => {
     const cur = el.querySelector('[aria-current="page"]');

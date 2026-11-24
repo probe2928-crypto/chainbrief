@@ -3,7 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure, flashPager } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -425,8 +425,9 @@ write("index.html", layout({
 }
 
 // 속보 상세
+const FP_S = { prev: "이전 속보", next: "다음 속보", oldest: "이보다 앞선 속보가 없어요.", newest: "가장 최근 속보예요. 새 속보는 속보 목록에서.", aria: "이전 · 다음 속보", keys: "← → 키로 넘기기" };
 flashes.forEach((f, i) => {
-  const near = [flashes[i - 1], flashes[i + 1]].filter(Boolean);
+  const pager = flashPager({ flashes, i, u, esc, hhmm, dayKey, dayLabel: (d) => `${fmt(d, { month: "long", day: "numeric" })} 속보`, S: FP_S });
   write(`flash/${f.id}/index.html`, layout({
     title: f.title, description: plain(f.body || f.title).slice(0, 150), canonical: `flash/${f.id}/`, type: "article",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: f.title, datePublished: f.date.toISOString(), publisher: { "@type": "Organization", name: cfg.name } }),
@@ -438,9 +439,9 @@ flashes.forEach((f, i) => {
       ${issueLink({ item: f, groups: IG, S: IS, u, esc, lang: "ko" })}
       <div class="prose">${markdown(f.body || "")}</div>
       <div class="share"><button class="btn ghost" type="button" data-copy>링크 복사</button><a class="btn" href="${u()}">속보 목록</a></div>
+      ${pager}
       ${CH ? CH.card : ""}
     </article>
-    ${near.length ? `<section>${secHead("Also", "이어지는 속보", "", "h2")}${near.map(flashItem).join("")}</section>` : ""}
     </div>${rail()}</main></div>`,
   }));
 });
