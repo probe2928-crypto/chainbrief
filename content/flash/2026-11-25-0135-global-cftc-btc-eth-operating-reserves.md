@@ -1,0 +1,7 @@
+---
+title: CFTC, 거래소 운영자금에 비트코인·이더 인정
+time: 2026-11-25T01:35:00+09:00
+category: 규제
+important: false
+---
+미국 상품선물거래위원회(CFTC) 시장감독국과 청산·리스크국이 23일(현지시간) 직원 서한 26-31호를 내고, 지정계약시장(DCM)·스와프체결설비(SEF)·청산소(DCO)가 12개월치 운영비용으로 쌓아 두는 재무자원에 비트코인·이더리움·결제용 스테이블코인을 넣을 수 있다고 밝혔다. 비트코인과 이더는 최소 20%, 결제용 스테이블코인은 2%를 깎아(헤어컷) 계산하고, 그 밖의 가상자산은 사실상 인정되지 않는다. 현금·고유동성 증권으로 채워야 하는 몫은 그대로이며, 위원회 차원의 규칙이 아닌 구속력 없는 직원 의견이다. [출처: investingLive](https://investinglive.com/cryptocurrency/cftc-staff-let-exchanges-count-bitcoin-and-ether-toward-reserves-after-a-20-haircut/)
