@@ -27,6 +27,10 @@ Oriel is writing its charter and preparing to register as a nonprofit. Until tha
 
 Its website also commits to using children's photos only with a guardian's written consent, and never publishing names or places that could identify a child.
 
+## Volunteer trips
+
+Oriel also runs short volunteer trips together with local volunteer organisations. The first is five days in the Philippines this winter, with Thailand and Vietnam to follow. Volunteers meet children only alongside local partners and under their child-protection rules. Dates and how to join are posted on the foundation's Volunteer trips page.
+
 ## What comes next
 
 According to its roadmap, Oriel aims to set its charter, advisers and first local partner by December, launch publicly in January 2027, and start a first program with one community and one partner during 2027. People and organisations who want to help can reach it through the Get involved page or by email.
