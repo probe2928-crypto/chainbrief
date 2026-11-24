@@ -1,3 +1,4 @@
+2026-11-24 16:48 | 포은비 · LUFT 구매 | 새 답장 1 · 초안 0
 2026-11-24 15:13 | 텔레오 · 체인브리프 X | 예약 3(11/24 19:30 칼시 NY TRO 기각·22:30 상원 DEATH BETS, 11/25 13:30 실험) · 실험: 질문형 훅(스트래티지 457 BTC·STRC 되사기) · 지표: 확인 못 함(Typefully 지표 도구 없음) · PLAYBOOK 신설 ops/chainbrief/x/PLAYBOOK.md
 2026-11-24 14:52 | 실무이사 | 체인브리프 검색 2차 | 속보 아카이브(KO, 노출 56)·ETF 유출 기사(39)·MSCI 비영업 기사(32) 검색 제목·설명 개선(904ac05) · GSC 색인 재요청: MIURO 페이지·MSCI 퇴출 기사 · 색인 641·미색인 90
 2026-11-24 14:50 | 실무이사 | X @perplinetech 첫 제휴 DM 3건 발송(@Crypto__Haris·@Kebbi_kingjr·@BloosBTC) — X Chat 비밀코드 세준 설정 · 장부 ops/perpline/KOL-OUTREACH.md(규칙·제외 목록·발송 기록)
