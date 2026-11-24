@@ -1,0 +1,7 @@
+---
+title: 美国CFTC工作人员：交易所与清算所可将比特币、以太坊计入运营储备 折扣至少20%
+time: 2026-11-24T21:25:00+09:00
+category: 海外
+important: false
+---
+美国商品期货交易委员会（CFTC）市场监督部与清算风险部11月23日发布工作人员意见，允许期货交易所、互换执行设施和清算所把比特币、以太坊按至少20%的折扣计入须覆盖12个月运营成本的财务资源，合格支付型稳定币折扣至少2%，其他难以变现的加密资产一般不计。另行要求的现金或高流动性证券缓冲（互换执行设施3个月、交易所与清算所6个月）不能用加密资产充抵。该意见不是委员会正式规则，也不涉及清算所的违约资源。[来源: Cointelegraph](https://cointelegraph.com/news/cftc-staff-say-exchanges-can-count-bitcoin-toward-operating-reserves)
