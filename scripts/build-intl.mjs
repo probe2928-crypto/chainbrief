@@ -512,7 +512,7 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   articles.forEach((a, i) => {
     const more = articles.filter((x) => x !== a).slice(0, 4);
     write(`${P}articles/${a.id}/index.html`, layout({
-      title: a.title, description: a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
+      title: a.seoTitle || a.title, description: a.seoDescription || a.summary || plain(a.body).slice(0, 160), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
       body: `<div class="cover" aria-hidden="true">${a.image && !isChart(a) ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}</p><main class="grid"><div class="col">
       <article class="doc"><div class="kicker">${a.category ? `<a class="tag kr" href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : ""}${a.region ? `<span class="tag fmt">${esc(a.region)}</span>` : ""}</div>
       <h1>${zt(a.title, L.code)}</h1>${a.summary ? `<p class="lede">${esc(a.summary)}</p>` : ""}${ccLine(a.title, a.summary)}${issueLink({ ...IA, item: a })}

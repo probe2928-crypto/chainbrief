@@ -568,7 +568,7 @@ write("news/index.html", layout({
 articles.forEach((a, i) => {
   const more = articles.filter((x) => x !== a).slice(0, 4);
   write(`articles/${a.id}/index.html`, layout({
-    title: a.title, description: a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
+    title: a.seoTitle || a.title, description: a.seoDescription || a.summary || plain(a.body).slice(0, 150), active: "news/", canonical: `articles/${a.id}/`, type: "article", ogImage: a.image || "",
     jsonld: JSON.stringify({ "@context": "https://schema.org", "@type": "NewsArticle", headline: a.title, description: a.summary, datePublished: a.date.toISOString(), author: { "@type": "Person", name: a.author || cfg.name }, publisher: { "@type": "Organization", name: cfg.name } }),
     body: `<div class="cover" aria-hidden="true">${a.image && !isChart(a) ? photoImg(a.image, true) : artImg(ART[a.category] || ART_POOL[i % ART_POOL.length], true)}</div><div class="wrap"><p class="crumbs"><a href="${u("news/")}">Editorial</a><i class="sep" aria-hidden="true">/</i>${a.category ? `<a href="${u(`category/${catSlug(a.category)}/`)}">${esc(a.category)}</a>` : `<span class="here">기사</span>`}</p><main class="grid"><div class="col">
     <article class="doc">

@@ -1,5 +1,7 @@
 ---
 title: MIURO turns AI-made songs into works you can own and license
+seoTitle: What is MIURO? AI music with its own GM-1 model and Claw agent
+seoDescription: MIURO (MIURO.AI) explained: the GM-1 music model, the Claw agent, how each release gets ownership and a licence, and pricing. Sponsored overview.
 project: MIURO.AI
 tagline: An AI music company with its own foundation model and a built-in settlement layer
 date: 2026-10-29T02:00:00+09:00

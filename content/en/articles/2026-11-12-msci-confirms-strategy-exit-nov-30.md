@@ -1,5 +1,7 @@
 ---
 title: MSCI confirms Strategy's exit from its US index on Nov. 30. How big is the forced sale?
+seoTitle: "Strategy (MSTR) leaves MSCI indexes on Nov. 30: how big is the forced selling?"
+seoDescription: "MSCI removes Strategy (MSTR) from the MSCI USA, World and ACWI indexes at the Nov. 30 close. Forced selling estimates run from $1.6B to $2.8B. What each one assumes."
 date: 2026-11-12T21:30:00+09:00
 category: Markets
 author: Scott Park
