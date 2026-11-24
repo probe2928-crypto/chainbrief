@@ -2,6 +2,8 @@
 //   node scripts/tg-admin.mjs count          채널별 구독자 수 기록 → data/tg-members.json
 //   node scripts/tg-admin.mjs setup          채널 소개글 갱신 + 환영 글 게시·고정 (EN·ZH, 한 번만)
 //   node scripts/tg-admin.mjs brief <en|zh>  지난 24시간 주요 속보 5개 묶음 '데일리 브리프' 게시
+//   node scripts/tg-admin.mjs invites        유입 경로별 초대 링크 만들기(광고·링크드인·X) → data/tg-invites.json (한 번만, 다시 돌려도 기존 유지)
+//   (count 실행 때마다) 초대 링크별 가입 집계 → data/tg-joins.json  ※ 텔레그램이 업데이트를 24시간만 보관 → 하루 2번 count로 충분
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,6 +16,9 @@ const CH = cfg.tgChannels || {};
 const SITE = (cfg.domain ? `https://${cfg.domain}/` : "https://chainbrief.app/").replace(/\/?$/, "/");
 const STATE = path.join(ROOT, "data/tg-admin.json");
 const MEMBERS = path.join(ROOT, "data/tg-members.json");
+const INVITES = path.join(ROOT, "data/tg-invites.json");
+const JOINS = path.join(ROOT, "data/tg-joins.json");
+const SOURCES = ["meta-ad", "linkedin", "x"];
 const link = (h) => `https://t.me/${String(h).replace(/^@/, "")}`;
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const readJ = (f, d) => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { return d; } };
@@ -74,7 +79,40 @@ if (cmd === "fix-alphax") {
   process.exit(0);
 }
 
+if (cmd === "invites") {
+  const inv = readJ(INVITES, {});
+  for (const lang of ["en", "zh"]) {
+    const h = CH[lang]; if (!h) continue;
+    inv[lang] = inv[lang] || {};
+    for (const src of SOURCES) {
+      if (inv[lang][src]) continue;
+      try { const r = await tg("createChatInviteLink", { chat_id: h, name: src }); inv[lang][src] = r.invite_link; console.log(lang, src, r.invite_link); }
+      catch (e) { console.log(lang, src, "실패 —", e.message); }
+    }
+  }
+  fs.writeFileSync(INVITES, JSON.stringify(inv, null, 1));
+}
+
 if (cmd === "count") {
+  // 초대 링크별 가입 집계 (chat_member 업데이트)
+  try {
+    const J = readJ(JOINS, { offset: 0, joins: [] });
+    const ups = await tg("getUpdates", { offset: J.offset || 0, timeout: 0, allowed_updates: ["chat_member", "channel_post"] });
+    const byHandle = Object.fromEntries(Object.entries(CH).map(([l, h]) => [String(h).replace(/^@/, "").toLowerCase(), l]));
+    for (const u of ups) {
+      J.offset = u.update_id + 1;
+      const cm = u.chat_member; if (!cm) continue;
+      const was = cm.old_chat_member?.status, now = cm.new_chat_member?.status;
+      const joined = ["left", "kicked"].includes(was) && ["member", "restricted"].includes(now);
+      const left = ["member", "restricted"].includes(was) && ["left", "kicked"].includes(now);
+      if (!joined && !left) continue;
+      J.joins.push({ at: new Date(cm.date * 1000).toISOString(), ch: byHandle[(cm.chat.username || "").toLowerCase()] || cm.chat.id, ev: joined ? "join" : "leave", via: joined ? (cm.invite_link?.name || (cm.via_chat_folder_invite_link ? "folder" : "public")) : "" });
+    }
+    J.joins = J.joins.slice(-5000);
+    fs.writeFileSync(JOINS, JSON.stringify(J, null, 1));
+    const sum = {}; for (const j of J.joins) { const k = `${j.ch}:${j.ev === "join" ? j.via : "leave"}`; sum[k] = (sum[k] || 0) + 1; }
+    console.log("유입 경로별:", JSON.stringify(sum));
+  } catch (e) { console.log("가입 집계 실패 —", e.message); }
   const hist = readJ(MEMBERS, { days: [] });
   const today = new Date().toISOString().slice(0, 10);
   const row = { date: today, at: new Date().toISOString() };
