@@ -1,3 +1,4 @@
+2026-11-25 01:00 | 실무이사 | @Kebbi_kingjr 답장 발송(자금 지원 거절·수익 배분 유지·?ref=kebbi 링크 제안) · X 새 계정 제한(graduated access)으로 비팔로워 DM 필터 → 해제하려면 세준이 X에 전화번호 등록·인증 필요
 2026-11-25 01:00 | 실무이사 | 코타키나발루 릴스 Metricool 'account limit'로 전 채널 실패 → vidIQ로 인스타 직접 게시(https://www.instagram.com/reel/DgITHU7GTt6/). 한장면 게시 경로 vidIQ·Trial Reel(SS_PERFORMANCE)로 변경(맥 재서명). 11/25 12:30 방콕 출장·11/26 12:30 호커 1탄 리메이크는 같은 시각 vidIQ로 대신 게시 예약(send_later)
 2026-11-25 00:41 | 배트롯 · 트롯 SNS | 페북 릴스 1건(연화 「김장하는 날」 립싱크 gimjang_lip1, AI 레이블) https://www.facebook.com/reel/1778959606526727/ · 밴드 ❌ 로그아웃 · 인스타 ⏸ lifejunjun 계정 로그인 · 성과: gukbap_1 12h 0회(11/23 이후 페이지 노출 저하 지속) · 막힘: 밴드·인스타 trotstage_kr 재로그인 세준 필요
 2026-11-25 00:40 | X 담당 | @perplinetech 글 1: Fee math on a $10,000 perp trade at BloFin, mark · DM 0건(X graduated access 안내: 비팔로워 DM 자동 필터 → 발송 중단) · 새 답장 1(@Kebbi_kingjr 제휴 관심+초기 트레이딩 자금 요청) · 팔로우 5 · 팔로워 0
