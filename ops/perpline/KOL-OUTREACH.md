@@ -18,5 +18,8 @@ CIC Alex · Gaurav · Daniel (Crypto Classics) · RAVEN · AltSignals · The CEO
 | 날짜 | 계정 | 팔로워 | 상태 |
 |---|---|---|---|
 | 11/24 | @Crypto__Haris | 10.8만 | 발송, 답장 대기 |
-| 11/24 | @Kebbi_kingjr | 7.4천 | 발송, 답장 대기 |
+| 11/24 | @Kebbi_kingjr | 7.4천 | 11/24 17:01 답장: 제휴 관심 있음 + 거래소에서 실거래·손익 공유할 '초기 트레이딩 자금' 지원 요청 → 세준 결정 대기 |
 | 11/24 | @BloosBTC | 17.7만 | 발송, 답장 대기 |
+
+## 메모
+- 11/25: 글 게시 직후 X가 'Unlock more on X'(graduated access) 안내 — 새 계정이라 사람 확인 전까지 노출 제한, 팔로우하지 않은 사람에게 보내는 DM은 자동 필터링(요청함으로 감). 규칙대로 이날 새 DM 0건, 세준 확인 대기.
