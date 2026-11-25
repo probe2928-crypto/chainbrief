@@ -5,6 +5,9 @@ category: Policy
 author: Scott Park
 region: US
 summary: An advisory from two CFTC divisions on Nov. 23 says regulated exchanges and clearinghouses may count bitcoin, ether and payment stablecoins toward the money they must hold to stay in business, after haircuts of at least 20% and 2%. The cash-and-securities floor underneath does not change.
+image: media/articles/2026-11-24-cftc-staff-bitcoin-ether-exchange-reserves-haircut.png
+image_alt: CFTC staff advisory of Nov. 23 — of $100 million held on an exchange's balance sheet, bitcoin and ether count for at most $80 million after a haircut of at least 20%, payment stablecoins at most $98 million after at least 2%, and other crypto that is not readily marketable generally counts for nothing. The separate cash-or-securities buffer of six months (three for swap execution facilities) is unchanged
+image_note: AI-made graphic (summary of article)
 ---
 
 A U.S. derivatives exchange that keeps $100 million of bitcoin on its balance sheet can now tell its regulator it has up to $80 million toward its rainy-day fund. Until Monday, staff had not put in writing how much, if anything, that bitcoin was worth for this purpose.
