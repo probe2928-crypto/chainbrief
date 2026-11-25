@@ -4279,6 +4279,180 @@
     "sessions": 119,
     "views": 232
    }
+  },
+  {
+   "date": "2026-11-24",
+   "tz_note": "GA4 KST 어제(11/24). 수집 2026-11-25 09:00 KST. Supermetrics 체험 만료(TRIAL_EXPIRED, 11/14) 지속 — 무료 일일 한도(리셋 00:00 UTC)로 GA4 2건·GSC 1건 성공, FB·IG·LI는 미확인(한도 아껴 시도 안 함). X는 보드 social에 metrics_<날짜> 문서 없음(posts_*만, 최신 11/10) → 미확인. 이번엔 hostName을 함께 조회해 루트 '/'도 호스트로 분류. 월요일 아님 → OpenSEO 검색 성과·감사 생략. 기술 메모: OpenSEO 프로젝트의 서치콘솔은 github.io/chainbrief 속성이라 chainbrief.app 값과 다름.",
+   "total": {
+    "users_all_property": null,
+    "users_sum_upper_bound": 37,
+    "sessions": 46,
+    "views": 48,
+    "gsc_clicks": 0,
+    "gsc_impr": 3,
+    "note": "속성 전체 순사용자는 이번엔 조회 못 해(쿼리 한도) 페이지별 합산 상한 37만 기록. 세션 46(호스트 합: chainbrief.app 24·perpline.tech 9·github.io 13). 전일(11/23) 124세션 대비 -78 — 전일 /en/issue/etf/ 102세션 급증(봇 의심)이 14세션으로 정상화."
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 22,
+     "sessions": 24,
+     "views": 25,
+     "gsc_clicks": 0,
+     "gsc_impr": 2,
+     "note": "chainbrief.app 호스트 기준(루트 '/' 포함, 사용자는 페이지별 합산 상한). /en/issue/etf/ 14세션 — 11/23의 102세션 급증은 사라짐. 페북 유료(meta/paid) 2세션(미국). GSC=chainbrief.app 11/24 노출 2·평균 8위(11/23 노출 11·클릭 0, 일부 미확정)"
+    },
+    "perpline": {
+     "users": 5,
+     "sessions": 9,
+     "views": 10,
+     "gsc_clicks": 0,
+     "gsc_impr": 1,
+     "note": "perpline.tech 호스트(루트 '/' 4세션·계산기 5세션). aads/display 5세션(파키스탄 4·홍콩 1). GSC=perpline.tech 노출 1·평균 47위"
+    },
+    "luft": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "qurator": {
+     "users": 2,
+     "sessions": 4,
+     "views": 4,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "/qurator/ 1·beta.html 3세션(페북 fbclid 1)"
+    },
+    "lifejunjun": {
+     "users": 2,
+     "sessions": 2,
+     "views": 2,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "blockkey": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": 0,
+     "gsc_impr": 0
+    },
+    "oriel": {
+     "users": 6,
+     "sessions": 8,
+     "views": 7,
+     "gsc_clicks": 0,
+     "gsc_impr": 0,
+     "note": "/oriel/ 7세션, /oriel/get-involved/ 1. 세션 합계가 호스트 합과 1 차이(한 세션이 oriel→lifejunjun 이동)"
+    }
+   },
+   "social": {
+    "fb": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "ig": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "li": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social에 metrics_<날짜> 문서 없음(최신 posts_20261110)"
+    }
+   },
+   "top": {
+    "pages": [
+     {
+      "path": "chainbrief.app/en/issue/etf/",
+      "views": 14
+     },
+     {
+      "path": "chainbrief.app/",
+      "views": 8
+     },
+     {
+      "path": "github.io/oriel/",
+      "views": 5
+     }
+    ],
+    "countries_by_sessions": [
+     {
+      "country": "United States",
+      "sessions": 21
+     },
+     {
+      "country": "South Korea",
+      "sessions": 14
+     },
+     {
+      "country": "Pakistan",
+      "sessions": 4
+     },
+     {
+      "country": "Solomon Islands",
+      "sessions": 2
+     },
+     {
+      "country": "New Zealand",
+      "sessions": 2
+     }
+    ],
+    "sources": [
+     {
+      "source_medium": "(direct) / (none)",
+      "sessions": 34
+     },
+     {
+      "source_medium": "aads / display",
+      "sessions": 5
+     },
+     {
+      "source_medium": "meta / paid",
+      "sessions": 2
+     },
+     {
+      "source_medium": "linkedin.com / referral",
+      "sessions": 2
+     },
+     {
+      "source_medium": "google / organic",
+      "sessions": 1
+     }
+    ],
+    "gsc": {
+     "chainbrief.app": {
+      "clicks": 0,
+      "impr": 2,
+      "position": 8
+     },
+     "perpline.tech": {
+      "clicks": 0,
+      "impr": 1,
+      "position": 47
+     },
+     "github.io 6개 경로": {
+      "clicks": 0,
+      "impr": 0
+     }
+    }
+   },
+   "delta_vs_prev": {
+    "sessions": -78,
+    "views": -188,
+    "note": "전일 합계는 루트 '/' 미분류 제외 값이라 단순 비교 한계"
+   }
   }
  ]
 }
