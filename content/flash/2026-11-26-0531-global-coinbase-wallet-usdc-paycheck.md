@@ -1,0 +1,7 @@
+---
+title: 코인베이스 월렛, 월급을 USDC로 받는 기능 출시
+time: 2026-11-26T05:31:00+09:00
+category: 해외
+important: false
+---
+코인베이스 월렛이 미국 이용자가 급여의 전부 또는 일부를 베이스(Base) 네트워크의 USDC로 받을 수 있는 직접입금 기능을 25일(현지시간) 순차 도입하기 시작했다. 들어온 달러는 1대1로 USDC로 바뀌고 코인베이스는 입금 수수료를 받지 않지만, 본인 인증과 입금 한도가 적용되며 잔액은 예금자보호 대상 은행 예금이 아니다. 스테이블코인을 월급 통장처럼 쓰게 하려는 시도로, 급여 대행사가 별도 수수료를 물릴 수는 있다. [출처: The Defiant](https://thedefiant.io/converge/tradfi-and-fintech/coinbase-wallet-adds-usdc-paycheck-deposits-on-base)
