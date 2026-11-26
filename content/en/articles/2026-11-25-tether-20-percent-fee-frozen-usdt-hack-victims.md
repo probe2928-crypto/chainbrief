@@ -5,6 +5,9 @@ category: Industry
 author: Scott Park
 region: Singapore
 summary: A Bloomberg investigation says Tether asked some theft victims, including the owner of Singapore exchange Bittok, for fees of up to 20% before it would replace frozen USDT. Its only published recovery policy caps fees at 10%, and it does not cover hacks at all.
+image: media/articles/2026-11-25-tether-20-percent-fee-frozen-usdt-hack-victims.png
+image_alt: Tether recovery fees compared — its only published policy, for USDT sent by mistake, charges up to 10% or $1,000, whichever is greater; the fee quoted to the owner of Bittok, a Singapore exchange that lost about $50 million to hackers in 2020, was 20%, according to emails reviewed by Bloomberg; hacks, scams and police requests have no published price. Tether says it has reissued about $1.2 billion so far and froze more than $1.5 billion after the Oct. 29 Binance hack
+image_note: AI-made graphic (summary of article)
 ---
 
 In 2020 a Singapore crypto exchange called Bittok lost about $50 million to hackers. Tether froze part of the stolen USDT soon after. More than five years later, the money has still not come back, and the company that bought Bittok was told by a lawyer for Tether that getting it back would cost 20%.
