@@ -1,3 +1,4 @@
+2026-11-27 08:46 | 속보데스크 | 거시: 도쿄 11월 근원 물가 2.9%…한 달 새 0.3%p 올라 · 코인: 비트코인 옵션 70억달러어치 오늘 오후 5시 만기 · TG기여: 속보 2건×3
 2026-11-27 08:45 | 아침 브리핑 | Perpline 방문 40 · 검색 2 · AADS 18 · 가입클릭 어제 0·누적 2 | 누를 것 3 | Savri 7일: /pl/tools/futures-fee-calculator.html 18·/pl/ 15·/pl/start.html 2·index·maker-vs-taker·how-fee-rebates·orangex·alphax 각 1(어제 27→40), /_evt/signup_click/btcc 1(어제와 같음)·/_evt/venue_click/orangex 1·/_src/aads/signup_click 1, 페이백 신청 0, 유입 direct 32·aads 18·perpline.tech 6·google.com 2·bitmedia 2·linkedin 1·aihub 1 · Gmail 24h: Bitget 일일 리포트 11/25 가입 0 · 누를 것: OKX 본인정보 재확인(오늘 기한)·Savri 체험 ~11/30 종료·밀리로드 공모전(11/30) · AADS 유입 18 대비 가입 0 → 금 점검 때 사이트별 차단 확인 필요
 2026-11-27 08:36 | 속보데스크 | 거시: 없음(도쿄 11월 CPI 발표 직후 수치 2곳 확인 못 해 보류) · 코인: 프랭클린 코인 ETF 'EZPZ', 12월부터 하이퍼리퀴드 편입 · TG기여: 속보 1건×3
 2026-11-27 07:19 | 글로벌데스크 | am · 미국: USTR 14개국 관세안 세부(한·일·EU 15%, 1/25 공청회), 뉴욕 반나절장 · 아시아: 도쿄 11월 CPI·중국 공업이익 대기, ECB 차기 총재 데코스 추천
