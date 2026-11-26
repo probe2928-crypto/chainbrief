@@ -4608,6 +4608,168 @@
     "views": -20,
     "note": "11/24는 호스트 합 기준이라 단순 비교 한계. 매출 3개 사업: LUFT 조회 2(전일 0)·Perpline 12(전일 10)·QURATOR 3(전일 4) — 급증·급감 없음"
    }
+  },
+  {
+   "date": "2026-11-26",
+   "tz_note": "GA4 KST 어제(11/26). 수집 2026-11-27 08:5x KST. Supermetrics 체험 만료(TRIAL_EXPIRED, 11/14)로 GA4 일부만 무료 일일 한도로 읽힘(국가·소스·페이지), 호스트 분해는 OpenSEO로. GSC·FB·IG·LI는 미확인. X는 보드 social에 metrics_<날짜> 문서 없음(최신 posts_20261110). 금요일이라 OpenSEO 검색 성과·사이트 감사 생략(월요일만).",
+   "total": {
+    "users_all_property": null,
+    "users_sum_upper_bound": 24,
+    "sessions": 24,
+    "views": 29,
+    "gsc_clicks": null,
+    "gsc_impr": null,
+    "note": "세션 24는 소스/매체 합(직접8·meta/paid5·aads/display4·m.facebook 4·facebook.com 3)과 국가별 합 모두 24. 사용자 24는 국가별 활성사용자 합 상한. 조회 29는 호스트별 페이지 합. GSC: OpenSEO 연결 속성(github.io/chainbrief) 11/23~26 클릭·노출 0, chainbrief.app·perpline.tech GSC 미확인."
+   },
+   "sites": {
+    "chainbrief": {
+     "users": 21,
+     "sessions": 0,
+     "views": 24,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "chainbrief.app 호스트 페이지 합(/en/ 12·루트 4·/zh/contact 4·기타 4). 사용자는 페이지별 활성사용자 합산 상한, 세션 사이트별 미확인. GSC chainbrief.app 미확인"
+    },
+    "perpline": {
+     "users": 6,
+     "sessions": 0,
+     "views": 5,
+     "gsc_clicks": null,
+     "gsc_impr": null,
+     "note": "perpline.tech 수수료계산기 3·루트 1·index 1. 사용자는 합산 상한"
+    },
+    "luft": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "qurator": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "lifejunjun": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "yeobaek": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "blockkey": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    },
+    "oriel": {
+     "users": 0,
+     "sessions": 0,
+     "views": 0,
+     "gsc_clicks": null,
+     "gsc_impr": null
+    }
+   },
+   "social": {
+    "fb": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "ig": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "li": {
+     "status": "미확인",
+     "note": "Supermetrics TRIAL_EXPIRED"
+    },
+    "x": {
+     "status": "미확인",
+     "note": "보드 social에 metrics_<날짜> 문서 없음(최신 posts_20261110)"
+    }
+   },
+   "top": {
+    "pages": [
+     {
+      "path": "chainbrief.app/en/",
+      "views": 12
+     },
+     {
+      "path": "chainbrief.app/",
+      "views": 4
+     },
+     {
+      "path": "chainbrief.app/zh/contact/",
+      "views": 4
+     }
+    ],
+    "countries_by_sessions": [
+     {
+      "country": "United States",
+      "sessions": 16
+     },
+     {
+      "country": "Brazil",
+      "sessions": 2
+     },
+     {
+      "country": "India",
+      "sessions": 2
+     },
+     {
+      "country": "Sweden",
+      "sessions": 2
+     },
+     {
+      "country": "Australia",
+      "sessions": 1
+     }
+    ],
+    "sources": [
+     {
+      "source_medium": "(direct) / (none)",
+      "sessions": 8
+     },
+     {
+      "source_medium": "meta / paid",
+      "sessions": 5
+     },
+     {
+      "source_medium": "aads / display",
+      "sessions": 4
+     },
+     {
+      "source_medium": "m.facebook.com / referral",
+      "sessions": 4
+     },
+     {
+      "source_medium": "facebook.com / referral",
+      "sessions": 3
+     }
+    ],
+    "gsc": {
+     "github.io/chainbrief": {
+      "clicks": 0,
+      "impr": 0
+     }
+    }
+   },
+   "delta_vs_prev": {
+    "sessions": -1,
+    "views": 1,
+    "note": "전일(11/25) 세션 25·조회 28 대비. 매출 3개 사업: LUFT 조회 0(전일 2)·Perpline 5(전일 12)·QURATOR 0(전일 3) — 절대치가 작아 판단 변동 아님, 다만 Perpline 조회 12→5·QURATOR 3→0. 새 유입: meta/paid 5세션(광고 유입)·facebook referral 7."
+   }
   }
  ]
 }
