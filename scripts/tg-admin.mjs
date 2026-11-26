@@ -20,7 +20,7 @@ const STATE = path.join(ROOT, "data/tg-admin.json");
 const MEMBERS = path.join(ROOT, "data/tg-members.json");
 const INVITES = path.join(ROOT, "data/tg-invites.json");
 const JOINS = path.join(ROOT, "data/tg-joins.json");
-const SOURCES = ["meta-ad", "linkedin", "x"];
+const SOURCES = ["meta-ad", "linkedin", "x", "site", "facebook", "swap"]; // swap = 채널 교차 홍보
 const link = (h) => `https://t.me/${String(h).replace(/^@/, "")}`;
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const readJ = (f, d) => { try { return JSON.parse(fs.readFileSync(f, "utf8")); } catch { return d; } };
@@ -95,7 +95,7 @@ if (cmd === "fix-alphax") {
 
 if (cmd === "invites") {
   const inv = readJ(INVITES, {});
-  for (const lang of ["en", "zh"]) {
+  for (const lang of ["ko", "en", "zh"]) {
     const h = CH[lang]; if (!h) continue;
     inv[lang] = inv[lang] || {};
     for (const src of SOURCES) {
