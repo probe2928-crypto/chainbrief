@@ -4,4 +4,5 @@ time: 2026-11-26T09:23:00+09:00
 category: 海外
 important: false
 ---
-欧洲银行管理局（EBA）在一份关于稳定币用于去中心化金融（DeFi）的报告中，再次建议欧盟委员会为向客户提供DeFi借贷渠道的加密公司制定规则，并重申了它9月对MiCA评估的意见。EBA指出，MiCA禁止为电子货币代币付息，但持有人可以借助DeFi借贷协议照样拿到收益；它提出的办法包括适当性测试、额外风险披露、杠杆上限，以及禁止经DeFi把客户引向未获授权的稳定币。[来源: CoinDesk](https://www.coindesk.com/policy/2026/11/25/eu-bank-watchdog-seeks-european-commission-rules-for-crypto-firms-offering-defi-lending)
+欧洲银行管理局（EBA）在一份关于稳定币用于去中心化金融（DeFi）的报告中，再次建议欧盟委员会为向客户提供DeFi借贷渠道的加密公司制定规则，并重申了它9月对MiCA评估的意见。EBA指出，MiCA禁止为电子货币代币付息，但持有人可以借助DeFi借贷协议照样拿到收益；它提出的办法包括适当性测试、额外风险披露、杠杆上限，以及禁止经DeFi把客户引向未获授权的稳定币。
+

@@ -2,6 +2,7 @@
 // 필요: 저장소 Secret TELEGRAM_BOT_TOKEN (봇이 세 채널의 관리자여야 함)
 // 채널: site.config.json "tgChannels" { ko, en, zh }
 // 상태: data/tg-posted.json — 이미 올린 id (처음 실행 땐 최근 3건만 올리고 나머지는 올린 것으로 표시)
+import { stripOutletSource } from "./lib.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -43,7 +44,7 @@ function load(lang, kind) {
   return fs.readdirSync(d).filter((f) => f.endsWith(".md")).map((f) => {
     const { data, body } = frontmatter(fs.readFileSync(path.join(d, f), "utf8"));
     const date = new Date(kind === "flash" ? data.time : data.date);
-    return { id: f.replace(/\.md$/, ""), kind, lang, date, body, ...data };
+    return { id: f.replace(/\.md$/, ""), kind, lang, date, body: kind === "flash" ? stripOutletSource(body) : body, ...data };
   }).filter((x) => !x.draft && !isNaN(x.date) && x.date <= new Date(Date.now() + 60_000));
 }
 

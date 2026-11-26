@@ -4,4 +4,5 @@ time: 2026-11-21T21:25:00+09:00
 category: 比特币
 important: true
 ---
-比特币周六早盘一度跌至约5.55万美元，跌穿7月1日约5.77万美元的低点，为2024年9月以来最低，随后反弹至5.8万美元附近。据CoinGlass数据，过去24小时期货爆仓约24亿至25亿美元，其中约九成是做多仓位；最大一笔为币安上约5,200万美元的BTC/USDT多单。[来源: Incrypted](https://incrypted.com/en/bitcoin-fell-to-nearly-55-000-liquidations-topped-2-5b-and-fear-index-hit-all-time-low/)
+比特币周六早盘一度跌至约5.55万美元，跌穿7月1日约5.77万美元的低点，为2024年9月以来最低，随后反弹至5.8万美元附近。据CoinGlass数据，过去24小时期货爆仓约24亿至25亿美元，其中约九成是做多仓位；最大一笔为币安上约5,200万美元的BTC/USDT多单。
+

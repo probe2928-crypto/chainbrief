@@ -25,8 +25,8 @@ region: EN = US | EU | Singapore / ZH = 香港 | 新加坡 | 中国大陆 | 海�
 summary: 1–2문장 스탠드퍼스트
 ---
 ```
-본문 구조 — EN: 리드 → `## What happened` → `## The debate` → `## What it means` → `*This article is for information only and is not investment advice.*` → `**Sources**` (3–6 링크).
-ZH: 리드 → `## 发生了什么` → `## 争议焦点` → `## 影响与展望` → `*本文仅供参考，不构成投资建议。*` → `**参考来源**`.
+본문 구조 — EN: 리드 → `## What happened` → `## The debate` → `## What it means` → `*This article is for information only and is not investment advice.*` → (선택) `**Documents**` 1차 자료 링크 1–3개(언론사 기사 링크 금지).
+ZH: 리드 → `## 发生了什么` → `## 争议焦点` → `## 影响与展望` → `*本文仅供参考，不构成投资建议。*` → (선택) `**原始资料**` 1차 자료 링크 1–3개(언론사 기사 링크 금지).
 분량: EN 900–1,400 words / ZH 1,800–2,800자.
 
 ## 속보 frontmatter
@@ -38,10 +38,11 @@ category: EN = Bitcoin | Altcoins | Listings | Regulation | Macro | On-chain | E
           ZH = 比特币 | 山寨币 | 上币 | 监管 | 宏观 | 链上 | 交易所 | 香港 | 新加坡 | 海外
 important: true (시장을 움직이는 뉴스만) / false
 ---
-2–3문장, 직접 쓴 문장. [Source: 매체](URL)  (ZH: [来源: 媒体](URL))
+2–3문장, 직접 쓴 문장. 끝에 다른 언론사 출처 링크를 달지 않는다. 근거는 본문에서 1차 주체로("the Fed said", "据Farside数据"). 다른 매체 단독 보도만 "Bloomberg reported"처럼 링크 없이 한 번 밝힌다.
 ```
 
-## 편집 원칙 (ARTICLE_GUIDE.md와 동일)
+## 편집 원칙 (ARTICLE_GUIDE.md와 동일 — 출처 표기·거시 뉴스 비중 규칙 포함)
+- 거시·국제 뉴스(연준·미국 경제·관세·유럽·미중 관계) 비중을 늘린다: 하루 기사 중 최소 1편, 속보는 매 회차 1건 이상.
 - 핵심 사실은 독립 출처 2곳 이상으로 확인. 인용·숫자·이름·날짜를 지어내지 않는다.
 - 직접 인용은 기사당 1개, 15단어(중국어 25자) 미만. 원문 문장·구조를 따라 쓰지 않는다.
 - 가격 전망·투자 권유 금지.

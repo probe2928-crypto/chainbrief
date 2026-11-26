@@ -3,6 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { stripOutletSource } from "./lib.mjs";
 import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure, flashPager } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
@@ -68,7 +69,7 @@ function readDir(dir) {
   if (!fs.existsSync(d)) return [];
   return fs.readdirSync(d).filter((f) => f.endsWith(".md")).map((f) => {
     const { data, body } = frontmatter(fs.readFileSync(path.join(d, f), "utf8"));
-    return { id: f.replace(/\.md$/, ""), ...data, body };
+    return { id: f.replace(/\.md$/, ""), ...data, body: /flash$/.test(dir) ? stripOutletSource(body) : body };
   }).filter((x) => !x.draft);
 }
 const readJSON = (p, d) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, p), "utf8")); } catch { return d; } };

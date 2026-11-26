@@ -329,3 +329,6 @@ export function flashPager({ flashes, i, u, esc, hhmm, dayKey, dayLabel, S, titl
     : `<span class="fp-a fp-${dir} is-end"><span class="fp-l">${esc(dir === "prev" ? S.prev : S.next)}</span><span class="fp-t">${esc(dir === "prev" ? S.oldest : S.newest)}</span></span>`;
   return `<nav class="fpager" aria-label="${esc(S.aria)}"><p class="fp-pos"><span>${esc(dayLabel(f.date))}</span><b>${n}</b><span class="fp-of">/ ${day.length}</span><span class="fp-k">${esc(S.keys)}</span></p><div class="fp-row">${cell(older, "prev")}${cell(newer, "next")}</div></nav>`;
 }
+
+// 속보 끝에 붙은 다른 언론사 출처 링크 제거 (2026-11-26 세준 지시: 체인브리프 속보는 편집국이 직접 쓴 글, 언론사 출처 링크를 달지 않는다)
+export const stripOutletSource = (body = "") => String(body).replace(/\s*\[(?:출처|Source|Sources|来源)\s*[:：][^\]]*\]\([^)]*\)(?:\s*·\s*\[[^\]]*\]\([^)]*\))*\s*$/u, "").trimEnd();

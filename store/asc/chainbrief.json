@@ -16,24 +16,26 @@
   "submit": true,
   "locales": {
     "en-US": {
-      "name": "CHAINBRIEF",
-      "subtitle": "Crypto news, briefed fast",
-      "description": "CHAINBRIEF is a fast, clean crypto news reader. Breaking headlines, short analysis and exchange listing updates in one calm feed.\n\n• Live flash news: the market-moving headlines of the day, marked when they matter\n• Analysis: short, sourced articles that explain what happened and why it matters\n• Exchange listings: new spot and futures listings, warnings and delistings across major global exchanges, plus upcoming listings\n• Markets: prices and daily moves for the coins people follow\n• Save to read later, even offline\n• English, 中文 and 한국어 editions\n• Light and dark themes\n\nCHAINBRIEF is a news and information app. It does not offer trading, wallets or investment advice, and nothing in the app is a recommendation to buy or sell any asset.",
-      "keywords": "crypto,bitcoin,news,blockchain,ethereum,listing,altcoin,defi,etf,stablecoin,markets,web3,briefing",
-      "promo": "Breaking crypto headlines, short analysis and exchange listings in one calm feed. English and 中文 editions.",
+      "name": "CHAINBRIEF: Crypto News",
+      "subtitle": "Crypto, Fed & US economy news",
+      "description": "CHAINBRIEF is a fast, clean crypto news reader. Breaking headlines, short analysis and exchange listing updates in one calm feed.\n\n• Live flash news: the market-moving headlines of the day, marked when they matter\n• Analysis: short, sourced articles that explain what happened and why it matters\n• Macro: the Fed, the US economy, Europe and the global markets that move crypto\n• Exchange listings: new spot and futures listings, warnings and delistings across major global exchanges, plus upcoming listings\n• Markets: prices and daily moves for the coins people follow\n• Save to read later, even offline\n• English, 中文 and 한국어 editions\n• Light and dark themes\n\nCHAINBRIEF is a news and information app. It does not offer trading, wallets or investment advice, and nothing in the app is a recommendation to buy or sell any asset.",
+      "keywords": "bitcoin,crypto,fed,economy,macro,inflation,rates,etf,stocks,markets,listing,altcoin,ethereum,web3",
+      "promo": "Breaking crypto headlines, the Fed, the US economy and global markets in one calm feed. English and 中文 editions.",
       "privacyUrl": "https://chainbrief.app/privacy/",
       "supportUrl": "https://chainbrief.app/en/contact/",
-      "marketingUrl": "https://chainbrief.app/en/"
+      "marketingUrl": "https://chainbrief.app/en/",
+      "whatsNew": "More coverage of the Fed, the US economy and global markets, plus fixes and a faster feed."
     },
     "zh-Hans": {
-      "name": "CHAINBRIEF",
-      "subtitle": "加密快讯，一眼读懂",
-      "description": "CHAINBRIEF 是一款简洁、快速的加密货币新闻阅读器。突发快讯、简短分析与交易所上币动态，集中在一个清爽的信息流里。\n\n• 实时快讯：当天影响市场的重要消息，重点新闻醒目标记\n• 深度分析：有出处的短篇文章，讲清发生了什么、为何重要\n• 交易所上币：主要交易所的现货与合约新上币、风险提示与下架信息，以及即将上线的项目\n• 行情：常见币种的价格与日涨跌\n• 收藏文章，离线也能阅读\n• English、中文、한국어 三个版本\n• 浅色与深色主题\n\nCHAINBRIEF 仅提供新闻与资讯，不提供交易、钱包或投资建议，应用内任何内容均不构成买卖任何资产的推荐。",
-      "keywords": "加密货币,比特币,区块链,快讯,新闻,以太坊,上币,行情,稳定币,ETF,Web3,DeFi",
-      "promo": "加密货币突发快讯、简短分析与交易所上币动态，一个清爽的信息流全部看完。",
+      "name": "CHAINBRIEF 链报：加密与宏观快讯",
+      "subtitle": "加密货币、美联储与全球经济",
+      "description": "CHAINBRIEF 是一款简洁、快速的加密货币新闻阅读器。突发快讯、简短分析与交易所上币动态，集中在一个清爽的信息流里。\n\n• 实时快讯：当天影响市场的重要消息，重点新闻醒目标记\n• 深度分析：有出处的短篇文章，讲清发生了什么、为何重要\n• 宏观：美联储、美国经济、欧洲与影响加密市场的全球动态\n• 交易所上币：主要交易所的现货与合约新上币、风险提示与下架信息，以及即将上线的项目\n• 行情：常见币种的价格与日涨跌\n• 收藏文章，离线也能阅读\n• English、中文、한국어 三个版本\n• 浅色与深色主题\n\nCHAINBRIEF 仅提供新闻与资讯，不提供交易、钱包或投资建议，应用内任何内容均不构成买卖任何资产的推荐。",
+      "keywords": "加密货币,比特币,美联储,宏观,经济,通胀,利率,美股,区块链,快讯,上币,以太坊,ETF",
+      "promo": "加密货币突发快讯、美联储与美国经济、全球市场动态，一个清爽的信息流全部看完。",
       "privacyUrl": "https://chainbrief.app/privacy/",
       "supportUrl": "https://chainbrief.app/zh/contact/",
-      "marketingUrl": "https://chainbrief.app/zh/"
+      "marketingUrl": "https://chainbrief.app/zh/",
+      "whatsNew": "新增更多美联储、美国经济与全球市场报道，并修复问题、提升加载速度。"
     }
   },
   "review": {
