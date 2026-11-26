@@ -1,3 +1,4 @@
+2026-11-27 00:53 | X 담당 | @perplinetech 글 1: Exchange spotlight: Bitunix  Taker fee: 0.06% Our · DM 3건(@SimonNickweb3,@Mayacrypt,@0X_SHORIF) · 새 답장 1(@Kebbi_kingjr 'No') · 팔로워 0 (팔로우 +5)
 2026-11-27 00:46 | X 담당 | @perplinetech 추가 글: New guide: Gate futures fees, in plain dollars.
 2026-11-26 23:47 | 속보데스크 | 거시: 이란 드론, 쿠웨이트 군시설 공격…이탈리아인 기술자 2명 사망 · 코인: 없음(최근 1~3시간 새 소식 1차 확인 실패) · TG기여: 속보 1건×3 · 오늘 KO 24 / EN 16 / ZH 16
 2026-11-26 23:47 | 속보데스크 | 30건 미달 원인: 속보데스크가 오늘 오후(18시)부터 가동, EN/ZH는 속보빛 미작성 회차 다수
