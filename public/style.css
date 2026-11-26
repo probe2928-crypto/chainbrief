@@ -1342,6 +1342,7 @@ html[lang="ko"] .viewsw .vs-l,html[lang="zh-Hans"] .viewsw .vs-l{font-family:var
 /* 기사 도표(인포그래픽) — 표지 배경으로 자르지 않고 본문 앞 액자로. 위 잉크 선 + 아래 헤어라인, 캡션은 라벨 · 출처 */
 .a-chart{margin:24px 0 34px}
 .a-chart a{display:block;padding:14px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line);cursor:zoom-in;outline-offset:4px}
+.a-chart picture{display:block}
 .a-chart img{display:block;width:100%;height:auto;aspect-ratio:1200/630;background:#fff;transition:opacity .25s ease}
 .a-chart a:hover img{opacity:.92}
 .a-chart figcaption{display:flex;align-items:baseline;gap:10px;margin-top:10px;font-size:var(--fs-meta);line-height:1.5;color:var(--mute)}

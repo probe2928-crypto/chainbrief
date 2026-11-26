@@ -4,7 +4,7 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { stripOutletSource } from "./lib.mjs";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure, flashPager } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, NON_COIN, isChart, chartFigure, flashPager, webpOf } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -324,11 +324,11 @@ const artImg = (name, eager) => eager
   ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${u(`art/${name}.jpg`)}?v=${ART_V}" srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></picture>`
   : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${u(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${u(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${u(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${u(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
 // 기사 전용 이미지(AI 생성 등): frontmatter image: media/articles/<id>.jpg
-const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${u(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
+const photoImg = (src, eager, w = webpOf(src)) => `<picture class="slide-bg">${w ? `<source type="image/webp" ${eager ? "srcset" : "data-srcset"}="${u(w)}">` : ""}<img ${eager ? "src" : "data-src"}="${u(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
 const mediaBlock = (a, L = { img: "AI 생성 이미지", vid: "AI 제작 영상" }) => {
   const parts = [];
   if (a.video) parts.push(`<figure class="a-media"><video controls playsinline preload="metadata"${hasMedia(a.video.replace(/\.mp4$/, ".jpg")) ? ` poster="${u(a.video.replace(/\.mp4$/, ".jpg"))}"` : ""} src="${u(a.video)}"></video><figcaption>${esc(a.video_note || L.vid)}</figcaption></figure>`);
-  if (isChart(a)) parts.push(chartFigure(a, u(a.image), { k: "도표", open: "도표 크게 보기" }));
+  if (isChart(a)) parts.push(chartFigure(a, u(a.image), { k: "도표", open: "도표 크게 보기" }, webpOf(a.image) && u(webpOf(a.image))));
   else if (a.image) parts.push(`<p class="a-credit">상단 이미지: ${esc(a.image_note || L.img)}</p>`);
   return parts.join("");
 };

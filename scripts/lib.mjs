@@ -1,4 +1,5 @@
 // 외부 패키지 없이 쓰는 작은 도우미: 마크다운 → HTML, RSS/Atom 파서
+import fs from "node:fs";
 
 const escHTML = (s = "") => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -138,9 +139,12 @@ export function smartQuotes(s) {
 
 // 기사 그림이 '도표·그래픽'(글자가 든 인포그래픽)이면 표지 배경으로 자르지 않고 본문 도표 액자로 보여 준다
 export const isChart = (a) => !!a?.image && /그래픽|도표|차트|graphic|chart|infographic|图表|图卡|图解/i.test(a.image_note || "");
-export function chartFigure(a, src, label) {
+// 기사 그림(media/articles/*.png·jpg) 옆에 같은 이름 .webp가 있으면 그 경로 — scripts/webp.py가 만든다(빌드 의존성 없음, 없으면 원본만)
+const PUB = new URL("../public/", import.meta.url);
+export const webpOf = (p) => { if (!p || !/^media\/.*\.(png|jpe?g)$/i.test(p)) return ""; const w = p.replace(/\.(png|jpe?g)$/i, ".webp"); try { return fs.existsSync(new URL(w, PUB)) ? w : ""; } catch { return ""; } };
+export function chartFigure(a, src, label, webp = "") {
   if (!isChart(a)) return "";
-  return `<figure class="a-chart"><a href="${src}" target="_blank" rel="noopener" aria-label="${label.open}"><img src="${src}" width="1200" height="630" alt="${(a.image_alt || a.title || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;")}" loading="lazy" decoding="async"></a><figcaption><span class="ac-k">${label.k}</span><span class="ac-n">${(a.image_note || "").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span></figcaption></figure>`;
+  return `<figure class="a-chart"><a href="${src}" target="_blank" rel="noopener" aria-label="${label.open}"><picture>${webp ? `<source type="image/webp" srcset="${webp}">` : ""}<img src="${src}" width="1200" height="630" alt="${(a.image_alt || a.title || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;")}" loading="lazy" decoding="async"></picture></a><figcaption><span class="ac-k">${label.k}</span><span class="ac-n">${(a.image_note || "").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span></figcaption></figure>`;
 }
 // 코인 상장이 아닌 것(토큰화 주식·알파·Pre-IPO·외환·원자재)은 상장 원장·목록·사이드바에서 뺀다
 export const NON_COIN = /bStocks|xStocks|tokenized stock|\bAlpha\b|pre-?IPO|\bFX\b|forex|commodit/i;

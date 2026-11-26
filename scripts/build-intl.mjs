@@ -7,7 +7,7 @@ import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { stripOutletSource } from "./lib.mjs";
-import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure, flashPager } from "./lib.mjs";
+import { markdown, cjkify, cjkifyBare, writeAppFeed, writeSearch, advertiseBody, SEARCH_SVG, smartQuotes, mergeListings, EX_ALL, isKR, coinsIn, coinChips, alsoIndex, alsoLine, gaSnippet, isChart, chartFigure, webpOf, flashPager } from "./lib.mjs";
 import { loadMacro, macroSection } from "./macro.mjs";
 import { calRail, calSection } from "./calendar.mjs";
 import { tgChan } from "./tgchan.mjs";
@@ -119,7 +119,7 @@ const ED = {
         sUpDn: "Up · Down", sAvg: "Average change", sVol: "24h volume", sTop: "Top gainer today", coins: "{n} coins", krwMkt: "{ex} KRW market", gapNeed: "Both exchanges are needed — retrying one of them.", gapSub: "Upbit {a} · Bithumb {b}", noGap: "No meaningful gaps right now.",
         lsLoading: "Loading listing history…", lsFail: "Couldn't load prices for recent listings.", lsSub: "Listed {d} · {ex} · peak {m}" } },
     ads: {
-      blockkey: { title: "AI marketing · AI development · Blockchain integration", text: "One team from diagnosis to build and operations — a technology partner for Web3 projects.", cta: "Discover BLOCKKEY", short: "AI marketing · Dev · Blockchain", top: "Partner" },
+      blockkey: { title: "AI marketing · AI development · Blockchain integration", text: "One team from diagnosis to build and operations — a technology partner for Web3 projects.", cta: "Discover BLOCKKEY", short: "AI marketing · Web3 dev", top: "Partner" },
       perpline: { title: "Your trading fees, returned.", text: "Compare fees across 11 futures exchanges and get 40–60% of your trading fees back in USDT every week.", cta: "Visit Perpline", short: "Trading fees, returned.", note: "Not available to residents of Korea or the United States.", top: "Partner" },
     },
     partnersT: "Partners", partnersX: "Brands we work with", sponsored: "Sponsored", byText: "By", homeLabel: "Home", readT: "{n} min read",
@@ -340,10 +340,10 @@ ${extraScript ? `<script src="${asset(extraScript)}?v=${BUILD_ID}" defer></scrip
   const artImg = (name, eager) => eager
     ? `<picture class="slide-bg"><source media="(max-width:700px)" srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img src="${asset(`art/${name}.jpg`)}?v=${ART_V}" srcset="${asset(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${asset(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" fetchpriority="high" decoding="async"></picture>`
     : `<picture class="slide-bg"><source media="(max-width:700px)" data-srcset="${asset(`art/${name}-m.jpg`)}?v=${ART_V}"><img data-src="${asset(`art/${name}.jpg`)}?v=${ART_V}" data-srcset="${asset(`art/${name}-l.jpg`)}?v=${ART_V} 1600w, ${asset(`art/${name}.jpg`)}?v=${ART_V} 2000w" sizes="100vw" alt="" decoding="async"></picture>`;
-  const photoImg = (src, eager) => `<picture class="slide-bg"><img ${eager ? "src" : "data-src"}="${asset(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
+  const photoImg = (src, eager, w = webpOf(src)) => `<picture class="slide-bg">${w ? `<source type="image/webp" ${eager ? "srcset" : "data-srcset"}="${asset(w)}">` : ""}<img ${eager ? "src" : "data-src"}="${asset(src)}" alt="" ${eager ? 'fetchpriority="high" ' : ""}decoding="async"></picture>`;
   const MT = L.code === "zh" ? { img: "AI 生成图片", vid: "AI 制作视频" } : { img: "AI-generated image", vid: "AI-produced video" };
   const mediaBlock = (a) => (a.video ? `<figure class="a-media"><video controls playsinline preload="metadata"${hasMedia(a.video.replace(/\.mp4$/, ".jpg")) ? ` poster="${asset(a.video.replace(/\.mp4$/, ".jpg"))}"` : ""} src="${asset(a.video)}"></video><figcaption>${esc(a.video_note || MT.vid)}</figcaption></figure>` : "")
-    + (isChart(a) ? chartFigure(a, asset(a.image), L.code === "zh" ? { k: "图表", open: "查看大图" } : { k: "Chart", open: "Open full-size chart" }) : "")
+    + (isChart(a) ? chartFigure(a, asset(a.image), L.code === "zh" ? { k: "图表", open: "查看大图" } : { k: "Chart", open: "Open full-size chart" }, webpOf(a.image) && asset(webpOf(a.image))) : "")
     + (a.image && !isChart(a) ? `<p class="a-credit">${L.code === "zh" ? "头图：" : "Top image: "}${esc(a.image_note || MT.img)}</p>` : "");
   function hero(slides, size = "lg") {
     if (!slides.length) return "";
