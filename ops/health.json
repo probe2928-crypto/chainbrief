@@ -1,12 +1,55 @@
-{"at":"2026-11-26T03:30+09:00","repos":[
-{"repo":"chainbrief","lastRun":"2026-11-25T16:37Z success (빌드 및 배포, 점검 시각 기준 약 1시간 42분 전 — 푸시 기반 배포 간격 범위)","failures":[],"fixed":[]},
-{"repo":"perpline","lastRun":"24시간 내 실패 0","failures":[],"fixed":[]},
-{"repo":"luft","lastRun":"24시간 내 실패 0","failures":[],"fixed":[]},
-{"repo":"qurator","lastRun":"24시간 내 실패 0","failures":[],"fixed":[]},
-{"repo":"oriel","lastRun":"24시간 내 실패 0","failures":[],"fixed":[]},
-{"repo":"blockkey","lastRun":"24시간 내 실패 0","failures":[],"fixed":[]},
-{"repo":"firstbrick","lastRun":null,"failures":["이번 회차 미조회"],"fixed":[]},
-{"repo":"lifejunjun","lastRun":null,"failures":["이 회차 접근 권한 없음"],"fixed":[]},
-{"repo":"yeobaek","lastRun":null,"failures":["이 회차 접근 권한 없음"],"fixed":[]}],
-"sites":[{"url":"all","ok":null,"note":"외부 웹 접근 차단(프록시 403)으로 라이브 점검 못 함"}],
-"failedTasks":[]}
+{
+ "at": "2026-11-27 03:20 KST",
+ "repos": [
+  {
+   "repo": "chainbrief",
+   "lastRun": "success 2026-11-26T16:37Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "perpline",
+   "lastRun": "success 2026-11-26T07:49Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "luft",
+   "lastRun": "success 2026-11-26T09:55Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "qurator",
+   "lastRun": "success 2026-11-26T14:23Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "oriel",
+   "lastRun": "success 2026-11-26T15:49Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "blockkey",
+   "lastRun": "success 2026-11-05T05:00Z",
+   "failures": [],
+   "fixed": []
+  },
+  {
+   "repo": "firstbrick",
+   "lastRun": "조회 불가(프록시)",
+   "failures": [],
+   "fixed": []
+  }
+ ],
+ "sites": [
+  {
+   "url": "github.io 전체",
+   "ok": null,
+   "note": "프록시 403으로 라이브 점검 불가(미확인)"
+  }
+ ],
+ "failedTasks": []
+}
