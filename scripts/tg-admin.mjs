@@ -217,12 +217,23 @@ function numbersBlock(lang, quotes, cg) {
   return rows.length ? `\n${B[lang].nums}\n${rows.join("\n")}\n<i>${B[lang].src}</i>` : "";
 }
 
-// AI 칼럼 (2026-11-26 세준: "너 칼럼도 하루 두 번씩 써줘") — content/column/<lang>/YYYY-MM-DD-am|pm.md 전문 게시
+// 칼럼 '정하람의 마켓 노트' (2026-11-26 세준: 하루 두 번 · 19:15 "AI라고 쓰지 말고 다른 이름으로") — content/column/<lang>/YYYY-MM-DD-am|pm.md 전문 게시
+// 정하람은 체인브리프 편집국 필명(데스크 기자들과 같은 방식). 경력·학력을 지어내지 않는다.
 const COL = {
-  ko: { head: "✍️ <b>AI 칼럼</b> · 클로드의 마켓 노트", foot: "<i>체인브리프 AI(Claude)가 쓴 칼럼입니다. 정보 제공 목적이며 투자 권유가 아닙니다.</i>" },
-  en: { head: "✍️ <b>AI Column</b> · Claude's Market Notes", foot: "<i>Written by CHAINBRIEF's AI desk (Claude). Not financial advice.</i>" },
-  zh: { head: "✍️ <b>AI 专栏</b> · Claude 市场笔记", foot: "<i>本文由链报 AI（Claude）撰写，仅为资讯，不构成投资建议。</i>" },
+  ko: { head: "✍️ <b>칼럼</b> · 정하람의 마켓 노트", foot: "<i>정보 제공 목적이며 투자 권유가 아닙니다.</i>" },
+  en: { head: "✍️ <b>Column</b> · Market Notes by Haram Jung", foot: "<i>Not financial advice.</i>" },
+  zh: { head: "✍️ <b>专栏</b> · 郑夏岚市场笔记", foot: "<i>仅为资讯，不构成投资建议。</i>" },
 };
+const colText = (lang, src) => { const d = frontmatter(src); return [COL[lang].head, "", `<b>${esc(d.title || "")}</b>`, "", md2tg(src.replace(/^---[\s\S]*?---\s*/, "").trim()), "", COL[lang].foot].join("\n"); };
+// 이미 올린 칼럼을 새 머리말로 고치기 (한 번만 쓰는 명령)
+if (cmd === "column-edit") {
+  for (const [id, mid] of Object.entries(state.column || {})) {
+    const [lang, f] = id.split(":"); const fp = path.join(ROOT, "content/column", lang, f + ".md");
+    if (!fs.existsSync(fp) || !CH[lang]) continue;
+    try { await tg("editMessageText", { chat_id: CH[lang], message_id: mid, text: colText(lang, fs.readFileSync(fp, "utf8")), parse_mode: "HTML", link_preview_options: { is_disabled: true } }); console.log("칼럼 수정", id); }
+    catch (e) { console.log("칼럼 수정 실패", id, e.message); }
+  }
+}
 if (cmd === "briefing" || cmd === "column") {
   state.column = state.column || {};
   for (const lang of ["ko", "en", "zh"]) {
@@ -233,9 +244,9 @@ if (cmd === "briefing" || cmd === "column") {
       if (state.column[id]) break;
       const src = fs.readFileSync(path.join(dir, f), "utf8"); const d = frontmatter(src); const ts = new Date(d.time);
       if (d.draft || isNaN(ts) || Date.now() - ts > 8 * 3600e3 || ts > Date.now() + 15 * 60e3) continue;
-      const text = [COL[lang].head, "", `<b>${esc(d.title || "")}</b>`, "", md2tg(src.replace(/^---[\s\S]*?---\s*/, "").trim()), "", COL[lang].foot].join("\n");
+      const text = colText(lang, src);
       if (text.length > 4096) { console.log(lang, f, "칼럼 너무 김", text.length); break; }
-      try { const m = await tg("sendMessage", { chat_id: h, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } }); state.column[id] = m.message_id; console.log(lang, "AI 칼럼 게시", f, text.length + "자"); }
+      try { const m = await tg("sendMessage", { chat_id: h, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } }); state.column[id] = m.message_id; console.log(lang, "칼럼 게시", f, text.length + "자"); }
       catch (e) { console.log(lang, "칼럼 실패 —", e.message); }
       break;
     }

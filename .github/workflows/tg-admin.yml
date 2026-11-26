@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       cmd:
-        description: "setup / count / invites / briefing / brief-en / brief-zh"
+        description: "setup / count / invites / briefing / column-edit / brief-en / brief-zh"
         required: true
         default: count
   schedule:
