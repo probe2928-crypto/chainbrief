@@ -1,3 +1,7 @@
+## 2026-11-27 새벽 점검
+- Actions 실패 없음(chainbrief·perpline·luft·qurator·oriel·blockkey). 예약작업 FAILED 0.
+- 라이브 사이트 점검은 이 환경에서 github.io 접근이 막혀 못 함(미확인).
+
 ## 2026-11-26 새벽 점검
 - 밤새봄: Actions 24시간 — chainbrief·perpline·luft·qurator·oriel·blockkey 미해결 실패 0(cancelled는 동시 실행 정리). 체인브리프 '빌드 및 배포' 마지막 성공 11/25 16:37Z(점검 시각 기준 약 1시간 42분 전, 푸시 기반 배포라 정상 범위로 봄). 고침 0.
 - 라이브 사이트·속보 신선도는 프록시 403으로 직접 확인 못 함(미확인). firstbrick·lifejunjun·yeobaek는 권한 밖/미조회.
