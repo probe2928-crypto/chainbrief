@@ -16,7 +16,7 @@
 ## 직원별 바뀐 일 (다음 회차부터 바로)
 | 직원 | 바뀐 일 |
 |---|---|
-| AI칼럼 (신규, trig_01DS3WnNpxxfne5GLYagccvz) | 하루 2편(12:43·18:43) 3개 언어, docs/COLUMN_GUIDE.md |
+| 칼럼 정하람 (신규, trig_01DS3WnNpxxfne5GLYagccvz) | 하루 2편(12:43·18:43) 3개 언어, docs/COLUMN_GUIDE.md |
 | 글로벌데스크 (신규, trig_012XN6i6RBpzYqU4wGpxb8Yi) | 글로벌 브리핑 하루 2편 × 3개 언어. 규칙 docs/BRIEFING_GUIDE.md |
 | 속보빛 (사이트 속보) + 속보데스크(신규) | 하루 KO·EN·ZH 각 30건+, docs/FLASH_GUIDE.md(다른 언론사 주어 금지). 매 회차 거시·국제 속보 1건 이상(연준·국채·관세·나스닥·엔비디아·한국은행·일본은행·위안화·유가). 속보는 자동으로 채널에 나간다 — 제목만 봐도 무슨 일인지 알게 |
 | 스캇봄 (기사) | 하루 3편 중 1편 이상 거시. 기사 끝 한 줄: "속보·브리핑은 텔레그램 @chainbrief_kr" |
