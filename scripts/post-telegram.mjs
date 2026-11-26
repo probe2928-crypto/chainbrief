@@ -85,10 +85,10 @@ function message(x) {
   const ct = SIGN[x.lang] ? cashtags(x) : "";
   const tags = `${tag}${ct ? ` ${ct}` : ""}${sign(x.lang)}`;
   if (x.kind === "flash") {
-    // 2026-11-26 세준: "기사 퍼온 것처럼 하지 말고" — 링크 미리보기·'더보기' 링크 없이 채널에서 바로 읽히는 속보 한 장
-    const head = `${x.important ? "🔴" : flashEmoji(x)} <b>${esc(x.title)}</b>`;
-    const body = mdToHtml(x.body).slice(0, 3000);
-    return `${head}\n\n${body}${tags}`;
+    // 2026-11-26 세준: "기사 퍼온 것처럼 하지 말고" + 미국 주식 인사이더처럼 — 제목·링크·버튼·태그 없이 짧은 문단 본문만
+    let body = mdToHtml(x.body).trim();
+    if (!/\n\s*\n/.test(body) && x.lang !== "en") body = body.split(/(?<=\.)\s+(?=\S)|(?<=。)\s*(?=\S)/).map((t) => t.trim()).filter(Boolean).join("\n\n");
+    return `${x.important ? "🔴" : flashEmoji(x)} ${body}`.slice(0, 3500);
   }
   const by = x.author ? ` · ${esc(x.author)}` : "";
   return `📰 <b>${esc(x.title)}</b>\n\n${esc(x.summary || "")}\n\n<a href="${url}">${esc(t.read)} →</a>${by}${tags}`;
@@ -122,7 +122,7 @@ function buttons(lang, url, kind) {
 async function send(chat, html, url, lang, kind) {
   const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
     method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: kind === "flash" ? { is_disabled: true } : { url, prefer_small_media: true, show_above_text: false }, ...(lang ? { reply_markup: buttons(lang, url, kind) } : {}) }),
+    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: kind === "flash" ? { is_disabled: true } : { url, prefer_small_media: true, show_above_text: false }, ...(lang && kind !== "flash" ? { reply_markup: buttons(lang, url, kind) } : {}) }),
   });
   const j = await r.json().catch(() => ({}));
   if (!j.ok) throw new Error(j.description || `HTTP ${r.status}`);

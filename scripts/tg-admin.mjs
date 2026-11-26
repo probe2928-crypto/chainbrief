@@ -217,6 +217,33 @@ function numbersBlock(lang, quotes, cg) {
   return rows.length ? `\n${B[lang].nums}\n${rows.join("\n")}\n<i>${B[lang].src}</i>` : "";
 }
 
+// AI 칼럼 (2026-11-26 세준: "너 칼럼도 하루 두 번씩 써줘") — content/column/<lang>/YYYY-MM-DD-am|pm.md 전문 게시
+const COL = {
+  ko: { head: "✍️ <b>AI 칼럼</b> · 클로드의 마켓 노트", foot: "<i>체인브리프 AI(Claude)가 쓴 칼럼입니다. 정보 제공 목적이며 투자 권유가 아닙니다.</i>" },
+  en: { head: "✍️ <b>AI Column</b> · Claude's Market Notes", foot: "<i>Written by CHAINBRIEF's AI desk (Claude). Not financial advice.</i>" },
+  zh: { head: "✍️ <b>AI 专栏</b> · Claude 市场笔记", foot: "<i>本文由链报 AI（Claude）撰写，仅为资讯，不构成投资建议。</i>" },
+};
+if (cmd === "briefing" || cmd === "column") {
+  state.column = state.column || {};
+  for (const lang of ["ko", "en", "zh"]) {
+    const h = CH[lang]; const dir = path.join(ROOT, "content/column", lang);
+    if (!h || !fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter((f) => /\.md$/.test(f)).sort().reverse().slice(0, 3)) {
+      const id = `${lang}:${f.replace(/\.md$/, "")}`;
+      if (state.column[id]) break;
+      const src = fs.readFileSync(path.join(dir, f), "utf8"); const d = frontmatter(src); const ts = new Date(d.time);
+      if (d.draft || isNaN(ts) || Date.now() - ts > 8 * 3600e3 || ts > Date.now() + 15 * 60e3) continue;
+      const text = [COL[lang].head, "", `<b>${esc(d.title || "")}</b>`, "", md2tg(src.replace(/^---[\s\S]*?---\s*/, "").trim()), "", COL[lang].foot].join("\n");
+      if (text.length > 4096) { console.log(lang, f, "칼럼 너무 김", text.length); break; }
+      try { const m = await tg("sendMessage", { chat_id: h, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } }); state.column[id] = m.message_id; console.log(lang, "AI 칼럼 게시", f, text.length + "자"); }
+      catch (e) { console.log(lang, "칼럼 실패 —", e.message); }
+      break;
+    }
+  }
+  state.column = Object.fromEntries(Object.entries(state.column).slice(-120));
+  fs.writeFileSync(STATE, JSON.stringify(state, null, 1));
+}
+
 if (cmd === "briefing") {
   state.briefing = state.briefing || {}; state.briefingAt = state.briefingAt || {};
   const quotes = readJ(path.join(ROOT, "data/macro.json"), {}).quotes || {};
