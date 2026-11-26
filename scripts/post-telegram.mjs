@@ -63,6 +63,20 @@ function cashtags(x) {
 const SIGN = { en: "free listing alerts & breaking news", zh: "免费上币提醒与快讯" };
 const sign = (lang) => { const h = String(channels[lang] || "").replace(/^@/, ""); return SIGN[lang] && h ? `\n\n📡 <a href="https://t.me/${h}">@${h}</a> · ${esc(SIGN[lang])}` : ""; };
 
+// 지역·분야 이모지: frontmatter region(us·eu·asia·kr·jp·cn·me·crypto) 우선, 없으면 분류·제목으로 추정
+const REGION = { us: "🇺🇸", eu: "🇪🇺", uk: "🇬🇧", asia: "🌏", kr: "🇰🇷", jp: "🇯🇵", cn: "🇨🇳", hk: "🇭🇰", me: "🛢", crypto: "₿" };
+function flashEmoji(x) {
+  if (REGION[String(x.region || "").toLowerCase()]) return REGION[String(x.region).toLowerCase()];
+  const s = `${x.category || ""} ${x.title || ""}`;
+  if (/연준|美|미국|Fed|FOMC|Treasury|Wall Street|Nasdaq|S&P|美联储|美国|美股|관세|tariff|关税/i.test(s)) return "🇺🇸";
+  if (/ECB|유럽|EU\b|Europe|欧洲|欧盟|영국|英|獨|佛|UK|BoE/i.test(s)) return "🇪🇺";
+  if (/한국은행|코스피|원화|금융위|금감원|업비트|빗썸|Korea|韩国/i.test(s)) return "🇰🇷";
+  if (/일본|엔화|BOJ|BoJ|Japan|日本|日元/i.test(s)) return "🇯🇵";
+  if (/중국|홍콩|위안|China|Hong Kong|中国|香港|人民币/i.test(s)) return "🇨🇳";
+  if (/유가|원유|OPEC|중동|이란|사우디|oil|crude|Iran|原油|中东/i.test(s)) return "🛢";
+  if (/상장|listing|上币|上线/i.test(s)) return "🆕";
+  return "⚡";
+}
 const urlOf = (x) => `${SITE}${L[x.lang].pre}${x.kind === "flash" ? "flash" : "articles"}/${x.id}/`;
 function message(x) {
   const t = L[x.lang];
@@ -71,9 +85,10 @@ function message(x) {
   const ct = SIGN[x.lang] ? cashtags(x) : "";
   const tags = `${tag}${ct ? ` ${ct}` : ""}${sign(x.lang)}`;
   if (x.kind === "flash") {
-    const head = `${x.important ? `🔴 <b>${esc(t.hot)}</b> ` : ""}<b>${esc(x.title)}</b>`;
+    // 2026-11-26 세준: "기사 퍼온 것처럼 하지 말고" — 링크 미리보기·'더보기' 링크 없이 채널에서 바로 읽히는 속보 한 장
+    const head = `${x.important ? "🔴" : flashEmoji(x)} <b>${esc(x.title)}</b>`;
     const body = mdToHtml(x.body).slice(0, 3000);
-    return `${head}\n\n${body}\n\n<a href="${url}">${esc(t.more)}</a>${tags}`;
+    return `${head}\n\n${body}${tags}`;
   }
   const by = x.author ? ` · ${esc(x.author)}` : "";
   return `📰 <b>${esc(x.title)}</b>\n\n${esc(x.summary || "")}\n\n<a href="${url}">${esc(t.read)} →</a>${by}${tags}`;
@@ -81,7 +96,7 @@ function message(x) {
 
 // 게시물 아래 버튼: 기사 원문 · 사이트(시세·상장) — 채널 구독자를 홈페이지로 이어 줌 (GA에 utm으로 잡힘)
 const BTN = {
-  ko: { read: "기사 보기", site: "체인브리프 홈", list: "상장 소식" },
+  ko: { read: "기사 보기", site: "글로벌 시세", list: "상장 소식" },
   en: { read: "Read on CHAINBRIEF", site: "Live prices", list: "Listings" },
   zh: { read: "阅读全文", site: "实时行情", list: "上币动态" },
 };
@@ -91,9 +106,11 @@ const SHARE = {
   en: { btn: "↗️ Share with a friend", text: (h) => `Free crypto listing alerts & breaking news → t.me/${h}` },
   zh: { btn: "↗️ 分享给朋友", text: (h) => `免费加密上币提醒与突发快讯 → t.me/${h}` },
 };
-function buttons(lang, url) {
+function buttons(lang, url, kind) {
   const b = BTN[lang] || BTN.en, pre = L[lang]?.pre || "";
-  const rows = [[{ text: `📰 ${b.read}`, url: utm(url) }], [{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]];
+  const rows = kind === "flash"
+    ? [[{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]]
+    : [[{ text: `📰 ${b.read}`, url: utm(url) }], [{ text: `📈 ${b.site}`, url: utm(`${SITE}${pre}market/`) }, { text: `🆕 ${b.list}`, url: utm(`${SITE}${pre}listings/`) }]];
   const sh = SHARE[lang], h = String(channels[lang] || "").replace(/^@/, "");
   if (sh && h) {
     const u = `${url}?utm_source=telegram&utm_medium=share`;
@@ -102,10 +119,10 @@ function buttons(lang, url) {
   return { inline_keyboard: rows };
 }
 
-async function send(chat, html, url, lang) {
+async function send(chat, html, url, lang, kind) {
   const r = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
     method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: { url, prefer_small_media: true, show_above_text: false }, ...(lang ? { reply_markup: buttons(lang, url) } : {}) }),
+    body: JSON.stringify({ chat_id: chat, text: html, parse_mode: "HTML", link_preview_options: kind === "flash" ? { is_disabled: true } : { url, prefer_small_media: true, show_above_text: false }, ...(lang ? { reply_markup: buttons(lang, url, kind) } : {}) }),
   });
   const j = await r.json().catch(() => ({}));
   if (!j.ok) throw new Error(j.description || `HTTP ${r.status}`);
@@ -135,7 +152,7 @@ for (const lang of Object.keys(L)) {
   let n = 0;
   for (const x of fresh) {
     if (DRY) { console.log(`[${lang}] ${chat}\n${message(x)}\n`); seen.add(x.id); continue; }
-    try { await send(chat, message(x), urlOf(x), lang); seen.add(x.id); n++; changed = true; await new Promise((r) => setTimeout(r, 1500)); }
+    try { await send(chat, message(x), urlOf(x), lang, x.kind); seen.add(x.id); n++; changed = true; await new Promise((r) => setTimeout(r, 1500)); }
     catch (e) { console.log(`텔레그램 ${lang} 실패: ${x.id} — ${e.message}`); if (/chat not found|not enough rights|bot is not a member/i.test(e.message)) break; }
   }
   state[lang] = [...seen].slice(-800);
