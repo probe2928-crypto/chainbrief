@@ -35,15 +35,15 @@ async function tg(method, body) {
 // 2026-11-26 세준 지시로 채널 개편: '미국·아시아 경제 + 코인' (벤치마크: 미국 주식 인사이더 7.4만, 목표 1만+)
 const T = {
   ko: {
-    title: "체인브리프 | 미국·아시아 경제·코인 속보",
-    desc: `미국·아시아 경제와 코인을 한 채널에서. 하루 두 번 글로벌 브리핑(아침 7시·밤 9시), 연준·금리·관세·증시·비트코인 속보, 거래소 상장 소식. 무료. ${SITE.replace(/^https:\/\//, "")} · 문의 @${cfg.telegram}`,
+    title: "미국주식·경제·코인 속보 | 체인브리프",
+    desc: `미국주식·경제·코인을 한 채널에서. 하루 두 번 글로벌 브리핑(아침 7시·밤 9시), 엔비디아·나스닥·연준·금리·관세·비트코인 속보, 하루 두 번 칼럼. 무료. ${SITE.replace(/^https:\/\//, "")} · 문의 @${cfg.telegram}`,
     welcome: (h) => `👋 <b>체인브리프에 오신 걸 환영해요</b>\n\n미국·아시아 경제와 코인 시장을 한 채널에서 봅니다.\n\n🌍 하루 두 번 글로벌 브리핑 (아침 7시 · 밤 9시)\n🇺🇸 연준·금리·관세·미국 증시 속보\n🌏 한국·일본·중국·홍콩 시장 소식\n₿ 비트코인·코인 속보와 거래소 상장 공지\n📊 지수·환율·유가·코인 시세 숫자 정리\n\n🌐 기사 전문과 실시간 시세는 사이트에서 (아래 버튼)\n\n투자하는 친구에게 공유해 주세요 → ${link(h)}\n\n<i>정보 제공 목적이며 투자 권유가 아닙니다.</i>`,
     brief: (d) => `☀️ <b>오늘의 속보 5</b> · ${d}`,
     share: (h) => `체인브리프 공유하기 → ${link(h)}`,
     lang: "ko-KR", tz: "Asia/Seoul", dir: "content/flash", pre: "",
   },
   en: {
-    title: "CHAINBRIEF | US & Asia Markets · Crypto",
+    title: "Stocks, Macro & Crypto News | CHAINBRIEF",
     desc: `US & Asia markets and crypto in one feed. A global briefing twice a day, plus the Fed, rates, tariffs, stocks, bitcoin and new exchange listings. Free. ${SITE.replace(/^https:\/\//, "")}en · Contact @${cfg.telegram}`,
     welcome: (h) => `👋 <b>Welcome to CHAINBRIEF</b>\n\nUS and Asian markets and crypto, in one channel.\n\n🌍 Global briefing twice a day: what moved overnight, what to watch today\n🇺🇸 Fed, rates, tariffs and Wall Street\n🌏 Japan, China, Hong Kong and Korea\n₿ Bitcoin and crypto news, new exchange listings\n📊 Indices, FX, oil and crypto prices at a glance\n\n🌐 Full stories and live prices on our website (buttons below)\n\nKnow someone who invests? Share the channel: ${link(h)}\n\n<i>News only, not financial advice.</i>`,
     brief: (d) => `☀️ <b>Daily Brief</b> · ${d}`,
@@ -51,7 +51,7 @@ const T = {
     lang: "en-US", tz: "UTC", dir: "content/en/flash", pre: "en/",
   },
   zh: {
-    title: "链报 CHAINBRIEF｜美股·亚洲经济·加密快讯",
+    title: "美股·经济·加密快讯｜链报 CHAINBRIEF",
     desc: `美股、亚洲经济与加密市场，一个频道看懂。每日两次全球简报，美联储、利率、关税、股市、比特币快讯与交易所上币提醒。免费。${SITE.replace(/^https:\/\//, "")}zh · 联系 @${cfg.telegram}`,
     welcome: (h) => `👋 <b>欢迎来到 CHAINBRIEF 链报</b>\n\n美股、亚洲经济与加密市场，一个频道看懂。\n\n🌍 每日两次全球简报：隔夜发生了什么、今天看什么\n🇺🇸 美联储、利率、关税与美股\n🌏 中国、香港、日本、韩国市场\n₿ 比特币与加密快讯、交易所上币提醒\n📊 指数、汇率、原油与币价一览\n\n🌐 完整报道与实时行情请看网站（下方按钮）\n\n身边有做投资的朋友？分享频道：${link(h)}\n\n<i>仅为资讯，不构成投资建议。</i>`,
     brief: (d) => `☀️ <b>每日简报</b> · ${d}`,
