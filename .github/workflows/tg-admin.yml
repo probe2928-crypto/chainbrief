@@ -1,11 +1,15 @@
 name: 텔레그램 채널 운영 (구독자·브리프)
 # 매일 2번: 구독자 수 기록 + 데일리 브리프 (中文 08:20 홍콩 / English 12:20 UTC)
-# 수동: cmd = setup(소개글·환영 글 고정) / count / brief-en / brief-zh
+# 수동: cmd = setup(채널 이름·소개글·환영 글 고정) / count / briefing / brief-en / brief-zh
+# 글로벌 브리핑: content/briefing/** 가 main에 push되면 바로 게시 (AI 글로벌 브리핑 데스크가 커밋)
 on:
+  push:
+    branches: [main]
+    paths: ["content/briefing/**"]
   workflow_dispatch:
     inputs:
       cmd:
-        description: "setup / count / invites / brief-en / brief-zh"
+        description: "setup / count / invites / briefing / brief-en / brief-zh"
         required: true
         default: count
   schedule:
@@ -30,7 +34,10 @@ jobs:
       - name: 실행
         run: |
           C="${{ github.event.inputs.cmd }}"
-          if [ -z "$C" ]; then
+          if [ "${{ github.event_name }}" = "push" ] || [ "$C" = "briefing" ]; then
+            node scripts/fetch-macro.mjs || true
+            node scripts/tg-admin.mjs briefing
+          elif [ -z "$C" ]; then
             node scripts/tg-admin.mjs count
             if [ "$(date -u +%H)" = "00" ]; then node scripts/tg-admin.mjs brief zh; else node scripts/tg-admin.mjs brief en; fi
           else
