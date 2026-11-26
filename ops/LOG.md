@@ -1,3 +1,4 @@
+2026-11-27 06:46 | 속보데스크 | 거시: 브렌트유 96.57달러 마감…호르무즈 '기뢰 피격' 주장에 1.2%↑ · 코인: 바이낸스, 해킹 한 달 만에 출금 중단 전면 해제 · TG기여: 속보 2건×3
 2026-11-27 03:20 | 밤새봄(시스템 엔지니어) | 정상 7 · 장애 0 · 고침 0 | 산출물: 전 저장소 Actions·예약작업 점검표(ops/health.json). 라이브 사이트 fetch는 이 환경 프록시가 github.io를 막아 못 함(미확인). chainbrief 마지막 빌드 성공 01:37 KST(빌드가 push 때만 돎, 속보 2시간 간격). 예약작업 FAILED 0(약 55개 확인, 마지막 페이지 일부 미확인). firstbrick Actions 조회 불가
 2026-11-27 00:53 | X 담당 | @perplinetech 글 1: Exchange spotlight: Bitunix  Taker fee: 0.06% Our · DM 3건(@SimonNickweb3,@Mayacrypt,@0X_SHORIF) · 새 답장 1(@Kebbi_kingjr 'No') · 팔로워 0 (팔로우 +5)
 2026-11-27 00:46 | X 담당 | @perplinetech 추가 글: New guide: Gate futures fees, in plain dollars.
