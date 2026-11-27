@@ -82,8 +82,10 @@ async function editableVersion(appId) {
 
 async function appInfo(appId) {
   const infos = await getAll(`/v1/apps/${appId}/appInfos`);
-  // 편집 가능한 appInfo (출시 전이면 하나뿐)
-  return infos.find((i) => !["READY_FOR_DISTRIBUTION", "READY_FOR_SALE"].includes(i.attributes.appStoreState || i.attributes.state)) || infos[0];
+  const st = (i) => i.attributes.state || i.attributes.appStoreState;
+  // 이름·부제는 '제출 준비 중' appInfo에서만 바뀐다(2026-11-26 1.3.1 때 심사 대기 appInfo를 골라 409). 편집 가능한 것 우선.
+  const EDIT = ["PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED", "METADATA_REJECTED", "INVALID_BINARY"];
+  return infos.find((i) => EDIT.includes(st(i))) || infos.find((i) => !["READY_FOR_DISTRIBUTION", "READY_FOR_SALE", "WAITING_FOR_REVIEW", "IN_REVIEW"].includes(st(i))) || infos[0];
 }
 
 async function upsertLocalized(kind, parentRel, parentId, listPath, locale, attrs, app) {
@@ -240,6 +242,19 @@ async function runApp(name, cfg) {
   }
 
   if (cmd === "sync" || cmd === "submit") {
+    await step("콘텐츠 권리", async () => {
+      if (app.attributes.contentRightsDeclaration !== cfg.contentRights)
+        await api("PATCH", `/v1/apps/${app.id}`, { data: { type: "apps", id: app.id, attributes: { contentRightsDeclaration: cfg.contentRights } } });
+    });
+    r.price = await step("가격", () => freePrice(app.id, name));
+    r.availability = await step("판매 국가", () => availability(app.id, cfg, name));
+
+    if (!editable) {
+      if (latest && !all.some((v) => v.version === latest.version)) {
+        editable = (await step("버전 만들기", () => api("POST", "/v1/appStoreVersions", { data: { type: "appStoreVersions", attributes: { platform: "IOS", versionString: latest.version }, relationships: { app: { data: { type: "apps", id: app.id } } } } })))?.data || null;
+      } else note(name, "편집 가능한 버전 없음 (심사 중이거나 출시됨)");
+    }
+    // 앱 정보(이름·부제·카테고리·연령)는 새 버전을 만든 뒤에 — 그래야 편집 가능한 appInfo가 생긴다
     const info = await step("앱 정보", () => appInfo(app.id));
     if (info) {
       await step("앱 정보 현지화", async () => {
@@ -253,18 +268,6 @@ async function runApp(name, cfg) {
         await api("PATCH", `/v1/appInfos/${info.id}`, { data: { type: "appInfos", id: info.id, relationships: rel } });
       });
       r.ageRating = await step("연령 등급", () => ageRating(info.id, cfg, name));
-    }
-    await step("콘텐츠 권리", async () => {
-      if (app.attributes.contentRightsDeclaration !== cfg.contentRights)
-        await api("PATCH", `/v1/apps/${app.id}`, { data: { type: "apps", id: app.id, attributes: { contentRightsDeclaration: cfg.contentRights } } });
-    });
-    r.price = await step("가격", () => freePrice(app.id, name));
-    r.availability = await step("판매 국가", () => availability(app.id, cfg, name));
-
-    if (!editable) {
-      if (latest && !all.some((v) => v.version === latest.version)) {
-        editable = (await step("버전 만들기", () => api("POST", "/v1/appStoreVersions", { data: { type: "appStoreVersions", attributes: { platform: "IOS", versionString: latest.version }, relationships: { app: { data: { type: "apps", id: app.id } } } } })))?.data || null;
-      } else note(name, "편집 가능한 버전 없음 (심사 중이거나 출시됨)");
     }
     if (editable) {
       const vId = editable.id;
