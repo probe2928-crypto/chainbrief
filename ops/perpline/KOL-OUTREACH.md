@@ -28,3 +28,4 @@ CIC Alex · Gaurav · Daniel (Crypto Classics) · RAVEN · AltSignals · The CEO
 - 11/25: 글 게시 직후 X가 'Unlock more on X'(graduated access) 안내 — 새 계정이라 사람 확인 전까지 노출 제한, 팔로우하지 않은 사람에게 보내는 DM은 자동 필터링(요청함으로 감). 규칙대로 이날 새 DM 0건, 세준 확인 대기.
 - 11/25 01:08: 세준이 @perplinetech 전화번호 등록·인증 완료 → DM 재개(하루 3명).
 - 11/27: @tradinglord(11.4만)는 '인증 계정만 DM 요청 가능', @mortezazedd는 DM 닫힘 → 발송 못 함(X 제한 아님, 상대 설정).
+- 11/27 11:45: 오늘 하루 3명은 00:53 회차에서 이미 발송 → 이번 회차 새 DM 0(규칙 준수). 새 답장 0(기존 대화 6개 모두 마지막이 우리 메시지 또는 Kebbi 'No').

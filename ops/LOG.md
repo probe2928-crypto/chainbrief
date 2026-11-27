@@ -1,3 +1,4 @@
+2026-11-27 11:45 | X 담당 | @perplinetech 글 1: Where's your BingX UID? Web: hover the profile · DM 0건(오늘 3명 한도 00:53에 소진) · 새 답장 0 · 팔로워 0 (팔로우 +4: @ludo_gen,@DeFiMinty,@MarcosBTCreal,@0xebii)
 2026-11-27 11:25 | 실무이사 | 금 AADS 점검: Savri 7일 aads 유입 18명(클릭 83 중 약 22%, 전부 계산기 페이지) · aads 출처 가입클릭 1(BTCC)·거래소 상세 클릭 1 · 지출 $23.88 → 가입클릭 1건당 약 $24 · AADS는 사이트별 클릭 수치 제공 안 해 차단 판단 불가 → 총 $70 한도 그대로 12/1 판정 · X 밀린 회차 수동 실행(세준 크롬)
 2026-11-27 11:33 | X 담당 | @perplinetech 추가 글: Funding vs trading fees on a $10,000 perp: Round
 2026-11-27 11:30 | 전환수 · Perpline 배포 | 게시 0 · 예약 3(11/28 I·11/29 J·11/30 K 신규) · 7일 방문 51 · 가입클릭 2 | 11/26 H·11/27 C Typefully error(한도 추정) · 텔레그램·레딧 브라우저 미연결로 못 올림 · 유입 direct 26·aads 18·perpline.tech 6
