@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-26T08:02:53.473Z",
-  "cmd": "withdraw",
+  "at": "2026-11-27T03:42:58.861Z",
+  "cmd": "status",
   "apps": [
     {
       "app": "chainbrief",
@@ -71,8 +71,8 @@
         {
           "id": "cf4de8a8-8d0e-465a-8179-16336deed93c",
           "version": "1.3.1",
-          "state": "WAITING_FOR_REVIEW",
-          "storeState": "WAITING_FOR_REVIEW",
+          "state": "DEVELOPER_REJECTED",
+          "storeState": "DEVELOPER_REJECTED",
           "created": "2026-11-25T23:59:12-08:00"
         },
         {
@@ -85,7 +85,7 @@
       ],
       "reviewSubmissions": [
         {
-          "state": "CANCELING",
+          "state": "COMPLETE",
           "submitted": "2026-11-26T07:59:24.86Z"
         },
         {
@@ -93,9 +93,309 @@
           "submitted": "2026-11-01T03:30:37.651Z"
         }
       ]
+    },
+    {
+      "app": "lifejunjun",
+      "bundle": "kr.lifejunjun.app",
+      "errors": [],
+      "appId": "6832018313",
+      "name": "인생준준 — 함께 가는 역사 여행",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "467677f6-7d60-45e1-89a4-bb6f8bd5717b",
+          "build": "27",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-22T11:34:41-08:00",
+          "expired": false
+        },
+        {
+          "id": "33aed696-fd1b-433d-b11b-a57230ccfd0f",
+          "build": "25",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-15T11:27:20-08:00",
+          "expired": false
+        },
+        {
+          "id": "44b53c55-cf22-478d-9de9-5c432b7545d5",
+          "build": "24",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-12T21:51:31-08:00",
+          "expired": false
+        },
+        {
+          "id": "22a336d9-1b3e-495b-8917-90bb4f139ccd",
+          "build": "23",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-08T11:25:18-08:00",
+          "expired": false
+        },
+        {
+          "id": "7ed7520f-a991-490d-8ac3-7ea4975c51e5",
+          "build": "21",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-07T08:22:00-08:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "467677f6-7d60-45e1-89a4-bb6f8bd5717b",
+        "build": "27",
+        "version": "1.0.0",
+        "state": "VALID",
+        "uploaded": "2026-11-22T11:34:41-08:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "4c6e2d24-e05e-4c53-a2b7-00489db150ee",
+          "version": "1.0.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-11-07T08:18:38-08:00"
+        }
+      ],
+      "reviewSubmissions": []
+    },
+    {
+      "app": "luft",
+      "bundle": "kr.luft.store",
+      "errors": [],
+      "appId": "6829093001",
+      "name": "LUFT",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "ef95d026-37de-427e-a66f-f220325e5646",
+          "build": "27",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-22T11:31:47-08:00",
+          "expired": false
+        },
+        {
+          "id": "70457fcd-1ba8-40d2-9fc7-bfd9751bc238",
+          "build": "25",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-15T11:26:16-08:00",
+          "expired": false
+        },
+        {
+          "id": "24c963db-f969-4413-9115-0b5c2fff9817",
+          "build": "23",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-08T11:22:50-08:00",
+          "expired": false
+        },
+        {
+          "id": "8a7a0909-4c19-4c68-835a-46801ba7eb76",
+          "build": "19",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-07T07:15:34-08:00",
+          "expired": false
+        },
+        {
+          "id": "a4d7f45e-8cdd-4415-be67-951ea62ea08a",
+          "build": "16",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-01T11:24:43-08:00",
+          "expired": false
+        },
+        {
+          "id": "e327ef2e-393d-42c6-ae6d-457f12528654",
+          "build": "8",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:06:56-07:00",
+          "expired": false
+        },
+        {
+          "id": "fc5b151b-4524-443a-96d9-fc8e0c956970",
+          "build": "9",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-30T19:00:07-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "ef95d026-37de-427e-a66f-f220325e5646",
+        "build": "27",
+        "version": "1.0.0",
+        "state": "VALID",
+        "uploaded": "2026-11-22T11:31:47-08:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "8225ca7f-21e2-44e4-992d-eb71c17be34d",
+          "version": "1.0.0",
+          "state": "PREPARE_FOR_SUBMISSION",
+          "storeState": "PREPARE_FOR_SUBMISSION",
+          "created": "2026-10-30T18:13:18-07:00"
+        }
+      ],
+      "reviewSubmissions": []
+    },
+    {
+      "app": "qurator",
+      "bundle": "kr.qurator.dailyart",
+      "errors": [],
+      "appId": "6829093287",
+      "name": "QURATOR — Daily Art",
+      "primaryLocale": "ko",
+      "builds": [
+        {
+          "id": "73d019ae-9b43-4b98-a11e-ef7db3b75f70",
+          "build": "26",
+          "version": "1.0.3",
+          "state": "VALID",
+          "uploaded": "2026-11-15T21:07:59-08:00",
+          "expired": false
+        },
+        {
+          "id": "07d6558d-b903-4733-9177-c2fc6d230dab",
+          "build": "23",
+          "version": "1.0.2",
+          "state": "VALID",
+          "uploaded": "2026-11-08T11:24:56-08:00",
+          "expired": false
+        },
+        {
+          "id": "cc82c086-cbd4-43cd-88d7-133f81b803e6",
+          "build": "22",
+          "version": "1.0.2",
+          "state": "VALID",
+          "uploaded": "2026-11-07T19:54:48-08:00",
+          "expired": false
+        },
+        {
+          "id": "73200026-97e4-4a83-9891-2a6e433e7082",
+          "build": "20",
+          "version": "1.0.1",
+          "state": "VALID",
+          "uploaded": "2026-11-07T07:21:07-08:00",
+          "expired": false
+        },
+        {
+          "id": "00a2b924-addb-4e2c-8f17-4081ee3c18a8",
+          "build": "16",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-11-01T11:25:23-08:00",
+          "expired": false
+        },
+        {
+          "id": "4e740326-f999-496d-afcd-c303a209f923",
+          "build": "15",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-31T20:53:03-07:00",
+          "expired": false
+        },
+        {
+          "id": "7afee45c-cf4c-4d8b-a118-7f97bc36b56a",
+          "build": "14",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-31T20:39:46-07:00",
+          "expired": false
+        },
+        {
+          "id": "2632dd29-3ee3-4eb4-a372-9df373ea1eb7",
+          "build": "13",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-31T20:24:59-07:00",
+          "expired": false
+        },
+        {
+          "id": "12e5d9f6-32ed-43de-8718-dc9186008017",
+          "build": "12",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-31T20:18:48-07:00",
+          "expired": false
+        },
+        {
+          "id": "76eb5326-20e6-479c-9416-c9692a555c23",
+          "build": "11",
+          "version": "1.0.0",
+          "state": "VALID",
+          "uploaded": "2026-10-31T20:16:57-07:00",
+          "expired": false
+        }
+      ],
+      "latestValidBuild": {
+        "id": "73d019ae-9b43-4b98-a11e-ef7db3b75f70",
+        "build": "26",
+        "version": "1.0.3",
+        "state": "VALID",
+        "uploaded": "2026-11-15T21:07:59-08:00",
+        "expired": false
+      },
+      "versions": [
+        {
+          "id": "b64b5b83-5d88-42d5-ae7c-a498ab5ef894",
+          "version": "1.0.3",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
+          "created": "2026-11-15T21:19:45-08:00"
+        },
+        {
+          "id": "17e64d61-5355-4c5b-a853-351bcd56b6a0",
+          "version": "1.0.2",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
+          "created": "2026-11-07T20:32:43-08:00"
+        },
+        {
+          "id": "5dbab6aa-8055-4551-af4b-07c038cc0605",
+          "version": "1.0.1",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
+          "created": "2026-11-07T07:26:49-08:00"
+        },
+        {
+          "id": "720a2e59-cb5f-43aa-b341-396e4a3be592",
+          "version": "1.0.0",
+          "state": "READY_FOR_DISTRIBUTION",
+          "storeState": "READY_FOR_SALE",
+          "created": "2026-10-30T18:14:07-07:00"
+        }
+      ],
+      "reviewSubmissions": [
+        {
+          "state": "COMPLETE",
+          "submitted": "2026-11-16T05:19:58.25Z"
+        },
+        {
+          "state": "COMPLETE",
+          "submitted": "2026-11-08T04:32:55.628Z"
+        },
+        {
+          "state": "COMPLETE",
+          "submitted": "2026-11-07T15:39:33.392Z"
+        },
+        {
+          "state": "COMPLETE",
+          "submitted": "2026-11-07T15:27:02.338Z"
+        },
+        {
+          "state": "COMPLETE",
+          "submitted": "2026-11-01T04:32:25.281Z"
+        }
+      ]
     }
   ],
-  "log": [
-    "[chainbrief] 제출 취소 (WAITING_FOR_REVIEW)"
-  ]
+  "log": []
 }
