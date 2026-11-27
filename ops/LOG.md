@@ -1,3 +1,4 @@
+2026-11-27 14:25 | 연출아 · 광고 영상 | Perpline · Break-even, after fees. (손익분기 가이드, 15초 9:16) | 스토리보드 8.0 · 최종 7.90 미통과(기준 9.0, 3라운드) · 보고 안 함 · 기록 perpline/ads/video/2026-11-27-breakeven
 2026-11-27 13:49 | X 담당 | @perplinetech 추가 글: Quick question for perp traders: do you mostly ent
 2026-11-27 13:46 | 속보데스크 | 거시: 알트리아, 英 임페리얼 인수 검토 확인…JT 주가 4%대↑ · 코인: 홍콩 마켓메이커 오로스, 사업 정리 착수 보도 · TG기여: 속보 2건×3
 2026-11-27 13:33 | 실무이사 | 체인브리프 iOS 1.3.1 — asc.mjs 이름 반영 순서 버그 수정(14edd46) 후 재제출: 앱 이름 'CHAINBRIEF: Crypto News'·부제 'Crypto, Fed & US economy news'(EN), 중국어 이름·부제 반영 → 심사 제출 완료 · 텔레그램 웹 로그아웃 상태(세준 QR 대기)
