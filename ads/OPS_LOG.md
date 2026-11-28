@@ -1,3 +1,8 @@
+## 2026-11-29 새벽 점검
+- 밤새봄: Actions 24시간 — chainbrief·perpline·luft·qurator·oriel·blockkey 실패 0(고침 0). 체인브리프 '빌드 및 배포' 마지막 성공 11/28 16:39Z(푸시 기반, 스케줄 실행은 GitHub 쪽 간격이 길어 최근 며칠 계속 그랬음). 마지막 main 커밋 16:41Z.
+- 예약 작업 확인한 4페이지 기준 FAILED 12건, 전부 USAGE_LIMIT_REACHED(칼럼·속보데스크·글로벌브리핑·Perpline X 추가글·오리엘 아침소식/봉사코디·불비트 KOL·여행숏츠·LUFT 인스타 12월·AlphaX·아침 브리핑·LUFT 업체답장). 5페이지 이후는 용량 때문에 못 읽음(미확인). device_absent 0.
+- 라이브 사이트(github.io·lifejunjun.com)는 프록시 403/권한 대기로 직접 확인 못 함(미확인). firstbrick·lifejunjun·yeobaek는 권한 밖.
+
 ## 2026-11-27 새벽 점검
 - Actions 실패 없음(chainbrief·perpline·luft·qurator·oriel·blockkey). 예약작업 FAILED 0.
 - 라이브 사이트 점검은 이 환경에서 github.io 접근이 막혀 못 함(미확인).
