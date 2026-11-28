@@ -1,55 +1,69 @@
 {
- "at": "2026-11-27 03:20 KST",
+ "at": "2026-11-29 03:25 KST",
  "repos": [
   {
    "repo": "chainbrief",
-   "lastRun": "success 2026-11-26T16:37Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "perpline",
-   "lastRun": "success 2026-11-26T07:49Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "luft",
-   "lastRun": "success 2026-11-26T09:55Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "qurator",
-   "lastRun": "success 2026-11-26T14:23Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "oriel",
-   "lastRun": "success 2026-11-26T15:49Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
    "repo": "blockkey",
-   "lastRun": "success 2026-11-05T05:00Z",
+   "lastRun": "success",
    "failures": [],
    "fixed": []
   },
   {
-   "repo": "firstbrick",
-   "lastRun": "조회 불가(프록시)",
+   "repo": "firstbrick/lifejunjun/yeobaek",
+   "lastRun": "미확인",
    "failures": [],
-   "fixed": []
+   "fixed": [],
+   "note": "권한 밖"
   }
  ],
  "sites": [
   {
-   "url": "github.io 전체",
+   "url": "github.io 전체·lifejunjun.com",
    "ok": null,
-   "note": "프록시 403으로 라이브 점검 불가(미확인)"
+   "note": "프록시 403/권한 대기로 열람 못 함(미확인)"
   }
  ],
- "failedTasks": []
+ "failedTasks": [
+  "체인브리프 칼럼",
+  "체인브리프 속보 데스크",
+  "체인브리프 글로벌 브리핑",
+  "Perpline X 추가 글",
+  "오리엘 아침 소식",
+  "오리엘 봉사 코디네이터",
+  "불비트 KOL 발굴",
+  "여행 숏츠 PD",
+  "LUFT 인스타 12월 게시",
+  "AlphaX 무료 홍보",
+  "아침 브리핑",
+  "LUFT 업체 답장 분석 — 전부 USAGE_LIMIT_REACHED, 5페이지 이후 미확인"
+ ]
 }
