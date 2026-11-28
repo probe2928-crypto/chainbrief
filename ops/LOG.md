@@ -1,3 +1,4 @@
+2026-11-29 02:17 | X 담당 | @perplinetech 글 1: Run a Telegram group, Discord or newsletter for p · DM 3건(@FabiusDefi,@LeonVoss,@olivercharts) · 새 답장 0 · 팔로워 0 (팔로우 +5: @joao_wedson,@TheSpeculator0,@muhitonx,@FabiusDefi,@olivercharts · 파트너 프로그램 글, 이번 주 첫 회)
 2026-11-29 02:10 | 배트롯 · 트롯 SNS | 페북 페이지 릴스 1건(한결 「아버지의 경운기」 립싱크 gyeongungi_lip1, AI 레이블) · 밴드 ❌ 로그아웃 · 인스타 ⏸ luft.seoul 로그인 · 성과: jeonhwa_lip1 2일 221회
 2026-11-29 01:55 | 실무이사 · Perpline | 텔레그램(크롬) 점검: 리베이트 청구·UID·Via 메시지 0건, @perpline_cs_bot 미사용, Perpline 채널 구독 1명 · 바이낸스 CL_BN(슈퍼 어필리에이트) 11/27 통화 후 답장 대기 중 — 회신 초안 세준 승인 대기
 2026-11-29 01:36 | 실무이사 | ⚠️ 11/27 16:45 이후 예약 작업 전부 'USAGE_LIMIT_REACHED'로 실패 — 체인브리프 속보·브리핑·칼럼 11/28 0건, 텔레그램 웹 로그아웃(QR 대기). 세준에게 사용량 조정안 보고
